@@ -63,15 +63,29 @@ typedef enum {
 */
 
 typedef struct tpUsuario {
+	unsigned int identificador;
 	char nome[USUARIOS_LIMITE_NOME];
+	char email[USUARIOS_LIMITE_EMAIL];
 	char senha[USUARIOS_LIMITE_SENHA];
 	char endereco[USUARIOS_LIMITE_ENDERECO];
-	char email[USUARIOS_LIMITE_EMAIL];
-	double avaliacao;
 	usuarios_forma_de_pagamento formaPagamento;
-	usuarios_estado_de_usuario estado;
 	usuarios_tipo_usuario tipo;
+	usuarios_estado_de_usuario estado;
+	double avaliacao;
 } tpUsuario;
+
+/*!
+ * @brief Condições de retorno das funções deste módulo
+*/
+
+typedef enum {
+	SUCESSO,
+	FALHA_LERDB,
+	FALHA_ADICIONAR_GRAFO,
+	FALHA_INSERIR_DADOS,
+	FALHA_EMAIL_INVALIDO,
+	FALHA_SENHAS_INVALIDAS
+} usuarios_condRet;
 
 #endif HEADER_USUARIOS
 
