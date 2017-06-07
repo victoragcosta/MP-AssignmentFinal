@@ -3,14 +3,17 @@
 #include <string.h>
 #include "../include/grafo.h"
 
-/* Mostra um log que combina com o log do gtest 
-   Recebe como parâmetros o tipo, uma string que ficará no início do log,
-   O texto a ser mostrado do log
-   E a cor da região com o tipo, usando as definições de cores.h
-     Ex.: print_log("TEST", "Log de teste", COR_VERDE);
-          [---TEST---] Log de teste
-          ^   verde  ^
-*/
+/*!
+ * @brief Mostra um log que combina com o log do gtest 
+ *
+ * Recebe como parâmetros o tipo, uma string que ficará no início do log, 
+ * o texto a ser mostrado do log 
+ * e a cor da região com o tipo, usando as definições de grafo.h
+ * 
+ * @code
+ * print_log("TEST", "Log de teste", COR_VERDE);
+ * @endcode
+ */
 void print_log(const char *tipo, const char *texto, const char *COR)
 {
 	char *tipo_s = (char *)calloc(11, sizeof(char));
@@ -21,9 +24,12 @@ void print_log(const char *tipo, const char *texto, const char *COR)
 	printf("%s[%s]%s %s\n", COR, tipo_s, COR_NORMAL, texto);
 }
 
-/* A função cria um grafo e retorna um ponteiro para a estrutura 
-   contendo o nome e o endereco do primeiro nó
-   Pelas definições de grafo.h o tamanho máximo para a string nome é grafo_nome_tamanho
+/*!
+ * A função cria um grafo e retorna um ponteiro para a estrutura 
+ * contendo o nome e o endereco do primeiro nó
+ * 
+ * Pelas definições de grafo.h o tamanho máximo para a string nome é
+ * @code grafo_nome_tamanho @endcode
 */
 grafo *cria_grafo(const char *nome)
 {
@@ -43,21 +49,48 @@ grafo *cria_grafo(const char *nome)
 	return novo;
 }
 
-/* Retorna o nome do grafo */
+/*!
+ * Retorna o nome do grafo 
+*/
 char *retorna_nome_grafo(grafo *G)
 {
 	if(G == NULL) return NULL;
 	return G->nome;
 }
 
-/* Função verificadora de grafo, retorna verdade se tiver problema */
+/*!
+ * Função verificadora de grafo, verifica se o grafo tem raiz, tem último elemento
+ * e se é diferente de NULL
+*/
 int grafo_verificador(grafo *G)
 {
 	if(G == NULL || G->raiz == NULL || G->ultimo == NULL) return 1;
 	return 0;	
 }
 
-/* Função percorredora */
+/*!
+ * Função percorredora 
+ * 
+ * Percorre o grafo de acordo com uma condição de parada para o vértice x
+ * 
+ * Recebe como parâmetro o endereço de um nodo, um inteiro x, uma função que indica
+ * a condição de retorno e outra que indica a condição de parada do percorrimento
+ *
+ * @code
+ * grafo_percorre((void *)G->raiz->acesso_arco, 5, grafo_busca_arco_retorno, grafo_busca_arco_parada);
+ * @endcode
+ * 
+ * Vai buscar os arcos que saem de raiz até encontrar um arco que leve a um vértice
+ * de valor 5.
+ * 
+ * A função grafo_percorre é geral de tal maneira que deve-se fazer um cast no 
+ * G->raiz->acesso_arco pois essa entrada pode ser de qualquer tipo. O tratamento
+ * adequado tipo a tipo é feito de acordo com as funções passadas como terceiro e 
+ * quarto argumentos. Neste caso foram usadas as funções grafo_busca_arco_retorno, que
+ * verifica se o valor do vértice levado pelo arco é igual a 5, e 
+ * grafo_busca_arco_parada, que verifica se o próximo arco é diferente de NULL para que
+ * o loop continue.
+*/
 void *grafo_percorre(void *tmp, int x, int f_retorno(void *tmp, int x), int f_parada(void **tmp))
 {
 	do
@@ -67,27 +100,44 @@ void *grafo_percorre(void *tmp, int x, int f_retorno(void *tmp, int x), int f_pa
 	return NULL;
 }
 
-/* Condição de retorno para grafo_busca_no com offset -1 */
+/*!
+ * @brief Condição de retorno para grafo_busca_no com offset -1 
+ *
+ * Verifica se o próximo nó da lista de nós é diferente de NULL e
+ * se o valor do próximo nó é o procurado x
+*/
 int grafo_busca_no_retorno_offset(void *tmp, int x)
 {
 	return ((grafo_no *)tmp)->prox_no != NULL && ((grafo_no *)((grafo_no *)tmp)->prox_no)->valor == x;
 }
 
-/* Condição de retorno para grafo_busca_no com offset 0 */
+/*!
+ * @brief Condição de retorno para grafo_busca_no com offset 0 
+ *
+ * Verifica se o valor do nó corrente é o esperado x
+*/
 int grafo_busca_no_retorno(void *tmp, int x)
 {
 	return ((grafo_no *)tmp)->valor == x;
 }
 
-/* Condição de parada para grafo_busca_no */
+/*!
+ * @brief Condição de parada para grafo_busca_no
+ * 
+ * Caso o próximo nó seja NULL ele para, além disso, por receber **tmp, ele
+ * faz o procedimento de pular para o próximo nó da lista
+*/
 int grafo_busca_no_parada(void **tmp)
 {
 	return ((grafo_no *)(*tmp))->prox_no != NULL && (*tmp = ((grafo_no *)(*tmp))->prox_no);
 }
 
-/* Função que busca um nó a partir de seu identificador x
-   o offset é útil caso se deseje obter um nó anterior ao nó x
-   bastando passar -1, no momento há apenas duas opções para offset: 0 e -1 */
+/*!
+ * @brief Função que busca um nó a partir de seu identificador x
+ *
+ * O offset é útil caso se deseje obter um nó anterior ao nó x
+ * bastando passar -1, no momento há apenas duas opções para offset: 0 e -1 
+*/
 grafo_no *grafo_busca_no(grafo *G, int x, int offset)
 {
 	if(grafo_verificador(G)) return NULL;
@@ -95,19 +145,30 @@ grafo_no *grafo_busca_no(grafo *G, int x, int offset)
 	return (grafo_no *) grafo_percorre(tmp, x, (offset)?grafo_busca_no_retorno_offset:grafo_busca_no_retorno, grafo_busca_no_parada);
 }
 
-/* Condição de retorno para grafo_busca_arco */
+/*! 
+ * @brief Condição de retorno para grafo_busca_arco 
+ * 
+ * Caso o valor do nó acessado pelo arco corrente for o esperado y, ele retorna verdade.
+*/
 int grafo_busca_arco_retorno(void *tmp, int y)
 {
 	return ((grafo_no *)((grafo_arco *)tmp)->acesso_adjacente)->valor == y;
 }
 
-/* Condição de parada para grafo_busca_arco */
+/*!
+ * @brief Condição de parada para grafo_busca_arco 
+ * 
+ * Caso se chegue ao fim da lista de arcos de um nó paramos,
+ * a função também faz o pulo para o próximo arco, por isso recebe **tmp
+*/
 int grafo_busca_arco_parada(void **tmp)
 {
 	return ((grafo_arco *)(*tmp))->prox_arco != NULL && (*tmp = (grafo_arco *)((grafo_arco *)(*tmp))->prox_arco);
 }
 
-/* Análogo ao grafo_busca_arco, mas busca um arco que vai de x a y */
+/*!
+ * @brief Análogo ao grafo_busca_arco, mas busca um arco que vai de x a y 
+*/
 grafo_arco *grafo_busca_arco(grafo *G, int x, int y)
 {
 	if(grafo_verificador(G)) return NULL;
@@ -121,7 +182,9 @@ grafo_arco *grafo_busca_arco(grafo *G, int x, int y)
 	return (grafo_arco *)grafo_percorre(tmp, y, grafo_busca_arco_retorno, grafo_busca_arco_parada);
 }
 
-/* Função para adicionar um vértice de indentificador x no grafo */
+/*!
+ * @breif Função para adicionar um vértice de indentificador x no grafo G
+*/
 grafo_cte adiciona_vertice(grafo *G, int x)
 {
 	if(G == NULL) return FALHA_GRAFO_NULO;
@@ -146,7 +209,9 @@ grafo_cte adiciona_vertice(grafo *G, int x)
 	return SUCESSO;
 }
 
-/* Função para adicionar aresta que vai do vértice x ao y no grafo REPETIÇÃO DE CÓDIGO */
+/*!
+ * @brief Função para adicionar aresta que vai do vértice x ao y no grafo
+*/
 grafo_cte adiciona_aresta(grafo *G, int x, int y)
 {
 	if(G == NULL) return FALHA_GRAFO_NULO;
@@ -175,8 +240,10 @@ grafo_cte adiciona_aresta(grafo *G, int x, int y)
 	return SUCESSO;
 }
 
-/* Remove uma aresta pelo endereço de memória do nó ao qual ela sai e do identificador
-   do nó para onde ela vai */
+/*!
+ * @brief Remove uma aresta pelo endereço de memória do nó ao qual ela sai e do identificador
+   do nó para onde ela vai 
+*/
 grafo_cte remove_aresta_end(grafo *G, grafo_no *X, int y)
 {
 	if(G == NULL) return FALHA_GRAFO_NULO;
@@ -205,7 +272,9 @@ grafo_cte remove_aresta_end(grafo *G, grafo_no *X, int y)
 	return FALHA_ARCO_INEXISTE;
 }
 
-/* Remove uma aresta a partir dos identificadores x e y */
+/*!
+ * @brief Remove uma aresta a partir dos identificadores x e y 
+*/
 grafo_cte remove_aresta(grafo *G, int x, int y)
 {
 	if(G == NULL) return FALHA_GRAFO_NULO;
@@ -214,7 +283,9 @@ grafo_cte remove_aresta(grafo *G, int x, int y)
 	return remove_aresta_end(G, grafo_busca_no(G,x,0),y);
 }
 
-/* Remove um vértice a partir de seu endereço */
+/*!
+ * @brief Remove um vértice a partir de seu endereço 
+*/
 grafo_cte remove_vertice_end(grafo *G, grafo_no *X)
 {
 	if(G == NULL) return FALHA_GRAFO_NULO;
@@ -246,7 +317,9 @@ grafo_cte remove_vertice_end(grafo *G, grafo_no *X)
 	return SUCESSO;
 }
 
-/* Remove um vértice a partir de seu identificador x */
+/*!
+ * @brief Remove um vértice a partir de seu identificador x 
+*/
 grafo_cte remove_vertice(grafo *G, int x)
 {
 	if(G == NULL) return FALHA_GRAFO_NULO;
@@ -254,14 +327,18 @@ grafo_cte remove_vertice(grafo *G, int x)
 	return remove_vertice_end(G, X);
 }
 
-/* Mostra se dois nós de identificadores x e y são adjacentes */
+/*!
+ * @brief Mostra se dois nós de identificadores x e y são adjacentes 
+*/
 grafo_cte adjacente(grafo *G, int x, int y)
 {
 	if(grafo_busca_arco(G, x, y) == NULL) return NADJACENTES;
 	else return ADJACENTES;
 }
 
-/* Insere um nó em uma lista de nós */
+/*!
+ * @brief Insere um nó em uma lista de nós
+*/
 grafo_cte grafo_lista_no_inserir(grafo_lista_no **raiz, int valor)
 {
 	grafo_lista_no *novo = (grafo_lista_no *)calloc(1, sizeof(grafo_lista_no));
@@ -279,7 +356,9 @@ grafo_cte grafo_lista_no_inserir(grafo_lista_no **raiz, int valor)
 	return SUCESSO;
 }
 
-/* Verifica os nós vizinhos a x retornando uma lista de nós */
+/*!
+ * @brief Verifica os nós vizinhos a x retornando uma lista de nós 
+*/
 grafo_lista_no *vizinhos(grafo *G, int x)
 {
 	grafo_no *X = grafo_busca_no(G, x, 0);
@@ -294,7 +373,9 @@ grafo_lista_no *vizinhos(grafo *G, int x)
 	return lista;
 }
 
-/* Retorna o valor do vértice de identificador x */
+/*!
+ * @brief Retorna o valor do vértice de identificador x 
+*/
 void *retorna_valor_vertice(grafo *G, int x)
 {
 	grafo_no *X = grafo_busca_no(G, x, 0);
@@ -302,7 +383,9 @@ void *retorna_valor_vertice(grafo *G, int x)
 	return X->endereco;
 }
 
-/* Muda o valor do vértice de identificador x para o valor v */
+/*!
+ * @brief Muda o valor do vértice de identificador x para o valor v 
+*/
 grafo_cte muda_valor_vertice(grafo *G, int x, void *v)
 {
 	if(G == NULL) return FALHA_GRAFO_NULO;
@@ -312,7 +395,9 @@ grafo_cte muda_valor_vertice(grafo *G, int x, void *v)
 	return SUCESSO;
 }
 
-/* Retorna o valor da aresta que vai de x a y */
+/*!
+ * @brief Retorna o valor da aresta que vai de x a y 
+*/
 int retorna_valor_aresta(grafo *G, int x, int y)
 {
 	grafo_arco *A = grafo_busca_arco(G, x, y);
@@ -320,7 +405,9 @@ int retorna_valor_aresta(grafo *G, int x, int y)
 	return A->valor;
 }
 
-/* Muda o valor da aresta que vai de x a y com o valor v REPETIÇÃO DE CÓDIGO */
+/*!
+ * @brief Muda o valor da aresta que vai de x a y com o valor v
+*/
 grafo_cte muda_valor_aresta(grafo *G, int x, int y, int v)
 {
 	if(G == NULL) return FALHA_GRAFO_NULO;
@@ -330,7 +417,9 @@ grafo_cte muda_valor_aresta(grafo *G, int x, int y, int v)
 	return SUCESSO;
 }
 
-/* Destroi grafo G */
+/*!
+ * @brief Destroi grafo G 
+*/
 grafo_cte destroi_grafo(grafo **G)
 {
 	if(*G == NULL) return FALHA_GRAFO_NULO;

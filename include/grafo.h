@@ -8,6 +8,9 @@
 #define COR_CYAN	"\x1B[36m"
 #define COR_BRANCO	"\x1B[37m"
 
+/*!
+ * @brief Condições de retorno para as funções da biblioteca grafo
+*/
 typedef enum
 {
 	ADJACENTES,
@@ -23,6 +26,9 @@ typedef enum
 	CORROMPIDO
 } grafo_cte;
 
+/*!
+ * @brief Estrutura de um nó do grafo
+*/
 typedef struct
 {
 	int valor;
@@ -33,6 +39,9 @@ typedef struct
 	void *endereco; /* Valor propriamente dito da estrutura */
 } grafo_no;
 
+/*!
+ * @brief Estrutura de um arco do grafo
+*/
 typedef struct
 {
 	int valor;
@@ -41,6 +50,9 @@ typedef struct
 	void *acesso_adjacente;
 } grafo_arco;
 
+/*!
+ * @brief Estrutura da cabeça de um grafo
+*/
 typedef struct 
 {
 	char nome[grafo_nome_tamanho];
@@ -48,6 +60,9 @@ typedef struct
 	void *ultimo; /* Último nó, evita percorrimento */
 } grafo;
 
+/*!
+ * @brief Estrutura de uma lista de nós
+*/
 typedef struct
 {
 	void *prox_no;
