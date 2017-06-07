@@ -195,7 +195,7 @@ grafo_cte adiciona_vertice(grafo *G, int x)
 	novo->prox_no = NULL;
 	novo->acesso_arco = NULL;
 	novo->acesso_ultimo_arco = NULL;
-	novo->endereco = NULL;
+	novo->dados = NULL;
 	
 	if(G->raiz == NULL) G->raiz = (void *)novo;
 	else if(G->ultimo != NULL)
@@ -380,7 +380,7 @@ void *retorna_valor_vertice(grafo *G, int x)
 {
 	grafo_no *X = grafo_busca_no(G, x, 0);
 	if(X == NULL) return NULL;
-	return X->endereco;
+	return X->dados;
 }
 
 /*!
@@ -391,7 +391,7 @@ grafo_cte muda_valor_vertice(grafo *G, int x, void *v)
 	if(G == NULL) return FALHA_GRAFO_NULO;
 	grafo_no *X = grafo_busca_no(G, x, 0);
 	if(X == NULL) return FALHA_VERTICE_NULO;
-	X->endereco = v;
+	X->dados = v;
 	return SUCESSO;
 }
 

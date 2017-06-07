@@ -36,7 +36,7 @@ typedef struct
 	void *prox_no;
 	void *acesso_arco;
 	void *acesso_ultimo_arco; /* Último arco, evita percorrimento */
-	void *endereco; /* Valor propriamente dito da estrutura */
+	void *dados; /* Valor propriamente dito da estrutura */
 } grafo_no;
 
 /*!
