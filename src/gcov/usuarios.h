@@ -11,7 +11,6 @@
 */
 
 #define USUARIOS_LIMITE_NOME 40
-#define USUARIOS_LIMITE_USUARIO 20
 #define USUARIOS_LIMITE_SENHA 20
 #define USUARIOS_LIMITE_ENDERECO 40
 #define USUARIOS_LIMITE_EMAIL 30
@@ -19,7 +18,7 @@
 /*!
  * @brief Arquivos do banco de dados a respeito dos usuários
 */
-#define USUARIOS_DB "../../db/usuarios.txt"
+#define USUARIOS_DB "../db/usuarios.txt"
 
 /*!
  * @brief Estrutura de numeração para as formas de pagamento
@@ -66,7 +65,6 @@ typedef enum {
 typedef struct tpUsuario {
 	unsigned int identificador;
 	char nome[USUARIOS_LIMITE_NOME];
-	char usuario[USUARIOS_LIMITE_USUARIO];
 	char email[USUARIOS_LIMITE_EMAIL];
 	char senha[USUARIOS_LIMITE_SENHA];
 	char endereco[USUARIOS_LIMITE_ENDERECO];
@@ -86,16 +84,8 @@ typedef enum {
 	USUARIOS_FALHA_ADICIONAR_GRAFO,
 	USUARIOS_FALHA_INSERIR_DADOS,
 	USUARIOS_FALHA_EMAIL_INVALIDO,
-	USUARIOS_FALHA_SENHAS_INVALIDAS,
-	USUARIOS_FALHA_GRAFONULL,
-	USUARIOS_ARGUMENTOINVALIDO,
-	USUARIOS_USUARIOEXISTE,
-	USUARIOS_DADOS_REPETICAO,
-	USUARIOS_DADOS_OK
+	USUARIOS_FALHA_SENHAS_INVALIDAS
 } usuarios_condRet;
-
-usuarios_condRet usuarios_cadastro(char *, char *, char *, char *, char *, char *, usuarios_forma_de_pagamento, usuarios_tipo_usuario);
-usuarios_condRet usuarios_carregarArquivo();
 
 #endif
 

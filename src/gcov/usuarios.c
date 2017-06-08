@@ -1,7 +1,8 @@
 #include <stdio.h>
 #include <stdlib.h>
-#include "../include/usuarios.h"
-#include "../include/grafo.h"
+#include <string.h>
+#include "usuarios.h"
+#include "grafo.h"
 
 /*!
  * @brief Grafo de usuários
@@ -23,7 +24,7 @@ usuarios_condRet usuarios_carregarArquivo(){
 	if(db_usuarios == NULL){
 		fopen(USUARIOS_DB, "w");
 		fclose(db_usuarios);
-		return SUCESSO;
+		return USUARIOS_SUCESSO;
 	}
 	
 	/* Verificador do fscanf */
@@ -47,25 +48,25 @@ usuarios_condRet usuarios_carregarArquivo(){
 		/* Verificamos se o retorno foi adequado */
 		if(fscanf_retorno != 7) {
 			fclose(db_usuarios);
-			return FALHA_LERDB;
+			return USUARIOS_FALHA_LERDB;
 		}
 		
 		/* Adicionamos ao grafo */
 		if(adiciona_vertice(usuarios_grafo, corrente->identificador) != SUCESSO) {
 			fclose(db_usuarios);
-			return FALHA_ADICIONAR_GRAFO;
+			return USUARIOS_FALHA_ADICIONAR_GRAFO;
 		}
 		
 		/* Definimos o valores correntes no vértice */
 		if(muda_valor_vertice(usuarios_grafo, corrente->identificador, (void *)corrente) != SUCESSO) {
 			fclose(db_usuarios);
-			return FALHA_INSERIR_DADOS;
+			return USUARIOS_FALHA_INSERIR_DADOS;
 		}
 		
 	}
 	
 	fclose(db_usuarios);
-	return SUCESSO;
+	return USUARIOS_SUCESSO;
 }
 
 /*!
@@ -83,16 +84,16 @@ usuarios_condRet usuarios_cadastro(char *nome, char *endereco, char *email, char
 	FILE *db_usuarios;
 	
 	/* Verificamos se o email é válido */
-	if(strstr(email, "@") == NULL || strstr(email, ".") == NULL) return FALHA_EMAIL_INVALIDO;
+	if(strstr(email, "@") == NULL || strstr(email, ".") == NULL) return USUARIOS_FALHA_EMAIL_INVALIDO;
 	
 	/* Verificamos se as senhas coincidem */
-	if(!strcmp(senha, senha_confirmacao)) return FALHA_SENHAS_INVALIDAS;
+	if(!strcmp(senha, senha_confirmacao)) return USUARIOS_FALHA_SENHAS_INVALIDAS;
 	
 	/* Devemos percorrer o grafo usuarios_grafo e salvar no arquivo */
 	db_usuarios = fopen(USUARIOS_DB, "a+");
 	
 	/* CONTINUAR DAQUI */
 	
-	return SUCESSO;
+	return USUARIOS_SUCESSO;
 }
 

@@ -1,7 +1,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
-#include "../include/grafo.h"
+#include "grafo.h"
 
 /*!
  * @brief Mostra um log que combina com o log do gtest 
