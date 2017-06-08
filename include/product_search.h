@@ -7,18 +7,20 @@
 typedef enum {
   Rental,
   Sale,
-  Service
+  Service,
+  All
 }productType;
 
 typedef enum {
   Success,
-  Failure
+  Failure,
+  Illegal_argument
 }errorLevel;
 
 typedef struct product {
   char name[75];
   productType type;
-  float price;
+  double price;
   int popularity;
 }product;
 
@@ -26,6 +28,14 @@ typedef struct productList {
   product *itens;
   int size;
 }productList;
+
+typedef struct productSpecification {
+  double minimum_price;
+  double maximum_price;
+  productType type;
+  int minimum_popularity;
+  int maximum_popularity;
+}productSpecification;
 
 typedef struct results {
   unsigned int *indexes;

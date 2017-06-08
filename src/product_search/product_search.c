@@ -8,6 +8,10 @@ errorLevel add_product(product *new_product, productList *list) {
 
   size = list->size;
 
+  if(new_product->price <= 0 || new_product->price >= 100000 ||
+    new_product->popularity < 0 || new_product->popularity > 100)
+      return Illegal_argument;
+
   for (iterator = 0; iterator < (list->size); iterator++) {
 
     if(!strcmp(new_product->name, list->itens[iterator].name)
@@ -30,7 +34,7 @@ errorLevel add_product(product *new_product, productList *list) {
 
 }
 
-int search_product(char query[75], productList *list, results *matches) {
+errorLevel search_product(char query[75], productList *list, results *matches) {
 
   int iterator;
 
@@ -41,10 +45,10 @@ int search_product(char query[75], productList *list, results *matches) {
   for (iterator = 0; iterator < (list->size); iterator++) {
 
     if(!strcmp(query, list->itens[iterator].name)) {
-
-      matches = NULL;
-
-
+      matches->size++;
+      matches->indexes = (unsigned int*) realloc(matches->indexes, matches->size *
+      sizeof(unsigned int));
+      matches->indexes[(matches->size - 1)] = iterator;
     }
 
   }
