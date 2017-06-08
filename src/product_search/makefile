@@ -26,8 +26,10 @@ $(TDIR)/%.o: %.c $(DEPS)
 
 search_tests: $(OBJ) $(TEST)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
+
+verify_tests:
 	cppcheck search_tests --enable=all
-	valgrind --leak-check=full ./search_tests 
+	valgrind --leak-check=full ./search_tests
 
 .PHONY: my_gcov
 

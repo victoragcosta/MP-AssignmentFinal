@@ -23,7 +23,12 @@ errorLevel add_product(product *new_product, productList *list) {
   }
 
   list->size++;
-  list->itens = (product*) realloc(list->itens, list->size * sizeof(product));
+
+  if (list->size == 1)
+    list->itens = (product*) malloc(sizeof(product));
+
+  else
+    list->itens = (product*) realloc(list->itens, list->size * sizeof(product));
 
   strcpy(list->itens[size].name, new_product->name);
   list->itens[size].type = new_product->type;
