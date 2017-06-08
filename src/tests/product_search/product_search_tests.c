@@ -22,14 +22,58 @@ TEST (Inicialization, Variables) {
 
 }
 
+TEST (CreateProduct, Normal_Product) {
+
+  strcpy(name, "Arroz");
+
+  EXPECT_EQ(create_product(name, Sale, 5, 100, &novoProduto), Success);
+  EXPECT_EQ (strcmp(novoProduto.name, "Arroz"), 0);
+  EXPECT_EQ (novoProduto.price, 5);
+  EXPECT_EQ (novoProduto.type, Sale);
+  EXPECT_EQ (novoProduto.popularity, 100);
+
+}
+
+TEST (CreateProduct, Illegal_Price_01) {
+
+  strcpy(name, "Arroz estragado");
+
+  EXPECT_EQ(create_product(name, Sale, -2, 5, &novoProduto), Illegal_argument);
+
+}
+
+TEST (CreateProduct, Illegal_Price_02) {
+
+  strcpy(name, "Mansão");
+
+  EXPECT_EQ(create_product(name, Sale, 277899000, 55, &novoProduto),
+   Illegal_argument);
+
+}
+
+TEST (CreateProduct, Illegal_Popularity_01) {
+
+  strcpy(name, "Bomba atômica");
+
+  EXPECT_EQ(create_product(name, Sale, 500000, -5, &novoProduto),
+    Illegal_argument);
+
+}
+
+TEST (CreateProduct, Illegal_Popularity_02) {
+
+  strcpy(name, "Bilhete premiado de loteria");
+
+  EXPECT_EQ(create_product(name, Sale, 5, 120, &novoProduto), Illegal_argument);
+
+}
+
 TEST (AddProduct, First) {
 
   ASSERT_EQ(list.size, 0);
 
-  strcpy(novoProduto.name, "Arroz");
-  novoProduto.price = 5;
-  novoProduto.popularity = 100;
-  novoProduto.type = Sale;
+  strcpy(name, "Arroz");
+  create_product(name, Sale, 5, 100, &novoProduto);
 
   add_product(&novoProduto, &list);
 
@@ -45,10 +89,8 @@ TEST (AddProduct, Second) {
 
   ASSERT_EQ(list.size, 1);
 
-  strcpy(novoProduto.name, "Aulas de C++");
-  novoProduto.price = 400;
-  novoProduto.popularity = 95;
-  novoProduto.type = Service;
+  strcpy(name, "Aulas de C++");
+  create_product(name, Service, 400, 95, &novoProduto);
 
   add_product(&novoProduto, &list);
 
@@ -72,7 +114,7 @@ TEST (AddProduct, Illegal_Price_01) {
   ASSERT_EQ(list.size, 0);
 
   strcpy(novoProduto.name, "Iate de ouro");
-  novoProduto.price = 40000000;
+  novoProduto.price = 400000000;
   novoProduto.popularity = 60;
   novoProduto.type = Rental;
 
@@ -129,10 +171,8 @@ TEST (AddProduct, Illegal_Popularity_02) {
 
 TEST (ProductSearch, Product_Not_Found) {
 
-  strcpy(novoProduto.name, "Arroz");
-  novoProduto.price = 5;
-  novoProduto.popularity = 100;
-  novoProduto.type = Sale;
+  strcpy(name, "Arroz");
+  create_product(name, Sale, 5, 100, &novoProduto);
 
   add_product(&novoProduto, &list);
 
@@ -161,17 +201,13 @@ TEST (ProductSearch, Multiple_results) {
 
   ASSERT_EQ(list.size, 1);
 
-  strcpy(novoProduto.name, "Carro");
-  novoProduto.price = 120000;
-  novoProduto.popularity = 80;
-  novoProduto.type = Sale;
+  strcpy(name, "Carro");
+  create_product(name, Sale, 120000, 80, &novoProduto);
 
   add_product(&novoProduto, &list);
 
-  strcpy(novoProduto.name, "Carro");
-  novoProduto.price = 2000;
-  novoProduto.popularity = 85;
-  novoProduto.type = Rental;
+  strcpy(name, "Carro");
+  create_product(name, Rental, 2000, 85, &novoProduto);
 
   add_product(&novoProduto, &list);
 

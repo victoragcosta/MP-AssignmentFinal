@@ -39,6 +39,21 @@ errorLevel add_product(product *new_product, productList *list) {
 
 }
 
+errorLevel create_product(char name[75], productType type, double price,
+int popularity, product *new_product) {
+
+  if(price <= 0 || price >= 1000000 || popularity < 0 || popularity > 100)
+      return Illegal_argument;
+
+  strcpy(new_product->name, name);
+  new_product->price = price;
+  new_product->popularity = popularity;
+  new_product->type = type;
+
+  return Success;
+
+}
+
 errorLevel search_product(char query[75], productList *list, results *matches) {
 
   int iterator;
