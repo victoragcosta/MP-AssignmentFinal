@@ -8,7 +8,7 @@ errorLevel add_product(product *new_product, productList *list) {
 
   size = list->size;
 
-  if(new_product->price <= 0 || new_product->price >= 100000 ||
+  if(new_product->price <= 0 || new_product->price >= 1000000 ||
     new_product->popularity < 0 || new_product->popularity > 100)
       return Illegal_argument;
 
@@ -50,10 +50,18 @@ errorLevel search_product(char query[75], productList *list, results *matches) {
   for (iterator = 0; iterator < (list->size); iterator++) {
 
     if(!strcmp(query, list->itens[iterator].name)) {
+
       matches->size++;
-      matches->indexes = (unsigned int*) realloc(matches->indexes, matches->size *
-      sizeof(unsigned int));
+
+      if (matches->size == 1)
+        matches->indexes = (unsigned int*) malloc(sizeof(unsigned int));
+
+      else
+        matches->indexes = (unsigned int*) realloc(matches->indexes,
+        matches->size * sizeof(unsigned int));
+
       matches->indexes[(matches->size - 1)] = iterator;
+
     }
 
   }

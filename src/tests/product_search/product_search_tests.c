@@ -151,9 +151,38 @@ TEST (ProductSearch, Product_Found) {
 
   strcpy(name, "Arroz");
 
-  EXPECT_EQ ((search_product(name, &list, &query_results) == 0), 1);
+  EXPECT_EQ ((search_product(name, &list, &query_results) == Success), true);
   ASSERT_EQ (query_results.size, 1);
   EXPECT_EQ (query_results.indexes[0], 0);
+
+}
+
+TEST (ProductSearch, Multiple_results) {
+
+  ASSERT_EQ(list.size, 1);
+
+  strcpy(novoProduto.name, "Carro");
+  novoProduto.price = 120000;
+  novoProduto.popularity = 80;
+  novoProduto.type = Sale;
+
+  add_product(&novoProduto, &list);
+
+  strcpy(novoProduto.name, "Carro");
+  novoProduto.price = 2000;
+  novoProduto.popularity = 85;
+  novoProduto.type = Rental;
+
+  add_product(&novoProduto, &list);
+
+  ASSERT_EQ(list.size, 3);
+
+  strcpy(name, "Carro");
+
+  EXPECT_EQ ((search_product(name, &list, &query_results) == Success), true);
+  ASSERT_EQ (query_results.size, 2);
+  EXPECT_EQ (query_results.indexes[0], 1);
+  EXPECT_EQ (query_results.indexes[1], 2);
 
 }
 
@@ -163,7 +192,7 @@ TEST (Termination, Variables) {
   free(list.itens);
 
   EXPECT_EQ(1, true);
-  
+
 }
 
 int main(int argc, char **argv) {
