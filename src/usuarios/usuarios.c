@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdarg.h>
 #include "aleatorio.h"
 #include "usuarios.h"
 #include "grafo.h"
@@ -163,36 +164,88 @@ usuarios_condRet usuarios_carregarArquivo(){
  * @brief Função de cadastro de usuários
  * 
  * Recebe como parâmetros nome, endereço, email, senha repetida duas vezes, forma de 
- * pagamento, tipo de usuário
+ * pagamento, tipo de usuário da seguinte maneira:
  * 
  * @code 
- * usuarios_cadastro("jose123", "José Antônio", "Rua Foo Casa Bar", "joao@antonio.com", "123456", "123456", BOLETO, CONSUMIDOR);
+ * usuarios_cadastro(8, "usuario", "jose123", "nome", "José Antônio", "email", "joao@antonio.com", "endereco", "Rua Foo Casa Bar", "senha", "123456", "senha_confirmacao", "123456", "formaPagamento", BOLETO, "tipo", CONSUMIDOR);
  * @endcode
  *
  * Assertiva de entrada: o arquivo USUARIOS_DB já existe,
  * isto é a função usuarios_carregarArquivo já foi executada.
 */
 
-usuarios_condRet usuarios_cadastro(char *usuario, char *nome, char *endereco, char *email, char *senha, char *senha_confirmacao, usuarios_forma_de_pagamento formaPagamento, usuarios_tipo_usuario tipo){
+usuarios_condRet usuarios_cadastro(int n, ...){
 	FILE *db_usuarios;
-	tpUsuario *novo;
+	
+	/* Retorna USUARIOS_FALHA_ARGUMENTOSINVALIDOS se n for diferente de 8 */
+	if(n!=8) return USUARIOS_FALHA_ARGUMENTOSINVALIDOS;
+	
+	/* Dados a armazenar */
+	tpUsuario *novo = (tpUsuario *)malloc(sizeof(tpUsuario));;
+	char senha_confirmacao[USUARIOS_LIMITE_SENHA];
+	
+	/* Argumentos */
+	usuarios_cadastro_argumentos args[] = {
+		{.validos = "usuario", .tamanho = USUARIOS_LIMITE_USUARIO, .destino = novo->usuario},
+		{.validos = "nome", .tamanho = USUARIOS_LIMITE_NOME, .destino = novo->nome},
+		{.validos = "email", .tamanho = USUARIOS_LIMITE_EMAIL, .destino = novo->email},
+		{.validos = "senha", .tamanho = USUARIOS_LIMITE_SENHA, .destino = novo->senha},
+		{.validos = "senha_confirmacao", .tamanho = USUARIOS_LIMITE_SENHA, .destino = senha_confirmacao},
+		{.validos = "endereco", .tamanho = USUARIOS_LIMITE_ENDERECO, .destino = novo->endereco},
+	};
+	
+	va_list argumentos;
+	va_start(argumentos, n);
+	unsigned int i = 0, j;
+	
+	char *argumento;
+	
+	/* Percorremos os argumentos */
+	for(;i<n;i++){
+		argumento = va_arg(argumentos, char *);
+		for(j=0;j<6;j++)
+			if(!strcmp(argumento, args[j].validos)) strncpy(args[j].destino, va_arg(argumentos, char *), args[j].tamanho);
+			
+		/* Casos especiais diferentes de char * */
+		if(!strcmp(argumento, "formaPagamento")) 
+			novo->formaPagamento = (usuarios_forma_de_pagamento)va_arg(argumentos, int);
+		if(!strcmp(argumento, "tipo")) 
+			novo->tipo = (usuarios_tipo_usuario)va_arg(argumentos, int);
+	}
+	
+	novo->estado = INATIVO_EMAIL;
+	
+	va_end(argumentos);
 	
 	/* Verificamos se o grafo de usuários foi iniciado */
-	if(usuarios_grafo == NULL) return USUARIOS_FALHA_GRAFONULL;
+	if(usuarios_grafo == NULL) {
+		free(novo);
+		return USUARIOS_FALHA_GRAFONULL;
+	}
 	
 	/* Verificamos se o email é válido */
-	if(strstr(email, "@") == NULL || strstr(email, ".") == NULL) return USUARIOS_FALHA_EMAIL_INVALIDO;
+	if(strstr(novo->email, "@") == NULL || strstr(novo->email, ".") == NULL) {
+		free(novo);
+		return USUARIOS_FALHA_EMAIL_INVALIDO;
+	}
 	
 	/* Verificamos se as senhas coincidem */
-	if(strcmp(senha, senha_confirmacao)) return USUARIOS_FALHA_SENHAS_INVALIDAS;
+	if(strcmp(novo->senha, senha_confirmacao)) {
+		free(novo);
+		return USUARIOS_FALHA_SENHAS_INVALIDAS;
+	}
 	
 	/* Verificamos se já há um usuário desse */
-	if(usuarios_verificaRepeticao("usuario", usuario) != USUARIOS_DADOS_OK)
+	if(usuarios_verificaRepeticao("usuario", novo->usuario) != USUARIOS_DADOS_OK) {
+		free(novo);
 		return USUARIOS_USUARIOEXISTE;
+	}
 		
 	/* Verificamos se já há um email desse */
-	if(usuarios_verificaRepeticao("email", email) != USUARIOS_DADOS_OK)
+	if(usuarios_verificaRepeticao("email", novo->email) != USUARIOS_DADOS_OK) {
+		free(novo);
 		return USUARIOS_USUARIOEXISTE;
+	}
 	
 	/* Devemos percorrer o grafo usuarios_grafo e salvar no arquivo */
 	db_usuarios = fopen(USUARIOS_DB, "a+");
@@ -200,26 +253,14 @@ usuarios_condRet usuarios_cadastro(char *usuario, char *nome, char *endereco, ch
 	/* Gravamos no arquivo */
 	int fprintf_retorno = fprintf(db_usuarios, "%d\t%*s\t%*s\t%*s\t%*s\t%*s\t%d\t%d\n", 
 		++usuarios_identificador_max,  \
-		-USUARIOS_LIMITE_USUARIO, usuario, \
-		-USUARIOS_LIMITE_NOME, nome, \
-		-USUARIOS_LIMITE_EMAIL, email, \
-		-USUARIOS_LIMITE_SENHA, senha, \
-		-USUARIOS_LIMITE_ENDERECO, endereco, \
-		(int)formaPagamento, \
-		(int)tipo
+		-USUARIOS_LIMITE_USUARIO, novo->usuario, \
+		-USUARIOS_LIMITE_NOME, novo->nome, \
+		-USUARIOS_LIMITE_EMAIL, novo->email, \
+		-USUARIOS_LIMITE_SENHA, novo->senha, \
+		-USUARIOS_LIMITE_ENDERECO, novo->endereco, \
+		(int)novo->formaPagamento, \
+		(int)novo->tipo
 	);
-	
-	/* Definimos os valores */
-	novo = (tpUsuario *)malloc(sizeof(tpUsuario));
-	
-	novo->identificador = usuarios_identificador_max;
-	strncpy(novo->usuario, usuario, USUARIOS_LIMITE_USUARIO);
-	strncpy(novo->nome, nome, USUARIOS_LIMITE_NOME);
-	strncpy(novo->email, email, USUARIOS_LIMITE_EMAIL);
-	strncpy(novo->senha, senha, USUARIOS_LIMITE_SENHA);
-	strncpy(novo->endereco, endereco, USUARIOS_LIMITE_ENDERECO);
-	novo->formaPagamento = formaPagamento;
-	novo->tipo = tipo;
 	
 	/* Adicionamos ao grafo */
 	
@@ -237,7 +278,7 @@ usuarios_condRet usuarios_cadastro(char *usuario, char *nome, char *endereco, ch
 	}
 	
 	usuarios_contador++; /* Atualizamos o número de usuários */
-		
+	
 	fclose(db_usuarios);
 	
 	return USUARIOS_SUCESSO;

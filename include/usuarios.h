@@ -91,10 +91,21 @@ typedef enum {
 	USUARIOS_ARGUMENTOINVALIDO,
 	USUARIOS_USUARIOEXISTE,
 	USUARIOS_DADOS_REPETICAO,
-	USUARIOS_DADOS_OK
+	USUARIOS_DADOS_OK,
+	USUARIOS_FALHA_ARGUMENTOSINVALIDOS
 } usuarios_condRet;
 
-usuarios_condRet usuarios_cadastro(char *, char *, char *, char *, char *, char *, usuarios_forma_de_pagamento, usuarios_tipo_usuario);
+/*!
+ * @brief Estrutura para os argumentos da função usuarios_cadastro
+*/
+
+typedef struct usuarios_cadastro_argumentos {
+	const char *validos;
+	int tamanho;
+	char *destino;
+} usuarios_cadastro_argumentos;
+
+usuarios_condRet usuarios_cadastro(int, ...);
 usuarios_condRet usuarios_carregarArquivo();
 
 #endif
