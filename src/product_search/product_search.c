@@ -46,15 +46,30 @@ int popularity, product *new_product) {
       return Illegal_argument;
 
   strcpy(new_product->name, name);
+  new_product->type = type;
   new_product->price = price;
   new_product->popularity = popularity;
-  new_product->type = type;
 
   return Success;
 
 }
 
-errorLevel search_product(char query[75], productList *list, results *matches) {
+errorLevel create_specification(productType type, double min_price,
+double max_price, int mim_popularity, int max_popularity,
+productSpecification *new_specification) {
+
+  new_specification->type = type;
+  new_specification->minimum_price = min_price;
+  new_specification->maximum_price = max_price;
+  new_specification->minimum_popularity = mim_popularity;
+  new_specification->maximum_popularity = max_popularity;
+
+  return Success;
+
+}
+
+errorLevel search_product(char query[75], productList *list, results *matches,
+productSpecification *specifics) {
 
   int iterator;
 
@@ -64,7 +79,8 @@ errorLevel search_product(char query[75], productList *list, results *matches) {
 
   for (iterator = 0; iterator < (list->size); iterator++) {
 
-    if(!strcmp(query, list->itens[iterator].name)) {
+    if(!strcmp(query, list->itens[iterator].name) && (specifics->type == All
+    || specifics->type == list->itens[iterator].type)) {
 
       matches->size++;
 

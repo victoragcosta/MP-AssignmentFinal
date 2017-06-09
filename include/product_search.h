@@ -44,4 +44,7 @@ typedef struct results {
 
 errorLevel add_product(product*, productList*);
 errorLevel create_product(char[75], productType, double, int, product*);
-errorLevel search_product(char[75], productList*, results*);
+errorLevel create_specification(productType, double, double, int, int,
+productSpecification*);
+errorLevel search_product(char[75], productList*, results*,
+productSpecification*);

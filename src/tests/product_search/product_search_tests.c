@@ -7,16 +7,12 @@ char name[75];
 productList list;
 product novoProduto;
 results query_results;
-productSpecification generic;
+productSpecification generic, specific;
 
 TEST (Inicialization, Variables) {
 
   list.size = 0;
-  generic.minimum_price = 0;
-  generic.maximum_price = 100000;
-  generic.type = All;
-  generic.minimum_popularity = 0;
-  generic.maximum_popularity = 100;
+  create_specification(All, 0, 100000, 0, 100, &generic);
 
   EXPECT_EQ (1, true);
 
@@ -169,6 +165,17 @@ TEST (AddProduct, Illegal_Popularity_02) {
 
 }
 
+TEST (CreatSpecification, Normal_Specification) {
+
+  EXPECT_EQ(create_specification(Rental, 0, 100000, 0, 100, &specific), Success);
+  EXPECT_EQ (specific.type, Rental);
+  EXPECT_EQ (specific.minimum_price, 0);
+  EXPECT_EQ (specific.maximum_price, 100000);
+  EXPECT_EQ (specific.minimum_popularity, 0);
+  EXPECT_EQ (specific.maximum_popularity, 100);
+
+}
+
 TEST (ProductSearch, Product_Not_Found) {
 
   strcpy(name, "Arroz");
@@ -180,7 +187,8 @@ TEST (ProductSearch, Product_Not_Found) {
 
   strcpy(name, "Chocolate");
 
-  ASSERT_EQ ((search_product(name, &list, &query_results) == Failure), true);
+  ASSERT_EQ ((search_product(name, &list, &query_results, &generic) == Failure),
+  true);
   EXPECT_EQ (query_results.size, 0);
 
 }
@@ -191,7 +199,8 @@ TEST (ProductSearch, Product_Found) {
 
   strcpy(name, "Arroz");
 
-  EXPECT_EQ ((search_product(name, &list, &query_results) == Success), true);
+  ASSERT_EQ ((search_product(name, &list, &query_results, &generic) == Success),
+  true);
   ASSERT_EQ (query_results.size, 1);
   EXPECT_EQ (query_results.indexes[0], 0);
 
@@ -215,10 +224,26 @@ TEST (ProductSearch, Multiple_results) {
 
   strcpy(name, "Carro");
 
-  EXPECT_EQ ((search_product(name, &list, &query_results) == Success), true);
+  ASSERT_EQ ((search_product(name, &list, &query_results, &generic) == Success),
+  true);
   ASSERT_EQ (query_results.size, 2);
   EXPECT_EQ (query_results.indexes[0], 1);
   EXPECT_EQ (query_results.indexes[1], 2);
+
+}
+
+TEST (ProductSearch, Type_Restriction) {
+
+  ASSERT_EQ(list.size, 3);
+
+  strcpy(name, "Carro");
+
+  create_specification(Rental, 0, 100000, 0, 100, &specific);
+
+  ASSERT_EQ ((search_product(name, &list, &query_results, &specific) ==
+  Success), true);
+  ASSERT_EQ (query_results.size, 1);
+  EXPECT_EQ (query_results.indexes[0], 2);
 
 }
 
