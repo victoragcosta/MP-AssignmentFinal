@@ -12,7 +12,7 @@ productSpecification generic, specific;
 TEST (Inicialization, Variables) {
 
   list.size = 0;
-  create_specification(All, 0, 100000, 0, 100, &generic);
+  create_specification(All, 0, 1000000, 0, 100, &generic);
 
   EXPECT_EQ (1, true);
 
@@ -180,7 +180,6 @@ TEST (ProductSearch, Product_Not_Found) {
 
   strcpy(name, "Arroz");
   create_product(name, Sale, 5, 100, &novoProduto);
-
   add_product(&novoProduto, &list);
 
   ASSERT_EQ(list.size, 1);
@@ -212,12 +211,10 @@ TEST (ProductSearch, Multiple_results) {
 
   strcpy(name, "Carro");
   create_product(name, Sale, 120000, 80, &novoProduto);
-
   add_product(&novoProduto, &list);
 
   strcpy(name, "Carro");
   create_product(name, Rental, 2000, 85, &novoProduto);
-
   add_product(&novoProduto, &list);
 
   ASSERT_EQ(list.size, 3);
@@ -238,12 +235,55 @@ TEST (ProductSearch, Type_Restriction) {
 
   strcpy(name, "Carro");
 
-  create_specification(Rental, 0, 100000, 0, 100, &specific);
+  create_specification(Rental, 0, 1000000, 0, 100, &specific);
 
   ASSERT_EQ ((search_product(name, &list, &query_results, &specific) ==
   Success), true);
   ASSERT_EQ (query_results.size, 1);
   EXPECT_EQ (query_results.indexes[0], 2);
+
+}
+
+TEST (ProductSearch, Price_Restriction_01) {
+
+  strcpy(name, "Arroz");
+
+  create_product(name, Sale, 10, 90, &novoProduto);
+  add_product(&novoProduto, &list);
+
+  create_product(name, Sale, 20, 95, &novoProduto);
+  add_product(&novoProduto, &list);
+
+  create_product(name, Sale, 100, 82, &novoProduto);
+  add_product(&novoProduto, &list);
+
+  ASSERT_EQ(list.size, 6);
+
+  strcpy(name, "Arroz");
+
+  create_specification(All, 0, 15, 0, 100, &specific);
+
+  ASSERT_EQ ((search_product(name, &list, &query_results, &specific) ==
+  Success), true);
+  ASSERT_EQ (query_results.size, 2);
+  EXPECT_EQ (query_results.indexes[0], 0);
+  EXPECT_EQ (query_results.indexes[1], 3);
+
+}
+
+TEST (ProductSearch, Price_Restriction_02) {
+
+  ASSERT_EQ(list.size, 6);
+
+  strcpy(name, "Arroz");
+
+  create_specification(All, 10, 20, 0, 100, &specific);
+
+  ASSERT_EQ ((search_product(name, &list, &query_results, &specific) ==
+  Success), true);
+  ASSERT_EQ (query_results.size, 2);
+  EXPECT_EQ (query_results.indexes[0], 3);
+  EXPECT_EQ (query_results.indexes[1], 4);
 
 }
 
