@@ -25,7 +25,7 @@ typedef struct product {
 }product;
 
 typedef struct productList {
-  product *itens;
+  product *items;
   int size;
 }productList;
 
@@ -38,13 +38,15 @@ typedef struct productSpecification {
 }productSpecification;
 
 typedef struct results {
-  unsigned int *indexes;
+  product *items;
   int size;
 }results;
 
 errorLevel add_product(product*, productList*);
+errorLevel copy_product(product*, product*);
 errorLevel create_product(char[75], productType, double, int, product*);
 errorLevel create_specification(productType, double, double, int, int,
 productSpecification*);
 errorLevel search_product(char[75], productList*, results*,
 productSpecification*);
+int compare_products(product*, product*);

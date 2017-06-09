@@ -14,10 +14,10 @@ errorLevel add_product(product *new_product, productList *list) {
 
   for (iterator = 0; iterator < (list->size); iterator++) {
 
-    if(!strcmp(new_product->name, list->itens[iterator].name)
-      && new_product->type == list->itens[iterator].type
-      && new_product->price == list->itens[iterator].price
-      && new_product->popularity == list->itens[iterator].popularity)
+    if(!strcmp(new_product->name, list->items[iterator].name)
+      && new_product->type == list->items[iterator].type
+      && new_product->price == list->items[iterator].price
+      && new_product->popularity == list->items[iterator].popularity)
       return Failure;
 
   }
@@ -25,15 +25,26 @@ errorLevel add_product(product *new_product, productList *list) {
   list->size++;
 
   if (list->size == 1)
-    list->itens = (product*) malloc(sizeof(product));
+    list->items = (product*) malloc(sizeof(product));
 
   else
-    list->itens = (product*) realloc(list->itens, list->size * sizeof(product));
+    list->items = (product*) realloc(list->items, list->size * sizeof(product));
 
-  strcpy(list->itens[size].name, new_product->name);
-  list->itens[size].type = new_product->type;
-  list->itens[size].price = new_product->price;
-  list->itens[size].popularity = new_product->popularity;
+  strcpy(list->items[size].name, new_product->name);
+  list->items[size].type = new_product->type;
+  list->items[size].price = new_product->price;
+  list->items[size].popularity = new_product->popularity;
+
+  return Success;
+
+}
+
+errorLevel copy_product(product *copy, product *original) {
+
+  strcpy(copy->name, original->name);
+  copy->type = original->type;
+  copy->price = original->price;
+  copy->popularity = original->popularity;
 
   return Success;
 
@@ -74,26 +85,27 @@ productSpecification *specifics) {
   int iterator;
 
   matches->size = 0;
-  free(matches->indexes);
-  matches->indexes = NULL;
+  free(matches->items);
+  matches->items = NULL;
 
   for (iterator = 0; iterator < (list->size); iterator++) {
 
-    if(!strcmp(query, list->itens[iterator].name) && (specifics->type == All
-    || specifics->type == list->itens[iterator].type)
-    && (list->itens[iterator].price >= specifics->minimum_price
-    && list->itens[iterator].price <= specifics->maximum_price)) {
+    if(!strcmp(query, list->items[iterator].name) && (specifics->type == All
+    || specifics->type == list->items[iterator].type)
+    && (list->items[iterator].price >= specifics->minimum_price
+    && list->items[iterator].price <= specifics->maximum_price)) {
 
       matches->size++;
 
       if (matches->size == 1)
-        matches->indexes = (unsigned int*) malloc(sizeof(unsigned int));
+        matches->items = (product*) malloc(sizeof(product));
 
       else
-        matches->indexes = (unsigned int*) realloc(matches->indexes,
-        matches->size * sizeof(unsigned int));
+        matches->items = (product*) realloc(matches->items,
+        matches->size * sizeof(product));
 
-      matches->indexes[(matches->size - 1)] = iterator;
+      copy_product(&(matches->items[(matches->size - 1)]),
+      &(list->items[iterator]));
 
     }
 
@@ -104,5 +116,16 @@ productSpecification *specifics) {
 
   else
     return Success;
+
+}
+
+int compare_products(product *first, product *second) {
+
+  if(!strcmp(first->name, second->name) && first->type == second->type
+  && first->price == second->price &&first->popularity == second->popularity)
+    return 0;
+
+  else
+    return 1;
 
 }

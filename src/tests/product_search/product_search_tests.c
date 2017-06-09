@@ -5,7 +5,7 @@
 
 char name[75];
 productList list;
-product novoProduto;
+product novoProduto, copia, outro;
 results query_results;
 productSpecification generic, specific;
 
@@ -64,6 +64,85 @@ TEST (CreateProduct, Illegal_Popularity_02) {
 
 }
 
+TEST (CopyProduct, Normal_Copy) {
+
+  strcpy(name, "Clone");
+
+  create_product(name, Sale, 25, 92, &novoProduto);
+
+  copy_product(&copia, &novoProduto);
+
+  EXPECT_EQ (strcmp(copia.name, "Clone"), 0);
+  EXPECT_EQ (copia.price, 25);
+  EXPECT_EQ (copia.type, Sale);
+  EXPECT_EQ (copia.popularity, 92);
+
+}
+
+TEST (CompareProducts, Equal) {
+
+  strcpy(name, "Clone");
+
+  create_product(name, Sale, 25, 92, &novoProduto);
+
+  copy_product(&copia, &novoProduto);
+
+  EXPECT_EQ (compare_products(&novoProduto, &copia), 0);
+  EXPECT_EQ (compare_products(&copia, &novoProduto), 0);
+
+}
+
+TEST (CompareProducts, Different_Name) {
+
+  strcpy(name, "Clone");
+
+  create_product(name, Sale, 25, 92, &novoProduto);
+
+  strcpy(name, "Outro clone");
+
+  create_product(name, Sale, 25, 92, &outro);
+
+  EXPECT_EQ (compare_products(&novoProduto, &outro), 1);
+  EXPECT_EQ (compare_products(&outro, &novoProduto), 1);
+
+}
+
+TEST (CompareProducts, Different_Type) {
+
+  strcpy(name, "Clone");
+
+  create_product(name, Sale, 25, 92, &novoProduto);
+  create_product(name, Service, 25, 92, &outro);
+
+  EXPECT_EQ (compare_products(&novoProduto, &outro), 1);
+  EXPECT_EQ (compare_products(&outro, &novoProduto), 1);
+
+}
+
+TEST (CompareProducts, Different_Price) {
+
+  strcpy(name, "Clone");
+
+  create_product(name, Sale, 25, 92, &novoProduto);
+  create_product(name, Sale, 27, 92, &outro);
+
+  EXPECT_EQ (compare_products(&novoProduto, &outro), 1);
+  EXPECT_EQ (compare_products(&outro, &novoProduto), 1);
+
+}
+
+TEST (CompareProducts, Different_Popularity) {
+
+  strcpy(name, "Clone");
+
+  create_product(name, Sale, 25, 92, &novoProduto);
+  create_product(name, Sale, 25, 93, &outro);
+
+  EXPECT_EQ (compare_products(&novoProduto, &outro), 1);
+  EXPECT_EQ (compare_products(&outro, &novoProduto), 1);
+
+}
+
 TEST (AddProduct, First) {
 
   ASSERT_EQ(list.size, 0);
@@ -74,10 +153,10 @@ TEST (AddProduct, First) {
   add_product(&novoProduto, &list);
 
   ASSERT_EQ (list.size, 1);
-  EXPECT_EQ (strcmp(list.itens[0].name, "Arroz"), 0);
-  EXPECT_EQ (list.itens[0].price, 5);
-  EXPECT_EQ (list.itens[0].type, Sale);
-  EXPECT_EQ (list.itens[0].popularity, 100);
+  EXPECT_EQ (strcmp(list.items[0].name, "Arroz"), 0);
+  EXPECT_EQ (list.items[0].price, 5);
+  EXPECT_EQ (list.items[0].type, Sale);
+  EXPECT_EQ (list.items[0].popularity, 100);
 
 }
 
@@ -91,21 +170,21 @@ TEST (AddProduct, Second) {
   add_product(&novoProduto, &list);
 
   ASSERT_EQ (list.size, 2);
-  EXPECT_EQ (strcmp(list.itens[0].name, "Arroz"), 0);
-  EXPECT_EQ (list.itens[0].price, 5);
-  EXPECT_EQ (list.itens[0].type, Sale);
-  EXPECT_EQ (list.itens[0].popularity, 100);
-  EXPECT_EQ (strcmp(list.itens[1].name, "Aulas de C++"), 0);
-  EXPECT_EQ (list.itens[1].price, 400);
-  EXPECT_EQ (list.itens[1].type, Service);
-  EXPECT_EQ (list.itens[1].popularity, 95);
+  EXPECT_EQ (strcmp(list.items[0].name, "Arroz"), 0);
+  EXPECT_EQ (list.items[0].price, 5);
+  EXPECT_EQ (list.items[0].type, Sale);
+  EXPECT_EQ (list.items[0].popularity, 100);
+  EXPECT_EQ (strcmp(list.items[1].name, "Aulas de C++"), 0);
+  EXPECT_EQ (list.items[1].price, 400);
+  EXPECT_EQ (list.items[1].type, Service);
+  EXPECT_EQ (list.items[1].popularity, 95);
 
 }
 
 TEST (AddProduct, Illegal_Price_01) {
 
   list.size = 0;
-  free(list.itens);
+  free(list.items);
 
   ASSERT_EQ(list.size, 0);
 
@@ -165,7 +244,7 @@ TEST (AddProduct, Illegal_Popularity_02) {
 
 }
 
-TEST (CreatSpecification, Normal_Specification) {
+TEST (CreateSpecification, Normal_Specification) {
 
   EXPECT_EQ(create_specification(Rental, 0, 100000, 0, 100, &specific), Success);
   EXPECT_EQ (specific.type, Rental);
@@ -201,7 +280,7 @@ TEST (ProductSearch, Product_Found) {
   ASSERT_EQ ((search_product(name, &list, &query_results, &generic) == Success),
   true);
   ASSERT_EQ (query_results.size, 1);
-  EXPECT_EQ (query_results.indexes[0], 0);
+  EXPECT_EQ (compare_products(&(query_results.items[0]), &(list.items[0])), 0);
 
 }
 
@@ -224,8 +303,8 @@ TEST (ProductSearch, Multiple_results) {
   ASSERT_EQ ((search_product(name, &list, &query_results, &generic) == Success),
   true);
   ASSERT_EQ (query_results.size, 2);
-  EXPECT_EQ (query_results.indexes[0], 1);
-  EXPECT_EQ (query_results.indexes[1], 2);
+  EXPECT_EQ (compare_products(&(query_results.items[0]), &(list.items[1])), 0);
+  EXPECT_EQ (compare_products(&(query_results.items[1]), &(list.items[2])), 0);
 
 }
 
@@ -240,7 +319,7 @@ TEST (ProductSearch, Type_Restriction) {
   ASSERT_EQ ((search_product(name, &list, &query_results, &specific) ==
   Success), true);
   ASSERT_EQ (query_results.size, 1);
-  EXPECT_EQ (query_results.indexes[0], 2);
+  EXPECT_EQ (compare_products(&(query_results.items[0]), &(list.items[2])), 0);
 
 }
 
@@ -266,8 +345,8 @@ TEST (ProductSearch, Price_Restriction_01) {
   ASSERT_EQ ((search_product(name, &list, &query_results, &specific) ==
   Success), true);
   ASSERT_EQ (query_results.size, 2);
-  EXPECT_EQ (query_results.indexes[0], 0);
-  EXPECT_EQ (query_results.indexes[1], 3);
+  EXPECT_EQ (compare_products(&(query_results.items[0]), &(list.items[0])), 0);
+  EXPECT_EQ (compare_products(&(query_results.items[1]), &(list.items[3])), 0);
 
 }
 
@@ -282,15 +361,15 @@ TEST (ProductSearch, Price_Restriction_02) {
   ASSERT_EQ ((search_product(name, &list, &query_results, &specific) ==
   Success), true);
   ASSERT_EQ (query_results.size, 2);
-  EXPECT_EQ (query_results.indexes[0], 3);
-  EXPECT_EQ (query_results.indexes[1], 4);
+  EXPECT_EQ (compare_products(&(query_results.items[0]), &(list.items[3])), 0);
+  EXPECT_EQ (compare_products(&(query_results.items[1]), &(list.items[4])), 0);
 
 }
 
 TEST (Termination, Variables) {
 
-  free(query_results.indexes);
-  free(list.itens);
+  free(query_results.items);
+  free(list.items);
 
   EXPECT_EQ(1, true);
 
