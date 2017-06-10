@@ -200,10 +200,16 @@ grafo_cte adiciona_vertice(grafo *G, int x)
 	if(G->raiz == NULL) G->raiz = (void *)novo;
 	else if(G->ultimo != NULL)
 	{
-		if(grafo_busca_no(G, x, 0) != NULL) return FALHA_VERTICES_IGUAIS;
+		if(grafo_busca_no(G, x, 0) != NULL) {
+			free(novo);
+			return FALHA_VERTICES_IGUAIS;
+		}
 		((grafo_no *)G->ultimo)->prox_no = (void *)novo;
 	}
-	else return CORROMPIDO;
+	else {
+		free(novo);
+		return CORROMPIDO;
+	}
 	
 	G->ultimo = (void *)novo;
 	return SUCESSO;
@@ -233,7 +239,10 @@ grafo_cte adiciona_aresta(grafo *G, int x, int y)
 	{
 		((grafo_arco *)X->acesso_ultimo_arco)->prox_arco = (void *)novo;
 	}
-	else return CORROMPIDO;
+	else {
+		free(novo);
+		return CORROMPIDO;
+	}
 	
 	X->acesso_ultimo_arco = novo;
 	
@@ -307,7 +316,10 @@ grafo_cte remove_vertice_end(grafo *G, grafo_no *X)
 		do
 		{
 			if(tmp_no != X) remove_aresta_end(G, tmp_no, ((grafo_no *)X)->valor);
-			if(tmp_no == X) tmp_no_anterior->prox_no = (void *)X->prox_no;
+			if(tmp_no == X) {
+				if(tmp_no_anterior != NULL) tmp_no_anterior->prox_no = (void *)X->prox_no;
+				else return CORROMPIDO;
+			}
 		} while(tmp_no->prox_no != NULL && (tmp_no = (grafo_no *)tmp_no->prox_no) && (tmp_no_anterior = tmp_no));
 	}
 	

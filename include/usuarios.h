@@ -20,6 +20,7 @@
  * @brief Arquivos do banco de dados a respeito dos usuários
 */
 #define USUARIOS_DB "../../db/usuarios.txt"
+#define USUARIOS_DB_AMIGOS "../../db/amigos.txt"
 
 /*!
  * @brief Estrutura de numeração para as formas de pagamento
@@ -92,8 +93,31 @@ typedef enum {
 	USUARIOS_USUARIOEXISTE,
 	USUARIOS_DADOS_REPETICAO,
 	USUARIOS_DADOS_OK,
-	USUARIOS_FALHA_ARGUMENTOSINVALIDOS
+	USUARIOS_FALHA_DADOSINCORRETOS,
+	USUARIOS_FALHA_ARGUMENTOSINVALIDOS,
+	USUARIOS_FALHA_SESSAOABERTA,
+	USUARIOS_FALHA_LIMPAR,
+	USUARIOS_FALHA_FECHARSESSAO,
+	USUARIOS_FALHA_CARACTERESILEGAIS,
+	USUARIOS_DB_CORROMPIDO,
+	USUARIOS_GRAFO_CORROMPIDO,
+	USUARIOS_FALHA_CRIARAMIZADE,
+	USUARIOS_AMIZADEINVALIDA,
+	USUARIOS_AMIZADEJASOLICITADA,
+	USUARIOS_FALHACRIARAMIZADE,
+	USUARIOS_FALHAUSUARIONAOEXISTE
 } usuarios_condRet;
+
+/*!
+ * @brief Estrutura com a relação entre dois usuários
+*/
+typedef enum {
+	AMIGOS,
+	AGUARDANDOCONFIRMACAO, /* Usuário A pede amizade a B e B não respondeu, usuário A está neste estado*/
+	ACONFIRMAR, /* Usuário A pede amizade a B e B não respondeu, usuário B está neste estado*/
+	NENHUMA,
+	ERRO
+} usuarios_relacao;
 
 /*!
  * @brief Estrutura para os argumentos da função usuarios_cadastro
@@ -107,6 +131,12 @@ typedef struct usuarios_cadastro_argumentos {
 
 usuarios_condRet usuarios_cadastro(int, ...);
 usuarios_condRet usuarios_carregarArquivo();
+usuarios_condRet usuarios_login(char *, char *);
+usuarios_condRet usuarios_logout();
+usuarios_condRet usuarios_retornaDados(char *, void *);
+usuarios_condRet usuarios_limpar();
+usuarios_condRet usuarios_criarAmizade(unsigned int);
+usuarios_relacao usuarios_verificarAmizade(unsigned int);
 
 #endif
 
