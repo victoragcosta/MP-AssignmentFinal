@@ -377,7 +377,7 @@ TEST (ProductSearch, Price_Restriction_02) {
 
 }
 
-TEST (ProductSearch, Popularity_Restriction_01) {
+TEST (ProductSearch, Popularity_Restriction) {
 
   ASSERT_EQ(list.size, 6);
 
@@ -391,6 +391,26 @@ TEST (ProductSearch, Popularity_Restriction_01) {
   EXPECT_EQ (compare_products(&(query_results.items[0]), &(list.items[0])), 0);
   EXPECT_EQ (compare_products(&(query_results.items[1]), &(list.items[3])), 0);
   EXPECT_EQ (compare_products(&(query_results.items[2]), &(list.items[4])), 0);
+
+}
+
+TEST (ProductSearch, Partial_Name) {
+
+  strcpy(name, "Camisa azul");
+
+  create_product(name, Sale, 35, 97, &novoProduto);
+  add_product(&novoProduto, &list);
+
+  ASSERT_EQ(list.size, 7);
+
+  strcpy(name, "Camisa");
+
+  create_specification(All, 0, 1000000, 0, 100, &specific);
+
+  ASSERT_EQ ((search_product(name, &list, &query_results, &specific) ==
+  Success), true);
+  ASSERT_EQ (query_results.size, 1);
+  EXPECT_EQ (compare_products(&(query_results.items[0]), &(list.items[6])), 0);
 
 }
 

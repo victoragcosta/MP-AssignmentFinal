@@ -90,7 +90,7 @@ productSpecification *specifics) {
 
   for (iterator = 0; iterator < (list->size); iterator++) {
 
-    if(!strcmp(query, list->items[iterator].name) && (specifics->type == All
+    if((strstr(list->items[iterator].name, query) != NULL) && (specifics->type == All
       || specifics->type == list->items[iterator].type)
       && (list->items[iterator].price >= specifics->minimum_price
       && list->items[iterator].price <= specifics->maximum_price)
