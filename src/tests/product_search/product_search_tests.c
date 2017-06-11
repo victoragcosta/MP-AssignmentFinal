@@ -166,6 +166,7 @@ TEST (AddProduct, Second) {
 
   strcpy(name, "Aulas de C++");
   create_product(name, Service, 400, 95, &novoProduto);
+  copy_product(&copia, &novoProduto);
 
   add_product(&novoProduto, &list);
 
@@ -178,6 +179,16 @@ TEST (AddProduct, Second) {
   EXPECT_EQ (list.items[1].price, 400);
   EXPECT_EQ (list.items[1].type, Service);
   EXPECT_EQ (list.items[1].popularity, 95);
+
+}
+
+TEST (AddProduct, Repeated_Product) {
+
+  ASSERT_EQ(list.size, 2);
+
+  EXPECT_EQ(add_product(&copia, &list), Failure);
+
+  EXPECT_EQ (list.size, 2);
 
 }
 
@@ -363,6 +374,23 @@ TEST (ProductSearch, Price_Restriction_02) {
   ASSERT_EQ (query_results.size, 2);
   EXPECT_EQ (compare_products(&(query_results.items[0]), &(list.items[3])), 0);
   EXPECT_EQ (compare_products(&(query_results.items[1]), &(list.items[4])), 0);
+
+}
+
+TEST (ProductSearch, Popularity_Restriction_01) {
+
+  ASSERT_EQ(list.size, 6);
+
+  strcpy(name, "Arroz");
+
+  create_specification(All, 0, 1000000, 90, 100, &specific);
+
+  ASSERT_EQ ((search_product(name, &list, &query_results, &specific) ==
+  Success), true);
+  ASSERT_EQ (query_results.size, 3);
+  EXPECT_EQ (compare_products(&(query_results.items[0]), &(list.items[0])), 0);
+  EXPECT_EQ (compare_products(&(query_results.items[1]), &(list.items[3])), 0);
+  EXPECT_EQ (compare_products(&(query_results.items[2]), &(list.items[4])), 0);
 
 }
 

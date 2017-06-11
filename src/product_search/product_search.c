@@ -91,9 +91,11 @@ productSpecification *specifics) {
   for (iterator = 0; iterator < (list->size); iterator++) {
 
     if(!strcmp(query, list->items[iterator].name) && (specifics->type == All
-    || specifics->type == list->items[iterator].type)
-    && (list->items[iterator].price >= specifics->minimum_price
-    && list->items[iterator].price <= specifics->maximum_price)) {
+      || specifics->type == list->items[iterator].type)
+      && (list->items[iterator].price >= specifics->minimum_price
+      && list->items[iterator].price <= specifics->maximum_price)
+      && (list->items[iterator].popularity >= specifics->minimum_popularity
+      && list->items[iterator].popularity <= specifics->maximum_popularity)) {
 
       matches->size++;
 
