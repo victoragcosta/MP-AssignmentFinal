@@ -1,6 +1,25 @@
 // Módulo de pesquisa de produtos.
 
+/**
+
+  \file
+  \brief Arquivo que contém as funções relativas ao módulo de busca de produtos
+  do aplicativo.
+
+*/
+
 #include "product_search.h"
+
+/** Função que adiciona um produto à uma lista de produtos.
+
+    \param new_product Endereço do produto a ser adicionado.
+    \param list Endereço da lista que receberá o produto.
+    \return A função retorna uma instância do tipo errorLevel: Success caso o
+    produto seja adicionado à lista com sucesso; Failure caso o produto já
+    exista na lista; Illegal_argument, caso os parâmetros de produto passados
+    sejam inválidos.
+
+    */
 
 errorLevel add_product(product *new_product, productList *list) {
 
@@ -39,6 +58,15 @@ errorLevel add_product(product *new_product, productList *list) {
 
 }
 
+/** Função que copia um produto.
+
+    \param copy Endereço do produto que receberá as especificações copiadas.
+    \param original Endereço do produto que será copiado.
+    \return A função retorna uma instância do tipo errorLevel: Success caso o
+    produto seja copiado com sucesso.
+
+    */
+
 errorLevel copy_product(product *copy, product *original) {
 
   strcpy(copy->name, original->name);
@@ -49,6 +77,20 @@ errorLevel copy_product(product *copy, product *original) {
   return Success;
 
 }
+
+/** Função que cria um produto.
+
+    \param name Nome do produto a ser criado.
+    \param type Tipo do produto a ser criado.
+    \param price Preço do produto a ser criado.
+    \param popularity Popularidade do produto a ser criado.
+    \param new_product Endereço da estrutura de dados onde o produto será
+    criado.
+    \return A função retorna uma instância do tipo errorLevel: Success caso o
+    produto seja criado com sucesso; Illegal_argument caso os parâmetros
+    passados para a criação do produto sejam inválidos.
+
+    */
 
 errorLevel create_product(char name[75], productType type, double price,
 int popularity, product *new_product) {
@@ -65,21 +107,48 @@ int popularity, product *new_product) {
 
 }
 
+
+/** Função que cria uma especificação de busca.
+
+    \param type Tipo do produto a ser procurado.
+    \param min_price Preço mínimo do produto a ser procurado.
+    \param max_price Preço máximo do produto a ser procurado.
+    \param min_popularity Popularidade mínima do produto a ser procurado.
+    \param max_popularity Popularidade máxima do produto a ser procurado.
+    \param new_specification Endereço da estrutura de dados onde a especificação
+    será criada.
+    \return A função retorna uma instância do tipo errorLevel: Success caso a
+    especificação seja criada com sucesso.
+
+    */
+
 errorLevel create_specification(productType type, double min_price,
-double max_price, int mim_popularity, int max_popularity,
+double max_price, int min_popularity, int max_popularity,
 productSpecification *new_specification) {
 
   new_specification->type = type;
   new_specification->minimum_price = min_price;
   new_specification->maximum_price = max_price;
-  new_specification->minimum_popularity = mim_popularity;
+  new_specification->minimum_popularity = min_popularity;
   new_specification->maximum_popularity = max_popularity;
 
   return Success;
 
 }
 
-errorLevel search_product(char query[75], productList *list, results *matches,
+/** Função que realiza a busca por um produto.
+
+    \param query Nome ou parte de nome dos produtos procurados.
+    \param list Endereço da lista onde a pesquisa de produtos será realizada.
+    \param matches Endereço da lista de produtos onde os resultados serão
+    armazenados.
+    \param specifics Endereço da especificação de busca utilizada para busca.
+    \return A função retorna uma instância do tipo errorLevel: Success caso a
+    busca retorne algum resultado; Failure caso a busca não retorne resultados.
+
+    */
+
+errorLevel search_product(char query[75], productList *list, productList *matches,
 productSpecification *specifics) {
 
   int iterator;
@@ -120,6 +189,15 @@ productSpecification *specifics) {
     return Success;
 
 }
+
+/** Função que compara dois produtos.
+
+    \param first Endereço do primeiro produto que faz parte da comparação.
+    \param second Endereço do segundo produto que faz parte da comparação.
+    \return A função retorna 0 caso os produtos sejam iguais e 1 caso sejam
+    diferentes.
+
+    */
 
 int compare_products(product *first, product *second) {
 

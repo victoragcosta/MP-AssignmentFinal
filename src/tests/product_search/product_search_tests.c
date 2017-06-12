@@ -1,12 +1,20 @@
 // Módulo de pesquisa de produtos - Testes.
 
+/**
+
+  \file
+  \brief Arquivo que testa as funções relativas ao módulo de busca de produtos
+  do aplicativo
+
+*/
+
 #include "product_search.h"
 #include "gtest/gtest.h"
 
 char name[75];
 productList list;
 product novoProduto, copia, outro;
-results query_results;
+productList query_results;
 productSpecification generic, specific;
 
 TEST (Inicialization, Variables) {

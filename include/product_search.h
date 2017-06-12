@@ -37,16 +37,11 @@ typedef struct productSpecification {
   int maximum_popularity;
 }productSpecification;
 
-typedef struct results {
-  product *items;
-  int size;
-}results;
-
 errorLevel add_product(product*, productList*);
 errorLevel copy_product(product*, product*);
 errorLevel create_product(char[75], productType, double, int, product*);
 errorLevel create_specification(productType, double, double, int, int,
 productSpecification*);
-errorLevel search_product(char[75], productList*, results*,
+errorLevel search_product(char[75], productList*, productList*,
 productSpecification*);
 int compare_products(product*, product*);
