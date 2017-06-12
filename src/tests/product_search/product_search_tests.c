@@ -284,8 +284,7 @@ TEST (ProductSearch, Product_Not_Found) {
 
   strcpy(name, "Chocolate");
 
-  ASSERT_EQ ((search_product(name, &list, &query_results, &generic) == Failure),
-  true);
+  ASSERT_EQ (search_product(name, &list, &query_results, &generic), Failure);
   EXPECT_EQ (query_results.size, 0);
 
 }
@@ -296,8 +295,7 @@ TEST (ProductSearch, Product_Found) {
 
   strcpy(name, "Arroz");
 
-  ASSERT_EQ ((search_product(name, &list, &query_results, &generic) == Success),
-  true);
+  ASSERT_EQ (search_product(name, &list, &query_results, &generic), Success);
   ASSERT_EQ (query_results.size, 1);
   EXPECT_EQ (compare_products(&(query_results.items[0]), &(list.items[0])), 0);
 
@@ -319,8 +317,7 @@ TEST (ProductSearch, Multiple_results) {
 
   strcpy(name, "Carro");
 
-  ASSERT_EQ ((search_product(name, &list, &query_results, &generic) == Success),
-  true);
+  ASSERT_EQ (search_product(name, &list, &query_results, &generic), Success);
   ASSERT_EQ (query_results.size, 2);
   EXPECT_EQ (compare_products(&(query_results.items[0]), &(list.items[1])), 0);
   EXPECT_EQ (compare_products(&(query_results.items[1]), &(list.items[2])), 0);
@@ -335,8 +332,7 @@ TEST (ProductSearch, Type_Restriction) {
 
   create_specification(Rental, 0, 1000000, 0, 100, &specific);
 
-  ASSERT_EQ ((search_product(name, &list, &query_results, &specific) ==
-  Success), true);
+  ASSERT_EQ (search_product(name, &list, &query_results, &specific), Success);
   ASSERT_EQ (query_results.size, 1);
   EXPECT_EQ (compare_products(&(query_results.items[0]), &(list.items[2])), 0);
 
@@ -361,8 +357,7 @@ TEST (ProductSearch, Price_Restriction_01) {
 
   create_specification(All, 0, 15, 0, 100, &specific);
 
-  ASSERT_EQ ((search_product(name, &list, &query_results, &specific) ==
-  Success), true);
+  ASSERT_EQ (search_product(name, &list, &query_results, &specific), Success);
   ASSERT_EQ (query_results.size, 2);
   EXPECT_EQ (compare_products(&(query_results.items[0]), &(list.items[0])), 0);
   EXPECT_EQ (compare_products(&(query_results.items[1]), &(list.items[3])), 0);
@@ -377,8 +372,7 @@ TEST (ProductSearch, Price_Restriction_02) {
 
   create_specification(All, 10, 20, 0, 100, &specific);
 
-  ASSERT_EQ ((search_product(name, &list, &query_results, &specific) ==
-  Success), true);
+  ASSERT_EQ (search_product(name, &list, &query_results, &specific), Success);
   ASSERT_EQ (query_results.size, 2);
   EXPECT_EQ (compare_products(&(query_results.items[0]), &(list.items[3])), 0);
   EXPECT_EQ (compare_products(&(query_results.items[1]), &(list.items[4])), 0);
@@ -393,8 +387,7 @@ TEST (ProductSearch, Popularity_Restriction) {
 
   create_specification(All, 0, 1000000, 90, 100, &specific);
 
-  ASSERT_EQ ((search_product(name, &list, &query_results, &specific) ==
-  Success), true);
+  ASSERT_EQ (search_product(name, &list, &query_results, &specific), Success);
   ASSERT_EQ (query_results.size, 3);
   EXPECT_EQ (compare_products(&(query_results.items[0]), &(list.items[0])), 0);
   EXPECT_EQ (compare_products(&(query_results.items[1]), &(list.items[3])), 0);
@@ -415,10 +408,34 @@ TEST (ProductSearch, Partial_Name) {
 
   create_specification(All, 0, 1000000, 0, 100, &specific);
 
-  ASSERT_EQ ((search_product(name, &list, &query_results, &specific) ==
-  Success), true);
+  ASSERT_EQ (search_product(name, &list, &query_results, &specific), Success);
   ASSERT_EQ (query_results.size, 1);
   EXPECT_EQ (compare_products(&(query_results.items[0]), &(list.items[6])), 0);
+
+}
+
+TEST (SelectProduct, Valid_Select) {
+
+  strcpy(name, "Carro");
+
+  ASSERT_EQ ((search_product(name, &list, &query_results, &generic) == Success),
+  true);
+  ASSERT_EQ (query_results.size, 2);
+  EXPECT_EQ (compare_products(&(query_results.items[0]), &(list.items[1])), 0);
+  EXPECT_EQ (compare_products(&(query_results.items[1]), &(list.items[2])), 0);
+
+  ASSERT_EQ (select_product(1, &query_results, &novoProduto), Success);
+  EXPECT_EQ (compare_products(&novoProduto, &(query_results.items[1])), 0);
+
+}
+
+TEST (SelectProduct, Invalid_Select) {
+
+  ASSERT_EQ (query_results.size, 2);
+  EXPECT_EQ (compare_products(&(query_results.items[0]), &(list.items[1])), 0);
+  EXPECT_EQ (compare_products(&(query_results.items[1]), &(list.items[2])), 0);
+
+  ASSERT_EQ (select_product(2, &query_results, &novoProduto), Illegal_argument);
 
 }
 

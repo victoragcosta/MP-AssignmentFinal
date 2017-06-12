@@ -159,7 +159,8 @@ productSpecification *specifics) {
 
   for (iterator = 0; iterator < (list->size); iterator++) {
 
-    if((strstr(list->items[iterator].name, query) != NULL) && (specifics->type == All
+    if((strstr(list->items[iterator].name, query) != NULL)
+      && (specifics->type == All
       || specifics->type == list->items[iterator].type)
       && (list->items[iterator].price >= specifics->minimum_price
       && list->items[iterator].price <= specifics->maximum_price)
@@ -187,6 +188,17 @@ productSpecification *specifics) {
 
   else
     return Success;
+
+}
+
+errorLevel select_product(int index, productList *list, product *selection) {
+
+  if (index >= list->size || index < 0)
+    return Illegal_argument;
+
+  copy_product(selection, &(list->items[index]));
+
+  return Success;
 
 }
 
