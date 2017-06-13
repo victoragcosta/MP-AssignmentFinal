@@ -12,13 +12,15 @@
 #include "gtest/gtest.h"
 
 char name[75];
-productList list, query_results;
+productList list, list2, query_results;
 product novoProduto, copia, outro;
 productSpecification generic, specific;
 
 TEST (Initialization, Variables) {
 
-  //list.size = 0;
+  initialize_product_list(&list);
+  initialize_product_list(&list2);
+  initialize_product_list(&query_results);
   create_specification(All, 0, 1000000, 0, 100, &generic);
 
   EXPECT_EQ (1, true);
@@ -262,6 +264,40 @@ TEST (AddProduct, Illegal_Popularity_02) {
 
 }
 
+TEST (CleanProductList, New_List) {
+
+  ASSERT_EQ((list2.items == NULL), true);
+
+  EXPECT_EQ(clean_product_list(&list2), Success);
+
+  ASSERT_EQ(list2.size, 0);
+  ASSERT_EQ((list2.items == NULL), true);
+
+}
+
+TEST (CleanProductList, Used_List) {
+
+  ASSERT_EQ(list2.size, 0);
+  ASSERT_EQ((list2.items == NULL), true);
+
+  strcpy(name, "Arroz integral");
+  create_product(name, Sale, 7, 70, &novoProduto);
+  add_product(&novoProduto, &list2);
+
+  strcpy(name, "Arroz branco");
+  create_product(name, Sale, 5, 85, &novoProduto);
+  add_product(&novoProduto, &list2);
+
+  ASSERT_EQ(list2.size, 2);
+  ASSERT_EQ((list2.items == NULL), false);
+
+  EXPECT_EQ(clean_product_list(&list2), Success);
+
+  ASSERT_EQ(list2.size, 0);
+  ASSERT_EQ((list2.items == NULL), true);
+
+}
+
 TEST (CreateSpecification, Normal_Specification) {
 
   EXPECT_EQ(create_specification(Rental, 0, 100000, 0, 100, &specific), Success);
@@ -471,11 +507,9 @@ TEST (DeleteProduct, Empty_List) {
 
 TEST (Termination, Variables) {
 
-  if(query_results.size != 0)
-    free(query_results.items);
-
-  if(list.items != 0)
-    free(list.items);
+  clean_product_list(&list);
+  clean_product_list(&list2);
+  clean_product_list(&query_results);
 
   EXPECT_EQ(1, true);
 

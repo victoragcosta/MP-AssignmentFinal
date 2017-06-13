@@ -58,6 +58,19 @@ errorLevel add_product(product *new_product, productList *list) {
 
 }
 
+errorLevel clean_product_list (productList *list) {
+
+  list->size = 0;
+
+  if(list->items != NULL) {
+    free(list->items);
+    list->items = NULL;
+  }
+
+  return Success;
+
+}
+
 /** Função que copia um produto.
 
     \param copy Endereço do produto que receberá as especificações copiadas.
@@ -143,8 +156,10 @@ errorLevel delete_product (int index, productList *list) {
   if (index < 0 || index >= list->size)
     return Illegal_argument;
 
-  else if (list->size == 1)
+  else if (list->size == 1) {
     free(list->items);
+    list->items = NULL;
+  }
 
   else {
 
@@ -157,6 +172,15 @@ errorLevel delete_product (int index, productList *list) {
   }
 
   list->size = list->size - 1;
+
+  return Success;
+
+}
+
+errorLevel initialize_product_list (productList *list) {
+
+  list->size = 0;
+  list->items = NULL;
 
   return Success;
 
@@ -179,12 +203,7 @@ productSpecification *specifics) {
 
   int iterator;
 
-  matches->size = 0;
-
-  if (matches->items != NULL) {
-    free(matches->items);
-    matches->items = NULL;
-  }
+  clean_product_list(matches);
 
   for (iterator = 0; iterator < (list->size); iterator++) {
 
