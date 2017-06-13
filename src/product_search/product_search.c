@@ -58,6 +58,14 @@ errorLevel add_product(product *new_product, productList *list) {
 
 }
 
+/** Função para limpar uma lista de produtos.
+
+    \param list Endereço da lista que será limpa.
+    \return A função retorna uma instância do tipo errorLevel: Success caso a
+    lista seja limpa com sucesso.
+
+    */
+
 errorLevel clean_product_list (productList *list) {
 
   list->size = 0;
@@ -149,6 +157,16 @@ productSpecification *new_specification) {
 
 }
 
+/** Função que remove um produto de uma lista de produtos.
+
+    \param index Índice do produto na lista de produtos.
+    \param list Endereço da lista que terá o produto removido.
+    \return A função retorna uma instância do tipo errorLevel: Success caso o
+    produto seja removido da lista com sucesso; Illegal_argument, caso o índice
+    passado como argumento seja inválido.
+
+    */
+
 errorLevel delete_product (int index, productList *list) {
 
   int iterator;
@@ -176,6 +194,14 @@ errorLevel delete_product (int index, productList *list) {
   return Success;
 
 }
+
+/** Função para iniciar uma lista de produtos.
+
+    \param list Endereço da lista que será incializada.
+    \return A função retorna uma instância do tipo errorLevel: Success caso a
+    lista seja inicializada com sucesso.
+
+    */
 
 errorLevel initialize_product_list (productList *list) {
 
@@ -238,6 +264,18 @@ productSpecification *specifics) {
     return Success;
 
 }
+
+/** Função que seleciona um produto de uma lista de produtos.
+
+    \param index Índice do produto na lista de produtos.
+    \param list Endereço da lista que contém o produto desejado.
+    \param selection Endereço da estrutura de dados que reberá os parâmetros do
+    produto desejado.
+    \return A função retorna uma instância do tipo errorLevel: Success caso o
+    produto seja selecionado com sucesso; Illegal_argument, caso o índice
+    passado como argumento seja inválido.
+
+    */
 
 errorLevel select_product(int index, productList *list, product *selection) {
 
