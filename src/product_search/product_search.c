@@ -136,6 +136,32 @@ productSpecification *new_specification) {
 
 }
 
+errorLevel delete_product (int index, productList *list) {
+
+  int iterator;
+
+  if (index < 0 || index >= list->size)
+    return Illegal_argument;
+
+  else if (list->size == 1)
+    free(list->items);
+
+  else {
+
+    for (iterator = index; iterator < list->size - 1; iterator++)
+      copy_product(&(list->items[iterator]), &(list->items[iterator + 1]));
+
+    list->items = (product*) realloc(list->items, (list->size - 1)
+    * sizeof(product));
+
+  }
+
+  list->size = list->size - 1;
+
+  return Success;
+
+}
+
 /** Função que realiza a busca por um produto.
 
     \param query Nome ou parte de nome dos produtos procurados.
@@ -154,8 +180,11 @@ productSpecification *specifics) {
   int iterator;
 
   matches->size = 0;
-  free(matches->items);
-  matches->items = NULL;
+
+  if (matches->items != NULL) {
+    free(matches->items);
+    matches->items = NULL;
+  }
 
   for (iterator = 0; iterator < (list->size); iterator++) {
 

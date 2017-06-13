@@ -42,6 +42,7 @@ errorLevel copy_product(product*, product*);
 errorLevel create_product(char[75], productType, double, int, product*);
 errorLevel create_specification(productType, double, double, int, int,
 productSpecification*);
+errorLevel delete_product (int, productList*);
 errorLevel search_product(char[75], productList*, productList*,
 productSpecification*);
 errorLevel select_product(int, productList*, product*);

@@ -12,14 +12,13 @@
 #include "gtest/gtest.h"
 
 char name[75];
-productList list;
+productList list, query_results;
 product novoProduto, copia, outro;
-productList query_results;
 productSpecification generic, specific;
 
-TEST (Inicialization, Variables) {
+TEST (Initialization, Variables) {
 
-  list.size = 0;
+  //list.size = 0;
   create_specification(All, 0, 1000000, 0, 100, &generic);
 
   EXPECT_EQ (1, true);
@@ -439,10 +438,44 @@ TEST (SelectProduct, Invalid_Select) {
 
 }
 
+TEST (DeleteProduct, Valid_Delete) {
+
+  ASSERT_EQ (query_results.size, 2);
+  EXPECT_EQ (compare_products(&(query_results.items[0]), &(list.items[1])), 0);
+  EXPECT_EQ (compare_products(&(query_results.items[1]), &(list.items[2])), 0);
+
+  ASSERT_EQ (delete_product(0, &query_results), Success);
+  ASSERT_EQ (query_results.size, 1);
+  EXPECT_EQ (compare_products(&(query_results.items[0]), &(list.items[2])), 0);
+
+}
+
+TEST (DeleteProduct, Invalid_Delete) {
+
+  ASSERT_EQ (query_results.size, 1);
+  EXPECT_EQ (compare_products(&(query_results.items[0]), &(list.items[2])), 0);
+
+  ASSERT_EQ (delete_product(1, &query_results), Illegal_argument);
+
+}
+
+TEST (DeleteProduct, Empty_List) {
+
+  ASSERT_EQ (query_results.size, 1);
+  ASSERT_EQ (delete_product(0, &query_results), Success);
+  ASSERT_EQ (query_results.size, 0);
+
+  ASSERT_EQ (delete_product(0, &query_results), Illegal_argument);
+
+}
+
 TEST (Termination, Variables) {
 
-  free(query_results.items);
-  free(list.items);
+  if(query_results.size != 0)
+    free(query_results.items);
+
+  if(list.items != 0)
+    free(list.items);
 
   EXPECT_EQ(1, true);
 
