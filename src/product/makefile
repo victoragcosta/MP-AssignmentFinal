@@ -4,18 +4,18 @@ CFLAGS = -Wall -ftest-coverage -fprofile-arcs -I $(IDIR)
 
 ODIR = ../obj
 LDIR = ../../lib
-TDIR = ../tests/product_search
+TDIR = ../tests/product
 GCOVDIR = ../gcov
 
 LIBS = -lm -lgtest
 
-_DEPS = error_level.h product_search.h product.h
+_DEPS = error_level.h product.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = product.o product_search.o
+_OBJ = product.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
-_TEST = product_search_tests.o
+_TEST = product_tests.o
 TEST = $(patsubst %,$(TDIR)/%,$(_TEST))
 
 $(ODIR)/%.o: %.c $(DEPS)
@@ -24,12 +24,12 @@ $(ODIR)/%.o: %.c $(DEPS)
 $(TDIR)/%.o: %.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-search_tests: $(OBJ) $(TEST)
+product_tests: $(OBJ) $(TEST)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 verify_tests:
-	cppcheck product_search.c --enable=all
-	valgrind --leak-check=full ./search_tests
+	cppcheck product.c --enable=all
+	valgrind --leak-check=full ./product_tests
 
 .PHONY: my_gcov
 
