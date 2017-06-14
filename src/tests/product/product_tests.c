@@ -67,6 +67,12 @@ TEST (CreateProduct, Illegal_Popularity_02) {
 
 }
 
+TEST (CreateProduct, Null_Pointer) {
+
+  EXPECT_EQ(CreateProduct(name, Sale, 5, 120, NULL), Illegal_argument);
+
+}
+
 TEST (CopyProduct, Normal_Copy) {
 
   strcpy(name, "Clone");
@@ -79,6 +85,13 @@ TEST (CopyProduct, Normal_Copy) {
   EXPECT_EQ(copia.price, 25);
   EXPECT_EQ(copia.type, Sale);
   EXPECT_EQ(copia.popularity, 92);
+
+}
+
+TEST (CopyProduct, Null_Pointer) {
+
+  EXPECT_EQ(CopyProduct(&novoProduto, NULL), Illegal_argument);
+  EXPECT_EQ(CopyProduct(NULL, &novoProduto), Illegal_argument);
 
 }
 
@@ -143,6 +156,13 @@ TEST (CompareProducts, Different_Popularity) {
 
   EXPECT_EQ(CompareProducts(&novoProduto, &outro), 1);
   EXPECT_EQ(CompareProducts(&outro, &novoProduto), 1);
+
+}
+
+TEST (CompareProducts, Null_Pointer) {
+
+  EXPECT_EQ(CompareProducts(&novoProduto, NULL), -1);
+  EXPECT_EQ(CompareProducts(NULL, &novoProduto), -1);
 
 }
 

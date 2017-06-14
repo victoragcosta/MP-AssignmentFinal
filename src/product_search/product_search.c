@@ -17,7 +17,7 @@
     \return A função retorna uma instância do tipo errorLevel: Success caso o
     produto seja adicionado à lista com sucesso; Failure caso o produto já
     exista na lista; Illegal_argument, caso os parâmetros de produto passados
-    sejam inválidos.
+    sejam inválidos ou a função receba um ponteiro nulo como parâmetro.
 
     */
 
@@ -27,8 +27,9 @@ errorLevel AddProduct(product *new_product, productList *list) {
 
   size = list->size;
 
-  if(new_product->price <= 0 || new_product->price >= 1000000
-     || new_product->popularity < 0 || new_product->popularity > 100)
+  if(new_product == NULL || new_product->price <= 0
+     || new_product->price >= 1000000 || new_product->popularity < 0
+     || new_product->popularity > 100)
       return Illegal_argument;
 
   for (i = 0; i < (list->size); ++i) {
@@ -89,7 +90,8 @@ errorLevel CleanProductList (productList *list) {
     \param new_specification Endereço da estrutura de dados onde a especificação
     será criada.
     \return A função retorna uma instância do tipo errorLevel: Success caso a
-    especificação seja criada com sucesso.
+    especificação seja criada com sucesso; Illegal_argument caso a função receba
+    um ponteiro nulo como parâmetro.
 
     */
 
@@ -100,6 +102,9 @@ errorLevel CreateSpecification(
     int min_popularity,
     int max_popularity,
     productSpecification *new_specification) {
+
+  if(new_specification == NULL)
+    return Illegal_argument;
 
   new_specification->type = type;
   new_specification->minimum_price = min_price;
@@ -175,7 +180,8 @@ errorLevel InitializeProductList (productList *list) {
     armazenados.
     \param specifics Endereço da especificação de busca utilizada para busca.
     \return A função retorna uma instância do tipo errorLevel: Success caso a
-    busca retorne algum resultado; Failure caso a busca não retorne resultados.
+    busca retorne algum resultado; Failure caso a busca não retorne resultados;
+    Illegal_argument caso a função receba um ponteiro nulo como parâmetro.
 
     */
 
@@ -184,6 +190,9 @@ errorLevel SearchProduct(char query[75], productList *list,
                           productList *matches) {
 
   int i;
+
+  if(specifics == NULL)
+    return Illegal_argument;
 
   CleanProductList(matches);
 
@@ -229,11 +238,15 @@ errorLevel SearchProduct(char query[75], productList *list,
     produto desejado.
     \return A função retorna uma instância do tipo errorLevel: Success caso o
     produto seja selecionado com sucesso; Illegal_argument, caso o índice
-    passado como argumento seja inválido.
+    passado como argumento seja inválido ou seja fornecido um ponteiro nulo como
+    parâmetro.
 
     */
 
 errorLevel SelectProduct(int index, productList *list, product *selection) {
+
+  if(selection == NULL)
+    return Illegal_argument;
 
   if(index >= list->size || index < 0)
     return Illegal_argument;

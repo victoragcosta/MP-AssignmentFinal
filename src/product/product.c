@@ -15,11 +15,15 @@
     \param copy Endereço do produto que receberá as especificações copiadas.
     \param original Endereço do produto que será copiado.
     \return A função retorna uma instância do tipo errorLevel: Success caso o
-    produto seja copiado com sucesso.
+    produto seja copiado com sucesso; Illegal_argument caso um dos argumentos
+    passados seja um ponteiro nulo.
 
     */
 
 errorLevel CopyProduct(product *copy, product *original) {
+
+  if(copy == NULL || original == NULL)
+    return Illegal_argument;
 
   strcpy(copy->name, original->name);
   copy->type = original->type;
@@ -40,14 +44,16 @@ errorLevel CopyProduct(product *copy, product *original) {
     criado.
     \return A função retorna uma instância do tipo errorLevel: Success caso o
     produto seja criado com sucesso; Illegal_argument caso os parâmetros
-    passados para a criação do produto sejam inválidos.
+    passados para a criação do produto sejam inválidos ou caso um dos produtos
+    passados seja um ponteiro nulo.
 
     */
 
 errorLevel CreateProduct(char name[75], productType type, double price,
 int popularity, product *new_product) {
 
-  if(price <= 0 || price >= 1000000 || popularity < 0 || popularity > 100)
+  if(new_product == NULL || price <= 0 || price >= 1000000 || popularity < 0
+     || popularity > 100)
     return Illegal_argument;
 
   strcpy(new_product->name, name);
@@ -63,14 +69,17 @@ int popularity, product *new_product) {
 
     \param first Endereço do primeiro produto que faz parte da comparação.
     \param second Endereço do segundo produto que faz parte da comparação.
-    \return A função retorna 0 caso os produtos sejam iguais e 1 caso sejam
-    diferentes.
+    \return A função retorna -1 caso algum dos argumentos seja um ponteiro nulo,
+    0 caso os produtos sejam iguais e 1 caso sejam diferentes.
 
     */
 
 int CompareProducts(product *first, product *second) {
 
-  if(!strcmp(first->name, second->name) && first->type == second->type
+  if(first == NULL || second == NULL)
+    return -1;
+
+  else if(!strcmp(first->name, second->name) && first->type == second->type
      && first->price == second->price
      && first->popularity == second->popularity)
     return 0;

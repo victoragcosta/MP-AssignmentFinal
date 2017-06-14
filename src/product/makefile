@@ -1,6 +1,6 @@
 IDIR = ../../include
 CC = g++
-CFLAGS = -Wall -ftest-coverage -fprofile-arcs -I $(IDIR)
+CFLAGS = -Wall -g -ftest-coverage -fprofile-arcs -I $(IDIR)
 
 ODIR = ../obj
 LDIR = ../../lib
@@ -28,7 +28,7 @@ product_tests: $(OBJ) $(TEST)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 verify_tests:
-	cppcheck product.c --enable=all
+	cppcheck ./product.c ./product_tests --enable=all
 	valgrind --leak-check=full ./product_tests
 
 .PHONY: my_gcov

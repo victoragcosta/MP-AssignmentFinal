@@ -28,7 +28,7 @@ search_tests: $(OBJ) $(TEST)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 verify_tests:
-	cppcheck product_search.c --enable=all
+	cppcheck ./product_search.c ./search_tests --enable=all
 	valgrind --leak-check=full ./search_tests
 
 .PHONY: my_gcov
