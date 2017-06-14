@@ -21,29 +21,29 @@
 
     */
 
-errorLevel add_product(product *new_product, productList *list) {
+errorLevel AddProduct(product *new_product, productList *list) {
 
-  int iterator, size;
+  int i, size;
 
   size = list->size;
 
-  if(new_product->price <= 0 || new_product->price >= 1000000 ||
-    new_product->popularity < 0 || new_product->popularity > 100)
+  if(new_product->price <= 0 || new_product->price >= 1000000
+     || new_product->popularity < 0 || new_product->popularity > 100)
       return Illegal_argument;
 
-  for (iterator = 0; iterator < (list->size); iterator++) {
+  for (i = 0; i < (list->size); ++i) {
 
-    if(!strcmp(new_product->name, list->items[iterator].name)
-      && new_product->type == list->items[iterator].type
-      && new_product->price == list->items[iterator].price
-      && new_product->popularity == list->items[iterator].popularity)
+    if(!strcmp(new_product->name, list->items[i].name)
+       && new_product->type == list->items[i].type
+       && new_product->price == list->items[i].price
+       && new_product->popularity == list->items[i].popularity)
       return Failure;
 
   }
 
   list->size++;
 
-  if (list->size == 1)
+  if(list->size == 1)
     list->items = (product*) malloc(sizeof(product));
 
   else
@@ -66,7 +66,7 @@ errorLevel add_product(product *new_product, productList *list) {
 
     */
 
-errorLevel clean_product_list (productList *list) {
+errorLevel CleanProductList (productList *list) {
 
   list->size = 0;
 
@@ -88,7 +88,7 @@ errorLevel clean_product_list (productList *list) {
 
     */
 
-errorLevel copy_product(product *copy, product *original) {
+errorLevel CopyProduct(product *copy, product *original) {
 
   strcpy(copy->name, original->name);
   copy->type = original->type;
@@ -113,7 +113,7 @@ errorLevel copy_product(product *copy, product *original) {
 
     */
 
-errorLevel create_product(char name[75], productType type, double price,
+errorLevel CreateProduct(char name[75], productType type, double price,
 int popularity, product *new_product) {
 
   if(price <= 0 || price >= 1000000 || popularity < 0 || popularity > 100)
@@ -143,9 +143,13 @@ int popularity, product *new_product) {
 
     */
 
-errorLevel create_specification(productType type, double min_price,
-double max_price, int min_popularity, int max_popularity,
-productSpecification *new_specification) {
+errorLevel CreateSpecification(
+    productType type,
+    double min_price,
+    double max_price,
+    int min_popularity,
+    int max_popularity,
+    productSpecification *new_specification) {
 
   new_specification->type = type;
   new_specification->minimum_price = min_price;
@@ -167,25 +171,26 @@ productSpecification *new_specification) {
 
     */
 
-errorLevel delete_product (int index, productList *list) {
+errorLevel DeleteProduct (int index, productList *list) {
 
-  int iterator;
+  int i;
 
-  if (index < 0 || index >= list->size)
+  if(index < 0 || index >= list->size) {
     return Illegal_argument;
+  }
 
-  else if (list->size == 1) {
+  else if(list->size == 1) {
     free(list->items);
     list->items = NULL;
   }
 
   else {
 
-    for (iterator = index; iterator < list->size - 1; iterator++)
-      copy_product(&(list->items[iterator]), &(list->items[iterator + 1]));
+    for (i = index; i < list->size - 1; ++i)
+      CopyProduct(&(list->items[i]), &(list->items[i + 1]));
 
     list->items = (product*) realloc(list->items, (list->size - 1)
-    * sizeof(product));
+                                     * sizeof(product));
 
   }
 
@@ -203,7 +208,7 @@ errorLevel delete_product (int index, productList *list) {
 
     */
 
-errorLevel initialize_product_list (productList *list) {
+errorLevel InitializeProductList (productList *list) {
 
   list->size = 0;
   list->items = NULL;
@@ -224,40 +229,41 @@ errorLevel initialize_product_list (productList *list) {
 
     */
 
-errorLevel search_product(char query[75], productList *list, productList *matches,
-productSpecification *specifics) {
+errorLevel SearchProduct(char query[75], productList *list,
+                          productSpecification *specifics,
+                          productList *matches) {
 
-  int iterator;
+  int i;
 
-  clean_product_list(matches);
+  CleanProductList(matches);
 
-  for (iterator = 0; iterator < (list->size); iterator++) {
+  for (i = 0; i < (list->size); ++i) {
 
-    if((strstr(list->items[iterator].name, query) != NULL)
+    if((strstr(list->items[i].name, query) != NULL)
       && (specifics->type == All
-      || specifics->type == list->items[iterator].type)
-      && (list->items[iterator].price >= specifics->minimum_price
-      && list->items[iterator].price <= specifics->maximum_price)
-      && (list->items[iterator].popularity >= specifics->minimum_popularity
-      && list->items[iterator].popularity <= specifics->maximum_popularity)) {
+      || specifics->type == list->items[i].type)
+      && (list->items[i].price >= specifics->minimum_price
+      && list->items[i].price <= specifics->maximum_price)
+      && (list->items[i].popularity >= specifics->minimum_popularity
+      && list->items[i].popularity <= specifics->maximum_popularity)) {
 
       matches->size++;
 
-      if (matches->size == 1)
+      if(matches->size == 1)
         matches->items = (product*) malloc(sizeof(product));
 
       else
         matches->items = (product*) realloc(matches->items,
         matches->size * sizeof(product));
 
-      copy_product(&(matches->items[(matches->size - 1)]),
-      &(list->items[iterator]));
+      CopyProduct(&(matches->items[(matches->size - 1)]),
+                  &(list->items[i]));
 
     }
 
   }
 
-  if (matches->size == 0)
+  if(matches->size == 0)
     return Failure;
 
   else
@@ -277,12 +283,12 @@ productSpecification *specifics) {
 
     */
 
-errorLevel select_product(int index, productList *list, product *selection) {
+errorLevel SelectProduct(int index, productList *list, product *selection) {
 
-  if (index >= list->size || index < 0)
+  if(index >= list->size || index < 0)
     return Illegal_argument;
 
-  copy_product(selection, &(list->items[index]));
+  CopyProduct(selection, &(list->items[index]));
 
   return Success;
 
@@ -297,10 +303,11 @@ errorLevel select_product(int index, productList *list, product *selection) {
 
     */
 
-int compare_products(product *first, product *second) {
+int CompareProducts(product *first, product *second) {
 
   if(!strcmp(first->name, second->name) && first->type == second->type
-  && first->price == second->price &&first->popularity == second->popularity)
+     && first->price == second->price
+     && first->popularity == second->popularity)
     return 0;
 
   else
