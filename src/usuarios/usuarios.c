@@ -11,20 +11,20 @@
 */
 static grafo *usuarios_grafo = NULL; /* Grafo de usuários */
 static unsigned int usuarios_contador = 0; /* Contador de usuários no grafo */
-static int usuarios_identificador_max = 0; /* Contador do maior id de usuário no grafo */
+static unsigned int usuarios_identificador_max = 0; /* Contador do maior id de usuário no grafo */
 
 /*!
- * Sessão aberta
+ * @brief Sessão aberta
 */
 static tpUsuario *usuarios_sessao = NULL; /* Inicialmente NULL significa que não há usuário logado */
 
 /*!
- * Estrutura de usuário temporário para uso do usuarios_args nas funções
+ * @brief Estrutura de usuário temporário para uso do usuarios_args nas funções
 */
 static tpUsuario *usuarios_dadosTemp = (tpUsuario *)malloc(sizeof(tpUsuario));
 
 /*!
- * Argumentos padrão aceitáveis pelas funções ao buscar/alterar/definir dados de usuário
+ * @brief Argumentos padrão aceitáveis pelas funções ao buscar/alterar/definir dados de usuário
 */
 static unsigned int usuarios_cadastro_argumentos_n = 5;
 
@@ -35,6 +35,25 @@ static usuarios_cadastro_argumentos usuarios_args[] = {
 	{.validos = "senha", .tamanho = USUARIOS_LIMITE_SENHA, .destino = usuarios_dadosTemp->senha},
 	{.validos = "endereco", .tamanho = USUARIOS_LIMITE_ENDERECO, .destino = usuarios_dadosTemp->endereco}
 };
+
+/*!
+ * @brief Copiamos os dados de uma lista de argumentos para usuarios_dadosTemp
+*/
+void usuarios_copiarDadosTemp(unsigned int n, va_list argumentos){
+	unsigned int i=0,j;
+	char *argumento;
+	for(;i<n;i++){
+		argumento = va_arg(argumentos, char *);
+		for(j=0;j<usuarios_cadastro_argumentos_n;j++)
+			if(!strcmp(argumento, usuarios_args[j].validos)) strncpy(usuarios_args[j].destino, va_arg(argumentos, char *), usuarios_args[j].tamanho);
+		
+		/* Casos especiais diferentes de char * */
+		if(!strcmp(argumento, "formaPagamento")) 
+			usuarios_dadosTemp->formaPagamento = (usuarios_forma_de_pagamento)va_arg(argumentos, int);
+		if(!strcmp(argumento, "tipo")) 
+			usuarios_dadosTemp->tipo = (usuarios_tipo_usuario)va_arg(argumentos, int);
+	}
+}
 
 /*!
  * @brief Função que verifica se há repetição nos dados
@@ -143,7 +162,7 @@ usuarios_condRet usuarios_carregarArquivo(){
 	int i = 0;
 	
 	/* Identificadores para os amigos */
-	int identificador_A, identificador_B;
+	unsigned int identificador_A, identificador_B;
 
 	/* Dados do usuário corrente */
 	tpUsuario *corrente;
@@ -151,16 +170,19 @@ usuarios_condRet usuarios_carregarArquivo(){
 		corrente = (tpUsuario *)malloc(sizeof(tpUsuario));
 		
 		/* Lemos do arquivo */
-		fscanf(db_usuarios, "%d\t", &(corrente->identificador));
+		fscanf(db_usuarios, "%u\t", &(corrente->identificador));
 		usuarios_lerString(db_usuarios, corrente->usuario, USUARIOS_LIMITE_USUARIO);
 		usuarios_lerString(db_usuarios, corrente->nome, USUARIOS_LIMITE_NOME);
 		usuarios_lerString(db_usuarios, corrente->email, USUARIOS_LIMITE_EMAIL);
 		usuarios_lerString(db_usuarios, corrente->senha, USUARIOS_LIMITE_SENHA);
 		usuarios_lerString(db_usuarios, corrente->endereco, USUARIOS_LIMITE_ENDERECO);
 				
-		fscanf(db_usuarios, "%d\t%d", 
+		fscanf(db_usuarios, "%d\t%d\t%d\t%lf\t%d", 
 			(int *)&(corrente->formaPagamento), \
-			(int *)&(corrente->tipo)
+			(int *)&(corrente->tipo), \
+			(int *)&(corrente->estado), \
+			&(corrente->avaliacao), \
+			&(corrente->n_avaliacao)
 		);
 		
 		/*printf("'%d'\n'%s'\n'%s'\n'%s'\n'%s'\n'%s'\n'%d'\n'%d'\n-------------\n", 
@@ -212,8 +234,8 @@ usuarios_condRet usuarios_carregarArquivo(){
 	/* Agora carregamos os amigos */
 	while(!feof(db_amigos)){
 		/* Lemos do arquivo */
-		fscanf(db_amigos, "%d\t%d\n", &identificador_A, &identificador_B);
-		printf("%d %d\n", identificador_A, identificador_B);
+		fscanf(db_amigos, "%u\t%u\n", &identificador_A, &identificador_B);
+		printf("%u %u\n", identificador_A, identificador_B);
 		/* Vemos se já há um arco entre eles nesta direção, uma assertiva */
 		if(grafo_busca_arco(usuarios_grafo, identificador_A, identificador_B) != NULL){
 			fclose(db_amigos);
@@ -279,7 +301,9 @@ usuarios_condRet usuarios_cadastro(int n, ...){
 			usuarios_dadosTemp->tipo = (usuarios_tipo_usuario)va_arg(argumentos, int);
 	}
 	
-	usuarios_dadosTemp->estado = INATIVO_EMAIL;
+	usuarios_dadosTemp->estado = ATIVO;
+	usuarios_dadosTemp->avaliacao = 0;
+	usuarios_dadosTemp->n_avaliacao = 0;
 	
 	va_end(argumentos);
 	
@@ -303,6 +327,9 @@ usuarios_condRet usuarios_cadastro(int n, ...){
 	/* Verificamos se já há um email desse */
 	if(usuarios_verificaRepeticao("email", usuarios_dadosTemp->email) != USUARIOS_DADOS_OK) return USUARIOS_USUARIOEXISTE;
 	
+	/* Define-se o identificador */
+	usuarios_dadosTemp->identificador = ++usuarios_identificador_max;
+	
 	/* Copiamos o valor temporário para o alocado */
 	novo = (tpUsuario *)malloc(sizeof(tpUsuario));
 	memcpy(novo, usuarios_dadosTemp, sizeof(tpUsuario));
@@ -311,15 +338,18 @@ usuarios_condRet usuarios_cadastro(int n, ...){
 	db_usuarios = fopen(USUARIOS_DB, "a+");
 	
 	/* Gravamos no arquivo */
-	int fprintf_retorno = fprintf(db_usuarios, "%d\t%*s\t%*s\t%*s\t%*s\t%*s\t%d\t%d\n", 
-		++usuarios_identificador_max,  \
+	int fprintf_retorno = fprintf(db_usuarios, "%u\t%*s\t%*s\t%*s\t%*s\t%*s\t%d\t%d\t%d\t%lf\t%u\n", 
+		usuarios_identificador_max,  \
 		-USUARIOS_LIMITE_USUARIO, novo->usuario, \
 		-USUARIOS_LIMITE_NOME, novo->nome, \
 		-USUARIOS_LIMITE_EMAIL, novo->email, \
 		-USUARIOS_LIMITE_SENHA, novo->senha, \
 		-USUARIOS_LIMITE_ENDERECO, novo->endereco, \
 		(int)novo->formaPagamento, \
-		(int)novo->tipo
+		(int)novo->tipo, \
+		(int)novo->estado, \
+		novo->avaliacao, \
+		novo->n_avaliacao
 	);
 	
 	/* Adicionamos ao grafo */
@@ -392,10 +422,10 @@ usuarios_condRet usuarios_criarAmizade(unsigned int identificador){
 			
 			if(adiciona_aresta(usuarios_grafo, usuarios_sessao->identificador, identificador) == SUCESSO){
 				db_amigos = fopen(USUARIOS_DB_AMIGOS, "a+");
-				if(db_amigos == NULL) USUARIOS_FALHACRIARAMIZADE;
+				if(db_amigos == NULL) return USUARIOS_FALHACRIARAMIZADE;
 				
 				/* Gravamos no arquivo */
-				fprintf(db_amigos, "%d\t%d\n", usuarios_sessao->identificador, identificador);
+				fprintf(db_amigos, "%u\t%u\n", usuarios_sessao->identificador, identificador);
 				fclose(db_amigos);
 				return USUARIOS_SUCESSO;
 				
@@ -407,27 +437,63 @@ usuarios_condRet usuarios_criarAmizade(unsigned int identificador){
 }
 
 /*!
- * @brief Buscamos a conta correspondente ao login e senha passados
+ * @brief Busca no grafo de usuários
 */
-usuarios_condRet usuarios_login(char *usuario, char *senha){
+usuarios_condRet usuarios_busca(int condParada(tpUsuario *, va_list), tpUsuario **retorno, ...){
 	unsigned int i = 0;
 	tpUsuario *corrente;
 	
+	va_list argumentos, passado;
+	
 	if(usuarios_grafo == NULL) return USUARIOS_FALHA_GRAFONULL;
 	
-	if(usuarios_sessao != NULL) return USUARIOS_FALHA_SESSAOABERTA;
+	va_start(argumentos, retorno);
 	
 	for(;i<usuarios_contador;i++){
 		corrente = (tpUsuario *)retorna_valor_vertice(usuarios_grafo, i);
 		/* Asertiva */
-		if(corrente == NULL) return USUARIOS_GRAFO_CORROMPIDO;
-		
-		if(!strcmp(corrente->usuario, usuario) && !strcmp(corrente->senha, senha)){
-			usuarios_sessao = corrente;
+		if(corrente == NULL) {
+			va_end(argumentos);
+			return USUARIOS_GRAFO_CORROMPIDO;
+		}
+		va_copy(passado, argumentos);
+		if(condParada(corrente, passado)){
+			va_end(passado);
+			*retorno = corrente;
 			return USUARIOS_SUCESSO;
 		}
+		va_end(passado);
 	}
+	
+	va_end(argumentos);
 	return USUARIOS_FALHA_DADOSINCORRETOS;
+}
+
+/*!
+ * @brief Condição de parada para usuario e senha corretos do login
+*/
+int usuarios_condParada_login(tpUsuario *corrente, va_list argumentos){
+	return !strcmp(corrente->usuario, va_arg(argumentos, char *)) && !strcmp(corrente->senha, va_arg(argumentos, char *));
+}
+
+/*!
+ * @brief Buscamos a conta correspondente ao login e senha passados
+*/
+usuarios_condRet usuarios_login(char *usuario, char *senha){
+	tpUsuario *corrente;
+	usuarios_condRet busca;
+	if(usuarios_sessao != NULL) return USUARIOS_FALHA_SESSAOABERTA;
+	
+	busca = usuarios_busca(usuarios_condParada_login, &corrente, usuario, senha);
+	
+	if(busca != USUARIOS_SUCESSO) return busca;
+	
+	/* Vemos se o usuário está ativo */
+	if(corrente->estado == ATIVO) {
+		usuarios_sessao = corrente;
+		return USUARIOS_SUCESSO;
+	}
+	else return USUARIOS_FALHA_INATIVO;
 }
 
 /*!
@@ -440,15 +506,34 @@ usuarios_condRet usuarios_logout(){
 }
 
 /*!
- * @brief Retorna os dados do usuário na sessão
+ * @brief Condição de parada para encontrar identificador
 */
-usuarios_condRet usuarios_retornaDados(char *nomeDado, void *retorno){
+int usuarios_condParada_identificador(tpUsuario *corrente, va_list argumentos){
+	return corrente->identificador == va_arg(argumentos, unsigned int);
+}
+
+/*!
+ * @brief Retorna os dados do usuário do identificador passado
+ *
+ * Se identificador for zero, retornamos os dados da sessão
+*/
+usuarios_condRet usuarios_retornaDados(unsigned int identificador, char *nomeDado, void *retorno){
 	unsigned int i = 0;
-	
+	tpUsuario *corrente;
+	usuarios_condRet busca;
+		
 	if(usuarios_grafo == NULL) return USUARIOS_FALHA_GRAFONULL;
 	
-	/* Copiamos os dados da sessão para usuarios_dadosTemp */
-	memcpy(usuarios_dadosTemp, usuarios_sessao, sizeof(tpUsuario));
+	if(identificador){	
+		/* Buscamos o identificador */
+		busca = usuarios_busca(usuarios_condParada_identificador, &corrente, identificador);
+		if(busca != USUARIOS_SUCESSO) return busca;
+	}
+	else corrente = usuarios_sessao;
+	
+	
+	/* Copiamos os dados para usuarios_dadosTemp */
+	memcpy(usuarios_dadosTemp, corrente, sizeof(tpUsuario));
 	
 	/* Dados possíveis */
 	for(;i<usuarios_cadastro_argumentos_n;i++)
@@ -460,8 +545,86 @@ usuarios_condRet usuarios_retornaDados(char *nomeDado, void *retorno){
 		*((usuarios_forma_de_pagamento *)retorno) = usuarios_dadosTemp->formaPagamento;
 	if(!strcmp(nomeDado, "tipo")) 
 		*((usuarios_tipo_usuario *)retorno) = usuarios_dadosTemp->tipo;
+	if(!strcmp(nomeDado, "estado")) 
+		*((usuarios_estado_de_usuario *)retorno) = usuarios_dadosTemp->estado;
+	if(!strcmp(nomeDado, "avaliacao")) 
+		*((double *)retorno) = usuarios_dadosTemp->avaliacao;
+	if(!strcmp(nomeDado, "n_avaliacao")) 
+		*((unsigned int *)retorno) = usuarios_dadosTemp->n_avaliacao;
 	
 	return USUARIOS_SUCESSO;
+	
+}
+
+/*!
+ * @brief Atualiza dados do usuário de identificador passado
+*/
+usuarios_condRet usuarios_atualizarDados(unsigned int identificador, char *nomeDado, ...){
+	unsigned int i, j;
+	usuarios_condRet busca;
+	tpUsuario *corrente;
+	FILE *db_usuarios;
+	va_list arg;
+	
+	if(usuarios_grafo == NULL) return USUARIOS_FALHA_GRAFONULL;
+	
+	if(identificador){
+		/* Buscamos o identificador */
+		busca = usuarios_busca(usuarios_condParada_identificador, &corrente, identificador);
+		if(busca != USUARIOS_SUCESSO) return busca;
+	}
+	else corrente = usuarios_sessao;
+	
+	va_start(arg, nomeDado);
+	
+	/* Analizamos os argumentos passados armazenando em usuarios_dadosTemp */
+	memcpy(usuarios_dadosTemp, corrente, sizeof(tpUsuario));
+	
+	for(i=0;i<usuarios_cadastro_argumentos_n;i++)
+		if(!strcmp(nomeDado, usuarios_args[i].validos)) {
+			strncpy(usuarios_args[i].destino, va_arg(arg, char *), usuarios_args[i].tamanho);
+		}
+	/* Outros casos (não char *) */
+	if(!strcmp(nomeDado, "formaPagamento")) 
+		usuarios_dadosTemp->formaPagamento = (usuarios_forma_de_pagamento)va_arg(arg, int);
+	if(!strcmp(nomeDado, "tipo")) 
+		usuarios_dadosTemp->tipo = (usuarios_tipo_usuario)va_arg(arg, int);
+	if(!strcmp(nomeDado, "estado")) 
+		usuarios_dadosTemp->estado = (usuarios_estado_de_usuario)va_arg(arg, int);
+	if(!strcmp(nomeDado, "avaliacao")) 
+		usuarios_dadosTemp->avaliacao = va_arg(arg, double);
+	if(!strcmp(nomeDado, "n_avaliacao")) 
+		usuarios_dadosTemp->n_avaliacao = va_arg(arg, unsigned int);
+		
+	va_end(arg);
+	
+	/* Copiamos no grafo */
+	memcpy(corrente, usuarios_dadosTemp, sizeof(tpUsuario));
+	
+	/* Atualizamos no arquivo de dados */
+	db_usuarios = fopen(USUARIOS_DB, "r+");
+	if(db_usuarios == NULL) return USUARIOS_FALHA_LERDB;
+	
+	fseek(db_usuarios, (corrente->identificador-1)*174, SEEK_SET);
+	
+	int fprintf_retorno = fprintf(db_usuarios, "%u\t%*s\t%*s\t%*s\t%*s\t%*s\t%d\t%d\t%d\t%lf\t%u\n", 
+		corrente->identificador,  \
+		-USUARIOS_LIMITE_USUARIO, corrente->usuario, \
+		-USUARIOS_LIMITE_NOME, corrente->nome, \
+		-USUARIOS_LIMITE_EMAIL, corrente->email, \
+		-USUARIOS_LIMITE_SENHA, corrente->senha, \
+		-USUARIOS_LIMITE_ENDERECO, corrente->endereco, \
+		(int)corrente->formaPagamento, \
+		(int)corrente->tipo, \
+		(int)corrente->estado, \
+		corrente->avaliacao, \
+		corrente->n_avaliacao
+	);
+	
+	fclose(db_usuarios);
+	
+	return USUARIOS_SUCESSO;
+	
 	
 }
 

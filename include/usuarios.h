@@ -75,6 +75,7 @@ typedef struct tpUsuario {
 	usuarios_tipo_usuario tipo;
 	usuarios_estado_de_usuario estado;
 	double avaliacao;
+	unsigned int n_avaliacao;
 } tpUsuario;
 
 /*!
@@ -105,7 +106,8 @@ typedef enum {
 	USUARIOS_AMIZADEINVALIDA,
 	USUARIOS_AMIZADEJASOLICITADA,
 	USUARIOS_FALHACRIARAMIZADE,
-	USUARIOS_FALHAUSUARIONAOEXISTE
+	USUARIOS_FALHAUSUARIONAOEXISTE,
+	USUARIOS_FALHA_INATIVO
 } usuarios_condRet;
 
 /*!
@@ -133,10 +135,11 @@ usuarios_condRet usuarios_cadastro(int, ...);
 usuarios_condRet usuarios_carregarArquivo();
 usuarios_condRet usuarios_login(char *, char *);
 usuarios_condRet usuarios_logout();
-usuarios_condRet usuarios_retornaDados(char *, void *);
+usuarios_condRet usuarios_retornaDados(unsigned int, char *, void *);
 usuarios_condRet usuarios_limpar();
 usuarios_condRet usuarios_criarAmizade(unsigned int);
 usuarios_relacao usuarios_verificarAmizade(unsigned int);
+usuarios_condRet usuarios_atualizarDados(unsigned int, char *, ...);
 
 #endif
 
