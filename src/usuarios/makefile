@@ -1,7 +1,7 @@
 IDIR = ../../include
 CC = g++
 CFLAGS = -ftest-coverage -fprofile-arcs -I $(IDIR) 
-LIBS = -lm -lgtest
+LIBS = -lm -pthread ~/Documentos/googletest/googletest/gtest-all.o
 
 ODIR = ../obj
 TDIR = ../tests/usuarios
@@ -18,16 +18,14 @@ _TEST = teste_usuarios.o
 TEST = $(patsubst %,$(TDIR)/%,$(_TEST))
 
 $(ODIR)/grafo.o: $(GRAFOSDIR)/grafo.c $(DEPS)
-	cppcheck --enable=warning $<
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(ODIR)/%.o: %.c $(DEPS)
-	cppcheck --enable=warning $<
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(TDIR)/%.o: %.c $(DEPS)
-	cppcheck --enable=warning $<
-	$(CC) -c -o $@ $< $(CFLAGS)
+	$(CC) -c -o $@ $< 
+
 
 testes_usuarios: $(OBJ) $(TEST) $(ODIR)/grafo.o
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)

@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include <gtest/gtest.h>
+#include "gtest/gtest.h"
 #include "usuarios.h"
 #include "aleatorio.h"
 
@@ -92,8 +92,11 @@ TEST(Usuarios, DadosRetornoSessao){
 TEST(Usuarios, DadosRetorno){
 	char *teste_nome;
 	usuarios_tipo_usuario teste_tipo;
+
+
 	EXPECT_EQ(usuarios_retornaDados(2, (char *)"nome", (void *)&teste_nome), USUARIOS_SUCESSO);
 	EXPECT_EQ(!strcmp(teste_nome, "Amanda"), 1);
+
 	EXPECT_EQ(usuarios_retornaDados(2, (char *)"tipo", (void *)&teste_tipo), USUARIOS_SUCESSO);
 	EXPECT_EQ(teste_tipo, CONSUMIDOR);
 }
@@ -123,6 +126,7 @@ TEST(Usuarios, AlterarDadosSessao){
 TEST(Usuarios, AlterarDados){
 	char *teste_nome;
 	usuarios_estado_de_usuario teste_estado;
+  usuarios_tipo_usuario teste_tipo;
 	EXPECT_EQ(usuarios_atualizarDados(2, (char *)"nome", (char *)"Amanda Nunes"), USUARIOS_SUCESSO);
 	EXPECT_EQ(usuarios_retornaDados(2, (char *)"nome", (void *)&teste_nome), USUARIOS_SUCESSO);
 	EXPECT_EQ(!strcmp(teste_nome, "Amanda Nunes"), 1);
@@ -130,8 +134,8 @@ TEST(Usuarios, AlterarDados){
 	EXPECT_EQ(usuarios_retornaDados(2, (char *)"senha", (void *)&teste_nome), USUARIOS_SUCESSO);
 	EXPECT_EQ(!strcmp(teste_nome, "987654"), 1);
 	EXPECT_EQ(usuarios_atualizarDados(2, (char *)"tipo", OFERTANTE), USUARIOS_SUCESSO);
-	EXPECT_EQ(usuarios_retornaDados(2, (char *)"tipo", (void *)&teste_estado), USUARIOS_SUCESSO);
-	EXPECT_EQ(teste_estado, OFERTANTE);
+	EXPECT_EQ(usuarios_retornaDados(2, (char *)"tipo", (void *)&teste_tipo), USUARIOS_SUCESSO);
+	EXPECT_EQ(teste_tipo, OFERTANTE);
 	
 }
 
@@ -157,6 +161,7 @@ TEST(Amizade, criarAmizade){
 	EXPECT_EQ(usuarios_verificarAmizade(1), ACONFIRMAR);
 	EXPECT_EQ(usuarios_criarAmizade(1), USUARIOS_SUCESSO);
 	EXPECT_EQ(usuarios_verificarAmizade(1), AMIGOS);
+  usuarios_listarAmigos(1);
 	EXPECT_EQ(usuarios_logout(), USUARIOS_SUCESSO);
 }
 

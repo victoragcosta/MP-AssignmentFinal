@@ -1,102 +1,102 @@
-1	jose123             	José Augusto                           	joao@antonio.com              	987654              	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-2	amandalinda         	Amanda Nunes                            	karol@diego.com               	987654              	Rua Foo 2 Casa Bar                      	3	1	3	0.000000	0
-3	bnpyngf             	José Antônio                          	vkoyfpel@hreidlr.com          	jauqduqdlqge        	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-4	auagbptzqoictp      	José Antônio                          	pcseyyu@vekhanew.com          	mlfibw              	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-5	vuifmat             	José Antônio                          	mgsy@kqlcsuoa.com             	wcmdlcy             	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-6	euvdjgennwyw        	José Antônio                          	mlpb@nzszzlxk.com             	povatnqbdgnm        	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-7	yhefvrha            	José Antônio                          	fehoa@fnebsubz.com            	earwbrat            	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-8	hsmpjxooxuhqiechew  	José Antônio                          	kcejp@vlabx.com               	skuaat              	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-9	lyhwfoxpjazswxe     	José Antônio                          	yukxva@yusgh.com              	vptwyyyzht          	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-10	cndkbrwmkpnn        	José Antônio                          	ebyi@ijca.com                 	zzlggn              	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-11	skgccwrdlrbtmpozaf  	José Antônio                          	aukbrist@qstxlxml.com         	thfgabknjmqmns      	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-12	bguhlpkvfxe         	José Antônio                          	wnaaut@nlhutul.com            	hqntdlwexvvykuke    	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-13	jafraobsxptfrgny    	José Antônio                          	wsxhanu@msdqyy.com            	zrgpclomovlzc       	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-14	djhjzvyxalaeoj      	José Antônio                          	grppzp@kgtfyijr.com           	tspcywj             	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-15	teeudqbnnfstkete    	José Antônio                          	syiulkm@qspnrl.com            	orkrlxlr            	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-16	iqkqlxf             	José Antônio                          	gcua@wddxr.com                	siasyqnqmmfgih      	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-17	clfr                	José Antônio                          	bshwkt@sezm.com               	njbkrazewg          	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-18	gpqcywq             	José Antônio                          	kqwtvo@jldsdkq.com            	bcvrjcy             	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-19	hsakjjpmllbweivdt   	José Antônio                          	uzpcz@czmmep.com              	oxvdxhepscw         	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-20	xjyujrvtdgile       	José Antônio                          	nnczfgnd@fzmlm.com            	cypvritqda          	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-21	vgecqhvnzqnkuowj    	José Antônio                          	hoib@xjxknegt.com             	vuggs               	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-22	smawttudtoeseixrp   	José Antônio                          	qlhhjx@leyuuqw.com            	szredurcftswleipul  	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-23	byqjdslrpwvi        	José Antônio                          	zyix@clgxyza.com              	ytocmsldwwcrmi      	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-24	dxzugs              	José Antônio                          	meqbrpqt@nfohqxy.com          	qokzhss             	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-25	esxxwvzpvfsrwwnlh   	José Antônio                          	jokm@cvloip.com               	qemspf              	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-26	dhptxdhlapm         	José Antônio                          	ujrvu@lepl.com                	znkbjtg             	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-27	uoxuiovcapqvztbzf   	José Antônio                          	eqbwpbxe@suhm.com             	assjhwtfetb         	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-28	flnfqgolbqkksxfu    	José Antônio                          	zowcuonl@wrnr.com             	mziolhgdj           	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-29	svsgicwkyczg        	José Antônio                          	qybyf@ipfvyhtv.com            	lzslsjiexbzcai      	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-30	mnxrhaghdolpvyeo    	José Antônio                          	cboxznm@nslp.com              	rjehzliiwjdra       	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-31	nkkoovatpec         	José Antônio                          	qrzvhsk@lezseb.com            	nsegdthhcbn         	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-32	ulpeezqifpwuxkon    	José Antônio                          	kssr@ckmiglme.com             	qcablfwq            	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-33	weovmos             	José Antônio                          	ayzz@cidw.com                 	wbvw                	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-34	umnlntztstoa        	José Antônio                          	prxcfqr@ugrk.com              	udppfzkgjs          	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-35	ddnuiqxqvfujspnkl   	José Antônio                          	bdjufzh@hryrybd.com           	qodo                	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-36	pghnrlwzennxdcaah   	José Antônio                          	yohmqbs@bgosfo.com            	kimaihbujadl        	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-37	orhyshulumkoibow    	José Antônio                          	icalsmzn@soau.com             	sxpd                	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-38	vaspjq              	José Antônio                          	gkppgkh@yjjvjxu.com           	qgel                	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-39	csufxmfc            	José Antônio                          	onvawnps@rqaaxlgj.com         	kocgjyjsxspcaoei    	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-40	maxjk               	José Antônio                          	euswaxu@mlgi.com              	jujclp              	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-41	uhdahqon            	José Antônio                          	ptfb@lciqvuy.com              	qiznzfo             	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-42	kzzfzf              	José Antônio                          	tcsqlphq@qmggwm.com           	kaybsie             	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-43	zuyl                	José Antônio                          	toca@yrtopfuu.com             	rlrltqg             	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-44	sfyrps              	José Antônio                          	tzhiobxj@kprr.com             	wxkvaxfvhjfaldzbpk  	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-45	befjsdzyasmld       	José Antônio                          	lccz@clzac.com                	axhuttksurt         	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-46	yxtrkmvagilch       	José Antônio                          	wqmo@mafrzvtc.com             	vozyvecjszmeigbbw   	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-47	zmrodwwggfcwaqf     	José Antônio                          	yegctiog@jjdlxyk.com          	sqqkjindkxjozmuhbi  	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-48	fednscx             	José Antônio                          	uibt@uiagyrxh.com             	tnmwkmhlapcaymgbr   	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-49	ghthxjvbeceusth     	José Antônio                          	mryhiwpg@hslqn.com            	arlzizvdv           	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-50	pqmr                	José Antônio                          	wsewasmh@ndsgpr.com           	cmfqregimn          	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-51	fdviarkurco         	José Antônio                          	jhikn@wsdj.com                	bwtiyvo             	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-52	khrlh               	José Antônio                          	olpooy@gjeut.com              	lirxzrgbtrr         	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-53	adcn                	José Antônio                          	bluljts@hyzcifps.com          	hcrcojvypjstczngc   	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-54	vanblabqnu          	José Antônio                          	yjikyhg@wdthjk.com            	wjzln               	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-55	ymluyiujhqsykmudeq  	José Antônio                          	wfxf@meiyyx.com               	astmtqknbmitqtp     	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-56	kockgmdufbhumlx     	José Antônio                          	gnuwafs@yvxttci.com           	phdpfcdnpok         	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-57	uemqu               	José Antônio                          	jengusce@mdob.com             	nwyqymfgn           	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-58	prprcfgyfddqrbgoqu  	José Antônio                          	yjik@fcszverp.com             	ufpdza              	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-59	fggvcgffslntbaverc  	José Antônio                          	xnvysj@jsew.com               	zzkpvolyt           	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-60	olqinjflbkrnsv      	José Antônio                          	swcvqylz@gnbyj.com            	zostwjegnv          	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-61	uixhrxuibiiw        	José Antônio                          	amjffma@iifz.com              	xssllw              	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-62	gyjubd              	José Antônio                          	motaz@jujowgs.com             	hbscaz              	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-63	zesailzbmnijlffx    	José Antônio                          	aiql@emblr.com                	tploh               	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-64	kqdyr               	José Antônio                          	ktwnssns@odlb.com             	ufidemswhlkpjgvrj   	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-65	lcvtgblrfdprgp      	José Antônio                          	jfsaqvxk@ehcbcbyz.com         	tzmyvdcskusbwaii    	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-66	hzdy                	José Antônio                          	pszqz@hmsd.com                	ywlzmubxytwtiusk    	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-67	tjjietzi            	José Antônio                          	bqnq@qhkkb.com                	trehw               	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-68	akxzuncjnk          	José Antônio                          	qincos@gfmdswot.com           	spnswqmtos          	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-69	hnmyuwmehnqbvuckhp  	José Antônio                          	skvpzodg@eopr.com             	fqppskxjal          	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-70	ewjdr               	José Antônio                          	ycifgyb@xirfsr.com            	exfwefk             	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-71	wdwszuomcow         	José Antônio                          	zoznwxw@umndb.com             	nnhqxav             	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-72	doznecddtxbbhql     	José Antônio                          	jguxsmtq@xftr.com             	wbzyapkuqnorp       	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-73	omdkzbrfbljjh       	José Antônio                          	rfqd@hpva.com                 	adrabjjbmzjx        	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-74	rdluijkk            	José Antônio                          	qivqu@huyoaif.com             	ulrowmxvb           	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-75	qhefdng             	José Antônio                          	jbueagt@hwsuzc.com            	jvvneiqpqbz         	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-76	mzbyaref            	José Antônio                          	hechxjjp@lwcpm.com            	jmmyirilinw         	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-77	vbjguserojqxliux    	José Antônio                          	qzookk@nehqzmf.com            	qjgev               	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-78	tyzhio              	José Antônio                          	pvpjw@fjgaoxs.com             	hbmpnbaxm           	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-79	varlumqfgpt         	José Antônio                          	whia@rwsuka.com               	ladkrorhlsdwou      	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-80	fgernhsyvqwzd       	José Antônio                          	btthcnz@dzzqluaz.com          	vxteuzzcekvi        	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-81	vgphplzcuvajoinmf   	José Antônio                          	sxoenmk@ixardx.com            	vpquke              	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-82	dbcgpu              	José Antônio                          	hnddnof@ftts.com              	ugvnarwabx          	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-83	ylpxnyrys           	José Antônio                          	ygpreqn@pffvsg.com            	silznn              	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-84	mzgmnyrkfymvd       	José Antônio                          	pnbuasco@mdeb.com             	gfukztmuemffkbfw    	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-85	pvxt                	José Antônio                          	mhgs@ytdi.com                 	gnwdmmc             	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-86	anlgaxufvtbcycswv   	José Antônio                          	soac@sidg.com                 	grhdpnnsgloe        	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-87	ksnllkaio           	José Antônio                          	yluodl@ujdj.com               	dtsbfaivhraprqok    	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-88	hlawfbb             	José Antônio                          	desuj@oamkd.com               	pnkneikwtlj         	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-89	fexicjod            	José Antônio                          	ornar@ptmryprb.com            	mknethfnbcfu        	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-90	cgnzg               	José Antônio                          	tfshgy@ztchmbi.com            	jtjfsrlucgsn        	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-91	amht                	José Antônio                          	plafd@dlmtkm.com              	nhcdgghhh           	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-92	icygpzouqecnsorjlh  	José Antônio                          	wqoqxbr@rqnlc.com             	zklfminvxhtmgtfq    	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-93	rzuwyxoofoeaas      	José Antônio                          	eiimovx@fvzz.com              	marvtgmxohisewc     	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-94	nliecowgluf         	José Antônio                          	arkwuxt@rhyiyjt.com           	ugtlkj              	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-95	mgmi                	José Antônio                          	usqekvdi@fjyl.com             	fqis                	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-96	vhwdzjviv           	José Antônio                          	bglpdvn@bsidpfwq.com          	brpxrnmatvtyqwrs    	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-97	cdblhbmyfoeew       	José Antônio                          	cdyw@vbtls.com                	fonyuglcupbor       	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-98	cazzppxflcijnfu     	José Antônio                          	vwtzt@ljhs.com                	dpzpwfjd            	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-99	iuco                	José Antônio                          	cmvubnpg@zyjd.com             	wtebonsfzzjuwvf     	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-100	ukbbrppvwr          	José Antônio                          	tuyzqu@ljzmrv.com             	rjsfygkrnx          	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-101	mxbrsuaa            	José Antônio                          	mvmtqzb@rczpc.com             	gljkdcl             	Rua Foo Casa Bar                        	0	0	3	0.000000	0
-102	zckwutidkzanznhfa   	José Antônio                          	kniq@mvovzuve.com             	ffjosyx             	Rua Foo Casa Bar                        	0	0	3	0.000000	0
+1	jose123             	José Augusto                           	joao@antonio.com              	987654              	Rua Foo Casa Bar                        	0	0	3	0.000000	0	2	amandalinda         	Amanda Nunes                            	karol@diego.com               	987654              	Rua Foo 2 Casa Bar                      	3	1	3	0.000000	0	0
+0
+3	duyjln              	José Antônio                          	wkkd@nytwmvk.com              	rspl                	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+4	zoperjyrbubnqd      	José Antônio                          	myxcp@gygjl.com               	mzbqadsmftzoixv     	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+5	uiahceeuifmc        	José Antônio                          	chtzb@vnkbp.com               	uyzfcdgswhecbolmbi  	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+6	vlgjdbly            	José Antônio                          	euipkzpb@sqjelrc.com          	jygxrbpxdnquzghd    	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+7	nqinddgxzyu         	José Antônio                          	izmheavp@tcxwabkc.com         	imcpbzdhhuqi        	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+8	hhbkonkfrmrwoll     	José Antônio                          	ubcwy@ghlhqx.com              	jcyupeaizfz         	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+9	okyrchfnksc         	José Antônio                          	bzorbko@mxjy.com              	frcvksatrl          	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+10	novaksgi            	José Antônio                          	lmaqfqhn@ivgnap.com           	nisd                	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+11	auxwdgxbbcjl        	José Antônio                          	uokhjv@rdgnnice.com           	fcpvdmfecekcmrhc    	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+12	cglcn               	José Antônio                          	saxitv@ilznbhcn.com           	ikikhzxbsdpy        	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+13	ybgk                	José Antônio                          	rfrophv@nagrd.com             	xcsogv              	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+14	xdntckc             	José Antônio                          	otntl@wiqpme.com              	ycwosq              	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+15	afrxelfbr           	José Antônio                          	oyczt@tqbye.com               	loowyvahg           	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+16	blfrqgwcemaafahtm   	José Antônio                          	jysl@anutkk.com               	dwpxv               	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+17	ibomykoheon         	José Antônio                          	puuqiokr@oouzhscu.com         	xcuutmlpqyxnyy      	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+18	gnppzwmvng          	José Antônio                          	nxwgm@fwwfgqj.com             	svqxrqmvqonfbbmxda  	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+19	nlngvzgkuoe         	José Antônio                          	gtnbd@fgeat.com               	svrkatwayswuxdipwx  	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+20	xekxfscebweld       	José Antônio                          	gwhk@rtmpgxfx.com             	epdoadknihimla      	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+21	axiwgtgrh           	José Antônio                          	xwrn@pmgcvqty.com             	kymkedbllpfmyhyma   	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+22	sckizlrohovz        	José Antônio                          	bwvjd@ydevgx.com              	ezlrpyj             	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+23	rcphoukwdffmromax   	José Antônio                          	knoqld@zhoe.com               	qdcgduefbngubpmrdf  	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+24	ksxumqwoc           	José Antônio                          	gomkxqf@yfkdoyno.com          	ewucbzhswqlckc      	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+25	pytaebium           	José Antônio                          	eyjhp@rhedbr.com              	ebokgmhay           	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+26	ejxmlxy             	José Antônio                          	oohen@uiqma.com               	xinyd               	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+27	rttxnufyjvpdxbu     	José Antônio                          	yjzc@luvs.com                 	mdimu               	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+28	iuqhyxhcvprvvsqto   	José Antônio                          	iqhuaps@rpky.com              	uashupcqyzhbnveqek  	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+29	gfybicypr           	José Antônio                          	vwcy@tnlzq.com                	xeojrmudccecubbros  	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+30	ryye                	José Antônio                          	ctahsxf@bkkil.com             	nhbrasurefzknkl     	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+31	hyebmzjnosgaiwpegv  	José Antônio                          	wixylyuu@vyugdo.com           	ngvbgmjvhzbgc       	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+32	jxmoxv              	José Antônio                          	uyuazb@vzdimu.com             	ddthuauwdyecykedla  	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+33	ghjxnorrymcmob      	José Antônio                          	shmhf@ulvurhy.com             	akrrxqxhineahyb     	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+34	uteadaydd           	José Antônio                          	gdlovonu@pazrjyz.com          	sqssseqhongeqynowd  	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+35	spuwjjaqicjtqleu    	José Antônio                          	ktddmr@rfawmyn.com            	qqiuqm              	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+36	awbsr               	José Antônio                          	iyky@nihnfjb.com              	enpv                	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+37	oelcwg              	José Antônio                          	olwlsjx@nabinguf.com          	bzxhxaqft           	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+38	rtkobprqjowk        	José Antônio                          	mfytb@qftx.com                	pdpwjmaqhs          	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+39	ykgxvfihgsvlnzgul   	José Antônio                          	nhcvddn@blxky.com             	gqoy                	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+40	hdgopvrkevfhmjvx    	José Antônio                          	urij@afugtr.com               	azctqdgiltulfkjipm  	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+41	uiyd                	José Antônio                          	klkqfnch@cayz.com             	eczu                	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+42	dnmqbgkkfaz         	José Antônio                          	etnlpq@bxuqw.com              	kyemdh              	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+43	jekwfrlitytxk       	José Antônio                          	laknt@xkflfjz.com             	tsll                	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+44	ajvpunuatl          	José Antônio                          	rrjjflvt@yphyr.com            	lladbtmi            	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+45	hzdjstogixbibk      	José Antônio                          	tjvcc@wbloq.com               	ankfvp              	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+46	hjrat               	José Antônio                          	bngl@mqigjgp.com              	vbktbrtmqkm         	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+47	sbemlvyq            	José Antônio                          	fszqqpzw@kauy.com             	zuqtl               	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+48	davvfwghi           	José Antônio                          	pwaish@hhnexp.com             	rfvjhicrbm          	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+49	maqdxvurqvc         	José Antônio                          	rukho@qixqki.com              	gurqngclw           	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+50	kymz                	José Antônio                          	diwanabn@ngyj.com             	grbtmbzqamyov       	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+51	mhpsnrwl            	José Antônio                          	ntdm@uvjt.com                 	ocyjvygueo          	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+52	ilxnnbqpls          	José Antônio                          	iueihkf@vfwz.com              	qasvcvmgxit         	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+53	byrjmgughk          	José Antônio                          	xhsjjqa@xfhp.com              	otfemn              	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+54	cjdwbbnsgrjxce      	José Antônio                          	pnxde@gpncnya.com             	sdxsxxwui           	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+55	pvpids              	José Antônio                          	ehwtfjjk@vgns.com             	jscrwuhw            	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+56	xzzj                	José Antônio                          	jfepn@ugpkrsin.com            	lgkfjicb            	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+57	plytibbv            	José Antônio                          	nobnshda@ivkhlwru.com         	qrwmwysfkzwpz       	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+58	ccbkrtoz            	José Antônio                          	qbtpnxpq@dasqb.com            	sgflubbfnhxz        	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+59	ilpqmjlmrooqrnxzb   	José Antônio                          	tndbit@abrosxag.com           	vmzic               	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+60	jlusmpkzeszoofj     	José Antônio                          	kldz@kiphric.com              	ajsvqvlcmovdgdfuwd  	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+61	yhomqs              	José Antônio                          	wklmiv@clifg.com              	mjghqwpzftkmi       	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+62	zgpalge             	José Antônio                          	janil@dghzkvdz.com            	byndmuymupzuar      	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+63	tkujakg             	José Antônio                          	rkhcbqv@mmkdrw.com            	drehzd              	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+64	skwfeka             	José Antônio                          	pnnyatdg@cgwjk.com            	nvcojhbc            	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+65	mtoleszvoq          	José Antônio                          	mypx@svexvuv.com              	acmv                	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+66	vharekgsci          	José Antônio                          	fhhq@kuhdpw.com               	oorapbz             	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+67	cxggzonniep         	José Antônio                          	leyyk@pzquuhci.com            	ndtoqpnamaylzqkbj   	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+68	gtwmtpuqolrkjzu     	José Antônio                          	tzfa@zcrd.com                 	lvnfjgt             	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+69	pjeauteny           	José Antônio                          	afxkanm@essiblyg.com          	euxixecduiejxfmv    	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+70	ynhwcjrswdzfplt     	José Antônio                          	scmexnov@ergnyuu.com          	dppksrsvppfbm       	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+71	jvnkxwuxxilbvs      	José Antônio                          	tmrysol@krwpj.com             	mddr                	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+72	jqgcqzysf           	José Antônio                          	qfyc@idml.com                 	gpvvixjmmbkgvuynj   	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+73	jvkdsfetczasvhir    	José Antônio                          	klfq@cltfxj.com               	tsvegjbltvlrpfrli   	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+74	btrnbwflvbxue       	José Antônio                          	amqmg@ldhmzak.com             	vttqavlcilb         	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+75	kqnvycyixtank       	José Antônio                          	xqsodzf@zmyqw.com             	vbteatuqfbtu        	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+76	juklqii             	José Antônio                          	ypggxj@mfezvtf.com            	mhppskdqq           	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+77	lmcmpyhu            	José Antônio                          	xyet@qeanrfoh.com             	hngjbosyywy         	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+78	dnyrzsnthelgf       	José Antônio                          	yaifxe@elmakg.com             	crpwkv              	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+79	kmdbxrt             	José Antônio                          	yhrc@yojh.com                 	vbrxtzhahqhr        	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+80	kxjmyskp            	José Antônio                          	fvspb@wwgjcok.com             	ufjzddwspgvuwe      	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+81	tbfjemm             	José Antônio                          	spndrwbs@ifyqvc.com           	kexiifgiirruhsq     	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+82	whyzcqoeisbvritiuz  	José Antônio                          	svhxbf@peqdagye.com           	aaccjjmsffatozdcl   	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+83	mceddjsunxkfwz      	José Antônio                          	yvxzyao@hrgpdct.com           	xpoy                	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+84	ozxqppaykv          	José Antônio                          	bodfczvv@hqaalvc.com          	faakk               	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+85	ynkjrlqyyzoglmu     	José Antônio                          	ptnmdwiy@mqjpnvk.com          	nhlsvrnxjlkkpkymkn  	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+86	moxbrcy             	José Antônio                          	pamnky@ysogdek.com            	vcwklsjvcdzpjqzzp   	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+87	ssphkgbam           	José Antônio                          	mdkd@nfix.com                 	zscavlsdqj          	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+88	lwucpahmgtxrg       	José Antônio                          	meoj@pmaozyfv.com             	klufiep             	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+89	qrtpzvlbubdzdyyk    	José Antônio                          	wxdn@xbuy.com                 	fnvwxtpe            	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+90	beeystjmxetdderxti  	José Antônio                          	hkvwd@ogbhvp.com              	sjgjabccpgnruodo    	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+91	iyapvexqyknbfijkr   	José Antônio                          	ksfvv@sedjtmm.com             	mppslffaw           	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+92	djhrnxrhdxzyao      	José Antônio                          	pfxdl@zuey.com                	usjodldcgdvlthd     	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+93	rekkzzzjged         	José Antônio                          	dwoz@ywkgg.com                	zuqdnam             	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+94	ddzqxugpekeatq      	José Antônio                          	flothmlx@vpbk.com             	ojifn               	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+95	tyxuxbflwgtpmhn     	José Antônio                          	tbsbdz@wqbnhjfy.com           	azyvadatbkpxnvjt    	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+96	esallthr            	José Antônio                          	brmpe@wbqcysbe.com            	lzdtdagrftdyjz      	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+97	tdcunseuax          	José Antônio                          	arpiylaq@cvvjexf.com          	kozhwbuclerjjdngh   	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+98	bbgzye              	José Antônio                          	xnplqiom@ledc.com             	ffmvmsfimoswt       	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+99	xuvjqgjal           	José Antônio                          	tykcqn@dxjbqv.com             	nwsawrm             	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+100	wxdby               	José Antônio                          	gglh@ghwdhva.com              	mttswolznikbcdt     	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+101	lwvz                	José Antônio                          	geixy@bgymy.com               	ltnmkfe             	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
+102	xhdx                	José Antônio                          	nybaqzi@bfpn.com              	lxcbynjlbpwt        	Rua Foo Casa Bar                        	0	0	3	0.000000	0	0
