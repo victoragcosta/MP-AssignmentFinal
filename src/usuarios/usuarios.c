@@ -17,6 +17,7 @@ static unsigned int usuarios_identificador_max = 0; /* Contador do maior id de u
  * @brief Sessão aberta
 */
 static tpUsuario *usuarios_sessao = NULL; /* Inicialmente NULL significa que não há usuário logado */
+static unsigned int usuarios_sessao_pos;
 
 /*!
  * @brief Estrutura de usuário temporário para uso do usuarios_args nas funções
@@ -107,6 +108,54 @@ static usuarios_condRet usuarios_verificaRepeticao(const char *argumento, char *
 }
 
 /*!
+ * @brief Condição de parada para encontrar identificador
+*/
+int usuarios_condParada_identificador(tpUsuario *corrente, va_list argumentos){
+  return corrente->identificador == va_arg(argumentos, unsigned int);
+}
+
+/*!
+ * @brief Condição de parada para usuario e senha corretos do login
+*/
+int usuarios_condParada_login(tpUsuario *corrente, va_list argumentos){
+  return !strcmp(corrente->usuario, va_arg(argumentos, char *)) && !strcmp(corrente->senha, va_arg(argumentos, char *));
+}
+
+/*!
+ * @brief Busca no grafo de usuários
+*/
+static usuarios_condRet usuarios_busca(int condParada(tpUsuario *, va_list), tpUsuario **retorno, unsigned int *indice ...){
+  unsigned int i = 0;
+  tpUsuario *corrente;
+  
+  va_list argumentos, passado;
+  
+  if(usuarios_grafo == NULL) return USUARIOS_FALHA_GRAFONULL;
+  
+  va_start(argumentos, indice);
+  
+  for(;i<usuarios_contador;i++){
+    corrente = (tpUsuario *)retorna_valor_vertice(usuarios_grafo, i);
+    /* Assertiva */
+    if(corrente == NULL) {
+      va_end(argumentos);
+      return USUARIOS_GRAFO_CORROMPIDO;
+    }
+    va_copy(passado, argumentos);
+    if(condParada(corrente, passado)){
+      va_end(passado);
+      if(retorno != NULL) *retorno = corrente;
+      if(indice != NULL) *indice = i;
+      return USUARIOS_SUCESSO;
+    }
+    va_end(passado);
+  }
+  
+  va_end(argumentos);
+  return USUARIOS_FALHA_DADOSINCORRETOS;
+}
+
+/*!
  * @brief Função leitora de string em um arquivo de dados
 */
 static void usuarios_lerString(FILE *arquivo, char *dstStr, unsigned int limite){
@@ -162,7 +211,9 @@ usuarios_condRet usuarios_carregarArquivo(){
   int i = 0;
   
   /* Identificadores para os amigos */
-  unsigned int identificador_A, identificador_B;
+  unsigned int identificador_A, identificador_B, posicao_A, posicao_B;
+  
+  usuarios_condRet busca;
 
   /* Dados do usuário corrente */
   tpUsuario *corrente;
@@ -170,14 +221,15 @@ usuarios_condRet usuarios_carregarArquivo(){
     corrente = (tpUsuario *)malloc(sizeof(tpUsuario));
     
     /* Lemos do arquivo */
-    fscanf(db_usuarios, "%u\t", &(corrente->identificador));
+    fscanf(db_usuarios, "%u%*[^\t]\t", &(corrente->identificador));
+    if(corrente->identificador == 0) break;
     usuarios_lerString(db_usuarios, corrente->usuario, USUARIOS_LIMITE_USUARIO);
     usuarios_lerString(db_usuarios, corrente->nome, USUARIOS_LIMITE_NOME);
     usuarios_lerString(db_usuarios, corrente->email, USUARIOS_LIMITE_EMAIL);
     usuarios_lerString(db_usuarios, corrente->senha, USUARIOS_LIMITE_SENHA);
     usuarios_lerString(db_usuarios, corrente->endereco, USUARIOS_LIMITE_ENDERECO);
-        
-    fscanf(db_usuarios, "%d\t%d\t%d\t%lf\t%d", 
+    
+    fscanf(db_usuarios, "%d%*[^\t]\t%d%*[^\t]\t%d%*[^\t]\t%lf%*[^\t]\t%u%*[^\t]\t%u%*[^\n]", 
       (int *)&(corrente->formaPagamento), \
       (int *)&(corrente->tipo), \
       (int *)&(corrente->estado), \
@@ -186,7 +238,7 @@ usuarios_condRet usuarios_carregarArquivo(){
       &(corrente->n_reclamacoes)
     );
     
-    /*printf("'%d'\n'%s'\n'%s'\n'%s'\n'%s'\n'%s'\n'%d'\n'%d'\n-------------\n", 
+    printf("%u|%s|%s|%s|%s|%s|%d|%d|%d|%lf|%u|%u\n", 
       corrente->identificador,  \
       corrente->usuario, \
       corrente->nome, \
@@ -194,8 +246,12 @@ usuarios_condRet usuarios_carregarArquivo(){
       corrente->senha, \
       corrente->endereco, \
       (int)corrente->formaPagamento, \
-      (int)corrente->tipo
-    );*/
+      (int)corrente->tipo, \
+      (int)corrente->estado, \
+      corrente->avaliacao, \
+      corrente->n_avaliacao, \
+      corrente->n_reclamacoes
+    );
     
     /* Atualizamos o máximo */
     if(corrente->identificador > usuarios_identificador_max)
@@ -235,15 +291,22 @@ usuarios_condRet usuarios_carregarArquivo(){
   /* Agora carregamos os amigos */
   while(!feof(db_amigos)){
     /* Lemos do arquivo */
-    fscanf(db_amigos, "%u\t%u\n", &identificador_A, &identificador_B);
-    printf("%u %u\n", identificador_A, identificador_B);
+    fscanf(db_amigos, "%*u\t%*u\n", -USUARIOS_LIMITE_INT, &identificador_A, -USUARIOS_LIMITE_INT, &identificador_B);
+    
+    /* Buscamos o identificador no grafo */
+    busca = usuarios_busca(usuarios_condParada_identificador, NULL, &posicao_A, identificador_A);
+    if(busca != USUARIOS_SUCESSO) return USUARIOS_GRAFO_CORROMPIDO;
+    
+    busca = usuarios_busca(usuarios_condParada_identificador, NULL, &posicao_B, identificador_B);
+    if(busca != USUARIOS_SUCESSO) return USUARIOS_GRAFO_CORROMPIDO;
+    
     /* Vemos se já há um arco entre eles nesta direção, uma assertiva */
-    if(grafo_busca_arco(usuarios_grafo, identificador_A, identificador_B) != NULL){
+    if(grafo_busca_arco(usuarios_grafo, posicao_A, posicao_B) != NULL){
       fclose(db_amigos);
       return USUARIOS_DB_CORROMPIDO;
     }
     
-    if(adiciona_aresta(usuarios_grafo, identificador_A, identificador_B) != SUCESSO){
+    if(adiciona_aresta(usuarios_grafo, posicao_A, posicao_B) != SUCESSO){
       fclose(db_amigos);
       return USUARIOS_FALHA_CRIARAMIZADE;
     }
@@ -340,19 +403,19 @@ usuarios_condRet usuarios_cadastro(int n, ...){
   db_usuarios = fopen(USUARIOS_DB, "a+");
   
   /* Gravamos no arquivo */
-  int fprintf_retorno = fprintf(db_usuarios, "%u\t%*s\t%*s\t%*s\t%*s\t%*s\t%d\t%d\t%d\t%lf\t%u\t%u\n", 
-    usuarios_identificador_max,  \
+  int fprintf_retorno = fprintf(db_usuarios, "%*u\t%*s\t%*s\t%*s\t%*s\t%*s\t%*d\t%*d\t%*d\t%*lf\t%*u\t%*u\n", 
+    -USUARIOS_LIMITE_INT, usuarios_identificador_max,  \
     -USUARIOS_LIMITE_USUARIO, novo->usuario, \
     -USUARIOS_LIMITE_NOME, novo->nome, \
     -USUARIOS_LIMITE_EMAIL, novo->email, \
     -USUARIOS_LIMITE_SENHA, novo->senha, \
     -USUARIOS_LIMITE_ENDERECO, novo->endereco, \
-    (int)novo->formaPagamento, \
-    (int)novo->tipo, \
-    (int)novo->estado, \
-    novo->avaliacao, \
-    novo->n_avaliacao, \
-    novo->n_reclamacoes
+    -USUARIOS_LIMITE_INT, (int)novo->formaPagamento, \
+    -USUARIOS_LIMITE_INT, (int)novo->tipo, \
+    -USUARIOS_LIMITE_INT, (int)novo->estado, \
+    -USUARIOS_LIMITE_DOUBLE, novo->avaliacao, \
+    -USUARIOS_LIMITE_INT, novo->n_avaliacao, \
+    -USUARIOS_LIMITE_INT, novo->n_reclamacoes
   );
   
   /* Adicionamos ao grafo */
@@ -378,123 +441,22 @@ usuarios_condRet usuarios_cadastro(int n, ...){
 }
 
 /*!
- * @brief Função verifica um usuário é amigo do usuário na sessão
-*/
-usuarios_relacao usuarios_verificarAmizade(unsigned int identificador){
-  unsigned int i=0;
-  tpUsuario *corrente;
-  grafo_arco *A, *B;
-  if(usuarios_grafo == NULL) return ERRO;
-  if(identificador == usuarios_sessao->identificador) return ERRO;
-  
-  A = grafo_busca_arco(usuarios_grafo, usuarios_sessao->identificador, identificador);
-  B = grafo_busca_arco(usuarios_grafo, identificador, usuarios_sessao->identificador);
-  
-  if(A != NULL && B != NULL) return AMIGOS;
-  if(A == NULL && B == NULL) return NENHUMA;
-  if(A == NULL && B != NULL) return ACONFIRMAR;
-  if(A != NULL && B == NULL) return AGUARDANDOCONFIRMACAO;
-  
-}
-
-/*!
- * @brief Função que cria parte de uma relação de amizade na sesão iniciada para algum
- * outro cliente
- *
- * Deve receber o identificador do amigo pretendido
-*/
-usuarios_condRet usuarios_criarAmizade(unsigned int identificador){
-  unsigned int i=0;
-  tpUsuario *corrente;
-  FILE *db_amigos;
-  
-  if(usuarios_grafo == NULL) return USUARIOS_FALHA_GRAFONULL;
-  
-  /* Verificamos se não é o próprio usuário querendo criar uma amizade consigo mesmo */
-  if(identificador == usuarios_sessao->identificador) return USUARIOS_AMIZADEINVALIDA;
-  
-  /* Buscamos no grafo o identificador */
-  for(;i<usuarios_contador;i++){
-    corrente = (tpUsuario *)retorna_valor_vertice(usuarios_grafo, i);
-    if(corrente == NULL) return USUARIOS_GRAFO_CORROMPIDO;
-    
-    if(corrente->identificador == identificador){
-      /* Criamos uma aresta entre eles se não existir uma */
-      if(grafo_busca_arco(usuarios_grafo, usuarios_sessao->identificador, identificador) != NULL)
-        return USUARIOS_AMIZADEJASOLICITADA;
-      
-      if(adiciona_aresta(usuarios_grafo, usuarios_sessao->identificador, identificador) == SUCESSO){
-        db_amigos = fopen(USUARIOS_DB_AMIGOS, "a+");
-        if(db_amigos == NULL) return USUARIOS_FALHACRIARAMIZADE;
-        
-        /* Gravamos no arquivo */
-        fprintf(db_amigos, "%u\t%u\n", usuarios_sessao->identificador, identificador);
-        fclose(db_amigos);
-        return USUARIOS_SUCESSO;
-        
-      }
-      else return USUARIOS_FALHACRIARAMIZADE;
-    }
-  }
-  return USUARIOS_FALHAUSUARIONAOEXISTE;
-}
-
-/*!
- * @brief Busca no grafo de usuários
-*/
-usuarios_condRet usuarios_busca(int condParada(tpUsuario *, va_list), tpUsuario **retorno, unsigned int *indice ...){
-  unsigned int i = 0;
-  tpUsuario *corrente;
-  
-  va_list argumentos, passado;
-  
-  if(usuarios_grafo == NULL) return USUARIOS_FALHA_GRAFONULL;
-  
-  va_start(argumentos, indice);
-  
-  for(;i<usuarios_contador;i++){
-    corrente = (tpUsuario *)retorna_valor_vertice(usuarios_grafo, i);
-    /* Assertiva */
-    if(corrente == NULL) {
-      va_end(argumentos);
-      return USUARIOS_GRAFO_CORROMPIDO;
-    }
-    va_copy(passado, argumentos);
-    if(condParada(corrente, passado)){
-      va_end(passado);
-      *retorno = corrente;
-      if(indice != NULL) *indice = i;
-      return USUARIOS_SUCESSO;
-    }
-    va_end(passado);
-  }
-  
-  va_end(argumentos);
-  return USUARIOS_FALHA_DADOSINCORRETOS;
-}
-
-/*!
- * @brief Condição de parada para usuario e senha corretos do login
-*/
-int usuarios_condParada_login(tpUsuario *corrente, va_list argumentos){
-  return !strcmp(corrente->usuario, va_arg(argumentos, char *)) && !strcmp(corrente->senha, va_arg(argumentos, char *));
-}
-
-/*!
  * @brief Buscamos a conta correspondente ao login e senha passados
 */
 usuarios_condRet usuarios_login(char *usuario, char *senha){
   tpUsuario *corrente;
   usuarios_condRet busca;
+  unsigned int posicao;
   if(usuarios_sessao != NULL) return USUARIOS_FALHA_SESSAOABERTA;
   
-  busca = usuarios_busca(usuarios_condParada_login, &corrente, NULL, usuario, senha);
+  busca = usuarios_busca(usuarios_condParada_login, &corrente, &posicao, usuario, senha);
   
   if(busca != USUARIOS_SUCESSO) return busca;
   
   /* Vemos se o usuário está ativo */
   if(corrente->estado == ATIVO) {
     usuarios_sessao = corrente;
+    usuarios_sessao_pos = posicao;
     return USUARIOS_SUCESSO;
   }
   else return USUARIOS_FALHA_INATIVO;
@@ -506,14 +468,8 @@ usuarios_condRet usuarios_login(char *usuario, char *senha){
 
 usuarios_condRet usuarios_logout(){
   usuarios_sessao = NULL;
+  usuarios_sessao_pos = 0; /* Não é fator de verificação da sessão, então pode ser qualquer valor */
   return USUARIOS_SUCESSO;
-}
-
-/*!
- * @brief Condição de parada para encontrar identificador
-*/
-int usuarios_condParada_identificador(tpUsuario *corrente, va_list argumentos){
-  return corrente->identificador == va_arg(argumentos, unsigned int);
 }
 
 /*!
@@ -535,7 +491,7 @@ int usuarios_condParada_identificador(tpUsuario *corrente, va_list argumentos){
  * usuarios_buscaLimitada(5, &dados, &pos);
  * @endcode
 */
-usuarios_condRet usuarios_buscaLimitada(unsigned int identificador, tpUsuario **retorno, unsigned int *indice){  
+static usuarios_condRet usuarios_buscaLimitada(unsigned int identificador, tpUsuario **retorno, unsigned int *indice){  
   tpUsuario *corrente;
   usuarios_condRet busca;
   /* Se passado 0 retornamos o usuário da sessão */
@@ -552,6 +508,80 @@ usuarios_condRet usuarios_buscaLimitada(unsigned int identificador, tpUsuario **
     }
   }
   else *retorno = usuarios_sessao;
+}
+
+/*!
+ * @brief Função verifica um usuário é amigo do usuário na sessão
+*/
+usuarios_relacao usuarios_verificarAmizade(unsigned int identificador){
+  unsigned int i=0, posicao;
+  tpUsuario *corrente;
+  grafo_arco *A, *B;
+  usuarios_condRet busca;
+  if(usuarios_grafo == NULL) return ERRO;
+  
+  /* Verificamos se há sessão */
+  if(usuarios_sessao == NULL) return ERRO;
+  
+  /* Buscamos o identificador no grafo */
+  busca = usuarios_busca(usuarios_condParada_identificador, &corrente, &posicao, identificador);
+  if(busca != USUARIOS_SUCESSO) return ERRO;
+  
+  if(identificador == usuarios_sessao->identificador) return ERRO;
+  
+  A = grafo_busca_arco(usuarios_grafo, usuarios_sessao_pos, posicao);
+  B = grafo_busca_arco(usuarios_grafo, posicao, usuarios_sessao_pos);
+  
+  if(A != NULL && B != NULL) return AMIGOS;
+  if(A == NULL && B == NULL) return NENHUMA;
+  if(A == NULL && B != NULL) return ACONFIRMAR;
+  if(A != NULL && B == NULL) return AGUARDANDOCONFIRMACAO;
+  
+}
+
+/*!
+ * @brief Função que cria parte de uma relação de amizade na sesão iniciada para algum
+ * outro cliente
+ *
+ * Deve receber o identificador do amigo pretendido
+*/
+usuarios_condRet usuarios_criarAmizade(unsigned int identificador){
+  unsigned int i=0;
+  tpUsuario *corrente;
+  FILE *db_amigos;
+  
+  if(usuarios_grafo == NULL) return USUARIOS_FALHA_GRAFONULL;
+  
+  /* Verificamos se há sessão */
+  if(usuarios_sessao == NULL) return USUARIOS_FALHA_SESSAONULA;
+  
+  /* Verificamos se não é o próprio usuário querendo criar uma amizade consigo mesmo */
+  if(identificador == usuarios_sessao->identificador) return USUARIOS_AMIZADEINVALIDA;
+  
+  /* Buscamos no grafo o identificador */
+  for(;i<usuarios_contador;i++){
+    corrente = (tpUsuario *)retorna_valor_vertice(usuarios_grafo, i);
+    if(corrente == NULL) return USUARIOS_GRAFO_CORROMPIDO;
+    
+    if(corrente->identificador == identificador){
+      /* Criamos uma aresta entre eles se não existir uma */
+      if(grafo_busca_arco(usuarios_grafo, usuarios_sessao_pos, i) != NULL)
+        return USUARIOS_AMIZADEJASOLICITADA;
+      
+      if(adiciona_aresta(usuarios_grafo, usuarios_sessao_pos, i) == SUCESSO){
+        db_amigos = fopen(USUARIOS_DB_AMIGOS, "a+");
+        if(db_amigos == NULL) return USUARIOS_FALHACRIARAMIZADE;
+        
+        /* Gravamos no arquivo */
+        fprintf(db_amigos, "%*u\t%*u\n", -USUARIOS_LIMITE_INT, usuarios_sessao->identificador, -USUARIOS_LIMITE_INT, identificador);
+        fclose(db_amigos);
+        return USUARIOS_SUCESSO;
+        
+      }
+      else return USUARIOS_FALHACRIARAMIZADE;
+    }
+  }
+  return USUARIOS_FALHAUSUARIONAOEXISTE;
 }
 
 /*!
@@ -643,21 +673,34 @@ usuarios_condRet usuarios_atualizarDados(unsigned int identificador, char *nomeD
   db_usuarios = fopen(USUARIOS_DB, "r+");
   if(db_usuarios == NULL) return USUARIOS_FALHA_LERDB;
   
-  fseek(db_usuarios, (corrente->identificador-1)*174, SEEK_SET);
+  fseek(db_usuarios, (corrente->identificador-1)*(
+    USUARIOS_LIMITE_INT + 1 +
+    USUARIOS_LIMITE_USUARIO + 1 +
+    USUARIOS_LIMITE_NOME + 1 +
+    USUARIOS_LIMITE_EMAIL + 1 +
+    USUARIOS_LIMITE_SENHA + 1 +
+    USUARIOS_LIMITE_ENDERECO + 1 +
+    USUARIOS_LIMITE_INT + 1 +
+    USUARIOS_LIMITE_INT + 1 +
+    USUARIOS_LIMITE_INT + 1 +
+    USUARIOS_LIMITE_DOUBLE + 1 +
+    USUARIOS_LIMITE_INT + 1 +
+    USUARIOS_LIMITE_INT + 1
+	), SEEK_SET);
   
-  int fprintf_retorno = fprintf(db_usuarios, "%u\t%*s\t%*s\t%*s\t%*s\t%*s\t%d\t%d\t%d\t%lf\t%u\t%u\n", 
-    corrente->identificador,  \
+  int fprintf_retorno = fprintf(db_usuarios, "%*u\t%*s\t%*s\t%*s\t%*s\t%*s\t%*d\t%*d\t%*d\t%*lf\t%*u\t%*u\n", 
+    -USUARIOS_LIMITE_INT, corrente->identificador,  \
     -USUARIOS_LIMITE_USUARIO, corrente->usuario, \
     -USUARIOS_LIMITE_NOME, corrente->nome, \
     -USUARIOS_LIMITE_EMAIL, corrente->email, \
     -USUARIOS_LIMITE_SENHA, corrente->senha, \
     -USUARIOS_LIMITE_ENDERECO, corrente->endereco, \
-    (int)corrente->formaPagamento, \
-    (int)corrente->tipo, \
-    (int)corrente->estado, \
-    corrente->avaliacao, \
-    corrente->n_avaliacao, \
-    corrente->n_reclamacoes
+    -USUARIOS_LIMITE_INT, (int)corrente->formaPagamento, \
+    -USUARIOS_LIMITE_INT, (int)corrente->tipo, \
+    -USUARIOS_LIMITE_INT, (int)corrente->estado, \
+    -USUARIOS_LIMITE_DOUBLE, corrente->avaliacao, \
+    -USUARIOS_LIMITE_INT, corrente->n_avaliacao, \
+    -USUARIOS_LIMITE_INT, corrente->n_reclamacoes
   );
   
   fclose(db_usuarios);
@@ -677,10 +720,25 @@ usuarios_condRet usuarios_limpar(){
 }
 
 /*!
+ * @brief Função que retorna o identificador máximo de usuário do programa
+ * 
+ * Serve para mostrar os usuários do programa pois o identificador é 
+ * único e ordenado de 1,2,3,...,max
+ *
+ * Para mostrar mais dados basta rodar a função usuarios_retornaDados
+*/
+unsigned int usuarios_maxIdentificador(){
+  return usuarios_identificador_max;
+}
+
+/*!
  * @brief Função que retorna uma lista de identificadores dos amigos
  * do usuário passado pretendido
+ *
+ * Retorna por referência um array de unsigned int
+ * positivo.
 */
-usuarios_condRet usuarios_listarAmigos(unsigned int identificador) {
+usuarios_condRet usuarios_listarAmigos(unsigned int identificador, usuarios_uintarray *retorno) {
   tpUsuario *nodo, *corrente;
   grafo_lista_no *listaVizinhos;
   unsigned int posicaoGrafo;
@@ -689,6 +747,11 @@ usuarios_condRet usuarios_listarAmigos(unsigned int identificador) {
   usuarios_buscaLimitada(identificador, &nodo, &posicaoGrafo);
   if(nodo == NULL) return USUARIOS_FALHA_ACESSORESTRITO;
   
+  /* Geramos o vetor */
+  //*retorno = (usuarios_uintarray *)malloc(sizeof(usuarios_uintarray));
+  retorno->length = 0;
+  retorno->array = NULL;
+  
   /* Buscamos os nós vizinhos */
   listaVizinhos = vizinhos(usuarios_grafo, posicaoGrafo);
   for(;listaVizinhos != NULL;listaVizinhos=(grafo_lista_no *)listaVizinhos->prox_no){
@@ -696,9 +759,11 @@ usuarios_condRet usuarios_listarAmigos(unsigned int identificador) {
     
     /* Verificamos se há um arco vindo no sentido contrário */
     if(adjacente(usuarios_grafo, listaVizinhos->valor, posicaoGrafo) == ADJACENTES)  {
-      printf("%u\n", corrente->identificador);
+      retorno->array = (unsigned int *)realloc(retorno->array, (++retorno->length)*sizeof(unsigned int));
+      retorno->array[retorno->length-1] = corrente->identificador;
     }
   }
+  
   return USUARIOS_SUCESSO;
   
 }

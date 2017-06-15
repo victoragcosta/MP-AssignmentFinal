@@ -15,6 +15,8 @@
 #define USUARIOS_LIMITE_SENHA 20
 #define USUARIOS_LIMITE_ENDERECO 40
 #define USUARIOS_LIMITE_EMAIL 30
+#define USUARIOS_LIMITE_DOUBLE 9
+#define USUARIOS_LIMITE_INT 4
 
 /*!
  * @brief Arquivos do banco de dados a respeito dos usuários
@@ -100,6 +102,7 @@ typedef enum {
 	USUARIOS_FALHA_SESSAOABERTA,
 	USUARIOS_FALHA_LIMPAR,
 	USUARIOS_FALHA_FECHARSESSAO,
+	USUARIOS_FALHA_SESSAONULA,
 	USUARIOS_FALHA_CARACTERESILEGAIS,
 	USUARIOS_DB_CORROMPIDO,
 	USUARIOS_GRAFO_CORROMPIDO,
@@ -133,6 +136,14 @@ typedef struct usuarios_cadastro_argumentos {
 	char *destino;
 } usuarios_cadastro_argumentos;
 
+/*!
+ * @brief Estrutura de array de inteiros
+*/
+typedef struct usuarios_uintarray {
+  unsigned int length;
+  unsigned int *array;
+} usuarios_uintarray;
+
 usuarios_condRet usuarios_cadastro(int, ...);
 usuarios_condRet usuarios_carregarArquivo();
 usuarios_condRet usuarios_login(char *, char *);
@@ -142,7 +153,7 @@ usuarios_condRet usuarios_limpar();
 usuarios_condRet usuarios_criarAmizade(unsigned int);
 usuarios_relacao usuarios_verificarAmizade(unsigned int);
 usuarios_condRet usuarios_atualizarDados(unsigned int, char *, ...);
-usuarios_condRet usuarios_listarAmigos(unsigned int);
+usuarios_condRet usuarios_listarAmigos(unsigned int, usuarios_uintarray *);
 
 #endif
 

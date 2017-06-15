@@ -1,6 +1,6 @@
 #include <stdlib.h>
 #include <stdio.h>
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
 #include "usuarios.h"
 #include "aleatorio.h"
 
@@ -103,6 +103,7 @@ TEST(Usuarios, DadosRetorno){
 
 TEST(Usuarios, AlterarDadosSessao){
 	char *teste_nome;
+	int teste_n_reclamacoes;
 	usuarios_estado_de_usuario teste_estado;
 	EXPECT_EQ(usuarios_atualizarDados(0, (char *)"nome", (char *)"José Felipe"), USUARIOS_SUCESSO);
 	EXPECT_EQ(usuarios_retornaDados(0, (char *)"nome", (void *)&teste_nome), USUARIOS_SUCESSO);
@@ -119,6 +120,9 @@ TEST(Usuarios, AlterarDadosSessao){
 	EXPECT_EQ(usuarios_atualizarDados(0, (char *)"estado", ATIVO), USUARIOS_SUCESSO);
 	EXPECT_EQ(usuarios_retornaDados(0, (char *)"estado", (void *)&teste_estado), USUARIOS_SUCESSO);
 	EXPECT_EQ(teste_estado, ATIVO);
+	EXPECT_EQ(usuarios_atualizarDados(0, (char *)"n_reclamacoes", 5), USUARIOS_SUCESSO);
+	EXPECT_EQ(usuarios_retornaDados(0, (char *)"n_reclamacoes", (void *)&teste_n_reclamacoes), USUARIOS_SUCESSO);
+	EXPECT_EQ(teste_n_reclamacoes, 5);
 	EXPECT_EQ(usuarios_logout(), USUARIOS_SUCESSO);
 	
 }
@@ -150,18 +154,28 @@ TEST(Usuarios, lerArquivo){
 }
 
 TEST(Amizade, criarAmizade){
+  unsigned int i;
+  usuarios_uintarray a;
 	EXPECT_EQ(usuarios_login((char *)"jose123", (char *)"987654"), USUARIOS_SUCESSO);
 	EXPECT_EQ(usuarios_criarAmizade(2), USUARIOS_SUCESSO);
 	EXPECT_EQ(usuarios_verificarAmizade(2), AGUARDANDOCONFIRMACAO);
 	EXPECT_EQ(usuarios_criarAmizade(2), USUARIOS_AMIZADEJASOLICITADA);
 	EXPECT_EQ(usuarios_verificarAmizade(2), AGUARDANDOCONFIRMACAO);
 	
+	/* Mostramos os amigos */
+	usuarios_listarAmigos(1, &a);
+	for(i=0;i<a.length;i++) printf("ID AMIGO: %u\n", a.array[i]);
 	EXPECT_EQ(usuarios_logout(), USUARIOS_SUCESSO);
+	
 	EXPECT_EQ(usuarios_login((char *)"amandalinda", (char *)"987654"), USUARIOS_SUCESSO);
 	EXPECT_EQ(usuarios_verificarAmizade(1), ACONFIRMAR);
 	EXPECT_EQ(usuarios_criarAmizade(1), USUARIOS_SUCESSO);
 	EXPECT_EQ(usuarios_verificarAmizade(1), AMIGOS);
-  usuarios_listarAmigos(1);
+	usuarios_listarAmigos(1, &a);
+	
+	/* Mostramos os amigos */
+	for(i=0;i<a.length;i++) printf("ID AMIGO: %u\n", a.array[i]);
+	
 	EXPECT_EQ(usuarios_logout(), USUARIOS_SUCESSO);
 }
 
