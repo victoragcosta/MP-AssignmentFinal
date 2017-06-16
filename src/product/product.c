@@ -50,15 +50,7 @@ errorLevel CopyProduct(product *copy, product *original) {
 errorLevel CreateProduct(char name[75], productType type, double price,
 int popularity, product *new_product) {
 
-  /*
-    Um produto não pode ter seu preço negativo ou maior que 1.000.000,00 nem
-    ter sua popularidade negativa ou maior que 100. A função também não aceita
-    receber um endereço que aponte para NULL. Caso uma dessas condições seja
-    quebrada, a função retorna Illegal_argument.
-   */
-
-  if(new_product == NULL || price <= 0 || price >= 1000000 || popularity < 0
-     || popularity > 100)
+  if(new_product == NULL || !ValidPrice(price) || !ValidPopularity(popularity))
     return Illegal_argument;
 
   strcpy(new_product->name, name);
@@ -96,5 +88,39 @@ int CompareProducts(product *first, product *second) {
 
   else
     return 1;
+
+}
+
+int ValidPrice(double price) {
+
+  /* Um produto não pode ter seu preço negativo ou maior que 1.000.000,00. */
+
+  if(price > 0 && price <= 1000000)
+    return 1;
+
+  else
+    return 0;
+
+}
+
+int ValidPopularity(int popularity) {
+
+  /* Um produto não pode ter sua popularidade negativa ou maior que 100. */
+
+  if(popularity >= 0 && popularity <= 100)
+    return 1;
+
+  else
+    return 0;
+
+}
+
+int ValidProduct(product *item) {
+
+  else if(ValidPrice(item->price) && ValidPopularity(item->popularity))
+    return 1;
+
+  else
+    return 0;
 
 }

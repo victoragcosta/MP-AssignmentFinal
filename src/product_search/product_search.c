@@ -22,16 +22,7 @@ errorLevel AddProduct(product *new_product, productList *list) {
 
   int i, empty_slot;
 
-  /*
-    Um produto não pode ter seu preço negativo ou maior que 1.000.000,00 nem
-    ter sua popularidade negativa ou maior que 100. A função também não aceita
-    receber um endereço que aponte para NULL. Caso uma dessas condições seja
-    quebrada, a função retorna Illegal_argument.
-   */
-
-  if(new_product == NULL || new_product->price <= 0
-     || new_product->price >= 1000000 || new_product->popularity < 0
-     || new_product->popularity > 100)
+  if(new_product == NULL || !ValidProduct(new_product))
       return Illegal_argument;
 
   /*
@@ -39,15 +30,9 @@ errorLevel AddProduct(product *new_product, productList *list) {
     de produtos.
    */
 
-  for (i = 0; i < (list->size); ++i) {
-
-    if(!strcmp(new_product->name, list->items[i].name)
-       && new_product->type == list->items[i].type
-       && new_product->price == list->items[i].price
-       && new_product->popularity == list->items[i].popularity)
+  for (i = 0; i < (list->size); ++i)
+    if(!CompareProducts(&(list->items[i]), new_product))
       return Failure;
-
-  }
 
   /*
     Caso o produto passado como argumento contenha campos válidos e ainda não
@@ -155,12 +140,7 @@ errorLevel DeleteProduct (int index, productList *list) {
 
   int i;
 
-  /*
-    O índice do produto não pode ser negativo ou maior que o tamanho da lista,
-    pois isso acessaria uma área da memória fora do vetor de produtos.
-   */
-
-  if(index < 0 || index >= list->size) {
+  if(!ValidIndex(index, list->size)) {
     return Illegal_argument;
   }
 
@@ -258,6 +238,11 @@ errorLevel SearchProduct(char query[75], productList *list,
   if(specifics == NULL)
     return Illegal_argument;
 
+  /*
+    Deve-se limpar a lista de resultados da busca para evitar qualquer falso
+    positivo.
+   */
+
   CleanProductList(matches);
 
   /*
@@ -270,12 +255,7 @@ errorLevel SearchProduct(char query[75], productList *list,
   for (i = 0; i < (list->size); ++i) {
 
     if((strstr(list->items[i].name, query) != NULL)
-      && (specifics->type == All
-      || specifics->type == list->items[i].type)
-      && (list->items[i].price >= specifics->minimum_price
-      && list->items[i].price <= specifics->maximum_price)
-      && (list->items[i].popularity >= specifics->minimum_popularity
-      && list->items[i].popularity <= specifics->maximum_popularity)) {
+      && MatchesSpecification(&(list->items[i]), specifics)) {
 
       AddProduct(&(list->items[i]), matches);
 
@@ -307,19 +287,40 @@ errorLevel SearchProduct(char query[75], productList *list,
 
 errorLevel SelectProduct(int index, productList *list, product *selection) {
 
-  if(selection == NULL)
-    return Illegal_argument;
-
-  /*
-    O índice do produto não pode ser negativo ou maior que o tamanho da lista,
-    pois isso acessaria uma área da memória fora do vetor de produtos.
-   */
-
-  if(index >= list->size || index < 0)
+  if(selection == NULL || !ValidIndex(index, list->size))
     return Illegal_argument;
 
   CopyProduct(selection, &(list->items[index]));
 
   return Success;
+
+}
+
+int MatchesSpecification(product *item , productSpecification *specification) {
+
+  if((specification->type == All || specification->type == item->type)
+    && (item->price >= specification->minimum_price
+    && item->price <= specification->maximum_price)
+    && (item->popularity >= specification->minimum_popularity
+    && item->popularity <= specification->maximum_popularity))
+    return 1;
+
+  else
+    return 0;
+
+}
+
+int ValidIndex (int index, int list_size) {
+
+  /*
+    Um índice deve ser positivo e menor que o tamanho da lista, pois, do
+    contrário, ele acessaria uma área da memória fora do vetor da lista.
+   */
+
+  if(index >= 0 && index < list_size)
+    return 1;
+
+  else
+    return 0;
 
 }

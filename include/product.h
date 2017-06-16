@@ -50,5 +50,8 @@ typedef struct product {
 errorLevel CopyProduct(product*, product*);
 errorLevel CreateProduct(char[75], productType, double, int, product*);
 int CompareProducts(product*, product*);
+int ValidPopularity(int);
+int ValidPrice(double);
+int ValidProduct(product*);
 
 #endif  // PRODUCT_H_

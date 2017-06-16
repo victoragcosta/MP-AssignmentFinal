@@ -63,5 +63,7 @@ errorLevel InitializeProductList (productList*);
 errorLevel SearchProduct(char[75], productList*, productSpecification*,
                          productList*);
 errorLevel SelectProduct(int, productList*, product*);
+int MatchesSpecification(product*, productSpecification*);
+int ValidIndex (int, int);
 
 #endif  // PRODUCT_SEARCH_H_
