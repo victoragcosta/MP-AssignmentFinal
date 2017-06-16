@@ -1,5 +1,10 @@
 // Módulo de pesquisa de produtos - Cabeçalho.
 
+/**
+ * @file product_search.h
+ * @brief Cabeçalho do módulo de busca de produtos.
+ */
+
 #ifndef PRODUCT_SEARCH_H_
 #define PRODUCT_SEARCH_H_
 
@@ -13,6 +18,21 @@
 /**
  * @typedef productList
  * @brief Lista de produtos.
+ *
+ * Não pode conter produtos repetidos.
+ *
+ * Importante: Aloca dinamicamente o vetor que contém os produtos. Tal memória
+ * deve ser liberada chamando-se a função CleanProductList(productList*) ou
+ * por meio da função free(productList.items).
+ *
+ * Exemplo:
+ *
+ *  productList lista_exemplo;
+ *
+ *  (Utilização da lista_exemplo)
+ *
+ *  CleanProductList(&lista_exemplo);
+ *
  */
 
 typedef struct productList {

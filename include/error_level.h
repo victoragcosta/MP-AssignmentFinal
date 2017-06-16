@@ -1,5 +1,10 @@
 // Módulo de retorno - Cabeçalho.
 
+/**
+ * @file error_level.h
+ * @brief Cabeçalho do módulo de retorno de funções
+ */
+
 #ifndef ERROR_LEVEL_H_
 #define ERROR_LEVEL_H_
 

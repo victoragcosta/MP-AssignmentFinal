@@ -1,5 +1,10 @@
 // Módulo de produtos - Cabeçalho.
 
+/**
+ * @file product_search.h
+ * @brief Cabeçalho do módulo de produtos.
+ */
+
 #ifndef PRODUCT_H_
 #define PRODUCT_H_
 
@@ -28,7 +33,9 @@ typedef enum {
 
 /**
  * @typedef product
- * @brief Produto. Representa um bem/serviço.
+ * @brief Produto.
+ *
+ * Representa um bem/serviço.
  */
 
 typedef struct product {
