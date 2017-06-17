@@ -10,14 +10,12 @@
  * @brief Grafo de usuários
 */
 static grafo *usuarios_grafo = NULL; /* Grafo de usuários */
-static unsigned int usuarios_contador = 0; /* Contador de usuários no grafo */
-static unsigned int usuarios_identificador_max = 0; /* Contador do maior id de usuário no grafo */
+static unsigned int usuarios_contador = 0; /* Contador de id's no grafo */
 
 /*!
  * @brief Sessão aberta
 */
 static tpUsuario *usuarios_sessao = NULL; /* Inicialmente NULL significa que não há usuário logado */
-static unsigned int usuarios_sessao_pos;
 
 /*!
  * @brief Estrutura de usuário temporário para uso do usuarios_args nas funções
@@ -37,23 +35,18 @@ static usuarios_cadastro_argumentos usuarios_args[] = {
   {.validos = "endereco", .tamanho = USUARIOS_LIMITE_ENDERECO, .destino = usuarios_dadosTemp->endereco}
 };
 
+
 /*!
- * @brief Copiamos os dados de uma lista de argumentos para usuarios_dadosTemp
+ * @brief Função que retorna o identificador máximo de usuário do programa
+ * 
+ * Serve para mostrar os usuários do programa pois o identificador é 
+ * único e ordenado de 1,2,3,...,max
+ *
+ * Para mostrar mais dados basta rodar a função usuarios_retornaDados
 */
-void usuarios_copiarDadosTemp(unsigned int n, va_list argumentos){
-  unsigned int i=0,j;
-  char *argumento;
-  for(;i<n;i++){
-    argumento = va_arg(argumentos, char *);
-    for(j=0;j<usuarios_cadastro_argumentos_n;j++)
-      if(!strcmp(argumento, usuarios_args[j].validos)) strncpy(usuarios_args[j].destino, va_arg(argumentos, char *), usuarios_args[j].tamanho);
-    
-    /* Casos especiais diferentes de char * */
-    if(!strcmp(argumento, "formaPagamento")) 
-      usuarios_dadosTemp->formaPagamento = (usuarios_forma_de_pagamento)va_arg(argumentos, int);
-    if(!strcmp(argumento, "tipo")) 
-      usuarios_dadosTemp->tipo = (usuarios_tipo_usuario)va_arg(argumentos, int);
-  }
+
+int usuarios_max(){
+  return usuarios_contador;
 }
 
 /*!
@@ -73,34 +66,41 @@ void usuarios_copiarDadosTemp(unsigned int n, va_list argumentos){
 */
 static usuarios_condRet usuarios_verificaRepeticao(const char *argumento, char *dado){
   unsigned int i = 0; /* Contador dos nós */
-  tpUsuario *informacao;
+  unsigned int j = 0; /* Contador dos argumentos */
+  grafo_no *nodo;
   
   if(usuarios_grafo == NULL) return USUARIOS_FALHA_GRAFONULL;
-  /* Buscamos por um usuario igual */
+  
+  /* Selecionamos o argumento passado */
   if(!strcmp(argumento, "usuario")) {
-    for(i=0;i<usuarios_contador;i++){
-      informacao = (tpUsuario *)retorna_valor_vertice(usuarios_grafo, i);
-      /* Asertiva */
-      if(informacao == NULL) return USUARIOS_GRAFO_CORROMPIDO;
-      
+  
+    /* Primeiro usuário */
+    nodo = (grafo_no *)grafo_busca_no(usuarios_grafo, 1, 0);
+    
+    /* Percorremos o grafo */
+    for(; nodo != NULL ; nodo = (grafo_no *)nodo->prox_no) {
+    
+      if(nodo->dados == NULL) return USUARIOS_GRAFO_CORROMPIDO; /* Asertiva */
+              
       /* São iguais */ 
-      //printf("'%s' == '%s'\n", informacao->usuario, dado);
-      if(!strcmp(informacao->usuario, dado)) return USUARIOS_DADOS_REPETICAO;
+      if(!strcmp(((tpUsuario *)nodo->dados)->usuario, dado)) return USUARIOS_DADOS_REPETICAO;
     }
+    
     return USUARIOS_DADOS_OK;
   }
+  else if(!strcmp(argumento, "email")) {
   
-  /* Buscamos por um email igual (REPETIÇÃO DE CÓDIGO) */
-  if(!strcmp(argumento, "email")) {
-    for(i=0;i<usuarios_contador;i++){
-      informacao = (tpUsuario *)retorna_valor_vertice(usuarios_grafo, i);
-      /* Asertiva */
-      if(informacao == NULL) return USUARIOS_GRAFO_CORROMPIDO;
-      
+    /* Primeiro usuário */
+    nodo = (grafo_no *)grafo_busca_no(usuarios_grafo, 1, 0);
+    
+    /* Percorremos o grafo */
+    for(; nodo != NULL ; nodo = (grafo_no *)nodo->prox_no) {
+      if(nodo->dados == NULL) return USUARIOS_GRAFO_CORROMPIDO; /* Asertiva */
+              
       /* São iguais */ 
-      //printf("'%s' == '%s'\n", informacao->email, dado);
-      if(!strcmp(informacao->email, dado)) return USUARIOS_DADOS_REPETICAO;
+      if(!strcmp(((tpUsuario *)nodo->dados)->email, dado)) return USUARIOS_DADOS_REPETICAO;
     }
+    
     return USUARIOS_DADOS_OK;
   }
   
@@ -108,7 +108,7 @@ static usuarios_condRet usuarios_verificaRepeticao(const char *argumento, char *
 }
 
 /*!
- * @brief Condição de parada para encontrar identificador
+ * @brief Condição de parada para encontrar identificador DEPRECATED
 */
 int usuarios_condParada_identificador(tpUsuario *corrente, va_list argumentos){
   return corrente->identificador == va_arg(argumentos, unsigned int);
@@ -127,6 +127,7 @@ int usuarios_condParada_login(tpUsuario *corrente, va_list argumentos){
 static usuarios_condRet usuarios_busca(int condParada(tpUsuario *, va_list), tpUsuario **retorno, unsigned int *indice ...){
   unsigned int i = 0;
   tpUsuario *corrente;
+  grafo_no *nodo;
   
   va_list argumentos, passado;
   
@@ -134,8 +135,12 @@ static usuarios_condRet usuarios_busca(int condParada(tpUsuario *, va_list), tpU
   
   va_start(argumentos, indice);
   
-  for(;i<usuarios_contador;i++){
-    corrente = (tpUsuario *)retorna_valor_vertice(usuarios_grafo, i);
+  /* Primeiro usuário */
+  nodo = (grafo_no *)grafo_busca_no(usuarios_grafo, 1, 0);
+  
+  /* Percorremos o grafo */
+  for(; nodo != NULL ; nodo = (grafo_no *)nodo->prox_no) {
+    corrente = (tpUsuario *)nodo->dados;
     /* Assertiva */
     if(corrente == NULL) {
       va_end(argumentos);
@@ -208,55 +213,70 @@ usuarios_condRet usuarios_carregarArquivo(){
   }
   
   /* Índice dos usuários carregados (para acesso via funções de grafo) */
-  int i = 0;
+  int i = 1;
   
   /* Identificadores para os amigos */
-  unsigned int identificador_A, identificador_B, posicao_A, posicao_B;
+  unsigned int identificador_A, identificador_B;
   
   usuarios_condRet busca;
 
   /* Dados do usuário corrente */
   tpUsuario *corrente;
+  
   while(!feof(db_usuarios)){
     corrente = (tpUsuario *)malloc(sizeof(tpUsuario));
     
     /* Lemos do arquivo */
     fscanf(db_usuarios, "%u%*[^\t]\t", &(corrente->identificador));
     if(corrente->identificador == 0) break;
+    
+    
+    /*fscanf(db_usuarios, "%4u %20[^\t] %40[^\t]\t%30[^\t]\t%20[^\t]\t%40[^\t]\t%4d%*c%4d%*c%4d%*c%9lf%*c%4u%*c%4u\n", 
+      &(corrente->identificador),
+      corrente->usuario,
+      corrente->nome,
+      corrente->email,
+      corrente->senha,
+      corrente->endereco,
+      (int *)&(corrente->formaPagamento),
+      (int *)&(corrente->tipo),
+      (int *)&(corrente->estado),
+      &(corrente->avaliacao),
+      &(corrente->n_avaliacao),
+      &(corrente->n_reclamacoes)
+    );*/
+    
+    if(corrente->identificador == 0) break;
+    
     usuarios_lerString(db_usuarios, corrente->usuario, USUARIOS_LIMITE_USUARIO);
     usuarios_lerString(db_usuarios, corrente->nome, USUARIOS_LIMITE_NOME);
     usuarios_lerString(db_usuarios, corrente->email, USUARIOS_LIMITE_EMAIL);
     usuarios_lerString(db_usuarios, corrente->senha, USUARIOS_LIMITE_SENHA);
     usuarios_lerString(db_usuarios, corrente->endereco, USUARIOS_LIMITE_ENDERECO);
     
-    fscanf(db_usuarios, "%d%*[^\t]\t%d%*[^\t]\t%d%*[^\t]\t%lf%*[^\t]\t%u%*[^\t]\t%u%*[^\n]", 
-      (int *)&(corrente->formaPagamento), \
-      (int *)&(corrente->tipo), \
-      (int *)&(corrente->estado), \
-      &(corrente->avaliacao), \
-      &(corrente->n_avaliacao), \
+    fscanf(db_usuarios, "%d%*[^\t]\t%d%*[^\t]\t%d%*[^\t]\t%lf%*[^\t]\t%u%*[^\t]\t%u%*[^\n]\n", 
+      (int *)&(corrente->formaPagamento),
+      (int *)&(corrente->tipo),
+      (int *)&(corrente->estado),
+      &(corrente->avaliacao),
+      &(corrente->n_avaliacao),
       &(corrente->n_reclamacoes)
     );
     
     printf("%u|%s|%s|%s|%s|%s|%d|%d|%d|%lf|%u|%u\n", 
-      corrente->identificador,  \
-      corrente->usuario, \
-      corrente->nome, \
-      corrente->email, \
-      corrente->senha, \
-      corrente->endereco, \
-      (int)corrente->formaPagamento, \
-      (int)corrente->tipo, \
-      (int)corrente->estado, \
-      corrente->avaliacao, \
-      corrente->n_avaliacao, \
+      corrente->identificador,
+      corrente->usuario,
+      corrente->nome,
+      corrente->email,
+      corrente->senha,
+      corrente->endereco,
+      (int)corrente->formaPagamento,
+      (int)corrente->tipo,
+      (int)corrente->estado,
+      corrente->avaliacao,
+      corrente->n_avaliacao,
       corrente->n_reclamacoes
     );
-    
-    /* Atualizamos o máximo */
-    if(corrente->identificador > usuarios_identificador_max)
-      usuarios_identificador_max = corrente->identificador;
-    
     
     /* Adicionamos ao grafo */
     if(adiciona_vertice(usuarios_grafo, i) != SUCESSO) {
@@ -278,7 +298,7 @@ usuarios_condRet usuarios_carregarArquivo(){
   
   fclose(db_usuarios);
   
-  usuarios_contador = i; /* Número de usuários carregados */
+  usuarios_contador = i-1; /* Número de usuários carregados */
   
   /* Análogo para amigos */
   db_amigos = fopen(USUARIOS_DB_AMIGOS, "r");
@@ -291,22 +311,15 @@ usuarios_condRet usuarios_carregarArquivo(){
   /* Agora carregamos os amigos */
   while(!feof(db_amigos)){
     /* Lemos do arquivo */
-    fscanf(db_amigos, "%*u\t%*u\n", -USUARIOS_LIMITE_INT, &identificador_A, -USUARIOS_LIMITE_INT, &identificador_B);
-    
-    /* Buscamos o identificador no grafo */
-    busca = usuarios_busca(usuarios_condParada_identificador, NULL, &posicao_A, identificador_A);
-    if(busca != USUARIOS_SUCESSO) return USUARIOS_GRAFO_CORROMPIDO;
-    
-    busca = usuarios_busca(usuarios_condParada_identificador, NULL, &posicao_B, identificador_B);
-    if(busca != USUARIOS_SUCESSO) return USUARIOS_GRAFO_CORROMPIDO;
+    fscanf(db_amigos, "%u%*[^\t]\t%u%*[^\n]\n", &identificador_A, &identificador_B);
     
     /* Vemos se já há um arco entre eles nesta direção, uma assertiva */
-    if(grafo_busca_arco(usuarios_grafo, posicao_A, posicao_B) != NULL){
+    if(grafo_busca_arco(usuarios_grafo, identificador_A, identificador_B) != NULL){
       fclose(db_amigos);
       return USUARIOS_DB_CORROMPIDO;
     }
     
-    if(adiciona_aresta(usuarios_grafo, posicao_A, posicao_B) != SUCESSO){
+    if(adiciona_aresta(usuarios_grafo, identificador_A, identificador_B) != SUCESSO){
       fclose(db_amigos);
       return USUARIOS_FALHA_CRIARAMIZADE;
     }
@@ -393,7 +406,7 @@ usuarios_condRet usuarios_cadastro(int n, ...){
   if(usuarios_verificaRepeticao("email", usuarios_dadosTemp->email) != USUARIOS_DADOS_OK) return USUARIOS_USUARIOEXISTE;
   
   /* Define-se o identificador */
-  usuarios_dadosTemp->identificador = ++usuarios_identificador_max;
+  usuarios_dadosTemp->identificador = ++usuarios_contador;
   
   /* Copiamos o valor temporário para o alocado */
   novo = (tpUsuario *)malloc(sizeof(tpUsuario));
@@ -403,41 +416,47 @@ usuarios_condRet usuarios_cadastro(int n, ...){
   db_usuarios = fopen(USUARIOS_DB, "a+");
   
   /* Gravamos no arquivo */
-  int fprintf_retorno = fprintf(db_usuarios, "%*u\t%*s\t%*s\t%*s\t%*s\t%*s\t%*d\t%*d\t%*d\t%*lf\t%*u\t%*u\n", 
-    -USUARIOS_LIMITE_INT, usuarios_identificador_max,  \
-    -USUARIOS_LIMITE_USUARIO, novo->usuario, \
-    -USUARIOS_LIMITE_NOME, novo->nome, \
-    -USUARIOS_LIMITE_EMAIL, novo->email, \
-    -USUARIOS_LIMITE_SENHA, novo->senha, \
-    -USUARIOS_LIMITE_ENDERECO, novo->endereco, \
-    -USUARIOS_LIMITE_INT, (int)novo->formaPagamento, \
-    -USUARIOS_LIMITE_INT, (int)novo->tipo, \
-    -USUARIOS_LIMITE_INT, (int)novo->estado, \
-    -USUARIOS_LIMITE_DOUBLE, novo->avaliacao, \
-    -USUARIOS_LIMITE_INT, novo->n_avaliacao, \
-    -USUARIOS_LIMITE_INT, novo->n_reclamacoes
+  fprintf(db_usuarios, USUARIOS_DB_ESTRUTURA, 
+    novo->identificador,
+    novo->usuario,
+    novo->nome,
+    novo->email,
+    novo->senha,
+    novo->endereco,
+    (int)novo->formaPagamento,
+    (int)novo->tipo,
+    (int)novo->estado,
+    novo->avaliacao,
+    novo->n_avaliacao,
+    novo->n_reclamacoes
   );
   
   /* Adicionamos ao grafo */
   
-  if(adiciona_vertice(usuarios_grafo, usuarios_contador) != SUCESSO) {
+  if(adiciona_vertice(usuarios_grafo, novo->identificador) != SUCESSO) {
     fclose(db_usuarios);
     free(novo);
     return USUARIOS_FALHA_ADICIONAR_GRAFO;
   }
   
   /* Definimos o valores correntes no vértice */
-  if(muda_valor_vertice(usuarios_grafo, usuarios_contador, (void *)novo) != SUCESSO) {
+  if(muda_valor_vertice(usuarios_grafo, novo->identificador, (void *)novo) != SUCESSO) {
     fclose(db_usuarios);
     free(novo);
     return USUARIOS_FALHA_INSERIR_DADOS;
   }
-  
-  usuarios_contador++; /* Atualizamos o número de usuários */
-  
+    
   fclose(db_usuarios);
   
   return USUARIOS_SUCESSO;
+}
+
+/*!
+ * @brief Função que verifica se há uma sessão aberta
+*/
+int usuarios_sessaoAberta(){
+  if(usuarios_sessao == NULL) return 0;
+  return 1;
 }
 
 /*!
@@ -447,16 +466,16 @@ usuarios_condRet usuarios_login(char *usuario, char *senha){
   tpUsuario *corrente;
   usuarios_condRet busca;
   unsigned int posicao;
-  if(usuarios_sessao != NULL) return USUARIOS_FALHA_SESSAOABERTA;
+  if(usuarios_sessaoAberta()) return USUARIOS_FALHA_SESSAOABERTA;
   
   busca = usuarios_busca(usuarios_condParada_login, &corrente, &posicao, usuario, senha);
-  
   if(busca != USUARIOS_SUCESSO) return busca;
+  
+  if(corrente == NULL) return USUARIOS_GRAFO_CORROMPIDO;
   
   /* Vemos se o usuário está ativo */
   if(corrente->estado == ATIVO) {
     usuarios_sessao = corrente;
-    usuarios_sessao_pos = posicao;
     return USUARIOS_SUCESSO;
   }
   else return USUARIOS_FALHA_INATIVO;
@@ -468,12 +487,11 @@ usuarios_condRet usuarios_login(char *usuario, char *senha){
 
 usuarios_condRet usuarios_logout(){
   usuarios_sessao = NULL;
-  usuarios_sessao_pos = 0; /* Não é fator de verificação da sessão, então pode ser qualquer valor */
   return USUARIOS_SUCESSO;
 }
 
 /*!
- * @brief Função de busca do usuário a partir do identificador
+ * @brief Função de busca do usuário a partir do identificador DEPRECATED
  * fazendo restrição a sessão, caso o usuário não seja administrador
  *
  * Interface:
@@ -483,24 +501,21 @@ usuarios_condRet usuarios_logout(){
  * Exemplo, busca os dados *tpUsuario do usuário de identificador 5 e 
  * retorna por referência para dados.
  * @code
- * usuarios_buscaLimitada(5, &dados, NULL);
- * @endcode
- * Retorna também por referência a posição no grafo do 
- * usuário (terceiro argumento), retornado por referência
- * @code
- * usuarios_buscaLimitada(5, &dados, &pos);
+ * usuarios_buscaLimitada(5, &dados);
  * @endcode
 */
-static usuarios_condRet usuarios_buscaLimitada(unsigned int identificador, tpUsuario **retorno, unsigned int *indice){  
+static usuarios_condRet usuarios_buscaLimitada(unsigned int identificador, tpUsuario **retorno){
   tpUsuario *corrente;
-  usuarios_condRet busca;
   /* Se passado 0 retornamos o usuário da sessão */
   if(identificador){
     if(1){
         /* Buscamos o identificador caso o usuário seja ADMINISTRADOR */
-        busca = usuarios_busca(usuarios_condParada_identificador, &corrente, indice, identificador);
-        if(busca == USUARIOS_SUCESSO) *retorno = corrente;
-        return busca;
+        corrente = (tpUsuario *)retorna_valor_vertice(usuarios_grafo, identificador);
+        
+        if(corrente == NULL) return USUARIOS_GRAFO_CORROMPIDO; /* Assertiva */
+        
+        *retorno = corrente;
+        return USUARIOS_SUCESSO;
     }
     else {
       *retorno = NULL;
@@ -514,23 +529,19 @@ static usuarios_condRet usuarios_buscaLimitada(unsigned int identificador, tpUsu
  * @brief Função verifica um usuário é amigo do usuário na sessão
 */
 usuarios_relacao usuarios_verificarAmizade(unsigned int identificador){
-  unsigned int i=0, posicao;
-  tpUsuario *corrente;
+  unsigned int i=0;
   grafo_arco *A, *B;
-  usuarios_condRet busca;
+  
   if(usuarios_grafo == NULL) return ERRO;
   
   /* Verificamos se há sessão */
-  if(usuarios_sessao == NULL) return ERRO;
+  if(!usuarios_sessaoAberta()) return ERRO;
   
-  /* Buscamos o identificador no grafo */
-  busca = usuarios_busca(usuarios_condParada_identificador, &corrente, &posicao, identificador);
-  if(busca != USUARIOS_SUCESSO) return ERRO;
-  
+  /* Verificamos se não quer observar uma amizade consigo mesmo */  
   if(identificador == usuarios_sessao->identificador) return ERRO;
   
-  A = grafo_busca_arco(usuarios_grafo, usuarios_sessao_pos, posicao);
-  B = grafo_busca_arco(usuarios_grafo, posicao, usuarios_sessao_pos);
+  A = grafo_busca_arco(usuarios_grafo, usuarios_sessao->identificador, identificador);
+  B = grafo_busca_arco(usuarios_grafo, identificador, usuarios_sessao->identificador);
   
   if(A != NULL && B != NULL) return AMIGOS;
   if(A == NULL && B == NULL) return NENHUMA;
@@ -546,29 +557,32 @@ usuarios_relacao usuarios_verificarAmizade(unsigned int identificador){
  * Deve receber o identificador do amigo pretendido
 */
 usuarios_condRet usuarios_criarAmizade(unsigned int identificador){
-  unsigned int i=0;
   tpUsuario *corrente;
   FILE *db_amigos;
+  grafo_no *nodo;
   
   if(usuarios_grafo == NULL) return USUARIOS_FALHA_GRAFONULL;
   
   /* Verificamos se há sessão */
-  if(usuarios_sessao == NULL) return USUARIOS_FALHA_SESSAONULA;
+  if(!usuarios_sessaoAberta()) return USUARIOS_FALHA_SESSAONULA;
   
   /* Verificamos se não é o próprio usuário querendo criar uma amizade consigo mesmo */
   if(identificador == usuarios_sessao->identificador) return USUARIOS_AMIZADEINVALIDA;
   
   /* Buscamos no grafo o identificador */
-  for(;i<usuarios_contador;i++){
-    corrente = (tpUsuario *)retorna_valor_vertice(usuarios_grafo, i);
-    if(corrente == NULL) return USUARIOS_GRAFO_CORROMPIDO;
+  nodo = (grafo_no *)grafo_busca_no(usuarios_grafo, 1, 0); /* Primeiro usuário */
+  for(; nodo != NULL; nodo = (grafo_no *)nodo->prox_no ){
+    
+    corrente = (tpUsuario *)nodo->dados;
+    if(corrente == NULL) return USUARIOS_GRAFO_CORROMPIDO; /* Assertiva */
     
     if(corrente->identificador == identificador){
+    
       /* Criamos uma aresta entre eles se não existir uma */
-      if(grafo_busca_arco(usuarios_grafo, usuarios_sessao_pos, i) != NULL)
+      if(grafo_busca_arco(usuarios_grafo, usuarios_sessao->identificador, corrente->identificador) != NULL)
         return USUARIOS_AMIZADEJASOLICITADA;
       
-      if(adiciona_aresta(usuarios_grafo, usuarios_sessao_pos, i) == SUCESSO){
+      if(adiciona_aresta(usuarios_grafo, usuarios_sessao->identificador, corrente->identificador) == SUCESSO){
         db_amigos = fopen(USUARIOS_DB_AMIGOS, "a+");
         if(db_amigos == NULL) return USUARIOS_FALHACRIARAMIZADE;
         
@@ -589,15 +603,18 @@ usuarios_condRet usuarios_criarAmizade(unsigned int identificador){
  *
  * Se identificador for zero, retornamos os dados da sessão
 */
-usuarios_condRet usuarios_retornaDados(unsigned int identificador, char *nomeDado, void *retorno) {
+usuarios_condRet usuarios_retornaDados(unsigned int identificador, const char *nomeDado, void *retorno) {
   unsigned int i = 0;
   tpUsuario *dados;
     
   if(usuarios_grafo == NULL) return USUARIOS_FALHA_GRAFONULL;
-
-  usuarios_buscaLimitada(identificador, &dados, NULL);
-  if(dados == NULL) return USUARIOS_FALHA_ACESSORESTRITO;
   
+  /* Pegamos o nodo com o identificador passado */
+  if(identificador) dados = (tpUsuario *)retorna_valor_vertice(usuarios_grafo, identificador);
+  /* Se foi passado 0, então pega-se o da sessão */
+  else dados = usuarios_sessao;
+  
+  if(dados == NULL) return USUARIOS_GRAFO_CORROMPIDO; /* Assertiva */
   
   /* Copiamos os dados para usuarios_dadosTemp */
   memcpy(usuarios_dadosTemp, dados, sizeof(tpUsuario));
@@ -605,9 +622,11 @@ usuarios_condRet usuarios_retornaDados(unsigned int identificador, char *nomeDad
   /* Dados possíveis */
   for(;i<usuarios_cadastro_argumentos_n;i++)
     if(!strcmp(nomeDado, usuarios_args[i].validos)) {
-      *((char **)retorno) = usuarios_args[i].destino;
+      strncpy((char *)retorno, usuarios_args[i].destino, usuarios_args[i].tamanho);
     }
   /* Outros casos (não char *) */
+  if(!strcmp(nomeDado, "identificador")) 
+    *((int *)retorno) = usuarios_dadosTemp->identificador;
   if(!strcmp(nomeDado, "formaPagamento")) 
     *((usuarios_forma_de_pagamento *)retorno) = usuarios_dadosTemp->formaPagamento;
   if(!strcmp(nomeDado, "tipo")) 
@@ -628,7 +647,7 @@ usuarios_condRet usuarios_retornaDados(unsigned int identificador, char *nomeDad
 /*!
  * @brief Atualiza dados do usuário de identificador passado
 */
-usuarios_condRet usuarios_atualizarDados(unsigned int identificador, char *nomeDado, ...){
+usuarios_condRet usuarios_atualizarDados(unsigned int identificador, const char *nomeDado, ...){
   unsigned int i, j;
   usuarios_condRet busca;
   tpUsuario *corrente;
@@ -637,10 +656,13 @@ usuarios_condRet usuarios_atualizarDados(unsigned int identificador, char *nomeD
   
   if(usuarios_grafo == NULL) return USUARIOS_FALHA_GRAFONULL;
   
-  /* Buscamos o identificador */
-  usuarios_buscaLimitada(identificador, &corrente, NULL);
-  if(corrente == NULL) return USUARIOS_FALHA_ACESSORESTRITO;
-    
+  /* Pegamos o nodo com o identificador passado */
+  if(identificador) corrente = (tpUsuario *)retorna_valor_vertice(usuarios_grafo, identificador);
+  /* Se foi passado 0, então pega-se o da sessão */
+  else corrente = usuarios_sessao;
+  
+  if(corrente == NULL) return USUARIOS_GRAFO_CORROMPIDO; /* Assertiva */
+      
   va_start(arg, nomeDado);
   
   /* Analizamos os argumentos passados armazenando em usuarios_dadosTemp */
@@ -688,19 +710,19 @@ usuarios_condRet usuarios_atualizarDados(unsigned int identificador, char *nomeD
     USUARIOS_LIMITE_INT + 1
 	), SEEK_SET);
   
-  int fprintf_retorno = fprintf(db_usuarios, "%*u\t%*s\t%*s\t%*s\t%*s\t%*s\t%*d\t%*d\t%*d\t%*lf\t%*u\t%*u\n", 
-    -USUARIOS_LIMITE_INT, corrente->identificador,  \
-    -USUARIOS_LIMITE_USUARIO, corrente->usuario, \
-    -USUARIOS_LIMITE_NOME, corrente->nome, \
-    -USUARIOS_LIMITE_EMAIL, corrente->email, \
-    -USUARIOS_LIMITE_SENHA, corrente->senha, \
-    -USUARIOS_LIMITE_ENDERECO, corrente->endereco, \
-    -USUARIOS_LIMITE_INT, (int)corrente->formaPagamento, \
-    -USUARIOS_LIMITE_INT, (int)corrente->tipo, \
-    -USUARIOS_LIMITE_INT, (int)corrente->estado, \
-    -USUARIOS_LIMITE_DOUBLE, corrente->avaliacao, \
-    -USUARIOS_LIMITE_INT, corrente->n_avaliacao, \
-    -USUARIOS_LIMITE_INT, corrente->n_reclamacoes
+  fprintf(db_usuarios, USUARIOS_DB_ESTRUTURA, 
+    corrente->identificador,
+    corrente->usuario,
+    corrente->nome,
+    corrente->email,
+    corrente->senha,
+    corrente->endereco,
+    (int)corrente->formaPagamento,
+    (int)corrente->tipo,
+    (int)corrente->estado,
+    corrente->avaliacao,
+    corrente->n_avaliacao,
+    corrente->n_reclamacoes
   );
   
   fclose(db_usuarios);
@@ -720,18 +742,6 @@ usuarios_condRet usuarios_limpar(){
 }
 
 /*!
- * @brief Função que retorna o identificador máximo de usuário do programa
- * 
- * Serve para mostrar os usuários do programa pois o identificador é 
- * único e ordenado de 1,2,3,...,max
- *
- * Para mostrar mais dados basta rodar a função usuarios_retornaDados
-*/
-unsigned int usuarios_maxIdentificador(){
-  return usuarios_identificador_max;
-}
-
-/*!
  * @brief Função que retorna uma lista de identificadores dos amigos
  * do usuário passado pretendido
  *
@@ -742,10 +752,10 @@ usuarios_condRet usuarios_listarAmigos(unsigned int identificador, usuarios_uint
   tpUsuario *nodo, *corrente;
   grafo_lista_no *listaVizinhos;
   unsigned int posicaoGrafo;
-    
-  /* Devemos buscar o nodo de identificador passado */
-  usuarios_buscaLimitada(identificador, &nodo, &posicaoGrafo);
-  if(nodo == NULL) return USUARIOS_FALHA_ACESSORESTRITO;
+  
+  /* Pegamos o nodo com o identificador passado */
+  corrente = (tpUsuario *)retorna_valor_vertice(usuarios_grafo, identificador);
+  if(corrente == NULL) return USUARIOS_FALHA_ACESSORESTRITO; /* Assertiva */
   
   /* Geramos o vetor */
   //*retorno = (usuarios_uintarray *)malloc(sizeof(usuarios_uintarray));
@@ -753,12 +763,12 @@ usuarios_condRet usuarios_listarAmigos(unsigned int identificador, usuarios_uint
   retorno->array = NULL;
   
   /* Buscamos os nós vizinhos */
-  listaVizinhos = vizinhos(usuarios_grafo, posicaoGrafo);
+  listaVizinhos = vizinhos(usuarios_grafo, identificador);
   for(;listaVizinhos != NULL;listaVizinhos=(grafo_lista_no *)listaVizinhos->prox_no){
     corrente = (tpUsuario *)grafo_busca_no(usuarios_grafo, listaVizinhos->valor, 0)->dados;
     
     /* Verificamos se há um arco vindo no sentido contrário */
-    if(adjacente(usuarios_grafo, listaVizinhos->valor, posicaoGrafo) == ADJACENTES)  {
+    if(adjacente(usuarios_grafo, listaVizinhos->valor, identificador) == ADJACENTES)  {
       retorno->array = (unsigned int *)realloc(retorno->array, (++retorno->length)*sizeof(unsigned int));
       retorno->array[retorno->length-1] = corrente->identificador;
     }
@@ -767,4 +777,5 @@ usuarios_condRet usuarios_listarAmigos(unsigned int identificador, usuarios_uint
   return USUARIOS_SUCESSO;
   
 }
+
 
