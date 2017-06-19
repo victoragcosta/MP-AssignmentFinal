@@ -1,0 +1,497 @@
+\hypertarget{grafo_8h}{}\section{/home/luiz/\+Documentos/\+M\+P/\+M\+P-\/\+Proj-\/\+Final/include/grafo.h File Reference}
+\label{grafo_8h}\index{/home/luiz/\+Documentos/\+M\+P/\+M\+P-\/\+Proj-\/\+Final/include/grafo.\+h@{/home/luiz/\+Documentos/\+M\+P/\+M\+P-\/\+Proj-\/\+Final/include/grafo.\+h}}
+This graph shows which files directly or indirectly include this file\+:
+% FIG 0
+\subsection*{Classes}
+\begin{DoxyCompactItemize}
+\item 
+struct \hyperlink{structgrafo__no}{grafo\+\_\+no}
+\begin{DoxyCompactList}\small\item\em Estrutura de um nó do grafo. \end{DoxyCompactList}\item 
+struct \hyperlink{structgrafo__arco}{grafo\+\_\+arco}
+\begin{DoxyCompactList}\small\item\em Estrutura de um arco do grafo. \end{DoxyCompactList}\item 
+struct \hyperlink{structgrafo}{grafo}
+\begin{DoxyCompactList}\small\item\em Estrutura da cabeça de um grafo. \end{DoxyCompactList}\item 
+struct \hyperlink{structgrafo__lista__no}{grafo\+\_\+lista\+\_\+no}
+\begin{DoxyCompactList}\small\item\em Estrutura de uma lista de nós. \end{DoxyCompactList}\end{DoxyCompactItemize}
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{grafo_8h_a3d627c84159a5a51c9ceb84f916911c5}{grafo\+\_\+nome\+\_\+tamanho}~20
+\item 
+\#define \hyperlink{grafo_8h_a6e52d6d9568df24931143a05ebfa1dee}{C\+O\+R\+\_\+\+N\+O\+R\+M\+AL}~\char`\"{}\textbackslash{}x1B\mbox{[}0m\char`\"{}
+\item 
+\#define \hyperlink{grafo_8h_a3552292a94ed29cf28b15c8a447da431}{C\+O\+R\+\_\+\+V\+E\+R\+M\+E\+L\+HO}~\char`\"{}\textbackslash{}x1B\mbox{[}31m\char`\"{}
+\item 
+\#define \hyperlink{grafo_8h_a9c12e0202321b096908beadd87f3ad2d}{C\+O\+R\+\_\+\+V\+E\+R\+DE}~\char`\"{}\textbackslash{}x1B\mbox{[}32m\char`\"{}
+\item 
+\#define \hyperlink{grafo_8h_a8be5044487b613553f34df00b9609f49}{C\+O\+R\+\_\+\+A\+M\+A\+R\+E\+LO}~\char`\"{}\textbackslash{}x1B\mbox{[}33m\char`\"{}
+\item 
+\#define \hyperlink{grafo_8h_ade71171f769c91152ef71445e9d98bfc}{C\+O\+R\+\_\+\+A\+Z\+UL}~\char`\"{}\textbackslash{}x1B\mbox{[}34m\char`\"{}
+\item 
+\#define \hyperlink{grafo_8h_a0c23ef047ab8bc8a0ed0d08ac0f69f02}{C\+O\+R\+\_\+\+M\+A\+G\+E\+N\+TA}~\char`\"{}\textbackslash{}x1B\mbox{[}35m\char`\"{}
+\item 
+\#define \hyperlink{grafo_8h_a9df659c1e89f8f710945c0386854e6cb}{C\+O\+R\+\_\+\+C\+Y\+AN}~\char`\"{}\textbackslash{}x1B\mbox{[}36m\char`\"{}
+\item 
+\#define \hyperlink{grafo_8h_a55418cddd8fc0a93c4db0f1f52bd6687}{C\+O\+R\+\_\+\+B\+R\+A\+N\+CO}~\char`\"{}\textbackslash{}x1B\mbox{[}37m\char`\"{}
+\end{DoxyCompactItemize}
+\subsection*{Enumerations}
+\begin{DoxyCompactItemize}
+\item 
+enum \hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte} \{ \newline
+\hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda9df6d34e0bf3127f45e7a833d950e196}{A\+D\+J\+A\+C\+E\+N\+T\+ES}, 
+\hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda6e54fd07fea7f8ed3a886fccbc89474f}{N\+A\+D\+J\+A\+C\+E\+N\+T\+ES}, 
+\hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda0ca3a76dc70b1c15b66ad4463b7948e3}{S\+U\+C\+E\+S\+SO}, 
+\hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bdaad016e79b1e6a04be51ee73d7a5be62f}{F\+A\+L\+HA}, 
+\newline
+\hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda30679a6a96dc35ad0d8f15a5859ad322}{F\+A\+L\+H\+A\+\_\+\+G\+R\+A\+F\+O\+\_\+\+N\+U\+LO}, 
+\hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda247f4e0d3c17acd4d1cffd41ee0592be}{F\+A\+L\+H\+A\+\_\+\+V\+E\+R\+T\+I\+C\+E\+\_\+\+N\+U\+LO}, 
+\hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bdabc15720aec005e5d15b00a0371353fa6}{F\+A\+L\+H\+A\+\_\+\+V\+E\+R\+T\+I\+C\+E\+S\+\_\+\+I\+G\+U\+A\+IS}, 
+\hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda21121e5e18c8e718ac6c739ef52dfed6}{F\+A\+L\+H\+A\+\_\+\+A\+R\+C\+O\+\_\+\+N\+U\+LO}, 
+\newline
+\hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bdab37305ed0a5885776849f2b00df6a2d8}{F\+A\+L\+H\+A\+\_\+\+A\+L\+O\+C\+AR}, 
+\hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda3a6ac584abc381e26801e4bb9e2c216f}{F\+A\+L\+H\+A\+\_\+\+A\+R\+C\+O\+\_\+\+I\+N\+E\+X\+I\+S\+TE}, 
+\hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda2bd07f76b19b7ff2aeeea6b5e2c3e8cd}{C\+O\+R\+R\+O\+M\+P\+I\+DO}
+ \}\begin{DoxyCompactList}\small\item\em Condições de retorno para as funções da biblioteca grafo. \end{DoxyCompactList}
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte} \hyperlink{grafo_8h_a070e5f829f667a6fbb710352cea447dd}{grafo\+\_\+lista\+\_\+no\+\_\+inserir} (\hyperlink{structgrafo__lista__no}{grafo\+\_\+lista\+\_\+no} $\ast$$\ast$, int)
+\begin{DoxyCompactList}\small\item\em Insere um nó em uma lista de nós. \end{DoxyCompactList}\item 
+void \hyperlink{grafo_8h_a3d03d3bd6a82ca66682b59217f3494d8}{grafo\+\_\+string\+\_\+aleatoria} (char $\ast$$\ast$, unsigned int)
+\item 
+unsigned int \hyperlink{grafo_8h_add32569d19e616be7ad8766dec72c4dd}{grafo\+\_\+conta\+\_\+string} (const char $\ast$)
+\item 
+void \hyperlink{grafo_8h_aee8e572e7e6166b6926ba3adac503e4b}{print\+\_\+log} (const char $\ast$, const char $\ast$, const char $\ast$)
+\begin{DoxyCompactList}\small\item\em Mostra um log que combina com o log do gtest. \end{DoxyCompactList}\item 
+\hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte} \hyperlink{grafo_8h_ac18400b9406e0499297bdd2b5d14fabe}{remove\+\_\+aresta\+\_\+end} (\hyperlink{structgrafo}{grafo} $\ast$, \hyperlink{structgrafo__no}{grafo\+\_\+no} $\ast$, int)
+\begin{DoxyCompactList}\small\item\em Remove uma aresta pelo endereço de memória do nó ao qual ela sai e do identificador do nó para onde ela vai. \end{DoxyCompactList}\item 
+\hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte} \hyperlink{grafo_8h_aead249d7ced6a4b0786b91ea6e34505c}{remove\+\_\+vertice\+\_\+end} (\hyperlink{structgrafo}{grafo} $\ast$, \hyperlink{structgrafo__no}{grafo\+\_\+no} $\ast$)
+\begin{DoxyCompactList}\small\item\em Remove um vértice a partir de seu endereço. \end{DoxyCompactList}\item 
+int \hyperlink{grafo_8h_a2735191ddf3adacfb299b0dba8155a1d}{grafo\+\_\+verificador} (\hyperlink{structgrafo}{grafo} $\ast$)
+\item 
+void $\ast$ \hyperlink{grafo_8h_a22c1e3359e4cc6a1636b5efdf0837a52}{grafo\+\_\+percorre} (void $\ast$, int, int(void $\ast$, int), int(void $\ast$$\ast$))
+\item 
+\hyperlink{structgrafo__no}{grafo\+\_\+no} $\ast$ \hyperlink{grafo_8h_a5f808a0e7d14b0665d54fd365e4ed4d3}{grafo\+\_\+busca\+\_\+no} (\hyperlink{structgrafo}{grafo} $\ast$, int, int)
+\begin{DoxyCompactList}\small\item\em Função que busca um nó a partir de seu identificador x. \end{DoxyCompactList}\item 
+int \hyperlink{grafo_8h_aece52f4bf68d68483705412fd67de259}{grafo\+\_\+busca\+\_\+no\+\_\+retorno\+\_\+offset} (void $\ast$, int)
+\begin{DoxyCompactList}\small\item\em Condição de retorno para grafo\+\_\+busca\+\_\+no com offset -\/1. \end{DoxyCompactList}\item 
+int \hyperlink{grafo_8h_a0bb84fa8449417531d7d68d0865d8bfc}{grafo\+\_\+busca\+\_\+no\+\_\+retorno} (void $\ast$, int)
+\begin{DoxyCompactList}\small\item\em Condição de retorno para grafo\+\_\+busca\+\_\+no com offset 0. \end{DoxyCompactList}\item 
+int \hyperlink{grafo_8h_a8179d957043556c43a9abdf7d2103823}{grafo\+\_\+busca\+\_\+no\+\_\+parada} (void $\ast$$\ast$)
+\begin{DoxyCompactList}\small\item\em Condição de parada para grafo\+\_\+busca\+\_\+no. \end{DoxyCompactList}\item 
+\hyperlink{structgrafo__arco}{grafo\+\_\+arco} $\ast$ \hyperlink{grafo_8h_a119d5ada92039b93f8f27acb39663e09}{grafo\+\_\+busca\+\_\+arco} (\hyperlink{structgrafo}{grafo} $\ast$, int, int)
+\begin{DoxyCompactList}\small\item\em Análogo ao grafo\+\_\+busca\+\_\+arco, mas busca um arco que vai de x a y. \end{DoxyCompactList}\item 
+int \hyperlink{grafo_8h_aed8fae59929793fb23eced523c7846da}{grafo\+\_\+busca\+\_\+arco\+\_\+retorno} (void $\ast$, int)
+\begin{DoxyCompactList}\small\item\em Condição de retorno para grafo\+\_\+busca\+\_\+arco. \end{DoxyCompactList}\item 
+int \hyperlink{grafo_8h_a7ed5c12450505b3287c49ad9f690a811}{grafo\+\_\+busca\+\_\+arco\+\_\+parada} (void $\ast$$\ast$)
+\begin{DoxyCompactList}\small\item\em Condição de parada para grafo\+\_\+busca\+\_\+arco. \end{DoxyCompactList}\item 
+\hyperlink{structgrafo}{grafo} $\ast$ \hyperlink{grafo_8h_a7edfb7df6df258a03868bbe0eb8e9733}{cria\+\_\+grafo} (const char $\ast$)
+\item 
+char $\ast$ \hyperlink{grafo_8h_a0035674f566ba6057b939b85afb48514}{retorna\+\_\+nome\+\_\+grafo} (\hyperlink{structgrafo}{grafo} $\ast$)
+\item 
+\hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte} \hyperlink{grafo_8h_aff7f74692c86c8cf8496ea61274ac846}{destroi\+\_\+grafo} (\hyperlink{structgrafo}{grafo} $\ast$$\ast$)
+\begin{DoxyCompactList}\small\item\em Destroi grafo G. \end{DoxyCompactList}\item 
+\hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte} \hyperlink{grafo_8h_ad7d4100eb7ff668580f59bf3f70703fb}{adjacente} (\hyperlink{structgrafo}{grafo} $\ast$, int, int)
+\begin{DoxyCompactList}\small\item\em Mostra se dois nós de identificadores x e y são adjacentes. \end{DoxyCompactList}\item 
+\hyperlink{structgrafo__lista__no}{grafo\+\_\+lista\+\_\+no} $\ast$ \hyperlink{grafo_8h_ab40db8d66f24457224c86ec84ca513d6}{vizinhos} (\hyperlink{structgrafo}{grafo} $\ast$, int)
+\begin{DoxyCompactList}\small\item\em Verifica os nós vizinhos a x retornando uma lista de nós. \end{DoxyCompactList}\item 
+\hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte} \hyperlink{grafo_8h_a28578a52752d4297653ef27fe8fd6cf5}{adiciona\+\_\+vertice} (\hyperlink{structgrafo}{grafo} $\ast$, int)
+\item 
+\hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte} \hyperlink{grafo_8h_a24082c1cb84ec398a5e2e086f65595dd}{remove\+\_\+vertice} (\hyperlink{structgrafo}{grafo} $\ast$, int)
+\begin{DoxyCompactList}\small\item\em Remove um vértice a partir de seu identificador x. \end{DoxyCompactList}\item 
+\hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte} \hyperlink{grafo_8h_a1828255a0c5405a4e2e85b526d274bbb}{adiciona\+\_\+aresta} (\hyperlink{structgrafo}{grafo} $\ast$, int, int)
+\begin{DoxyCompactList}\small\item\em Função para adicionar aresta que vai do vértice x ao y no grafo. \end{DoxyCompactList}\item 
+\hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte} \hyperlink{grafo_8h_aecbb286b54980e6baa279cc9674409da}{remove\+\_\+aresta} (\hyperlink{structgrafo}{grafo} $\ast$, int, int)
+\begin{DoxyCompactList}\small\item\em Remove uma aresta a partir dos identificadores x e y. \end{DoxyCompactList}\item 
+void $\ast$ \hyperlink{grafo_8h_a201dae70e45d103a9d433940e2dc404d}{retorna\+\_\+valor\+\_\+vertice} (\hyperlink{structgrafo}{grafo} $\ast$, int)
+\begin{DoxyCompactList}\small\item\em Retorna o valor do vértice de identificador x. \end{DoxyCompactList}\item 
+\hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte} \hyperlink{grafo_8h_afb94c4f5dc2c27df0ab862cca22d1279}{muda\+\_\+valor\+\_\+vertice} (\hyperlink{structgrafo}{grafo} $\ast$, int, void $\ast$)
+\begin{DoxyCompactList}\small\item\em Muda o valor do vértice de identificador x para o valor v. \end{DoxyCompactList}\item 
+int \hyperlink{grafo_8h_a45ee150eb4fd410e4fd49dd102f5ada0}{retorna\+\_\+valor\+\_\+aresta} (\hyperlink{structgrafo}{grafo} $\ast$, int, int)
+\begin{DoxyCompactList}\small\item\em Retorna o valor da aresta que vai de x a y. \end{DoxyCompactList}\item 
+\hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte} \hyperlink{grafo_8h_a3af8cb148494644b8ce9d64d0ad44aa4}{muda\+\_\+valor\+\_\+aresta} (\hyperlink{structgrafo}{grafo} $\ast$, int, int, int)
+\begin{DoxyCompactList}\small\item\em Muda o valor da aresta que vai de x a y com o valor v. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Macro Definition Documentation}
+\mbox{\Hypertarget{grafo_8h_a8be5044487b613553f34df00b9609f49}\label{grafo_8h_a8be5044487b613553f34df00b9609f49}} 
+\index{grafo.\+h@{grafo.\+h}!C\+O\+R\+\_\+\+A\+M\+A\+R\+E\+LO@{C\+O\+R\+\_\+\+A\+M\+A\+R\+E\+LO}}
+\index{C\+O\+R\+\_\+\+A\+M\+A\+R\+E\+LO@{C\+O\+R\+\_\+\+A\+M\+A\+R\+E\+LO}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{C\+O\+R\+\_\+\+A\+M\+A\+R\+E\+LO}{COR\_AMARELO}}
+{\footnotesize\ttfamily \#define C\+O\+R\+\_\+\+A\+M\+A\+R\+E\+LO~\char`\"{}\textbackslash{}x1B\mbox{[}33m\char`\"{}}
+
+\mbox{\Hypertarget{grafo_8h_ade71171f769c91152ef71445e9d98bfc}\label{grafo_8h_ade71171f769c91152ef71445e9d98bfc}} 
+\index{grafo.\+h@{grafo.\+h}!C\+O\+R\+\_\+\+A\+Z\+UL@{C\+O\+R\+\_\+\+A\+Z\+UL}}
+\index{C\+O\+R\+\_\+\+A\+Z\+UL@{C\+O\+R\+\_\+\+A\+Z\+UL}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{C\+O\+R\+\_\+\+A\+Z\+UL}{COR\_AZUL}}
+{\footnotesize\ttfamily \#define C\+O\+R\+\_\+\+A\+Z\+UL~\char`\"{}\textbackslash{}x1B\mbox{[}34m\char`\"{}}
+
+\mbox{\Hypertarget{grafo_8h_a55418cddd8fc0a93c4db0f1f52bd6687}\label{grafo_8h_a55418cddd8fc0a93c4db0f1f52bd6687}} 
+\index{grafo.\+h@{grafo.\+h}!C\+O\+R\+\_\+\+B\+R\+A\+N\+CO@{C\+O\+R\+\_\+\+B\+R\+A\+N\+CO}}
+\index{C\+O\+R\+\_\+\+B\+R\+A\+N\+CO@{C\+O\+R\+\_\+\+B\+R\+A\+N\+CO}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{C\+O\+R\+\_\+\+B\+R\+A\+N\+CO}{COR\_BRANCO}}
+{\footnotesize\ttfamily \#define C\+O\+R\+\_\+\+B\+R\+A\+N\+CO~\char`\"{}\textbackslash{}x1B\mbox{[}37m\char`\"{}}
+
+\mbox{\Hypertarget{grafo_8h_a9df659c1e89f8f710945c0386854e6cb}\label{grafo_8h_a9df659c1e89f8f710945c0386854e6cb}} 
+\index{grafo.\+h@{grafo.\+h}!C\+O\+R\+\_\+\+C\+Y\+AN@{C\+O\+R\+\_\+\+C\+Y\+AN}}
+\index{C\+O\+R\+\_\+\+C\+Y\+AN@{C\+O\+R\+\_\+\+C\+Y\+AN}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{C\+O\+R\+\_\+\+C\+Y\+AN}{COR\_CYAN}}
+{\footnotesize\ttfamily \#define C\+O\+R\+\_\+\+C\+Y\+AN~\char`\"{}\textbackslash{}x1B\mbox{[}36m\char`\"{}}
+
+\mbox{\Hypertarget{grafo_8h_a0c23ef047ab8bc8a0ed0d08ac0f69f02}\label{grafo_8h_a0c23ef047ab8bc8a0ed0d08ac0f69f02}} 
+\index{grafo.\+h@{grafo.\+h}!C\+O\+R\+\_\+\+M\+A\+G\+E\+N\+TA@{C\+O\+R\+\_\+\+M\+A\+G\+E\+N\+TA}}
+\index{C\+O\+R\+\_\+\+M\+A\+G\+E\+N\+TA@{C\+O\+R\+\_\+\+M\+A\+G\+E\+N\+TA}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{C\+O\+R\+\_\+\+M\+A\+G\+E\+N\+TA}{COR\_MAGENTA}}
+{\footnotesize\ttfamily \#define C\+O\+R\+\_\+\+M\+A\+G\+E\+N\+TA~\char`\"{}\textbackslash{}x1B\mbox{[}35m\char`\"{}}
+
+\mbox{\Hypertarget{grafo_8h_a6e52d6d9568df24931143a05ebfa1dee}\label{grafo_8h_a6e52d6d9568df24931143a05ebfa1dee}} 
+\index{grafo.\+h@{grafo.\+h}!C\+O\+R\+\_\+\+N\+O\+R\+M\+AL@{C\+O\+R\+\_\+\+N\+O\+R\+M\+AL}}
+\index{C\+O\+R\+\_\+\+N\+O\+R\+M\+AL@{C\+O\+R\+\_\+\+N\+O\+R\+M\+AL}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{C\+O\+R\+\_\+\+N\+O\+R\+M\+AL}{COR\_NORMAL}}
+{\footnotesize\ttfamily \#define C\+O\+R\+\_\+\+N\+O\+R\+M\+AL~\char`\"{}\textbackslash{}x1B\mbox{[}0m\char`\"{}}
+
+\mbox{\Hypertarget{grafo_8h_a9c12e0202321b096908beadd87f3ad2d}\label{grafo_8h_a9c12e0202321b096908beadd87f3ad2d}} 
+\index{grafo.\+h@{grafo.\+h}!C\+O\+R\+\_\+\+V\+E\+R\+DE@{C\+O\+R\+\_\+\+V\+E\+R\+DE}}
+\index{C\+O\+R\+\_\+\+V\+E\+R\+DE@{C\+O\+R\+\_\+\+V\+E\+R\+DE}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{C\+O\+R\+\_\+\+V\+E\+R\+DE}{COR\_VERDE}}
+{\footnotesize\ttfamily \#define C\+O\+R\+\_\+\+V\+E\+R\+DE~\char`\"{}\textbackslash{}x1B\mbox{[}32m\char`\"{}}
+
+\mbox{\Hypertarget{grafo_8h_a3552292a94ed29cf28b15c8a447da431}\label{grafo_8h_a3552292a94ed29cf28b15c8a447da431}} 
+\index{grafo.\+h@{grafo.\+h}!C\+O\+R\+\_\+\+V\+E\+R\+M\+E\+L\+HO@{C\+O\+R\+\_\+\+V\+E\+R\+M\+E\+L\+HO}}
+\index{C\+O\+R\+\_\+\+V\+E\+R\+M\+E\+L\+HO@{C\+O\+R\+\_\+\+V\+E\+R\+M\+E\+L\+HO}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{C\+O\+R\+\_\+\+V\+E\+R\+M\+E\+L\+HO}{COR\_VERMELHO}}
+{\footnotesize\ttfamily \#define C\+O\+R\+\_\+\+V\+E\+R\+M\+E\+L\+HO~\char`\"{}\textbackslash{}x1B\mbox{[}31m\char`\"{}}
+
+\mbox{\Hypertarget{grafo_8h_a3d627c84159a5a51c9ceb84f916911c5}\label{grafo_8h_a3d627c84159a5a51c9ceb84f916911c5}} 
+\index{grafo.\+h@{grafo.\+h}!grafo\+\_\+nome\+\_\+tamanho@{grafo\+\_\+nome\+\_\+tamanho}}
+\index{grafo\+\_\+nome\+\_\+tamanho@{grafo\+\_\+nome\+\_\+tamanho}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{grafo\+\_\+nome\+\_\+tamanho}{grafo\_nome\_tamanho}}
+{\footnotesize\ttfamily \#define grafo\+\_\+nome\+\_\+tamanho~20}
+
+
+
+\subsection{Enumeration Type Documentation}
+\mbox{\Hypertarget{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}\label{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}} 
+\index{grafo.\+h@{grafo.\+h}!grafo\+\_\+cte@{grafo\+\_\+cte}}
+\index{grafo\+\_\+cte@{grafo\+\_\+cte}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{grafo\+\_\+cte}{grafo\_cte}}
+{\footnotesize\ttfamily enum \hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte}}
+
+
+
+Condições de retorno para as funções da biblioteca grafo. 
+
+\begin{DoxyEnumFields}{Enumerator}
+\raisebox{\heightof{T}}[0pt][0pt]{\index{A\+D\+J\+A\+C\+E\+N\+T\+ES@{A\+D\+J\+A\+C\+E\+N\+T\+ES}!grafo.\+h@{grafo.\+h}}\index{grafo.\+h@{grafo.\+h}!A\+D\+J\+A\+C\+E\+N\+T\+ES@{A\+D\+J\+A\+C\+E\+N\+T\+ES}}}\mbox{\Hypertarget{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda9df6d34e0bf3127f45e7a833d950e196}\label{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda9df6d34e0bf3127f45e7a833d950e196}} 
+A\+D\+J\+A\+C\+E\+N\+T\+ES&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{N\+A\+D\+J\+A\+C\+E\+N\+T\+ES@{N\+A\+D\+J\+A\+C\+E\+N\+T\+ES}!grafo.\+h@{grafo.\+h}}\index{grafo.\+h@{grafo.\+h}!N\+A\+D\+J\+A\+C\+E\+N\+T\+ES@{N\+A\+D\+J\+A\+C\+E\+N\+T\+ES}}}\mbox{\Hypertarget{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda6e54fd07fea7f8ed3a886fccbc89474f}\label{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda6e54fd07fea7f8ed3a886fccbc89474f}} 
+N\+A\+D\+J\+A\+C\+E\+N\+T\+ES&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{S\+U\+C\+E\+S\+SO@{S\+U\+C\+E\+S\+SO}!grafo.\+h@{grafo.\+h}}\index{grafo.\+h@{grafo.\+h}!S\+U\+C\+E\+S\+SO@{S\+U\+C\+E\+S\+SO}}}\mbox{\Hypertarget{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda0ca3a76dc70b1c15b66ad4463b7948e3}\label{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda0ca3a76dc70b1c15b66ad4463b7948e3}} 
+S\+U\+C\+E\+S\+SO&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{F\+A\+L\+HA@{F\+A\+L\+HA}!grafo.\+h@{grafo.\+h}}\index{grafo.\+h@{grafo.\+h}!F\+A\+L\+HA@{F\+A\+L\+HA}}}\mbox{\Hypertarget{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bdaad016e79b1e6a04be51ee73d7a5be62f}\label{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bdaad016e79b1e6a04be51ee73d7a5be62f}} 
+F\+A\+L\+HA&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{F\+A\+L\+H\+A\+\_\+\+G\+R\+A\+F\+O\+\_\+\+N\+U\+LO@{F\+A\+L\+H\+A\+\_\+\+G\+R\+A\+F\+O\+\_\+\+N\+U\+LO}!grafo.\+h@{grafo.\+h}}\index{grafo.\+h@{grafo.\+h}!F\+A\+L\+H\+A\+\_\+\+G\+R\+A\+F\+O\+\_\+\+N\+U\+LO@{F\+A\+L\+H\+A\+\_\+\+G\+R\+A\+F\+O\+\_\+\+N\+U\+LO}}}\mbox{\Hypertarget{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda30679a6a96dc35ad0d8f15a5859ad322}\label{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda30679a6a96dc35ad0d8f15a5859ad322}} 
+F\+A\+L\+H\+A\+\_\+\+G\+R\+A\+F\+O\+\_\+\+N\+U\+LO&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{F\+A\+L\+H\+A\+\_\+\+V\+E\+R\+T\+I\+C\+E\+\_\+\+N\+U\+LO@{F\+A\+L\+H\+A\+\_\+\+V\+E\+R\+T\+I\+C\+E\+\_\+\+N\+U\+LO}!grafo.\+h@{grafo.\+h}}\index{grafo.\+h@{grafo.\+h}!F\+A\+L\+H\+A\+\_\+\+V\+E\+R\+T\+I\+C\+E\+\_\+\+N\+U\+LO@{F\+A\+L\+H\+A\+\_\+\+V\+E\+R\+T\+I\+C\+E\+\_\+\+N\+U\+LO}}}\mbox{\Hypertarget{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda247f4e0d3c17acd4d1cffd41ee0592be}\label{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda247f4e0d3c17acd4d1cffd41ee0592be}} 
+F\+A\+L\+H\+A\+\_\+\+V\+E\+R\+T\+I\+C\+E\+\_\+\+N\+U\+LO&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{F\+A\+L\+H\+A\+\_\+\+V\+E\+R\+T\+I\+C\+E\+S\+\_\+\+I\+G\+U\+A\+IS@{F\+A\+L\+H\+A\+\_\+\+V\+E\+R\+T\+I\+C\+E\+S\+\_\+\+I\+G\+U\+A\+IS}!grafo.\+h@{grafo.\+h}}\index{grafo.\+h@{grafo.\+h}!F\+A\+L\+H\+A\+\_\+\+V\+E\+R\+T\+I\+C\+E\+S\+\_\+\+I\+G\+U\+A\+IS@{F\+A\+L\+H\+A\+\_\+\+V\+E\+R\+T\+I\+C\+E\+S\+\_\+\+I\+G\+U\+A\+IS}}}\mbox{\Hypertarget{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bdabc15720aec005e5d15b00a0371353fa6}\label{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bdabc15720aec005e5d15b00a0371353fa6}} 
+F\+A\+L\+H\+A\+\_\+\+V\+E\+R\+T\+I\+C\+E\+S\+\_\+\+I\+G\+U\+A\+IS&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{F\+A\+L\+H\+A\+\_\+\+A\+R\+C\+O\+\_\+\+N\+U\+LO@{F\+A\+L\+H\+A\+\_\+\+A\+R\+C\+O\+\_\+\+N\+U\+LO}!grafo.\+h@{grafo.\+h}}\index{grafo.\+h@{grafo.\+h}!F\+A\+L\+H\+A\+\_\+\+A\+R\+C\+O\+\_\+\+N\+U\+LO@{F\+A\+L\+H\+A\+\_\+\+A\+R\+C\+O\+\_\+\+N\+U\+LO}}}\mbox{\Hypertarget{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda21121e5e18c8e718ac6c739ef52dfed6}\label{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda21121e5e18c8e718ac6c739ef52dfed6}} 
+F\+A\+L\+H\+A\+\_\+\+A\+R\+C\+O\+\_\+\+N\+U\+LO&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{F\+A\+L\+H\+A\+\_\+\+A\+L\+O\+C\+AR@{F\+A\+L\+H\+A\+\_\+\+A\+L\+O\+C\+AR}!grafo.\+h@{grafo.\+h}}\index{grafo.\+h@{grafo.\+h}!F\+A\+L\+H\+A\+\_\+\+A\+L\+O\+C\+AR@{F\+A\+L\+H\+A\+\_\+\+A\+L\+O\+C\+AR}}}\mbox{\Hypertarget{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bdab37305ed0a5885776849f2b00df6a2d8}\label{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bdab37305ed0a5885776849f2b00df6a2d8}} 
+F\+A\+L\+H\+A\+\_\+\+A\+L\+O\+C\+AR&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{F\+A\+L\+H\+A\+\_\+\+A\+R\+C\+O\+\_\+\+I\+N\+E\+X\+I\+S\+TE@{F\+A\+L\+H\+A\+\_\+\+A\+R\+C\+O\+\_\+\+I\+N\+E\+X\+I\+S\+TE}!grafo.\+h@{grafo.\+h}}\index{grafo.\+h@{grafo.\+h}!F\+A\+L\+H\+A\+\_\+\+A\+R\+C\+O\+\_\+\+I\+N\+E\+X\+I\+S\+TE@{F\+A\+L\+H\+A\+\_\+\+A\+R\+C\+O\+\_\+\+I\+N\+E\+X\+I\+S\+TE}}}\mbox{\Hypertarget{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda3a6ac584abc381e26801e4bb9e2c216f}\label{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda3a6ac584abc381e26801e4bb9e2c216f}} 
+F\+A\+L\+H\+A\+\_\+\+A\+R\+C\+O\+\_\+\+I\+N\+E\+X\+I\+S\+TE&\\
+\hline
+
+\raisebox{\heightof{T}}[0pt][0pt]{\index{C\+O\+R\+R\+O\+M\+P\+I\+DO@{C\+O\+R\+R\+O\+M\+P\+I\+DO}!grafo.\+h@{grafo.\+h}}\index{grafo.\+h@{grafo.\+h}!C\+O\+R\+R\+O\+M\+P\+I\+DO@{C\+O\+R\+R\+O\+M\+P\+I\+DO}}}\mbox{\Hypertarget{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda2bd07f76b19b7ff2aeeea6b5e2c3e8cd}\label{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bda2bd07f76b19b7ff2aeeea6b5e2c3e8cd}} 
+C\+O\+R\+R\+O\+M\+P\+I\+DO&\\
+\hline
+
+\end{DoxyEnumFields}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{grafo_8h_a1828255a0c5405a4e2e85b526d274bbb}\label{grafo_8h_a1828255a0c5405a4e2e85b526d274bbb}} 
+\index{grafo.\+h@{grafo.\+h}!adiciona\+\_\+aresta@{adiciona\+\_\+aresta}}
+\index{adiciona\+\_\+aresta@{adiciona\+\_\+aresta}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{adiciona\+\_\+aresta()}{adiciona\_aresta()}}
+{\footnotesize\ttfamily \hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte} adiciona\+\_\+aresta (\begin{DoxyParamCaption}\item[{\hyperlink{structgrafo}{grafo} $\ast$}]{,  }\item[{int}]{,  }\item[{int}]{ }\end{DoxyParamCaption})}
+
+
+
+Função para adicionar aresta que vai do vértice x ao y no grafo. 
+
+\mbox{\Hypertarget{grafo_8h_a28578a52752d4297653ef27fe8fd6cf5}\label{grafo_8h_a28578a52752d4297653ef27fe8fd6cf5}} 
+\index{grafo.\+h@{grafo.\+h}!adiciona\+\_\+vertice@{adiciona\+\_\+vertice}}
+\index{adiciona\+\_\+vertice@{adiciona\+\_\+vertice}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{adiciona\+\_\+vertice()}{adiciona\_vertice()}}
+{\footnotesize\ttfamily \hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte} adiciona\+\_\+vertice (\begin{DoxyParamCaption}\item[{\hyperlink{structgrafo}{grafo} $\ast$}]{G,  }\item[{int}]{x }\end{DoxyParamCaption})}
+
+Função para adicionar um vértice de indentificador x no grafo G \mbox{\Hypertarget{grafo_8h_ad7d4100eb7ff668580f59bf3f70703fb}\label{grafo_8h_ad7d4100eb7ff668580f59bf3f70703fb}} 
+\index{grafo.\+h@{grafo.\+h}!adjacente@{adjacente}}
+\index{adjacente@{adjacente}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{adjacente()}{adjacente()}}
+{\footnotesize\ttfamily \hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte} adjacente (\begin{DoxyParamCaption}\item[{\hyperlink{structgrafo}{grafo} $\ast$}]{,  }\item[{int}]{,  }\item[{int}]{ }\end{DoxyParamCaption})}
+
+
+
+Mostra se dois nós de identificadores x e y são adjacentes. 
+
+\mbox{\Hypertarget{grafo_8h_a7edfb7df6df258a03868bbe0eb8e9733}\label{grafo_8h_a7edfb7df6df258a03868bbe0eb8e9733}} 
+\index{grafo.\+h@{grafo.\+h}!cria\+\_\+grafo@{cria\+\_\+grafo}}
+\index{cria\+\_\+grafo@{cria\+\_\+grafo}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{cria\+\_\+grafo()}{cria\_grafo()}}
+{\footnotesize\ttfamily \hyperlink{structgrafo}{grafo}$\ast$ cria\+\_\+grafo (\begin{DoxyParamCaption}\item[{const char $\ast$}]{nome }\end{DoxyParamCaption})}
+
+A função cria um grafo e retorna um ponteiro para a estrutura contendo o nome e o endereco do primeiro nó
+
+Pelas definições de \hyperlink{grafo_8h}{grafo.\+h} o tamanho máximo para a string nome é 
+\begin{DoxyCode}
+\hyperlink{grafo_8h_a3d627c84159a5a51c9ceb84f916911c5}{grafo\_nome\_tamanho} 
+\end{DoxyCode}
+ \mbox{\Hypertarget{grafo_8h_aff7f74692c86c8cf8496ea61274ac846}\label{grafo_8h_aff7f74692c86c8cf8496ea61274ac846}} 
+\index{grafo.\+h@{grafo.\+h}!destroi\+\_\+grafo@{destroi\+\_\+grafo}}
+\index{destroi\+\_\+grafo@{destroi\+\_\+grafo}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{destroi\+\_\+grafo()}{destroi\_grafo()}}
+{\footnotesize\ttfamily \hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte} destroi\+\_\+grafo (\begin{DoxyParamCaption}\item[{\hyperlink{structgrafo}{grafo} $\ast$$\ast$}]{ }\end{DoxyParamCaption})}
+
+
+
+Destroi grafo G. 
+
+\mbox{\Hypertarget{grafo_8h_a119d5ada92039b93f8f27acb39663e09}\label{grafo_8h_a119d5ada92039b93f8f27acb39663e09}} 
+\index{grafo.\+h@{grafo.\+h}!grafo\+\_\+busca\+\_\+arco@{grafo\+\_\+busca\+\_\+arco}}
+\index{grafo\+\_\+busca\+\_\+arco@{grafo\+\_\+busca\+\_\+arco}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{grafo\+\_\+busca\+\_\+arco()}{grafo\_busca\_arco()}}
+{\footnotesize\ttfamily \hyperlink{structgrafo__arco}{grafo\+\_\+arco}$\ast$ grafo\+\_\+busca\+\_\+arco (\begin{DoxyParamCaption}\item[{\hyperlink{structgrafo}{grafo} $\ast$}]{,  }\item[{int}]{,  }\item[{int}]{ }\end{DoxyParamCaption})}
+
+
+
+Análogo ao grafo\+\_\+busca\+\_\+arco, mas busca um arco que vai de x a y. 
+
+\mbox{\Hypertarget{grafo_8h_a7ed5c12450505b3287c49ad9f690a811}\label{grafo_8h_a7ed5c12450505b3287c49ad9f690a811}} 
+\index{grafo.\+h@{grafo.\+h}!grafo\+\_\+busca\+\_\+arco\+\_\+parada@{grafo\+\_\+busca\+\_\+arco\+\_\+parada}}
+\index{grafo\+\_\+busca\+\_\+arco\+\_\+parada@{grafo\+\_\+busca\+\_\+arco\+\_\+parada}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{grafo\+\_\+busca\+\_\+arco\+\_\+parada()}{grafo\_busca\_arco\_parada()}}
+{\footnotesize\ttfamily int grafo\+\_\+busca\+\_\+arco\+\_\+parada (\begin{DoxyParamCaption}\item[{void $\ast$$\ast$}]{tmp }\end{DoxyParamCaption})}
+
+
+
+Condição de parada para grafo\+\_\+busca\+\_\+arco. 
+
+Caso se chegue ao fim da lista de arcos de um nó paramos, a função também faz o pulo para o próximo arco, por isso recebe $\ast$$\ast$tmp \mbox{\Hypertarget{grafo_8h_aed8fae59929793fb23eced523c7846da}\label{grafo_8h_aed8fae59929793fb23eced523c7846da}} 
+\index{grafo.\+h@{grafo.\+h}!grafo\+\_\+busca\+\_\+arco\+\_\+retorno@{grafo\+\_\+busca\+\_\+arco\+\_\+retorno}}
+\index{grafo\+\_\+busca\+\_\+arco\+\_\+retorno@{grafo\+\_\+busca\+\_\+arco\+\_\+retorno}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{grafo\+\_\+busca\+\_\+arco\+\_\+retorno()}{grafo\_busca\_arco\_retorno()}}
+{\footnotesize\ttfamily int grafo\+\_\+busca\+\_\+arco\+\_\+retorno (\begin{DoxyParamCaption}\item[{void $\ast$}]{tmp,  }\item[{int}]{y }\end{DoxyParamCaption})}
+
+
+
+Condição de retorno para grafo\+\_\+busca\+\_\+arco. 
+
+Caso o valor do nó acessado pelo arco corrente for o esperado y, ele retorna verdade. \mbox{\Hypertarget{grafo_8h_a5f808a0e7d14b0665d54fd365e4ed4d3}\label{grafo_8h_a5f808a0e7d14b0665d54fd365e4ed4d3}} 
+\index{grafo.\+h@{grafo.\+h}!grafo\+\_\+busca\+\_\+no@{grafo\+\_\+busca\+\_\+no}}
+\index{grafo\+\_\+busca\+\_\+no@{grafo\+\_\+busca\+\_\+no}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{grafo\+\_\+busca\+\_\+no()}{grafo\_busca\_no()}}
+{\footnotesize\ttfamily \hyperlink{structgrafo__no}{grafo\+\_\+no}$\ast$ grafo\+\_\+busca\+\_\+no (\begin{DoxyParamCaption}\item[{\hyperlink{structgrafo}{grafo} $\ast$}]{G,  }\item[{int}]{x,  }\item[{int}]{offset }\end{DoxyParamCaption})}
+
+
+
+Função que busca um nó a partir de seu identificador x. 
+
+O offset é útil caso se deseje obter um nó anterior ao nó x bastando passar -\/1, no momento há apenas duas opções para offset\+: 0 e -\/1 \mbox{\Hypertarget{grafo_8h_a8179d957043556c43a9abdf7d2103823}\label{grafo_8h_a8179d957043556c43a9abdf7d2103823}} 
+\index{grafo.\+h@{grafo.\+h}!grafo\+\_\+busca\+\_\+no\+\_\+parada@{grafo\+\_\+busca\+\_\+no\+\_\+parada}}
+\index{grafo\+\_\+busca\+\_\+no\+\_\+parada@{grafo\+\_\+busca\+\_\+no\+\_\+parada}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{grafo\+\_\+busca\+\_\+no\+\_\+parada()}{grafo\_busca\_no\_parada()}}
+{\footnotesize\ttfamily int grafo\+\_\+busca\+\_\+no\+\_\+parada (\begin{DoxyParamCaption}\item[{void $\ast$$\ast$}]{tmp }\end{DoxyParamCaption})}
+
+
+
+Condição de parada para grafo\+\_\+busca\+\_\+no. 
+
+Caso o próximo nó seja N\+U\+LL ele para, além disso, por receber $\ast$$\ast$tmp, ele faz o procedimento de pular para o próximo nó da lista \mbox{\Hypertarget{grafo_8h_a0bb84fa8449417531d7d68d0865d8bfc}\label{grafo_8h_a0bb84fa8449417531d7d68d0865d8bfc}} 
+\index{grafo.\+h@{grafo.\+h}!grafo\+\_\+busca\+\_\+no\+\_\+retorno@{grafo\+\_\+busca\+\_\+no\+\_\+retorno}}
+\index{grafo\+\_\+busca\+\_\+no\+\_\+retorno@{grafo\+\_\+busca\+\_\+no\+\_\+retorno}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{grafo\+\_\+busca\+\_\+no\+\_\+retorno()}{grafo\_busca\_no\_retorno()}}
+{\footnotesize\ttfamily int grafo\+\_\+busca\+\_\+no\+\_\+retorno (\begin{DoxyParamCaption}\item[{void $\ast$}]{tmp,  }\item[{int}]{x }\end{DoxyParamCaption})}
+
+
+
+Condição de retorno para grafo\+\_\+busca\+\_\+no com offset 0. 
+
+Verifica se o valor do nó corrente é o esperado x \mbox{\Hypertarget{grafo_8h_aece52f4bf68d68483705412fd67de259}\label{grafo_8h_aece52f4bf68d68483705412fd67de259}} 
+\index{grafo.\+h@{grafo.\+h}!grafo\+\_\+busca\+\_\+no\+\_\+retorno\+\_\+offset@{grafo\+\_\+busca\+\_\+no\+\_\+retorno\+\_\+offset}}
+\index{grafo\+\_\+busca\+\_\+no\+\_\+retorno\+\_\+offset@{grafo\+\_\+busca\+\_\+no\+\_\+retorno\+\_\+offset}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{grafo\+\_\+busca\+\_\+no\+\_\+retorno\+\_\+offset()}{grafo\_busca\_no\_retorno\_offset()}}
+{\footnotesize\ttfamily int grafo\+\_\+busca\+\_\+no\+\_\+retorno\+\_\+offset (\begin{DoxyParamCaption}\item[{void $\ast$}]{tmp,  }\item[{int}]{x }\end{DoxyParamCaption})}
+
+
+
+Condição de retorno para grafo\+\_\+busca\+\_\+no com offset -\/1. 
+
+Verifica se o próximo nó da lista de nós é diferente de N\+U\+LL e se o valor do próximo nó é o procurado x \mbox{\Hypertarget{grafo_8h_add32569d19e616be7ad8766dec72c4dd}\label{grafo_8h_add32569d19e616be7ad8766dec72c4dd}} 
+\index{grafo.\+h@{grafo.\+h}!grafo\+\_\+conta\+\_\+string@{grafo\+\_\+conta\+\_\+string}}
+\index{grafo\+\_\+conta\+\_\+string@{grafo\+\_\+conta\+\_\+string}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{grafo\+\_\+conta\+\_\+string()}{grafo\_conta\_string()}}
+{\footnotesize\ttfamily unsigned int grafo\+\_\+conta\+\_\+string (\begin{DoxyParamCaption}\item[{const char $\ast$}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{grafo_8h_a070e5f829f667a6fbb710352cea447dd}\label{grafo_8h_a070e5f829f667a6fbb710352cea447dd}} 
+\index{grafo.\+h@{grafo.\+h}!grafo\+\_\+lista\+\_\+no\+\_\+inserir@{grafo\+\_\+lista\+\_\+no\+\_\+inserir}}
+\index{grafo\+\_\+lista\+\_\+no\+\_\+inserir@{grafo\+\_\+lista\+\_\+no\+\_\+inserir}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{grafo\+\_\+lista\+\_\+no\+\_\+inserir()}{grafo\_lista\_no\_inserir()}}
+{\footnotesize\ttfamily \hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte} grafo\+\_\+lista\+\_\+no\+\_\+inserir (\begin{DoxyParamCaption}\item[{\hyperlink{structgrafo__lista__no}{grafo\+\_\+lista\+\_\+no} $\ast$$\ast$}]{,  }\item[{int}]{ }\end{DoxyParamCaption})}
+
+
+
+Insere um nó em uma lista de nós. 
+
+\mbox{\Hypertarget{grafo_8h_a22c1e3359e4cc6a1636b5efdf0837a52}\label{grafo_8h_a22c1e3359e4cc6a1636b5efdf0837a52}} 
+\index{grafo.\+h@{grafo.\+h}!grafo\+\_\+percorre@{grafo\+\_\+percorre}}
+\index{grafo\+\_\+percorre@{grafo\+\_\+percorre}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{grafo\+\_\+percorre()}{grafo\_percorre()}}
+{\footnotesize\ttfamily void$\ast$ grafo\+\_\+percorre (\begin{DoxyParamCaption}\item[{void $\ast$}]{,  }\item[{int}]{,  }\item[{int(void $\ast$, int)}]{,  }\item[{int(void $\ast$$\ast$)}]{ }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{grafo_8h_a3d03d3bd6a82ca66682b59217f3494d8}\label{grafo_8h_a3d03d3bd6a82ca66682b59217f3494d8}} 
+\index{grafo.\+h@{grafo.\+h}!grafo\+\_\+string\+\_\+aleatoria@{grafo\+\_\+string\+\_\+aleatoria}}
+\index{grafo\+\_\+string\+\_\+aleatoria@{grafo\+\_\+string\+\_\+aleatoria}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{grafo\+\_\+string\+\_\+aleatoria()}{grafo\_string\_aleatoria()}}
+{\footnotesize\ttfamily void grafo\+\_\+string\+\_\+aleatoria (\begin{DoxyParamCaption}\item[{char $\ast$$\ast$}]{,  }\item[{unsigned}]{int }\end{DoxyParamCaption})}
+
+\mbox{\Hypertarget{grafo_8h_a2735191ddf3adacfb299b0dba8155a1d}\label{grafo_8h_a2735191ddf3adacfb299b0dba8155a1d}} 
+\index{grafo.\+h@{grafo.\+h}!grafo\+\_\+verificador@{grafo\+\_\+verificador}}
+\index{grafo\+\_\+verificador@{grafo\+\_\+verificador}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{grafo\+\_\+verificador()}{grafo\_verificador()}}
+{\footnotesize\ttfamily int grafo\+\_\+verificador (\begin{DoxyParamCaption}\item[{\hyperlink{structgrafo}{grafo} $\ast$}]{G }\end{DoxyParamCaption})}
+
+Função verificadora de grafo, verifica se o grafo tem raiz, tem último elemento e se é diferente de N\+U\+LL \mbox{\Hypertarget{grafo_8h_a3af8cb148494644b8ce9d64d0ad44aa4}\label{grafo_8h_a3af8cb148494644b8ce9d64d0ad44aa4}} 
+\index{grafo.\+h@{grafo.\+h}!muda\+\_\+valor\+\_\+aresta@{muda\+\_\+valor\+\_\+aresta}}
+\index{muda\+\_\+valor\+\_\+aresta@{muda\+\_\+valor\+\_\+aresta}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{muda\+\_\+valor\+\_\+aresta()}{muda\_valor\_aresta()}}
+{\footnotesize\ttfamily \hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte} muda\+\_\+valor\+\_\+aresta (\begin{DoxyParamCaption}\item[{\hyperlink{structgrafo}{grafo} $\ast$}]{,  }\item[{int}]{,  }\item[{int}]{,  }\item[{int}]{ }\end{DoxyParamCaption})}
+
+
+
+Muda o valor da aresta que vai de x a y com o valor v. 
+
+\mbox{\Hypertarget{grafo_8h_afb94c4f5dc2c27df0ab862cca22d1279}\label{grafo_8h_afb94c4f5dc2c27df0ab862cca22d1279}} 
+\index{grafo.\+h@{grafo.\+h}!muda\+\_\+valor\+\_\+vertice@{muda\+\_\+valor\+\_\+vertice}}
+\index{muda\+\_\+valor\+\_\+vertice@{muda\+\_\+valor\+\_\+vertice}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{muda\+\_\+valor\+\_\+vertice()}{muda\_valor\_vertice()}}
+{\footnotesize\ttfamily \hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte} muda\+\_\+valor\+\_\+vertice (\begin{DoxyParamCaption}\item[{\hyperlink{structgrafo}{grafo} $\ast$}]{,  }\item[{int}]{,  }\item[{void $\ast$}]{ }\end{DoxyParamCaption})}
+
+
+
+Muda o valor do vértice de identificador x para o valor v. 
+
+\mbox{\Hypertarget{grafo_8h_aee8e572e7e6166b6926ba3adac503e4b}\label{grafo_8h_aee8e572e7e6166b6926ba3adac503e4b}} 
+\index{grafo.\+h@{grafo.\+h}!print\+\_\+log@{print\+\_\+log}}
+\index{print\+\_\+log@{print\+\_\+log}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{print\+\_\+log()}{print\_log()}}
+{\footnotesize\ttfamily void print\+\_\+log (\begin{DoxyParamCaption}\item[{const char $\ast$}]{tipo,  }\item[{const char $\ast$}]{texto,  }\item[{const char $\ast$}]{C\+OR }\end{DoxyParamCaption})}
+
+
+
+Mostra um log que combina com o log do gtest. 
+
+Recebe como parâmetros o tipo, uma string que ficará no início do log, o texto a ser mostrado do log e a cor da região com o tipo, usando as definições de \hyperlink{grafo_8h}{grafo.\+h}
+
+
+\begin{DoxyCode}
+\hyperlink{grafo_8c_ade05ac84e23150ad23a72b69af1f1581}{print\_log}(\textcolor{stringliteral}{"TEST"}, \textcolor{stringliteral}{"Log de teste"}, \hyperlink{grafo_8h_a9c12e0202321b096908beadd87f3ad2d}{COR\_VERDE});
+\end{DoxyCode}
+ \mbox{\Hypertarget{grafo_8h_aecbb286b54980e6baa279cc9674409da}\label{grafo_8h_aecbb286b54980e6baa279cc9674409da}} 
+\index{grafo.\+h@{grafo.\+h}!remove\+\_\+aresta@{remove\+\_\+aresta}}
+\index{remove\+\_\+aresta@{remove\+\_\+aresta}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{remove\+\_\+aresta()}{remove\_aresta()}}
+{\footnotesize\ttfamily \hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte} remove\+\_\+aresta (\begin{DoxyParamCaption}\item[{\hyperlink{structgrafo}{grafo} $\ast$}]{,  }\item[{int}]{,  }\item[{int}]{ }\end{DoxyParamCaption})}
+
+
+
+Remove uma aresta a partir dos identificadores x e y. 
+
+\mbox{\Hypertarget{grafo_8h_ac18400b9406e0499297bdd2b5d14fabe}\label{grafo_8h_ac18400b9406e0499297bdd2b5d14fabe}} 
+\index{grafo.\+h@{grafo.\+h}!remove\+\_\+aresta\+\_\+end@{remove\+\_\+aresta\+\_\+end}}
+\index{remove\+\_\+aresta\+\_\+end@{remove\+\_\+aresta\+\_\+end}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{remove\+\_\+aresta\+\_\+end()}{remove\_aresta\_end()}}
+{\footnotesize\ttfamily \hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte} remove\+\_\+aresta\+\_\+end (\begin{DoxyParamCaption}\item[{\hyperlink{structgrafo}{grafo} $\ast$}]{,  }\item[{\hyperlink{structgrafo__no}{grafo\+\_\+no} $\ast$}]{,  }\item[{int}]{ }\end{DoxyParamCaption})}
+
+
+
+Remove uma aresta pelo endereço de memória do nó ao qual ela sai e do identificador do nó para onde ela vai. 
+
+\mbox{\Hypertarget{grafo_8h_a24082c1cb84ec398a5e2e086f65595dd}\label{grafo_8h_a24082c1cb84ec398a5e2e086f65595dd}} 
+\index{grafo.\+h@{grafo.\+h}!remove\+\_\+vertice@{remove\+\_\+vertice}}
+\index{remove\+\_\+vertice@{remove\+\_\+vertice}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{remove\+\_\+vertice()}{remove\_vertice()}}
+{\footnotesize\ttfamily \hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte} remove\+\_\+vertice (\begin{DoxyParamCaption}\item[{\hyperlink{structgrafo}{grafo} $\ast$}]{,  }\item[{int}]{ }\end{DoxyParamCaption})}
+
+
+
+Remove um vértice a partir de seu identificador x. 
+
+\mbox{\Hypertarget{grafo_8h_aead249d7ced6a4b0786b91ea6e34505c}\label{grafo_8h_aead249d7ced6a4b0786b91ea6e34505c}} 
+\index{grafo.\+h@{grafo.\+h}!remove\+\_\+vertice\+\_\+end@{remove\+\_\+vertice\+\_\+end}}
+\index{remove\+\_\+vertice\+\_\+end@{remove\+\_\+vertice\+\_\+end}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{remove\+\_\+vertice\+\_\+end()}{remove\_vertice\_end()}}
+{\footnotesize\ttfamily \hyperlink{grafo_8h_a4ec659853d95d7fed0b321cfe3bb54bd}{grafo\+\_\+cte} remove\+\_\+vertice\+\_\+end (\begin{DoxyParamCaption}\item[{\hyperlink{structgrafo}{grafo} $\ast$}]{,  }\item[{\hyperlink{structgrafo__no}{grafo\+\_\+no} $\ast$}]{ }\end{DoxyParamCaption})}
+
+
+
+Remove um vértice a partir de seu endereço. 
+
+\mbox{\Hypertarget{grafo_8h_a0035674f566ba6057b939b85afb48514}\label{grafo_8h_a0035674f566ba6057b939b85afb48514}} 
+\index{grafo.\+h@{grafo.\+h}!retorna\+\_\+nome\+\_\+grafo@{retorna\+\_\+nome\+\_\+grafo}}
+\index{retorna\+\_\+nome\+\_\+grafo@{retorna\+\_\+nome\+\_\+grafo}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{retorna\+\_\+nome\+\_\+grafo()}{retorna\_nome\_grafo()}}
+{\footnotesize\ttfamily char$\ast$ retorna\+\_\+nome\+\_\+grafo (\begin{DoxyParamCaption}\item[{\hyperlink{structgrafo}{grafo} $\ast$}]{G }\end{DoxyParamCaption})}
+
+Retorna o nome do grafo \mbox{\Hypertarget{grafo_8h_a45ee150eb4fd410e4fd49dd102f5ada0}\label{grafo_8h_a45ee150eb4fd410e4fd49dd102f5ada0}} 
+\index{grafo.\+h@{grafo.\+h}!retorna\+\_\+valor\+\_\+aresta@{retorna\+\_\+valor\+\_\+aresta}}
+\index{retorna\+\_\+valor\+\_\+aresta@{retorna\+\_\+valor\+\_\+aresta}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{retorna\+\_\+valor\+\_\+aresta()}{retorna\_valor\_aresta()}}
+{\footnotesize\ttfamily int retorna\+\_\+valor\+\_\+aresta (\begin{DoxyParamCaption}\item[{\hyperlink{structgrafo}{grafo} $\ast$}]{,  }\item[{int}]{,  }\item[{int}]{ }\end{DoxyParamCaption})}
+
+
+
+Retorna o valor da aresta que vai de x a y. 
+
+\mbox{\Hypertarget{grafo_8h_a201dae70e45d103a9d433940e2dc404d}\label{grafo_8h_a201dae70e45d103a9d433940e2dc404d}} 
+\index{grafo.\+h@{grafo.\+h}!retorna\+\_\+valor\+\_\+vertice@{retorna\+\_\+valor\+\_\+vertice}}
+\index{retorna\+\_\+valor\+\_\+vertice@{retorna\+\_\+valor\+\_\+vertice}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{retorna\+\_\+valor\+\_\+vertice()}{retorna\_valor\_vertice()}}
+{\footnotesize\ttfamily void$\ast$ retorna\+\_\+valor\+\_\+vertice (\begin{DoxyParamCaption}\item[{\hyperlink{structgrafo}{grafo} $\ast$}]{,  }\item[{int}]{ }\end{DoxyParamCaption})}
+
+
+
+Retorna o valor do vértice de identificador x. 
+
+\mbox{\Hypertarget{grafo_8h_ab40db8d66f24457224c86ec84ca513d6}\label{grafo_8h_ab40db8d66f24457224c86ec84ca513d6}} 
+\index{grafo.\+h@{grafo.\+h}!vizinhos@{vizinhos}}
+\index{vizinhos@{vizinhos}!grafo.\+h@{grafo.\+h}}
+\subsubsection{\texorpdfstring{vizinhos()}{vizinhos()}}
+{\footnotesize\ttfamily \hyperlink{structgrafo__lista__no}{grafo\+\_\+lista\+\_\+no}$\ast$ vizinhos (\begin{DoxyParamCaption}\item[{\hyperlink{structgrafo}{grafo} $\ast$}]{,  }\item[{int}]{ }\end{DoxyParamCaption})}
+
+
+
+Verifica os nós vizinhos a x retornando uma lista de nós. 
+

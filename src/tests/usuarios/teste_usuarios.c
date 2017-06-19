@@ -18,6 +18,9 @@ TEST(Usuarios, CriarUsuario){
 	/* Tentamos gravar no arquivo de dados dois novos usuários */
 	EXPECT_EQ(usuarios_cadastro(8, "usuario", "jose123", "nome", "Jose Antonio", "email", "joao@antonio.com", "endereco", "Rua Foo Casa Bar", "senha", "123456", "senha_confirmacao", "123456", "formaPagamento", BOLETO, "tipo", CONSUMIDOR), USUARIOS_SUCESSO);
 	EXPECT_EQ(usuarios_cadastro(8, "usuario", "amandalinda", "nome", "Amanda", "email", "karol@diego.com", "endereco", "Rua Foo 2 Casa Bar", "senha", "123456", "senha_confirmacao", "123456", "formaPagamento", PAYPAL, "tipo", CONSUMIDOR), USUARIOS_SUCESSO);
+
+	/* Gravamos usuários com overflow nos campos */
+	EXPECT_EQ(usuarios_cadastro(8, "usuario", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "nome", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "email", "aaaaaa@a.comaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa@aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa.com", "endereco", "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "senha", "123", "senha_confirmacao", "123", "formaPagamento", PAYPAL, "tipo", CONSUMIDOR), USUARIOS_SUCESSO);
 	
 	/* Tentamos gravar no arquivo de dados o novo usuário novamente */
 	EXPECT_EQ(usuarios_cadastro(8, "usuario", "jose123", "nome", "Jose Antonio", "endereco", "Rua Foo Casa Bar", "email", "joao@antonio.com", "senha", "123456", "senha_confirmacao", "123456", "formaPagamento", BOLETO, "tipo", CONSUMIDOR), USUARIOS_USUARIOEXISTE);
@@ -49,6 +52,7 @@ TEST(Usuarios, CriarMuitosUsuarios){
 		EXPECT_EQ(usuarios_cadastro(8, "usuario", stringAleatoria(numeroAleatorio(USUARIOS_LIMITE_USUARIO-5)+5), "nome", "Jose Antonio", "endereco", "Rua Foo Casa Bar", "email", email, "senha", senha, "senha_confirmacao", senha, "formaPagamento", BOLETO, "tipo", CONSUMIDOR), USUARIOS_SUCESSO);
 		free(senha);
 	}
+	EXPECT_EQ(usuarios_max(), 100+3);
 }
 
 TEST(Usuarios, FazerLogin){
@@ -87,6 +91,8 @@ TEST(Usuarios, DadosRetornoSessao){
 	EXPECT_EQ(usuarios_retornaDados(0, "n_avaliacao", (void *)&teste_n_avaliacao), USUARIOS_SUCESSO);
 	EXPECT_EQ(teste_n_avaliacao, 0);
 	
+	EXPECT_EQ(usuarios_logout(), USUARIOS_SUCESSO);
+	
 }
 
 TEST(Usuarios, DadosRetorno){
@@ -99,30 +105,51 @@ TEST(Usuarios, DadosRetorno){
 
 	EXPECT_EQ(usuarios_retornaDados(2, "tipo", (void *)&teste_tipo), USUARIOS_SUCESSO);
 	EXPECT_EQ(teste_tipo, CONSUMIDOR);
+	
 }
 
 TEST(Usuarios, AlterarDadosSessao){
 	char teste_nome[40];
-	int teste_n_reclamacoes;
+	unsigned int teste_n_reclamacoes;
+  unsigned int teste_n_avaliacao;
 	usuarios_estado_de_usuario teste_estado;
+  usuarios_forma_de_pagamento teste_forma;
+  double teste_avaliacao;
+	
+	EXPECT_EQ(usuarios_login((char *)"jose123", (char *)"123456"), USUARIOS_SUCESSO);
+	
 	EXPECT_EQ(usuarios_atualizarDados(0, "nome", "Jose Felipe"), USUARIOS_SUCESSO);
 	EXPECT_EQ(usuarios_retornaDados(0, "nome", (void *)teste_nome), USUARIOS_SUCESSO);
 	EXPECT_EQ(!strcmp(teste_nome, "Jose Felipe"), 1);
+	
 	EXPECT_EQ(usuarios_atualizarDados(0, "nome", "Jose Augusto"), USUARIOS_SUCESSO);
 	EXPECT_EQ(usuarios_retornaDados(0, "nome", (void *)teste_nome), USUARIOS_SUCESSO);
 	EXPECT_EQ(!strcmp(teste_nome, "Jose Augusto"), 1);
+	
 	EXPECT_EQ(usuarios_atualizarDados(0, "senha", "987654"), USUARIOS_SUCESSO);
 	EXPECT_EQ(usuarios_retornaDados(0, "senha", (void *)teste_nome), USUARIOS_SUCESSO);
 	EXPECT_EQ(!strcmp(teste_nome, "987654"), 1);
+	
 	EXPECT_EQ(usuarios_atualizarDados(0, "estado", INATIVO_EMAIL), USUARIOS_SUCESSO);
 	EXPECT_EQ(usuarios_retornaDados(0, "estado", (void *)&teste_estado), USUARIOS_SUCESSO);
 	EXPECT_EQ(teste_estado, INATIVO_EMAIL);
+	
 	EXPECT_EQ(usuarios_atualizarDados(0, "estado", ATIVO), USUARIOS_SUCESSO);
 	EXPECT_EQ(usuarios_retornaDados(0, "estado", (void *)&teste_estado), USUARIOS_SUCESSO);
 	EXPECT_EQ(teste_estado, ATIVO);
+	
+	EXPECT_EQ(usuarios_atualizarDados(0, "avaliacao", 2.854), USUARIOS_SUCESSO);
+	EXPECT_EQ(usuarios_retornaDados(0, "avaliacao", (void *)&teste_avaliacao), USUARIOS_SUCESSO);
+	EXPECT_EQ(teste_avaliacao, 2.854);
+	
+	EXPECT_EQ(usuarios_atualizarDados(0, "n_avaliacao", 80), USUARIOS_SUCESSO);
+	EXPECT_EQ(usuarios_retornaDados(0, "n_avaliacao", (void *)&teste_n_avaliacao), USUARIOS_SUCESSO);
+	EXPECT_EQ(teste_n_avaliacao, 80);
+	
 	EXPECT_EQ(usuarios_atualizarDados(0, "n_reclamacoes", 5), USUARIOS_SUCESSO);
 	EXPECT_EQ(usuarios_retornaDados(0, "n_reclamacoes", (void *)&teste_n_reclamacoes), USUARIOS_SUCESSO);
 	EXPECT_EQ(teste_n_reclamacoes, 5);
+	
 	EXPECT_EQ(usuarios_logout(), USUARIOS_SUCESSO);
 	
 }
@@ -131,6 +158,7 @@ TEST(Usuarios, AlterarDados){
 	char teste_nome[40];
 	usuarios_estado_de_usuario teste_estado;
   usuarios_tipo_usuario teste_tipo;
+  
 	EXPECT_EQ(usuarios_atualizarDados(2, "nome", "Amanda Nunes"), USUARIOS_SUCESSO);
 	EXPECT_EQ(usuarios_retornaDados(2, "nome", (void *)teste_nome), USUARIOS_SUCESSO);
 	EXPECT_EQ(!strcmp(teste_nome, "Amanda Nunes"), 1);
@@ -139,6 +167,22 @@ TEST(Usuarios, AlterarDados){
 	EXPECT_EQ(!strcmp(teste_nome, "987654"), 1);
 	EXPECT_EQ(usuarios_atualizarDados(2, "tipo", OFERTANTE), USUARIOS_SUCESSO);
 	EXPECT_EQ(usuarios_retornaDados(2, "tipo", (void *)&teste_tipo), USUARIOS_SUCESSO);
+	EXPECT_EQ(teste_tipo, OFERTANTE);
+	EXPECT_EQ(usuarios_atualizarDados(2, "estado", INATIVO_EMAIL), USUARIOS_SUCESSO);
+	EXPECT_EQ(usuarios_retornaDados(2, "estado", (void *)&teste_estado), USUARIOS_SUCESSO);
+	EXPECT_EQ(teste_estado, INATIVO_EMAIL);
+	
+	EXPECT_EQ(usuarios_logout(), USUARIOS_SUCESSO);
+	
+	EXPECT_EQ(usuarios_login((char *)"amandalinda", (char *)"987654"), USUARIOS_FALHA_INATIVO);
+	
+	EXPECT_EQ(usuarios_atualizarDados(2, "estado", ATIVO), USUARIOS_SUCESSO);
+	EXPECT_EQ(usuarios_retornaDados(2, "estado", (void *)&teste_estado), USUARIOS_SUCESSO);
+	EXPECT_EQ(teste_estado, ATIVO);
+	
+	EXPECT_EQ(usuarios_login((char *)"amandalinda", (char *)"987654"), USUARIOS_SUCESSO);
+	EXPECT_EQ(usuarios_logout(), USUARIOS_SUCESSO);
+	
 	EXPECT_EQ(teste_tipo, OFERTANTE);
 	
 }
@@ -162,6 +206,9 @@ TEST(Amizade, criarAmizade){
 	EXPECT_EQ(usuarios_criarAmizade(2), USUARIOS_AMIZADEJASOLICITADA);
 	EXPECT_EQ(usuarios_verificarAmizade(2), AGUARDANDOCONFIRMACAO);
 	
+	
+	EXPECT_EQ(usuarios_criarAmizade(105), USUARIOS_FALHAUSUARIONAOEXISTE);
+	
 	usuarios_listarAmigos(1, &a);
 	EXPECT_EQ(usuarios_logout(), USUARIOS_SUCESSO);
 	
@@ -170,9 +217,15 @@ TEST(Amizade, criarAmizade){
 	EXPECT_EQ(usuarios_criarAmizade(1), USUARIOS_SUCESSO);
 	EXPECT_EQ(usuarios_verificarAmizade(1), AMIGOS);
 	usuarios_listarAmigos(1, &a);
+	usuarios_freeUint(&a);
 	
 	
 	EXPECT_EQ(usuarios_logout(), USUARIOS_SUCESSO);
+
+	EXPECT_EQ(usuarios_limpar(), USUARIOS_SUCESSO);
+	EXPECT_EQ(usuarios_carregarArquivo(), USUARIOS_SUCESSO);	
+	EXPECT_EQ(usuarios_login((char *)"jose123", (char *)"987654"), USUARIOS_SUCESSO);
+	EXPECT_EQ(usuarios_verificarAmizade(2), AMIGOS);
 }
 
 int main(int argc, char **argv)

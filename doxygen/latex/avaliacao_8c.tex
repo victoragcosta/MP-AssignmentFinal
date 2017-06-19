@@ -1,0 +1,40 @@
+\hypertarget{avaliacao_8c}{}\section{/home/luiz/\+Documentos/\+M\+P/\+M\+P-\/\+Proj-\/\+Final/src/avaliacao/avaliacao.c File Reference}
+\label{avaliacao_8c}\index{/home/luiz/\+Documentos/\+M\+P/\+M\+P-\/\+Proj-\/\+Final/src/avaliacao/avaliacao.\+c@{/home/luiz/\+Documentos/\+M\+P/\+M\+P-\/\+Proj-\/\+Final/src/avaliacao/avaliacao.\+c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\newline
+{\ttfamily \#include $<$stdlib.\+h$>$}\newline
+{\ttfamily \#include $<$string.\+h$>$}\newline
+{\ttfamily \#include \char`\"{}avaliacao.\+h\char`\"{}}\newline
+{\ttfamily \#include \char`\"{}usuarios.\+h\char`\"{}}\newline
+Include dependency graph for avaliacao.\+c\+:
+% FIG 0
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{avaliacao_8h_a21f86c29c856fda7ff032ff37e89cbf0}{avaliacao\+\_\+cond\+Ret} \hyperlink{avaliacao_8c_afdeb7c07f1a0f2003d5142e03dd7a010}{avaliacao\+\_\+fazer\+Avaliacao} (unsigned int identificador\+Avaliado, unsigned int nota, char $\ast$comentario)
+\begin{DoxyCompactList}\small\item\em Função que avalia um usuário. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{avaliacao_8c_afdeb7c07f1a0f2003d5142e03dd7a010}\label{avaliacao_8c_afdeb7c07f1a0f2003d5142e03dd7a010}} 
+\index{avaliacao.\+c@{avaliacao.\+c}!avaliacao\+\_\+fazer\+Avaliacao@{avaliacao\+\_\+fazer\+Avaliacao}}
+\index{avaliacao\+\_\+fazer\+Avaliacao@{avaliacao\+\_\+fazer\+Avaliacao}!avaliacao.\+c@{avaliacao.\+c}}
+\subsubsection{\texorpdfstring{avaliacao\+\_\+fazer\+Avaliacao()}{avaliacao\_fazerAvaliacao()}}
+{\footnotesize\ttfamily \hyperlink{avaliacao_8h_a21f86c29c856fda7ff032ff37e89cbf0}{avaliacao\+\_\+cond\+Ret} avaliacao\+\_\+fazer\+Avaliacao (\begin{DoxyParamCaption}\item[{unsigned int}]{identificador\+Avaliado,  }\item[{unsigned int}]{nota,  }\item[{char $\ast$}]{comentario }\end{DoxyParamCaption})}
+
+
+
+Função que avalia um usuário. 
+
+Protótipos das funções.
+
+Necessita de sessão aberta
+
+Modo de uso\+: 
+\begin{DoxyCode}
+\hyperlink{avaliacao_8c_afdeb7c07f1a0f2003d5142e03dd7a010}{avaliacao\_fazerAvaliacao}(5, 4, \textcolor{stringliteral}{"Bom serviço"});
+\end{DoxyCode}
+ O usuário da sessão avalia o usuário 5 com nota 4 e comentando \char`\"{}\+Bom serviço\char`\"{}.
+
+A nota deve ser um inteiro de 0 a 5
+
+O comentário não deve exceder 200 caracteres (incluindo \textquotesingle{}\textbackslash{}0\textquotesingle{}) 

@@ -9,8 +9,12 @@
 /*!
  * @brief Grafo de usuários
 */
-static grafo *usuarios_grafo = NULL; /* Grafo de usuários */
-static unsigned int usuarios_contador = 0; /* Contador de id's no grafo */
+static grafo *usuarios_grafo = NULL; 
+
+/*!
+ * @brief Contador do número de usuários no grafo
+*/
+static unsigned int usuarios_contador = 0;
 
 /*!
  * @brief Sessão aberta
@@ -27,6 +31,9 @@ static tpUsuario *usuarios_dadosTemp = (tpUsuario *)malloc(sizeof(tpUsuario));
 */
 static unsigned int usuarios_cadastro_argumentos_n = 5;
 
+/*!
+ * @brief Usado para detecção de argumentos válidos
+*/
 static usuarios_cadastro_argumentos usuarios_args[] = {
   {.validos = "usuario", .tamanho = USUARIOS_LIMITE_USUARIO, .destino = usuarios_dadosTemp->usuario},
   {.validos = "nome", .tamanho = USUARIOS_LIMITE_NOME, .destino = usuarios_dadosTemp->nome},
@@ -62,7 +69,6 @@ int usuarios_max(){
  * e USUARIOS_DADOS_OK caso contrário.
  *
  * Observação, a verificação de nome ignora se o caracter é caixa alta ou não
- 
 */
 static usuarios_condRet usuarios_verificaRepeticao(const char *argumento, char *dado){
   unsigned int i = 0; /* Contador dos nós */
@@ -108,23 +114,28 @@ static usuarios_condRet usuarios_verificaRepeticao(const char *argumento, char *
 }
 
 /*!
- * @brief Condição de parada para encontrar identificador DEPRECATED
+ * @brief Condição de parada para usuario e senha corretos do login, usado em usuarios_busca
 */
-int usuarios_condParada_identificador(tpUsuario *corrente, va_list argumentos){
-  return corrente->identificador == va_arg(argumentos, unsigned int);
-}
-
-/*!
- * @brief Condição de parada para usuario e senha corretos do login
-*/
-int usuarios_condParada_login(tpUsuario *corrente, va_list argumentos){
+static int usuarios_condParada_login(tpUsuario *corrente, va_list argumentos){
   return !strcmp(corrente->usuario, va_arg(argumentos, char *)) && !strcmp(corrente->senha, va_arg(argumentos, char *));
 }
 
 /*!
- * @brief Busca no grafo de usuários
+ * @brief Função de busca no grafo de usuários dada uma condição de parada condParada
+ * 
+ * Recebe uma função de condição de parada, e retorna por referência os dados de usuário e o índice no grafo (identificador)
+ * Recebe uma lista de argumentos depois disso exigidos pela função de condição de parada passados
+ * É uma função estática do módulo
+ * 
+ * @code
+ * usuarios_busca(usuarios_condParada_login, &retorno, NULL, "joão", "123456");
+ * @endcode
+ * 
+ * Este exemplo encontra no grafo um usuário joão de senha 123456 e retorna por referência a retorno.
+ * Retorna por valor a condição de retorno, se for USUARIOS_SUCESSO, significa que a atribuição a retorno foi 
+ * feita com sucesso. Se não encontrar retorna USUARIOS_FALHA_DADOSINCORRETOS. É uma função estática do módulo
 */
-static usuarios_condRet usuarios_busca(int condParada(tpUsuario *, va_list), tpUsuario **retorno, unsigned int *indice ...){
+static usuarios_condRet usuarios_busca(int condParada(tpUsuario *, va_list), tpUsuario **retorno, unsigned int *indice, ...){
   unsigned int i = 0;
   tpUsuario *corrente;
   grafo_no *nodo;
@@ -162,6 +173,9 @@ static usuarios_condRet usuarios_busca(int condParada(tpUsuario *, va_list), tpU
 
 /*!
  * @brief Função leitora de string em um arquivo de dados
+ * 
+ * Lê uma string do arquivo e salva em dstStr previamente alocada,
+ * recebe um limite de gravação. É uma função estática
 */
 static void usuarios_lerString(FILE *arquivo, char *dstStr, unsigned int limite){
   unsigned int i = 0, espaco = 0;
@@ -171,7 +185,7 @@ static void usuarios_lerString(FILE *arquivo, char *dstStr, unsigned int limite)
     !feof(arquivo) && \
     (caracter = fgetc(arquivo)) != '\t' && \
     caracter != '\n' && \
-    i < limite - 1
+    i < limite
   ) {
     /* Controle para evitar strings cheias de espaços no final */
     if(caracter != ' ') espaco = i; 
@@ -196,6 +210,9 @@ static void usuarios_lerString(FILE *arquivo, char *dstStr, unsigned int limite)
  * indo de A a B e outra indo de B a A.
  * Se isso não ocorrer temos a pendencia de uma relação, na qual
  * aguarda-se a confirmação da parte solicitada para criá-la.
+ * 
+ * Retorna USUARIOS_SUCESSO caso tenha carregado o arquivo corretamente e gerado o grafo de usuário.
+ * Deve ser a primeira função a ser carregada para que o módulo funcione.
 */
 
 usuarios_condRet usuarios_carregarArquivo(){
@@ -263,7 +280,7 @@ usuarios_condRet usuarios_carregarArquivo(){
       &(corrente->n_reclamacoes)
     );
     
-    printf("%u|%s|%s|%s|%s|%s|%d|%d|%d|%lf|%u|%u\n", 
+    /*printf("%u|%s|%s|%s|%s|%s|%d|%d|%d|%lf|%u|%u\n", 
       corrente->identificador,
       corrente->usuario,
       corrente->nome,
@@ -276,7 +293,7 @@ usuarios_condRet usuarios_carregarArquivo(){
       corrente->avaliacao,
       corrente->n_avaliacao,
       corrente->n_reclamacoes
-    );
+    );*/
     
     /* Adicionamos ao grafo */
     if(adiciona_vertice(usuarios_grafo, i) != SUCESSO) {
@@ -316,11 +333,13 @@ usuarios_condRet usuarios_carregarArquivo(){
     /* Vemos se já há um arco entre eles nesta direção, uma assertiva */
     if(grafo_busca_arco(usuarios_grafo, identificador_A, identificador_B) != NULL){
       fclose(db_amigos);
+       destroi_grafo(&usuarios_grafo);
       return USUARIOS_DB_CORROMPIDO;
     }
     
     if(adiciona_aresta(usuarios_grafo, identificador_A, identificador_B) != SUCESSO){
       fclose(db_amigos);
+      destroi_grafo(&usuarios_grafo);
       return USUARIOS_FALHA_CRIARAMIZADE;
     }
   }
@@ -367,11 +386,14 @@ usuarios_condRet usuarios_cadastro(int n, ...){
   for(;i<n;i++){
     argumento = va_arg(argumentos, char *);
     for(j=0;j<usuarios_cadastro_argumentos_n;j++)
-      if(!strcmp(argumento, usuarios_args[j].validos)) strncpy(usuarios_args[j].destino, va_arg(argumentos, char *), usuarios_args[j].tamanho);
+      if(!strcmp(argumento, usuarios_args[j].validos)) {
+      	strncpy(usuarios_args[j].destino, va_arg(argumentos, char *), usuarios_args[j].tamanho-1);
+        usuarios_args[j].destino[usuarios_args[j].tamanho-1] = '\0';
+      }
       
     /* Casos especiais diferentes de char * */
     if(!strcmp(argumento, "senha_confirmacao")) 
-      strncpy(senha_confirmacao, va_arg(argumentos, char *), USUARIOS_LIMITE_SENHA);
+      strncpy(senha_confirmacao, va_arg(argumentos, char *), USUARIOS_LIMITE_SENHA-1);
     if(!strcmp(argumento, "formaPagamento")) 
       usuarios_dadosTemp->formaPagamento = (usuarios_forma_de_pagamento)va_arg(argumentos, int);
     if(!strcmp(argumento, "tipo")) 
@@ -453,6 +475,8 @@ usuarios_condRet usuarios_cadastro(int n, ...){
 
 /*!
  * @brief Função que verifica se há uma sessão aberta
+ * 
+ * Retorna verdade caso haja uma sessão, retorna mentira caso contrário
 */
 int usuarios_sessaoAberta(){
   if(usuarios_sessao == NULL) return 0;
@@ -461,6 +485,8 @@ int usuarios_sessaoAberta(){
 
 /*!
  * @brief Buscamos a conta correspondente ao login e senha passados
+ * 
+ * Recebe as strings usuário e senha
 */
 usuarios_condRet usuarios_login(char *usuario, char *senha){
   tpUsuario *corrente;
@@ -483,6 +509,8 @@ usuarios_condRet usuarios_login(char *usuario, char *senha){
 
 /*!
  * @brief Função de logout
+ * 
+ * Finaliza a sessão aberta
 */
 
 usuarios_condRet usuarios_logout(){
@@ -491,42 +519,24 @@ usuarios_condRet usuarios_logout(){
 }
 
 /*!
- * @brief Função de busca do usuário a partir do identificador DEPRECATED
- * fazendo restrição a sessão, caso o usuário não seja administrador
- *
- * Interface:
- * @code
- * usuarios_condRet usuarios_buscaLimitada(unsigned int identificador, tpUsuario **retorno, unsigned int *indice = NULL);
- * @endcode
- * Exemplo, busca os dados *tpUsuario do usuário de identificador 5 e 
- * retorna por referência para dados.
- * @code
- * usuarios_buscaLimitada(5, &dados);
- * @endcode
-*/
-static usuarios_condRet usuarios_buscaLimitada(unsigned int identificador, tpUsuario **retorno){
-  tpUsuario *corrente;
-  /* Se passado 0 retornamos o usuário da sessão */
-  if(identificador){
-    if(1){
-        /* Buscamos o identificador caso o usuário seja ADMINISTRADOR */
-        corrente = (tpUsuario *)retorna_valor_vertice(usuarios_grafo, identificador);
-        
-        if(corrente == NULL) return USUARIOS_GRAFO_CORROMPIDO; /* Assertiva */
-        
-        *retorno = corrente;
-        return USUARIOS_SUCESSO;
-    }
-    else {
-      *retorno = NULL;
-      return USUARIOS_FALHA_ACESSORESTRITO;
-    }
-  }
-  else *retorno = usuarios_sessao;
-}
-
-/*!
  * @brief Função verifica um usuário é amigo do usuário na sessão
+ * 
+ * Assertiva de entrada, há uma sessão aberta
+ * 
+ * Recebe o identificador do usuário a ser verificada a relação de amizade com 
+ * o usuário da sessão
+ *
+ * Retorna usuarios_sessao, podendo ser ERRO, AMIGOS, NENHUMA, ACONFIRMAR ou AGUARDANDOCONFIRMACAO
+ * 
+ * ERRO, caso algum erro ocorra, como a assertiva de entrada não ser respeitada
+ * 
+ * AMIGOS, se forem amigos
+ * 
+ * NENHUMA, se não existir relação entre eles
+ * 
+ * ACONFIRMAR, se o usuário pesquisado não tiver confirmado a amizade
+ * 
+ * AGUARDANDOCONFIRMACAO, se o usuário da sessão estiver por aceitar a amizade ou não
 */
 usuarios_relacao usuarios_verificarAmizade(unsigned int identificador){
   unsigned int i=0;
@@ -555,6 +565,8 @@ usuarios_relacao usuarios_verificarAmizade(unsigned int identificador){
  * outro cliente
  *
  * Deve receber o identificador do amigo pretendido
+ * 
+ * Retorna USUARIOS_SUCESSO se não houver falhas
 */
 usuarios_condRet usuarios_criarAmizade(unsigned int identificador){
   tpUsuario *corrente;
@@ -602,6 +614,17 @@ usuarios_condRet usuarios_criarAmizade(unsigned int identificador){
  * @brief Retorna os dados do usuário do identificador passado
  *
  * Se identificador for zero, retornamos os dados da sessão
+ * 
+ * Retorna o dado por referência, recebe uma string com o dado a ser buscado
+ * 
+ * @code
+ * usuarios_retornaDados(0, "nome", (void *)string_nome);
+ * @endcode
+ * 
+ * Retorna o nome do usuário da sessão e salva em string_nome
+ * 
+ * Argumentos válidos: "identificador", "usuario", "nome", "senha", "email", "endereco", 
+ * "formaPagamento", "tipo", "estado", "avaliacao", "n_avaliacao", "n_reclamacoes"
 */
 usuarios_condRet usuarios_retornaDados(unsigned int identificador, const char *nomeDado, void *retorno) {
   unsigned int i = 0;
@@ -646,6 +669,21 @@ usuarios_condRet usuarios_retornaDados(unsigned int identificador, const char *n
 
 /*!
  * @brief Atualiza dados do usuário de identificador passado
+ *
+ * Se identificador for zero, altera os dados da sessão
+ *  
+ * @code
+ * usuarios_atualizarDados(0, "nome", "João Ninguém");
+ * @endcode
+ *
+ * O último argumento pode ser de qualquer tipo, exemplo:
+ * 
+ * @code
+ * usuarios_atualizarDados(0, "estado", INATIVO_ABUSO);
+ * @endcode
+ * 
+ * Argumentos válidos: "identificador", "usuario", "nome", "senha", "email", "endereco", 
+ * "formaPagamento", "tipo", "estado", "avaliacao", "n_avaliacao", "n_reclamacoes"
 */
 usuarios_condRet usuarios_atualizarDados(unsigned int identificador, const char *nomeDado, ...){
   unsigned int i, j;
@@ -732,6 +770,11 @@ usuarios_condRet usuarios_atualizarDados(unsigned int identificador, const char 
   
 }
 
+/*!
+ * @brief Apaga o grafo de usuários da memória e faz logout na sessão aberta
+ * 
+ * Retorna USUARIOS_SUCESSO se não ocorrerem erros.
+*/
 usuarios_condRet usuarios_limpar(){
   /* Fechamos qualquer sessão aberta */
   if(usuarios_logout() != USUARIOS_SUCESSO) return USUARIOS_FALHA_FECHARSESSAO;
@@ -743,10 +786,17 @@ usuarios_condRet usuarios_limpar(){
 
 /*!
  * @brief Função que retorna uma lista de identificadores dos amigos
- * do usuário passado pretendido
+ * do usuário passado pretendido, se o identificador for 0, retorna da sessão
  *
  * Retorna por referência um array de unsigned int
- * positivo.
+ * positivo (usuarios_uintarray). O array deve ser alocado estaticamente:
+ * 
+ * @code
+ * usuarios_uintarray array;
+ * usuarios_listarAmigos(0, &array);
+ * @endcode
+ * 
+ * Vai compor o array com os identificadores dos amigos.
 */
 usuarios_condRet usuarios_listarAmigos(unsigned int identificador, usuarios_uintarray *retorno) {
   tpUsuario *nodo, *corrente;
@@ -754,7 +804,10 @@ usuarios_condRet usuarios_listarAmigos(unsigned int identificador, usuarios_uint
   unsigned int posicaoGrafo;
   
   /* Pegamos o nodo com o identificador passado */
-  corrente = (tpUsuario *)retorna_valor_vertice(usuarios_grafo, identificador);
+  if(identificador) corrente = (tpUsuario *)retorna_valor_vertice(usuarios_grafo, identificador);
+  /* Se foi passado 0, então pega-se o da sessão */
+  else corrente = usuarios_sessao;
+  
   if(corrente == NULL) return USUARIOS_FALHA_ACESSORESTRITO; /* Assertiva */
   
   /* Geramos o vetor */
@@ -776,6 +829,18 @@ usuarios_condRet usuarios_listarAmigos(unsigned int identificador, usuarios_uint
   
   return USUARIOS_SUCESSO;
   
+}
+
+/*!
+ * @brief Função que desaloca memória de usuarios_uintarray
+ * 
+ * Recebe o endereço de usuarios_uintarray
+*/
+usuarios_condRet usuarios_freeUint(usuarios_uintarray *vetor){
+  if(vetor->array != NULL) free(vetor->array);
+  vetor->array = NULL;
+  vetor->length = 0;
+  return USUARIOS_SUCESSO;
 }
 
 

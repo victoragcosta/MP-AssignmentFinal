@@ -1,0 +1,37 @@
+\hypertarget{aleatorio_8h}{}\section{/home/luiz/\+Documentos/\+M\+P/\+M\+P-\/\+Proj-\/\+Final/include/aleatorio.h File Reference}
+\label{aleatorio_8h}\index{/home/luiz/\+Documentos/\+M\+P/\+M\+P-\/\+Proj-\/\+Final/include/aleatorio.\+h@{/home/luiz/\+Documentos/\+M\+P/\+M\+P-\/\+Proj-\/\+Final/include/aleatorio.\+h}}
+This graph shows which files directly or indirectly include this file\+:
+% FIG 0
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+char $\ast$ \hyperlink{aleatorio_8h_a8fcaacd360f5c89c18c1dd33a96d18dc}{string\+Aleatoria} (unsigned int)
+\begin{DoxyCompactList}\small\item\em Gera uma string aleatória composta por letras minúsculas. \end{DoxyCompactList}\item 
+unsigned int \hyperlink{aleatorio_8h_aa3e17a2187d507a0e4a33f683809c921}{numero\+Aleatorio} (unsigned int)
+\begin{DoxyCompactList}\small\item\em Gera um número aleatório dado o limite. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Function Documentation}
+\mbox{\Hypertarget{aleatorio_8h_aa3e17a2187d507a0e4a33f683809c921}\label{aleatorio_8h_aa3e17a2187d507a0e4a33f683809c921}} 
+\index{aleatorio.\+h@{aleatorio.\+h}!numero\+Aleatorio@{numero\+Aleatorio}}
+\index{numero\+Aleatorio@{numero\+Aleatorio}!aleatorio.\+h@{aleatorio.\+h}}
+\subsubsection{\texorpdfstring{numero\+Aleatorio()}{numeroAleatorio()}}
+{\footnotesize\ttfamily unsigned int numero\+Aleatorio (\begin{DoxyParamCaption}\item[{unsigned}]{int }\end{DoxyParamCaption})}
+
+
+
+Gera um número aleatório dado o limite. 
+
+\mbox{\Hypertarget{aleatorio_8h_a8fcaacd360f5c89c18c1dd33a96d18dc}\label{aleatorio_8h_a8fcaacd360f5c89c18c1dd33a96d18dc}} 
+\index{aleatorio.\+h@{aleatorio.\+h}!string\+Aleatoria@{string\+Aleatoria}}
+\index{string\+Aleatoria@{string\+Aleatoria}!aleatorio.\+h@{aleatorio.\+h}}
+\subsubsection{\texorpdfstring{string\+Aleatoria()}{stringAleatoria()}}
+{\footnotesize\ttfamily char$\ast$ string\+Aleatoria (\begin{DoxyParamCaption}\item[{unsigned int}]{size }\end{DoxyParamCaption})}
+
+
+
+Gera uma string aleatória composta por letras minúsculas. 
+
+Recebe o tamanho e retorna a string alocada dinamicamente
+
+Deve-\/se fazer free após uso 

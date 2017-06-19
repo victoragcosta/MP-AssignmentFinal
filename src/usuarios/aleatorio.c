@@ -2,8 +2,12 @@
 #include <stdlib.h>
 #include "../include/aleatorio.h"
 
-/*
-  Gera uma string aleatória composta por letras minúsculas
+/*!
+ * @brief Gera uma string aleatória composta por letras minúsculas
+ * 
+ * Recebe o tamanho e retorna a string alocada dinamicamente
+ * 
+ * Deve-se fazer free após uso
 */
 char *stringAleatoria(unsigned int size){
 	if(size == 0) return NULL;
@@ -18,6 +22,9 @@ char *stringAleatoria(unsigned int size){
 	return string;	
 }
 
+/*!
+ * @brief Gera um número aleatório dado o limite
+*/
 unsigned int numeroAleatorio(unsigned int limite){
 	FILE *random = fopen("/dev/urandom", "r");
 	unsigned int retorno;
