@@ -296,7 +296,16 @@ errorLevel SelectProduct(int index, productList *list, product *selection) {
 
 }
 
-int MatchesSpecification(product *item , productSpecification *specification) {
+/**
+ * @fn MatchesSpecification(product *item, productSpecification *specification)
+ * @brief Função que verifica se um produto se adequa a uma especificação.
+ * @param item Endereço do produto a ser testado.
+ * @param specification Endereço da especificação na qual o produto é testado.
+ * @return A função retorna um inteiro: 1 se o produto se adequa à
+ * especificação; 0 se o produto não se adequa à especificação.
+ */
+
+int MatchesSpecification(product *item, productSpecification *specification) {
 
   if((specification->type == All || specification->type == item->type)
     && (item->price >= specification->minimum_price
@@ -309,6 +318,15 @@ int MatchesSpecification(product *item , productSpecification *specification) {
     return 0;
 
 }
+
+/**
+ * @fn ValidIndex (int index, int list_size)
+ * @brief Função que verifica se um índice para um vetor é válido.
+ * @param index Índice testado.
+ * @param list_size Tamanho do vetor no qual o índice é testado.
+ * @return A função retorna um inteiro: 1 se o índice é válido; 0 se o índice é
+ * inválido.
+ */
 
 int ValidIndex (int index, int list_size) {
 

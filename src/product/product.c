@@ -15,6 +15,30 @@
  * @return A função retorna uma instância do tipo errorLevel: Success caso o
  * produto seja copiado com sucesso; Illegal_argument caso um dos argumentos
  * passados seja um ponteiro nulo.
+ *
+ * Copia os dados de um produto para outro produto.
+ *
+ * Assertivas de entrada:
+ *  -Ambos copy e original devem ser diferentes de NULL.
+ *  -Ambos copy e original devem apontar para estruturas dados product.
+ *
+ * Assertivas de saída:
+ *  -Os parâmetros do produto no endereço copy serão os mesmos que os parâmetros
+ * do produto no endereço original.
+ *
+ * Assertivas estruturais:
+ *  Nenhuma.
+ *
+ * Assertivas de contrato:
+ *  -As informações contidas no endereço copy serão sobrescrevidas pelas
+ * informações contidas no endereço original.
+ *
+ * Requisitos:
+ *  -Duas estruturas de dados do tipo product.
+ *
+ * Hipóteses:
+ *  Nenhuma.
+ *
  */
 
 errorLevel CopyProduct(product *copy, product *original) {
@@ -91,6 +115,14 @@ int CompareProducts(product *first, product *second) {
 
 }
 
+/**
+ * @fn ValidPrice(double price)
+ * @brief Função que verifica se um preço é válido.
+ * @param price Preço testado.
+ * @return A função retorna um inteiro: 1 se o preço é válido; 0 se o preço é
+ * inválido.
+ */
+
 int ValidPrice(double price) {
 
   /* Um produto não pode ter seu preço negativo ou maior que 1.000.000,00. */
@@ -103,6 +135,14 @@ int ValidPrice(double price) {
 
 }
 
+/**
+ * @fn ValidPopularity(int popularity)
+ * @brief Função que verifica se uma popularidade é válida.
+ * @param popularity Popularidade testada.
+ * @return A função retorna um inteiro: 1 se a popularidade é válida e 0 se a
+ * popularidade é inválida.
+ */
+
 int ValidPopularity(int popularity) {
 
   /* Um produto não pode ter sua popularidade negativa ou maior que 100. */
@@ -114,6 +154,14 @@ int ValidPopularity(int popularity) {
     return 0;
 
 }
+
+/**
+ * @fn ValidProduct(product *item)
+ * @brief Função que verifica se um produto é válido.
+ * @param item Endereço do produto que será testado.
+ * @return A função retorna um inteiro: 1 se o produto é válido; 0 se o produto
+ * é inválido.
+ */
 
 int ValidProduct(product *item) {
 
