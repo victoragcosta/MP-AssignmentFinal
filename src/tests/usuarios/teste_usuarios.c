@@ -226,6 +226,43 @@ TEST(Amizade, criarAmizade){
 	EXPECT_EQ(usuarios_carregarArquivo(), USUARIOS_SUCESSO);	
 	EXPECT_EQ(usuarios_login((char *)"jose123", (char *)"987654"), USUARIOS_SUCESSO);
 	EXPECT_EQ(usuarios_verificarAmizade(2), AMIGOS);
+	EXPECT_EQ(usuarios_logout(), USUARIOS_SUCESSO);
+}
+
+TEST(Amizade, amigodeamigo){
+  unsigned int i=0,j,k;
+  char usuario[USUARIOS_LIMITE_USUARIO];
+  char email[USUARIOS_LIMITE_EMAIL];
+  usuarios_uintarray amigospendentes;
+  /* Criamos 100 usuários */
+  for(;i<100;i++){
+    sprintf(usuario, "u%u", i);
+    sprintf(email, "e%u@t.com", i);
+    EXPECT_EQ(usuarios_cadastro(8, "usuario", usuario, "nome", "u1", "email", email, "endereco", "", "senha", "0", "senha_confirmacao", "0", "formaPagamento", PAYPAL, "tipo", CONSUMIDOR), USUARIOS_SUCESSO);
+  }
+  
+  /* Fazemos os 25 primeiros serem amigos dos 25 seguintes e os 25 seguintes amigos dos 25 seguintes e assim por diante */
+  for(i=0;i<25;i++){
+    sprintf(usuario, "u%u", i);
+	  EXPECT_EQ(usuarios_login(usuario, (char *)"0"), USUARIOS_SUCESSO);
+    for(j=1;j<25;j++){
+      EXPECT_EQ(usuarios_criarAmizade(25+104+j), USUARIOS_SUCESSO);
+    }
+	  EXPECT_EQ(usuarios_logout(), USUARIOS_SUCESSO);
+  }
+  for(i=0;i<25;i++){
+    usuarios_listarAmigosPendentes(130+i, &amigospendentes);
+    for(j=0;j<amigospendentes.length;j++){
+      EXPECT_EQ(amigospendentes.array[j], 104+j);
+      /* Aceitamos a amizade */
+      sprintf(usuario, "u%u", i+25+1);
+      EXPECT_EQ(usuarios_login(usuario, (char *)"0"), USUARIOS_SUCESSO);
+	    EXPECT_EQ(usuarios_verificarAmizade(amigospendentes.array[j]), ACONFIRMAR);
+      EXPECT_EQ(usuarios_criarAmizade(amigospendentes.array[j]), USUARIOS_SUCESSO);
+	    EXPECT_EQ(usuarios_verificarAmizade(amigospendentes.array[j]), AMIGOS);
+	    EXPECT_EQ(usuarios_logout(), USUARIOS_SUCESSO);
+    }
+  }
 }
 
 int main(int argc, char **argv)

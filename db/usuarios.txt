@@ -1,103 +1,203 @@
 1   	jose123             	Jose Augusto                            	joao@antonio.com              	987654              	Rua Foo Casa Bar                        	0   	0   	3   	2.854000 	80  	5   
 2   	amandalinda         	Amanda Nunes                            	karol@diego.com               	987654              	Rua Foo 2 Casa Bar                      	3   	1   	3   	0.000000 	0   	0   
 3   	aaaaaaaaaaaaaaaaaaa 	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa 	aaaaaa@a.comaaaaaaaaaaaaaaaaa 	123                 	aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa 	3   	0   	3   	0.000000 	0   	0   
-4   	floleexqtwwkmspf    	Jose Antonio                            	qtkdmnoo@jvsfi.com            	oioruajbkuqsstq     	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-5   	ifgardznofejvvdxgb  	Jose Antonio                            	kfibhtz@reoqwy.com            	qryfwnudbqemud      	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-6   	wbwdemussvw         	Jose Antonio                            	kjsiylb@azfpju.com            	jdajhhvbzahqvt      	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-7   	hktxcsfau           	Jose Antonio                            	aylq@zkwtu.com                	pavzssmsgbreyulzut  	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-8   	qfphwwwu            	Jose Antonio                            	vlqhhaz@dhfdk.com             	qbszdygohwdgqivaj   	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-9   	viyauuoltlfqn       	Jose Antonio                            	ohyugdnn@xsmzbsuw.com         	frgpjkwinpfawuqgcm  	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-10  	ncmggqdzvxkhgqmyat  	Jose Antonio                            	fpgcwlqk@rsav.com             	rlkannvvzpek        	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-11  	qycolsmd            	Jose Antonio                            	vroq@jprgznhj.com             	wkzahfcizvvwvque    	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-12  	bqdiyjsbdvrilpffrv  	Jose Antonio                            	pjwc@qzpjl.com                	ynlncsynd           	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-13  	ltisq               	Jose Antonio                            	mrmkf@qslze.com               	setrwqishgaohh      	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-14  	eozyljycczxtze      	Jose Antonio                            	msdm@splmhit.com              	rbsrhmhkmuokgepefx  	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-15  	vkwopjscswux        	Jose Antonio                            	ivygm@sbll.com                	hukwruaggruacca     	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-16  	kzhprkknagwzxvwrl   	Jose Antonio                            	qxgev@ftwjls.com              	bescjhoeilm         	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-17  	hfkk                	Jose Antonio                            	vckqaeb@oydlhk.com            	ememlq              	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-18  	gxmnyugxqtepk       	Jose Antonio                            	qjitf@rbag.com                	xkvrjgqzjgdgsxj     	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-19  	oafhgjuwohvxyuzimr  	Jose Antonio                            	yvqb@fkjty.com                	xgtl                	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-20  	vztkkkyjvb          	Jose Antonio                            	iopsbojb@tmclaw.com           	nrmxmw              	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-21  	ovjlovaf            	Jose Antonio                            	udqxqof@dtdlns.com            	pwtoxea             	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-22  	uvfaovka            	Jose Antonio                            	omoqm@ozxr.com                	fvntnuhrcxbfv       	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-23  	yitpoyimkoi         	Jose Antonio                            	nivsrjl@kkug.com              	tnbk                	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-24  	zggrnagaqqwjzyn     	Jose Antonio                            	xrfc@pbkyxqay.com             	iikgdjjjri          	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-25  	czckzrwtdmeujiqg    	Jose Antonio                            	bclbqyt@ynbbpzs.com           	rfjvtm              	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-26  	sthwhmnrnkynaewz    	Jose Antonio                            	wrvg@noqhpv.com               	gqrqjwjahdsjuaopcm  	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-27  	frkqsss             	Jose Antonio                            	xauiiog@ojecu.com             	awygjzvgpjix        	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-28  	bexapvgtfpue        	Jose Antonio                            	anub@ogfud.com                	xwlyxtqobylsrtg     	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-29  	txkmmnlzxaechzoz    	Jose Antonio                            	lygot@xttwpuv.com             	ptjbqfzpmqk         	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-30  	maignaiblkxtkfaaje  	Jose Antonio                            	zfcsutss@ujftz.com            	kinqghxscilpqd      	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-31  	myfjbkmacsaslts     	Jose Antonio                            	bezxz@ychril.com              	opychkuljkhyt       	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-32  	vtfevajqrcpltwnqm   	Jose Antonio                            	qjcgr@zlgfsxs.com             	nrzslatb            	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-33  	nknoleagbbmoqmc     	Jose Antonio                            	gajsd@bcja.com                	cqsninebc           	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-34  	kinvaulqvkvolum     	Jose Antonio                            	fozgwlk@wljd.com              	mrpvvskaqqlvpi      	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-35  	eayt                	Jose Antonio                            	awlkz@qnznxojq.com            	laeqgaqxpop         	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-36  	qkmqtflgkyjp        	Jose Antonio                            	ckoicf@yzwzd.com              	xzgxq               	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-37  	mceeoinc            	Jose Antonio                            	apll@edlhpcuk.com             	svsnprmvz           	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-38  	fhsrlmrrsmsmeetn    	Jose Antonio                            	oottpaz@hhvqfok.com           	ysslcrwb            	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-39  	vyxmpnltyqcou       	Jose Antonio                            	mtvjrkwc@wntolz.com           	yztomiifnkzmt       	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-40  	emgpohvnoy          	Jose Antonio                            	ghympla@douket.com            	jzfixzkpqiwx        	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-41  	utrtunemlyyssllhch  	Jose Antonio                            	dxnk@thzyk.com                	mmnottxzqpmnxzn     	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-42  	ycfxuqeiuxtvopjcg   	Jose Antonio                            	xslpq@wkgqvev.com             	wszem               	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-43  	trgiqhixdzpmhfgvcy  	Jose Antonio                            	aisdbk@fvntcy.com             	pdqlnurfbzbmjcv     	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-44  	vecsxlpbcfskz       	Jose Antonio                            	nplgnn@evxx.com               	hfmnoc              	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-45  	yajcnsdfe           	Jose Antonio                            	eseik@rbbshfst.com            	raokbmnfmue         	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-46  	xine                	Jose Antonio                            	feovb@segd.com                	qjyatvvcyckyffh     	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-47  	cmgioyivwmnsojho    	Jose Antonio                            	xvlpu@ilmkb.com               	qvyvkllhqggpflswg   	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-48  	jhywpgjrcayqdo      	Jose Antonio                            	ajpetjd@nfzevlje.com          	aywoeifwuczffeaet   	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-49  	msskajqqy           	Jose Antonio                            	dllgyzm@zveutnwp.com          	sseoswh             	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-50  	oklaqhygdqwr        	Jose Antonio                            	aqxlkp@cmrfl.com              	cnskqoucaq          	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-51  	cinsrlawni          	Jose Antonio                            	thncbwn@brogascr.com          	yflt                	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-52  	vnvebecumavge       	Jose Antonio                            	ylxl@mbamepi.com              	fqtgkrjtgfzocvj     	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-53  	sweiimrktok         	Jose Antonio                            	mndyumn@rprql.com             	cmeavndi            	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-54  	ctobdbhnu           	Jose Antonio                            	kdcj@vedci.com                	fbbisvnt            	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-55  	iixnwevzd           	Jose Antonio                            	fortnr@dcilobds.com           	pxoj                	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-56  	alfj                	Jose Antonio                            	hadnbvrj@hchnpiv.com          	clcifaxqnrwakntvt   	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-57  	cjnomzdvmprlzxspu   	Jose Antonio                            	luah@nuhwuazg.com             	egsrkj              	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-58  	vvmhagijxsgihrkk    	Jose Antonio                            	xfqc@uiodvcv.com              	camkwym             	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-59  	lqckopwsm           	Jose Antonio                            	udfihpij@dftij.com            	spltezefxknpq       	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-60  	ynjeftshmb          	Jose Antonio                            	abfchlyh@nponkgu.com          	wndomixhojm         	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-61  	rixndegfqjcquwhus   	Jose Antonio                            	smgxv@xarfc.com               	nnfmwnzj            	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-62  	urdkxneblq          	Jose Antonio                            	katlecgs@witozxlf.com         	saspoustoizkvb      	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-63  	irateppehpku        	Jose Antonio                            	gsqyknjb@nhvkbf.com           	gucpvefegjkgnmlj    	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-64  	vnzxkdrceyjv        	Jose Antonio                            	rxcdpmb@dudxpve.com           	wpuduwftvvsqlonvvj  	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-65  	zydrlciuddnko       	Jose Antonio                            	xbzfkc@scuiyvxf.com           	gwkzhrpnrgaqtoydp   	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-66  	hphwjwarvthytpv     	Jose Antonio                            	crusor@gydj.com               	hsdog               	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-67  	ofbgv               	Jose Antonio                            	ncphy@pwhhsse.com             	bcdhcv              	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-68  	thfnsokyezartl      	Jose Antonio                            	ioceh@dpjqttai.com            	isatjao             	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-69  	yctvrexgqwqf        	Jose Antonio                            	dedgiaxv@ftmkint.com          	gkpreodrlinw        	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-70  	rpdtlzzbfifrlmjdtd  	Jose Antonio                            	hhiz@qonbuo.com               	fgfcvtzlcbamkwktu   	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-71  	vvfatnwpxcojblffy   	Jose Antonio                            	wpccneul@gksn.com             	jwzhg               	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-72  	lasdxzdiy           	Jose Antonio                            	aenxfo@kspjq.com              	oatwdbuoeosqolaja   	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-73  	zobqyvxqmcdvchw     	Jose Antonio                            	vukfdrv@hxvhv.com             	qojuhw              	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-74  	vldzv               	Jose Antonio                            	kzkawswi@mmwfsnqy.com         	dkhklvv             	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-75  	rxuuwftvcj          	Jose Antonio                            	jdfkd@miehu.com               	phup                	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-76  	fbdovzncpfer        	Jose Antonio                            	uanq@jsmlyvxu.com             	rjbkhduhamuxewillw  	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-77  	skzsgggmapremiongo  	Jose Antonio                            	ravual@yxxx.com               	pcwguzaqcrka        	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-78  	dqzvxpcguasrksts    	Jose Antonio                            	pelfzxti@rngs.com             	gkpf                	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-79  	dgrf                	Jose Antonio                            	gkfqfndo@nwabh.com            	xioaejbfki          	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-80  	gpsbgteqsrwhfh      	Jose Antonio                            	dxnrgvmg@ypoc.com             	dnbpusvnt           	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-81  	obmfcphpmiwinnjdcl  	Jose Antonio                            	btxa@eywganom.com             	wvzfjfo             	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-82  	fufztmpnrmo         	Jose Antonio                            	nyvjhow@fqnwenk.com           	trrg                	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-83  	wuhhjw              	Jose Antonio                            	asbbj@gyvpfvxh.com            	emtouplddc          	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-84  	mcbcgd              	Jose Antonio                            	dvgpaik@ugeakgav.com          	xlnzh               	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-85  	vxivncd             	Jose Antonio                            	syulexfn@xegetfq.com          	czaud               	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-86  	vtssyuvhhuilshlscp  	Jose Antonio                            	ddblr@dalsc.com               	ozuceivkiim         	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-87  	znsv                	Jose Antonio                            	avtjo@numudgv.com             	jwmfoqnnmkwftxkwra  	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-88  	ijjtoihdjsjxhagvsj  	Jose Antonio                            	uqeihff@eutxtamw.com          	wetlm               	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-89  	mtikcs              	Jose Antonio                            	jvmih@sszia.com               	ffibwdlmidv         	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-90  	pkoc                	Jose Antonio                            	dwpi@jftm.com                 	gmpfmaqpjmcbaapqo   	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-91  	yxrajmepelgieyxb    	Jose Antonio                            	roybvijn@twqwc.com            	dxjn                	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-92  	glhhdjgdqxwedpku    	Jose Antonio                            	tmefsv@ptqjqmh.com            	fsangbhmpfy         	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-93  	ltcgerccknhzfhtx    	Jose Antonio                            	dpmryp@lmspdtg.com            	uafcojqcljivo       	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-94  	lpzsncci            	Jose Antonio                            	kmfpgu@ghmsai.com             	wfzt                	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-95  	hxnyblgycxb         	Jose Antonio                            	iydcf@qdrem.com               	tcvlkvgzj           	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-96  	bqxdknlu            	Jose Antonio                            	ydlelu@veow.com               	tqvt                	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-97  	zptojcbh            	Jose Antonio                            	bzjw@ffjixkkw.com             	ehordmvfrvwubw      	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-98  	uxbiybggklnbrydu    	Jose Antonio                            	kxkgtr@qhmmhts.com            	wxdmhsnwv           	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-99  	vtdplvs             	Jose Antonio                            	drogdw@axqh.com               	lamuw               	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-100 	frwnnuntxw          	Jose Antonio                            	jgtxqso@itbqf.com             	udvw                	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-101 	erhi                	Jose Antonio                            	mvhpfyx@prfvkjxi.com          	zutklyjl            	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-102 	uldfat              	Jose Antonio                            	auoaaoz@hholvrl.com           	wzpo                	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
-103 	butlvnbfnvjz        	Jose Antonio                            	zrxaw@qwuaw.com               	pgfxlusalji         	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+4   	ksibtfcrtgngql      	Jose Antonio                            	qczleuox@anhoce.com           	ujbnnncmvecv        	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+5   	uijwogcvuf          	Jose Antonio                            	zwcitbz@kayjbsh.com           	hteejlseoyhzgrp     	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+6   	hqodtm              	Jose Antonio                            	qeppso@tmhpq.com              	akmqhyofv           	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+7   	zmzgrvbi            	Jose Antonio                            	zwlffh@yanno.com              	yjunw               	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+8   	cktlleixqo          	Jose Antonio                            	tbnx@wybsxj.com               	uuqlewyrr           	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+9   	onarayhhyqbwhonvq   	Jose Antonio                            	clwbrve@pyury.com             	xjzvhrgmckhprgy     	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+10  	npoqnvxlimn         	Jose Antonio                            	urquq@frcndo.com              	gedzdkegjoht        	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+11  	pwjxqyiufklhxp      	Jose Antonio                            	dvhatwk@dhjufni.com           	bnknpivglzcorqud    	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+12  	wgamtfyzvekzalpmgk  	Jose Antonio                            	mlayk@ohnb.com                	eemofzqmvolbspofj   	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+13  	xltxgkey            	Jose Antonio                            	rckmcrt@rtll.com              	rizrqtuksetnoou     	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+14  	yefgcrbxumthkxt     	Jose Antonio                            	bncnc@dsebaqm.com             	lwtrxjuly           	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+15  	bwotvx              	Jose Antonio                            	fupwb@nbgbg.com               	onsnwzpxxenepwgd    	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+16  	cpjuigrij           	Jose Antonio                            	djag@fhfnt.com                	sxcksoqnhm          	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+17  	ompsniilmbewkqgrh   	Jose Antonio                            	kibdmmid@itwxag.com           	nbxh                	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+18  	ufcrrzhwztsepio     	Jose Antonio                            	vmfp@dbrpw.com                	zyis                	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+19  	ibmdsqjmjp          	Jose Antonio                            	azfix@bhzboak.com             	jsucayyz            	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+20  	cxnfdyqllnkfbfzxbm  	Jose Antonio                            	gyif@fdgkkw.com               	zwcsltxumgntimac    	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+21  	jsgxcddvqg          	Jose Antonio                            	kpfaed@vmspp.com              	ivyepjppctefs       	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+22  	dlcmlyvjxurkcs      	Jose Antonio                            	seca@qryxi.com                	pgjr                	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+23  	drjohopjgszopbs     	Jose Antonio                            	haml@jygwni.com               	xoelssxypm          	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+24  	bpuuduybqpm         	Jose Antonio                            	rxqwbmhd@jbyxgked.com         	ikmkgqzdjbvjhwfl    	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+25  	jmujpiwdf           	Jose Antonio                            	rclhryx@lpwes.com             	nftnoqfxmzq         	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+26  	vwkdwdziokd         	Jose Antonio                            	oefl@bgno.com                 	wtfrhjjqm           	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+27  	lkvsxslxn           	Jose Antonio                            	udtztywv@ksltfqwh.com         	oheavdfxzhskrijo    	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+28  	eaungfeyrl          	Jose Antonio                            	nzwm@otvqnvvu.com             	yrxd                	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+29  	drapwlw             	Jose Antonio                            	mvngfhm@yixhor.com            	owvwnqfialmykjydv   	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+30  	dokj                	Jose Antonio                            	htfrnq@iwhm.com               	zknjnhowspgkv       	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+31  	bmdidd              	Jose Antonio                            	ojxmgcco@ttkmgu.com           	wsosh               	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+32  	pcrxtofgytroumhvqh  	Jose Antonio                            	xxnuwbck@lcbneuq.com          	qgiesbmjxtv         	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+33  	prwzngqptpjaxtrtn   	Jose Antonio                            	hlqptzt@hqhdv.com             	vbvpgxexehcrz       	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+34  	ukztgwbl            	Jose Antonio                            	seac@osimsgg.com              	zrymmhjfhqmdupx     	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+35  	bihilutivgcgop      	Jose Antonio                            	tpqwhsjw@ivpzk.com            	roeoau              	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+36  	rwvbkzevra          	Jose Antonio                            	qdic@aijmf.com                	jckafhlqrkhkmfi     	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+37  	txdk                	Jose Antonio                            	yezxuqx@fhujg.com             	geileuyikhipg       	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+38  	bjudpeuofwrwcga     	Jose Antonio                            	wxklum@gfgaf.com              	ryftlzkifi          	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+39  	fipiqsejrcigc       	Jose Antonio                            	ggiz@cawg.com                 	tccxrjrsmxg         	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+40  	cimupumcpcvdsdkdu   	Jose Antonio                            	xeznbx@wofudqp.com            	vdzcqsod            	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+41  	gwtqnu              	Jose Antonio                            	uopvdeb@ahuk.com              	ktfjdkszdakn        	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+42  	uckgfxi             	Jose Antonio                            	jttc@sjwzz.com                	hzaswctbpjtdl       	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+43  	fdwt                	Jose Antonio                            	wualqa@ssyvqe.com             	frulhwgvpqdblbfo    	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+44  	sjyvwy              	Jose Antonio                            	expli@dtulg.com               	buiab               	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+45  	lsglrxlruxrrfimroc  	Jose Antonio                            	ezsjic@wsdk.com               	bgorthjkvuymjkdl    	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+46  	gmsflqxn            	Jose Antonio                            	twwgejo@truzxizx.com          	bbhlljausvkqi       	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+47  	grrrgpokld          	Jose Antonio                            	ixfuza@lywz.com               	ypryoauz            	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+48  	irngzffwvywlff      	Jose Antonio                            	avpto@abzppas.com             	prspxsgmstjxc       	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+49  	swnyknmg            	Jose Antonio                            	qtyzmq@pisj.com               	vuoomzovvemhilal    	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+50  	pcooazuotwjqgtojl   	Jose Antonio                            	llhucmuw@qvsgl.com            	fnikiwvqlwyzv       	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+51  	cwoggurmr           	Jose Antonio                            	rtsib@ckuokjsc.com            	nubwbopapp          	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+52  	igdkxrpofo          	Jose Antonio                            	duepl@txxhyb.com              	eetsxrsytoactkmh    	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+53  	ofzhnxsua           	Jose Antonio                            	ycrecwei@dycg.com             	trqxn               	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+54  	rlwkudkuqwhguxooun  	Jose Antonio                            	njim@nhttz.com                	vtzsroopasaxgzetov  	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+55  	yggjmqmnkzie        	Jose Antonio                            	rzjxv@adqlrzxx.com            	ultr                	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+56  	upcjwhazrsythsiq    	Jose Antonio                            	myxjudxq@ytgyeru.com          	fpio                	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+57  	xhmhiv              	Jose Antonio                            	cdcyvk@oectnsau.com           	ualcyakpp           	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+58  	yywpmdzuhgvcrei     	Jose Antonio                            	rxqw@dvnigf.com               	tlwwauumtq          	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+59  	ezcpvapsvoj         	Jose Antonio                            	ejxcdl@pnycz.com              	fcxwpgqobasioocr    	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+60  	oeyr                	Jose Antonio                            	hcpc@wvupgytj.com             	imnzvwmr            	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+61  	jnlwy               	Jose Antonio                            	jaezlbca@yudbm.com            	ukwmiropojavz       	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+62  	hvphsybpqxdyxljmht  	Jose Antonio                            	qacio@ihup.com                	kanluey             	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+63  	lcicyb              	Jose Antonio                            	mhcexvhs@mmigabld.com         	lkgfmyilnrbvon      	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+64  	xhkzwxg             	Jose Antonio                            	gwuo@sqfbikr.com              	mcuqlby             	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+65  	lvxmoppzz           	Jose Antonio                            	htnanr@zfdjp.com              	dkrduljmrcvqfs      	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+66  	brfblpigd           	Jose Antonio                            	nscqdfla@okaukyhn.com         	busacoifsrf         	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+67  	gseyojoakebnvpe     	Jose Antonio                            	apcwwr@fjxo.com               	izonrtkk            	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+68  	htkewupxgndtemg     	Jose Antonio                            	vbapy@jgfdiwjz.com            	omgmyfrob           	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+69  	gzwy                	Jose Antonio                            	gnfdgv@xxcm.com               	rzjoqddhcjw         	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+70  	rrhnytcncnttkaam    	Jose Antonio                            	wepeo@azpk.com                	dfccomgzsdpuzqah    	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+71  	sdaiyadrxvih        	Jose Antonio                            	gqsiv@ailxal.com              	tjxdbrj             	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+72  	zlwuwbykknr         	Jose Antonio                            	fezoquu@duid.com              	xbgdrq              	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+73  	nzhzlowljxxu        	Jose Antonio                            	immscic@afgxgsqj.com          	mhfiiwqggbnvhdo     	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+74  	aockxdbuuv          	Jose Antonio                            	odfdxeag@gaefd.com            	wotkbmeuewkfp       	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+75  	sykrfmcxwwxszevuk   	Jose Antonio                            	qpkhjf@zdrhmr.com             	lwcertay            	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+76  	zvgbb               	Jose Antonio                            	bqsxi@agrtidys.com            	hgihczchx           	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+77  	rdnxjmwqkuhgsxnff   	Jose Antonio                            	smwrfrdj@oxghl.com            	vriieevnziytaubu    	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+78  	gxbogezyoecqaukauz  	Jose Antonio                            	vwoap@ullmlbts.com            	zeuwamrvxvrjxbwg    	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+79  	yxsiilixksaxgb      	Jose Antonio                            	svunal@urcm.com               	wevkrjtehlzauvkz    	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+80  	cxwmjthrqicrwgtv    	Jose Antonio                            	ihdaufma@geskmwa.com          	aycmuznrhs          	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+81  	tudutob             	Jose Antonio                            	xqioznp@cqqk.com              	xgmyayyztemplr      	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+82  	irckigzyngqo        	Jose Antonio                            	rtat@yyvkr.com                	zsrctfgkk           	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+83  	gplsdfhxmedrvqj     	Jose Antonio                            	cbefmlsg@jzskeihj.com         	dzfrcoz             	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+84  	datryma             	Jose Antonio                            	jjbls@trirnrcw.com            	ilqqmbvhjjpd        	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+85  	mfutduvpoxngi       	Jose Antonio                            	xcgwytd@wpjzzq.com            	itssimyuvddsrub     	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+86  	aozqhzto            	Jose Antonio                            	eixfvgxo@zjuk.com             	ykmmlggtalye        	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+87  	mdneekjtnaikamtj    	Jose Antonio                            	rhpj@otpjmhhw.com             	twworsvwauoe        	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+88  	ruqddmpdjavwr       	Jose Antonio                            	nqxehr@nshl.com               	ecjkgcjmfxreugb     	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+89  	npnzlzzc            	Jose Antonio                            	kmopcam@mdmivqr.com           	pcdkhsht            	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+90  	unqb                	Jose Antonio                            	nggg@teuwo.com                	jpvspyr             	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+91  	adktlyhxayqi        	Jose Antonio                            	hspokipp@firfop.com           	czknplksgswtsg      	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+92  	qmwdgdsnskgshf      	Jose Antonio                            	xxvgautr@qihqkdk.com          	ahqgubqhx           	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+93  	nzmch               	Jose Antonio                            	olozmhbx@znfqd.com            	wnittiiygvx         	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+94  	bfbzrkbatbsnolp     	Jose Antonio                            	jxeil@bkbnliw.com             	ozjtocbuvncnkgabv   	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+95  	jcoewbtushmqbyucqq  	Jose Antonio                            	fntnh@ogmj.com                	vvcriajz            	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+96  	hvitwr              	Jose Antonio                            	kbvy@vwdarwb.com              	mnwjjrpcigsxtlxkh   	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+97  	cbqxx               	Jose Antonio                            	mttzndz@xutwgpum.com          	tneschdvlrpcjkglrv  	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+98  	epni                	Jose Antonio                            	hzvgab@pgxqxljh.com           	osuiei              	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+99  	nuzzprdnjgep        	Jose Antonio                            	eetwfv@oipsifc.com            	tnhqluirip          	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+100 	nqnzibfiauiu        	Jose Antonio                            	graawvtl@hixjny.com           	obtgskxu            	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+101 	iqdnngu             	Jose Antonio                            	hfmo@epinwjz.com              	pvlyhpnajxufp       	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+102 	vtmnft              	Jose Antonio                            	dnvn@dchohvcl.com             	anszviopt           	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+103 	lbjpgwvexv          	Jose Antonio                            	sfvryrv@xtlipa.com            	klvazm              	Rua Foo Casa Bar                        	0   	0   	3   	0.000000 	0   	0   
+104 	u0                  	u1                                      	e0@t.com                      	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+105 	u1                  	u1                                      	e1@t.com                      	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+106 	u2                  	u1                                      	e2@t.com                      	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+107 	u3                  	u1                                      	e3@t.com                      	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+108 	u4                  	u1                                      	e4@t.com                      	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+109 	u5                  	u1                                      	e5@t.com                      	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+110 	u6                  	u1                                      	e6@t.com                      	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+111 	u7                  	u1                                      	e7@t.com                      	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+112 	u8                  	u1                                      	e8@t.com                      	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+113 	u9                  	u1                                      	e9@t.com                      	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+114 	u10                 	u1                                      	e10@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+115 	u11                 	u1                                      	e11@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+116 	u12                 	u1                                      	e12@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+117 	u13                 	u1                                      	e13@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+118 	u14                 	u1                                      	e14@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+119 	u15                 	u1                                      	e15@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+120 	u16                 	u1                                      	e16@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+121 	u17                 	u1                                      	e17@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+122 	u18                 	u1                                      	e18@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+123 	u19                 	u1                                      	e19@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+124 	u20                 	u1                                      	e20@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+125 	u21                 	u1                                      	e21@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+126 	u22                 	u1                                      	e22@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+127 	u23                 	u1                                      	e23@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+128 	u24                 	u1                                      	e24@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+129 	u25                 	u1                                      	e25@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+130 	u26                 	u1                                      	e26@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+131 	u27                 	u1                                      	e27@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+132 	u28                 	u1                                      	e28@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+133 	u29                 	u1                                      	e29@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+134 	u30                 	u1                                      	e30@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+135 	u31                 	u1                                      	e31@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+136 	u32                 	u1                                      	e32@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+137 	u33                 	u1                                      	e33@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+138 	u34                 	u1                                      	e34@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+139 	u35                 	u1                                      	e35@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+140 	u36                 	u1                                      	e36@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+141 	u37                 	u1                                      	e37@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+142 	u38                 	u1                                      	e38@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+143 	u39                 	u1                                      	e39@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+144 	u40                 	u1                                      	e40@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+145 	u41                 	u1                                      	e41@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+146 	u42                 	u1                                      	e42@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+147 	u43                 	u1                                      	e43@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+148 	u44                 	u1                                      	e44@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+149 	u45                 	u1                                      	e45@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+150 	u46                 	u1                                      	e46@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+151 	u47                 	u1                                      	e47@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+152 	u48                 	u1                                      	e48@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+153 	u49                 	u1                                      	e49@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+154 	u50                 	u1                                      	e50@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+155 	u51                 	u1                                      	e51@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+156 	u52                 	u1                                      	e52@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+157 	u53                 	u1                                      	e53@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+158 	u54                 	u1                                      	e54@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+159 	u55                 	u1                                      	e55@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+160 	u56                 	u1                                      	e56@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+161 	u57                 	u1                                      	e57@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+162 	u58                 	u1                                      	e58@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+163 	u59                 	u1                                      	e59@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+164 	u60                 	u1                                      	e60@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+165 	u61                 	u1                                      	e61@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+166 	u62                 	u1                                      	e62@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+167 	u63                 	u1                                      	e63@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+168 	u64                 	u1                                      	e64@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+169 	u65                 	u1                                      	e65@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+170 	u66                 	u1                                      	e66@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+171 	u67                 	u1                                      	e67@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+172 	u68                 	u1                                      	e68@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+173 	u69                 	u1                                      	e69@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+174 	u70                 	u1                                      	e70@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+175 	u71                 	u1                                      	e71@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+176 	u72                 	u1                                      	e72@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+177 	u73                 	u1                                      	e73@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+178 	u74                 	u1                                      	e74@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+179 	u75                 	u1                                      	e75@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+180 	u76                 	u1                                      	e76@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+181 	u77                 	u1                                      	e77@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+182 	u78                 	u1                                      	e78@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+183 	u79                 	u1                                      	e79@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+184 	u80                 	u1                                      	e80@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+185 	u81                 	u1                                      	e81@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+186 	u82                 	u1                                      	e82@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+187 	u83                 	u1                                      	e83@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+188 	u84                 	u1                                      	e84@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+189 	u85                 	u1                                      	e85@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+190 	u86                 	u1                                      	e86@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+191 	u87                 	u1                                      	e87@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+192 	u88                 	u1                                      	e88@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+193 	u89                 	u1                                      	e89@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+194 	u90                 	u1                                      	e90@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+195 	u91                 	u1                                      	e91@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+196 	u92                 	u1                                      	e92@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+197 	u93                 	u1                                      	e93@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+198 	u94                 	u1                                      	e94@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+199 	u95                 	u1                                      	e95@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+200 	u96                 	u1                                      	e96@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+201 	u97                 	u1                                      	e97@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+202 	u98                 	u1                                      	e98@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   
+203 	u99                 	u1                                      	e99@t.com                     	0                   	                                        	3   	0   	3   	0.000000 	0   	0   

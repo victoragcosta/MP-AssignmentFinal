@@ -156,6 +156,8 @@ usuarios_condRet usuarios_criarAmizade(unsigned int);
 usuarios_relacao usuarios_verificarAmizade(unsigned int);
 usuarios_condRet usuarios_atualizarDados(unsigned int, const char *, ...);
 usuarios_condRet usuarios_listarAmigos(unsigned int, usuarios_uintarray *);
+usuarios_condRet usuarios_listarAmigosdeAmigos(unsigned int, usuarios_uintarray *);
+usuarios_condRet usuarios_listarAmigosPendentes(unsigned int, usuarios_uintarray *);
 usuarios_condRet usuarios_freeUint(usuarios_uintarray *);
 int usuarios_sessaoAberta();
 int usuarios_max();

@@ -1,9 +1,0 @@
-var searchData=
-[
-  ['tamanho',['tamanho',['../structusuarios__cadastro__argumentos.html#a27c45f9ef8db9c9a56ebe748f683de38',1,'usuarios_cadastro_argumentos']]],
-  ['test',['TEST',['../teste__avaliacao_8c.html#a5352079e2ff212dc06a658d6e96fedb0',1,'TEST(Avaliacao, Avaliar):&#160;teste_avaliacao.c'],['../teste__usuarios_8c.html#a7817d5c04e3692728657264ab61e2648',1,'TEST(Usuarios, CriarUsuario):&#160;teste_usuarios.c'],['../teste__usuarios_8c.html#a32b179342cf34d10a087c91e5bfd1bec',1,'TEST(Usuarios, CriarMuitosUsuarios):&#160;teste_usuarios.c'],['../teste__usuarios_8c.html#a96c349a5eaa9451d2581707f5e2bcb23',1,'TEST(Usuarios, FazerLogin):&#160;teste_usuarios.c'],['../teste__usuarios_8c.html#a6becdc3200d31909729d0fd7ce50929b',1,'TEST(Usuarios, DadosRetornoSessao):&#160;teste_usuarios.c'],['../teste__usuarios_8c.html#a079ba53665801294df8c5f8713cde51d',1,'TEST(Usuarios, DadosRetorno):&#160;teste_usuarios.c'],['../teste__usuarios_8c.html#a470b6b8e36eccda05fb7256904d9b1c7',1,'TEST(Usuarios, AlterarDadosSessao):&#160;teste_usuarios.c'],['../teste__usuarios_8c.html#a89319e3e2cfdd77473abb97bfa727d02',1,'TEST(Usuarios, AlterarDados):&#160;teste_usuarios.c'],['../teste__usuarios_8c.html#a4f6ce23db347bbe89a9c64afa26683e0',1,'TEST(Usuarios, lerArquivo):&#160;teste_usuarios.c'],['../teste__usuarios_8c.html#adf11ad0f55e826506fd423ddfd060e21',1,'TEST(Amizade, criarAmizade):&#160;teste_usuarios.c']]],
-  ['teste_5favaliacao_2ec',['teste_avaliacao.c',['../teste__avaliacao_8c.html',1,'']]],
-  ['teste_5fusuarios_2ec',['teste_usuarios.c',['../teste__usuarios_8c.html',1,'']]],
-  ['tipo',['tipo',['../structtpUsuario.html#abaed1508280c5655463a1ceae4cb3050',1,'tpUsuario']]],
-  ['tpusuario',['tpUsuario',['../structtpUsuario.html',1,'tpUsuario'],['../usuarios_8h.html#a927223263983deb2e846194595b194dd',1,'tpUsuario():&#160;usuarios.h']]]
-];

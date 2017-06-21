@@ -549,7 +549,7 @@ usuarios_relacao usuarios_verificarAmizade(unsigned int identificador){
   
   /* Verificamos se não quer observar uma amizade consigo mesmo */  
   if(identificador == usuarios_sessao->identificador) return ERRO;
-  
+    
   A = grafo_busca_arco(usuarios_grafo, usuarios_sessao->identificador, identificador);
   B = grafo_busca_arco(usuarios_grafo, identificador, usuarios_sessao->identificador);
   
@@ -829,6 +829,88 @@ usuarios_condRet usuarios_listarAmigos(unsigned int identificador, usuarios_uint
   
   return USUARIOS_SUCESSO;
   
+}
+
+/*!
+ * @brief Função que retorna uma lista de identificadores de usuários que solicitaram amizade
+ * ao usuário da sessão
+ *
+ * Retorna por referência um array de unsigned int
+ * positivo (usuarios_uintarray). O array deve ser alocado estaticamente:
+ * 
+ * @code
+ * usuarios_uintarray array;
+ * usuarios_listarAmigosPendentes(0, &array);
+ * @endcode
+ * 
+ * Vai compor o array com os identificadores dos amigos.
+*/
+usuarios_condRet usuarios_listarAmigosPendentes(unsigned int identificador, usuarios_uintarray *retorno) {
+  tpUsuario *nodo, *corrente;
+  grafo_lista_no *listaVizinhos;
+  unsigned int i;
+  
+  /* Pegamos o nodo com o identificador passado */
+  if(identificador) corrente = (tpUsuario *)retorna_valor_vertice(usuarios_grafo, identificador);
+  /* Se foi passado 0, então pega-se o da sessão */
+  else corrente = usuarios_sessao;
+  
+  if(corrente == NULL) return USUARIOS_FALHA_ACESSORESTRITO; /* Assertiva */
+  
+  /* Geramos o vetor */
+  //*retorno = (usuarios_uintarray *)malloc(sizeof(usuarios_uintarray));
+  retorno->length = 0;
+  retorno->array = NULL;
+  
+  /* Buscamos em todo o grafo */
+  for(i=0;i<usuarios_contador;i++){
+    /* Vemos se há um arco do usuário i ao usuário identificador */
+    if(grafo_busca_arco(usuarios_grafo, i, identificador) != NULL){
+      /* Adicionamos ao array */
+      retorno->length++;
+      retorno->array = (unsigned int*)realloc(retorno->array, retorno->length*sizeof(unsigned int));
+      retorno->array[retorno->length-1] = i;
+    }
+  }
+  
+  return USUARIOS_SUCESSO;
+  
+}
+
+/*!
+ * @brief Função que lista os amigos de amigos (excluíndo amigos)
+ *
+ * Complexidade muito alta, pensar em forma de melhorar
+*/
+usuarios_condRet usuarios_listarAmigosdeAmigos(unsigned int identificador, usuarios_uintarray *retorno){
+  usuarios_uintarray amigos, amigosdeamigos;
+  unsigned int i,j,k;
+  /* Listamos os amigos do usuário */
+  usuarios_listarAmigos(identificador, &amigos);
+  /* Para cada amigo buscamos os amigos */
+  for(i=0;i<amigos.length;i++){
+    usuarios_listarAmigos(amigos.array[i], &amigosdeamigos);
+    /* Inserimos um a um de temporário no retorno, se ainda não estiver */
+    for(j=0;j<amigosdeamigos.length;j++){
+      /* Impedimos autoinclusão */
+      if(amigosdeamigos.array[j] != identificador) {
+        /* Para cada temporário buscamos no retorno se já existe */
+        for(k=0;k<retorno->length;k++){
+          if(retorno->array[k] == amigosdeamigos.array[j]) break;
+        }
+        /* Adicionamos ao retorno */
+        if(k == retorno->length) {
+          retorno->length++;
+          retorno->array = (unsigned int *)realloc(retorno->array, retorno->length*sizeof(unsigned int));
+          retorno->array[retorno->length-1] = amigosdeamigos.array[j];
+        }
+      }
+    }
+    usuarios_freeUint(&amigosdeamigos);
+  }
+  
+  usuarios_freeUint(&amigos);
+  return USUARIOS_SUCESSO;  
 }
 
 /*!
