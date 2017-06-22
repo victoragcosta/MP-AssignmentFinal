@@ -22,8 +22,8 @@
  * Não pode conter produtos repetidos.
  *
  * Importante: Aloca dinamicamente o vetor que contém os produtos. Tal memória
- * deve ser liberada chamando-se a função CleanProductList(productList*) ou
- * por meio da função free(productList.items).
+ * deve ser liberada no término do programa chamando-se a função
+ * CleanProductList(productList*) ou por meio da função free(productList.items).
  *
  * Exemplo:
  *
@@ -59,7 +59,6 @@ errorLevel CleanProductList (productList*);
 errorLevel CreateSpecification(productType, double, double, int, int,
                                productSpecification*);
 errorLevel DeleteProduct (int, productList*);
-errorLevel InitializeProductList (productList*);
 errorLevel SearchProduct(char[75], productList*, productSpecification*,
                          productList*);
 errorLevel SelectProduct(int, productList*, product*);

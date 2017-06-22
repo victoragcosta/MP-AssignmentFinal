@@ -2,8 +2,8 @@
 
 /**
 
-  \file
-  \brief Arquivo que testa as funções relativas ao módulo de produtos do
+  @file
+  @brief Arquivo que testa as funções relativas ao módulo de produtos do
   aplicativo
 
 */

@@ -2,8 +2,8 @@
 
 /**
 
-  \file
-  \brief Arquivo que testa as funções relativas ao módulo de busca de produtos
+  @file
+  @brief Arquivo que testa as funções relativas ao módulo de busca de produtos
   do aplicativo
 
 */
@@ -19,9 +19,9 @@ productSpecification generic, specific;
 
 TEST (Initialization, Variables) {
 
-  InitializeProductList(&list);
-  InitializeProductList(&list2);
-  InitializeProductList(&query_results);
+  CleanProductList(&list);
+  CleanProductList(&list2);
+  CleanProductList(&query_results);
   CreateSpecification(All, 0, 1000000, 0, 100, &generic);
 
   EXPECT_EQ(1, true);
@@ -137,6 +137,12 @@ TEST (AddProduct, Illegal_Popularity_02) {
   EXPECT_EQ(AddProduct(&novoProduto, &list), Illegal_argument);
 
   ASSERT_EQ(list.size, 0);
+
+}
+
+TEST (CleanProductList, Invalid_List) {
+
+  EXPECT_EQ(CleanProductList(NULL), Illegal_argument);
 
 }
 
