@@ -45,12 +45,19 @@ TEST(Usuarios, CriarUsuario){
 TEST(Usuarios, CriarMuitosUsuarios){
 	int i;
 	char email[USUARIOS_LIMITE_EMAIL];
+  char *tmp[3];
 	char *senha;
 	for(i=0;i<100;i++){
 		senha = stringAleatoria(numeroAleatorio(USUARIOS_LIMITE_SENHA-5)+5);
-		sprintf(email, "%s@%s.com", stringAleatoria(numeroAleatorio(5)+5), stringAleatoria(numeroAleatorio(5)+5));
-		EXPECT_EQ(usuarios_cadastro(8, "usuario", stringAleatoria(numeroAleatorio(USUARIOS_LIMITE_USUARIO-5)+5), "nome", "Jose Antonio", "endereco", "Rua Foo Casa Bar", "email", email, "senha", senha, "senha_confirmacao", senha, "formaPagamento", BOLETO, "tipo", CONSUMIDOR), USUARIOS_SUCESSO);
+    tmp[0] = stringAleatoria(numeroAleatorio(5)+5);
+    tmp[1] = stringAleatoria(numeroAleatorio(5)+5);
+    tmp[2] = stringAleatoria(numeroAleatorio(USUARIOS_LIMITE_USUARIO-5)+5);
+		sprintf(email, "%s@%s.com", tmp[0], tmp[1]);
+		EXPECT_EQ(usuarios_cadastro(8, "usuario", tmp[2], "nome", "Jose Antonio", "endereco", "Rua Foo Casa Bar", "email", email, "senha", senha, "senha_confirmacao", senha, "formaPagamento", BOLETO, "tipo", CONSUMIDOR), USUARIOS_SUCESSO);
 		free(senha);
+		free(tmp[0]);
+		free(tmp[1]);
+		free(tmp[2]);
 	}
 	EXPECT_EQ(usuarios_max(), 100+3);
 }
@@ -105,7 +112,6 @@ TEST(Usuarios, DadosRetorno){
 
 	EXPECT_EQ(usuarios_retornaDados(2, "tipo", (void *)&teste_tipo), USUARIOS_SUCESSO);
 	EXPECT_EQ(teste_tipo, CONSUMIDOR);
-	
 }
 
 TEST(Usuarios, AlterarDadosSessao){

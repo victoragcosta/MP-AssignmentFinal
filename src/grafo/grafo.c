@@ -326,6 +326,7 @@ grafo_cte remove_vertice_end(grafo *G, grafo_no *X)
 	
 	if(G->ultimo == (void *)X) G->ultimo = (void *)tmp_no_anterior;
 	
+	free(X->dados);
 	free(X);
 	return SUCESSO;
 }
@@ -374,7 +375,7 @@ grafo_cte grafo_lista_no_inserir(grafo_lista_no **raiz, int valor)
 
 grafo_cte grafo_lista_no_limpar(grafo_lista_no **raiz){
   grafo_lista_no *tmp = *raiz, *tmp_prox;
-  while(tmp != NULL){
+  while(tmp != NULL) {
     tmp_prox = (grafo_lista_no *)tmp->prox_no;
     free(tmp);
     tmp = tmp_prox;
