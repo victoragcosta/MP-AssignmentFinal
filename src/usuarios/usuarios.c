@@ -71,8 +71,6 @@ int usuarios_max(){
  * Observação, a verificação de nome ignora se o caracter é caixa alta ou não
 */
 static usuarios_condRet usuarios_verificaRepeticao(const char *argumento, char *dado){
-  unsigned int i = 0; /* Contador dos nós */
-  unsigned int j = 0; /* Contador dos argumentos */
   grafo_no *nodo;
   
   if(usuarios_grafo == NULL) return USUARIOS_FALHA_GRAFONULL;
@@ -237,11 +235,10 @@ usuarios_condRet usuarios_carregarArquivo(){
   
   usuarios_condRet busca;
 
-  /* Dados do usuário corrente */
-  tpUsuario *corrente;
   
   while(!feof(db_usuarios)){
-    corrente = (tpUsuario *)malloc(sizeof(tpUsuario));
+    /* Dados do usuário corrente */
+    tpUsuario *corrente = (tpUsuario *)malloc(sizeof(tpUsuario));
     
     /* Lemos do arquivo */
     fscanf(db_usuarios, "%u%*[^\t]\t", &(corrente->identificador));
@@ -380,11 +377,11 @@ usuarios_condRet usuarios_cadastro(int n, ...){
   va_start(argumentos, n);
   unsigned int i = 0, j;
   
-  char *argumento;
+  
   
   /* Percorremos os argumentos, armazenamos os dados em usuarios_dadosTemp */
   for(;i<n;i++){
-    argumento = va_arg(argumentos, char *);
+    char *argumento = va_arg(argumentos, char *);
     for(j=0;j<usuarios_cadastro_argumentos_n;j++)
       if(!strcmp(argumento, usuarios_args[j].validos)) {
       	strncpy(usuarios_args[j].destino, va_arg(argumentos, char *), usuarios_args[j].tamanho-1);
@@ -540,7 +537,6 @@ usuarios_condRet usuarios_logout(){
  * AGUARDANDOCONFIRMACAO, se o usuário da sessão estiver por aceitar a amizade ou não
 */
 usuarios_relacao usuarios_verificarAmizade(unsigned int identificador){
-  unsigned int i=0;
   grafo_arco *A, *B;
   
   if(usuarios_grafo == NULL) return ERRO;
@@ -570,7 +566,6 @@ usuarios_relacao usuarios_verificarAmizade(unsigned int identificador){
  * Retorna USUARIOS_SUCESSO se não houver falhas
 */
 usuarios_condRet usuarios_criarAmizade(unsigned int identificador){
-  tpUsuario *corrente;
   FILE *db_amigos;
   grafo_no *nodo;
   
@@ -586,7 +581,7 @@ usuarios_condRet usuarios_criarAmizade(unsigned int identificador){
   nodo = (grafo_no *)grafo_busca_no(usuarios_grafo, 1, 0); /* Primeiro usuário */
   for(; nodo != NULL; nodo = (grafo_no *)nodo->prox_no ){
     
-    corrente = (tpUsuario *)nodo->dados;
+    tpUsuario *corrente = (tpUsuario *)nodo->dados;
     if(corrente == NULL) return USUARIOS_GRAFO_CORROMPIDO; /* Assertiva */
     
     if(corrente->identificador == identificador){
@@ -687,8 +682,7 @@ usuarios_condRet usuarios_retornaDados(unsigned int identificador, const char *n
  * "formaPagamento", "tipo", "estado", "avaliacao", "n_avaliacao", "n_reclamacoes"
 */
 usuarios_condRet usuarios_atualizarDados(unsigned int identificador, const char *nomeDado, ...){
-  unsigned int i, j;
-  usuarios_condRet busca;
+  unsigned int i;
   tpUsuario *corrente;
   FILE *db_usuarios;
   va_list arg;
@@ -802,7 +796,6 @@ usuarios_condRet usuarios_limpar(){
 usuarios_condRet usuarios_listarAmigos(unsigned int identificador, usuarios_uintarray *retorno) {
   tpUsuario *usuario;
   grafo_lista_no *listaVizinhos, *tmp;
-  unsigned int posicaoGrafo;
   
   /* Pegamos o nodo com o identificador passado */
   if(identificador) usuario = (tpUsuario *)retorna_valor_vertice(usuarios_grafo, identificador);
@@ -847,8 +840,7 @@ usuarios_condRet usuarios_listarAmigos(unsigned int identificador, usuarios_uint
  * Vai compor o array com os identificadores dos amigos.
 */
 usuarios_condRet usuarios_listarAmigosPendentes(unsigned int identificador, usuarios_uintarray *retorno) {
-  tpUsuario *nodo, *corrente;
-  grafo_lista_no *listaVizinhos;
+  tpUsuario *corrente;
   unsigned int i;
   
   /* Pegamos o nodo com o identificador passado */

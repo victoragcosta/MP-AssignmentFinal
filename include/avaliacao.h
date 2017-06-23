@@ -26,13 +26,60 @@ typedef enum {
   AVALIACAO_FALHA_USUARIOS,
   AVALIACAO_FALHA_AUTOAVALIACAO,
   AVALIACAO_FALHA_NOTAINVALIDA,
-  AVALIACAO_FALHA_CRIARDB
+  AVALIACAO_FALHA_CRIARDB,
+  AVALIACAO_FALHA_FREE,
+  AVALIACAO_FALHA_ABRIRDB,
+  AVALIACAO_VALORINVALIDO,
+  AVALIACAO_FALHA_DEFINIR,
+  AVALIACAO_FALHA_AVALIAR
 } avaliacao_condRet;
+
+/*!
+ * Enumeração de tipos de usuário no que tange avaliação
+*/
+typedef enum {
+  AVALIADOR,
+  AVALIADO
+} avaliacao_tipo;
+
+/*!
+ * @brief Estrutura de dados de uma avaliação
+*/
+
+typedef struct avaliacao {
+  unsigned int identificador;
+  unsigned int avaliador;
+  unsigned int avaliado;
+  unsigned int nota;
+  char comentario[AVALIACAO_LIMITE_COMENTARIO];
+} avaliacao;
+
+typedef struct reclamacao {
+  unsigned int reclamador;
+  unsigned int reclamado;
+  char comentario[AVALIACAO_LIMITE_COMENTARIO];
+} reclamacao;
+
+/*!
+ * @brief Lista de avaliações
+*/
+typedef struct avaliacao_vetor {
+  unsigned int length;
+  avaliacao **array;
+} avaliacao_vetor;
 
 /*!
  * @brief Protótipos das funções
 */
-avaliacao_condRet avaliacao_fazerAvaliacao(unsigned int, unsigned int, char *);
+avaliacao_condRet avaliacao_fazerAvaliacao(avaliacao *);
+avaliacao *avaliacao_iniciar();
+avaliacao_condRet avaliacao_definir(avaliacao *, const char *, ...);
+avaliacao_condRet avaliacao_limpar(avaliacao **);
+avaliacao_condRet avaliacao_listar(unsigned int);
+avaliacao_condRet avaliacao_atualizarContador();
+avaliacao_condRet avaliacao_pegarContador();
+avaliacao_condRet avaliacao_obterAvaliacao(unsigned int, unsigned int, avaliacao_tipo, avaliacao *);
+avaliacao_condRet avaliacao_avaliar(unsigned int, unsigned int, unsigned int, char *);
 
 #endif
 

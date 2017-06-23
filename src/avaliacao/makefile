@@ -8,10 +8,10 @@ TDIR = ../tests/avaliacao
 GCOVDIR = ../gcov
 GRAFOSDIR = ../grafo
 
-_DEPS = usuarios.h avaliacao.h
+_DEPS = usuarios.h avaliacao.h aleatorio.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = usuarios.o avaliacao.o
+_OBJ = usuarios.o avaliacao.o aleatorio.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 _TEST = teste_avaliacao.o
