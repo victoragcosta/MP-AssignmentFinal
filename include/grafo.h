@@ -101,3 +101,4 @@ void *retorna_valor_vertice(grafo *, int);
 grafo_cte muda_valor_vertice(grafo *, int, void *);
 int retorna_valor_aresta(grafo *, int, int);
 grafo_cte muda_valor_aresta(grafo *, int, int, int);
+grafo_cte grafo_lista_no_limpar(grafo_lista_no **);

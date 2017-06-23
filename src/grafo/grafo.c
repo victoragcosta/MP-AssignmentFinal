@@ -22,6 +22,7 @@ void print_log(const char *tipo, const char *texto, const char *COR)
 	for(unsigned int i=padding; i<10-padding; i++) if(tipo[i-padding] != '\0') tipo_s[i] = tipo[i-padding];
 	tipo_s[10] = '\0';
 	printf("%s[%s]%s %s\n", COR, tipo_s, COR_NORMAL, texto);
+  free(tipo_s);
 }
 
 /*!
@@ -354,7 +355,10 @@ grafo_cte adjacente(grafo *G, int x, int y)
 grafo_cte grafo_lista_no_inserir(grafo_lista_no **raiz, int valor)
 {
 	grafo_lista_no *novo = (grafo_lista_no *)calloc(1, sizeof(grafo_lista_no));
-	if(novo == NULL) return FALHA_ALOCAR;
+	if(novo == NULL) {
+    free(novo);
+    return FALHA_ALOCAR;
+  }
 	novo->prox_no = NULL;
 	novo->valor = valor;
 	
@@ -366,6 +370,17 @@ grafo_cte grafo_lista_no_inserir(grafo_lista_no **raiz, int valor)
 		tmp->prox_no = novo;
 	}
 	return SUCESSO;
+}
+
+grafo_cte grafo_lista_no_limpar(grafo_lista_no **raiz){
+  grafo_lista_no *tmp = *raiz, *tmp_prox;
+  while(tmp != NULL){
+    tmp_prox = (grafo_lista_no *)tmp->prox_no;
+    free(tmp);
+    tmp = tmp_prox;
+  }
+  *raiz = NULL;
+  return SUCESSO;
 }
 
 /*!

@@ -434,6 +434,7 @@ usuarios_condRet usuarios_cadastro(int n, ...){
   novo = (tpUsuario *)malloc(sizeof(tpUsuario));
   memcpy(novo, usuarios_dadosTemp, sizeof(tpUsuario));
   
+  
   /* Devemos percorrer o grafo usuarios_grafo e salvar no arquivo */
   db_usuarios = fopen(USUARIOS_DB, "a+");
   
@@ -467,7 +468,7 @@ usuarios_condRet usuarios_cadastro(int n, ...){
     free(novo);
     return USUARIOS_FALHA_INSERIR_DADOS;
   }
-    
+      
   fclose(db_usuarios);
   
   return USUARIOS_SUCESSO;
@@ -799,34 +800,34 @@ usuarios_condRet usuarios_limpar(){
  * Vai compor o array com os identificadores dos amigos.
 */
 usuarios_condRet usuarios_listarAmigos(unsigned int identificador, usuarios_uintarray *retorno) {
-  tpUsuario *nodo, *corrente;
+  tpUsuario *usuario;
   grafo_lista_no *listaVizinhos;
   unsigned int posicaoGrafo;
   
   /* Pegamos o nodo com o identificador passado */
-  if(identificador) corrente = (tpUsuario *)retorna_valor_vertice(usuarios_grafo, identificador);
+  if(identificador) usuario = (tpUsuario *)retorna_valor_vertice(usuarios_grafo, identificador);
   /* Se foi passado 0, então pega-se o da sessão */
-  else corrente = usuarios_sessao;
+  else usuario = usuarios_sessao;
   
-  if(corrente == NULL) return USUARIOS_FALHA_ACESSORESTRITO; /* Assertiva */
-  
+  if(usuario == NULL) return USUARIOS_FALHA_ACESSORESTRITO; /* Assertiva */
+ 
   /* Geramos o vetor */
   //*retorno = (usuarios_uintarray *)malloc(sizeof(usuarios_uintarray));
   retorno->length = 0;
   retorno->array = NULL;
   
   /* Buscamos os nós vizinhos */
-  listaVizinhos = vizinhos(usuarios_grafo, identificador);
+  listaVizinhos = vizinhos(usuarios_grafo, usuario->identificador);
   for(;listaVizinhos != NULL;listaVizinhos=(grafo_lista_no *)listaVizinhos->prox_no){
-    corrente = (tpUsuario *)grafo_busca_no(usuarios_grafo, listaVizinhos->valor, 0)->dados;
     
     /* Verificamos se há um arco vindo no sentido contrário */
-    if(adjacente(usuarios_grafo, listaVizinhos->valor, identificador) == ADJACENTES)  {
+    if(adjacente(usuarios_grafo, listaVizinhos->valor, usuario->identificador) == ADJACENTES)  {
       retorno->array = (unsigned int *)realloc(retorno->array, (++retorno->length)*sizeof(unsigned int));
-      retorno->array[retorno->length-1] = corrente->identificador;
+      retorno->array[retorno->length-1] = listaVizinhos->valor;
     }
   }
   
+  grafo_lista_no_limpar(&listaVizinhos);
   return USUARIOS_SUCESSO;
   
 }
@@ -864,11 +865,16 @@ usuarios_condRet usuarios_listarAmigosPendentes(unsigned int identificador, usua
   
   /* Buscamos em todo o grafo */
   for(i=0;i<usuarios_contador;i++){
-    /* Vemos se há um arco do usuário i ao usuário identificador */
-    if(grafo_busca_arco(usuarios_grafo, i, identificador) != NULL){
+    /* Vemos se há um arco do usuário i ao usuário identificador e que não há um no sentido contrário */
+    if(grafo_busca_arco(usuarios_grafo, i, identificador) != NULL &&
+       grafo_busca_arco(usuarios_grafo, identificador, i) == NULL){
       /* Adicionamos ao array */
       retorno->length++;
       retorno->array = (unsigned int*)realloc(retorno->array, retorno->length*sizeof(unsigned int));
+      if(retorno->array == NULL) {
+        retorno->length = 0;
+        return USUARIOS_FALHA_INSERIR_DADOS;
+      }
       retorno->array[retorno->length-1] = i;
     }
   }
@@ -880,21 +886,28 @@ usuarios_condRet usuarios_listarAmigosPendentes(unsigned int identificador, usua
 /*!
  * @brief Função que lista os amigos de amigos (excluíndo amigos)
  *
- * Complexidade muito alta, pensar em forma de melhorar
 */
 usuarios_condRet usuarios_listarAmigosdeAmigos(unsigned int identificador, usuarios_uintarray *retorno){
   usuarios_uintarray amigos, amigosdeamigos;
   unsigned int i,j,k;
+  
   /* Listamos os amigos do usuário */
-  usuarios_listarAmigos(identificador, &amigos);
+  if(usuarios_listarAmigos(identificador, &amigos) != USUARIOS_SUCESSO) 
+    return USUARIOS_FALHA_LISTARAMIGOS;
+  
+  retorno->length = 0;
+  retorno->array = NULL;
+  
   /* Para cada amigo buscamos os amigos */
   for(i=0;i<amigos.length;i++){
-    usuarios_listarAmigos(amigos.array[i], &amigosdeamigos);
+    if(usuarios_listarAmigos(amigos.array[i], &amigosdeamigos) != USUARIOS_SUCESSO) 
+      return USUARIOS_FALHA_LISTARAMIGOS;
+      
     /* Inserimos um a um de temporário no retorno, se ainda não estiver */
     for(j=0;j<amigosdeamigos.length;j++){
       /* Impedimos autoinclusão */
       if(amigosdeamigos.array[j] != identificador) {
-        /* Para cada temporário buscamos no retorno se já existe */
+        /* Para cada temporário buscamos no retorno se já existe e não esteja em amigos */
         for(k=0;k<retorno->length;k++){
           if(retorno->array[k] == amigosdeamigos.array[j]) break;
         }
