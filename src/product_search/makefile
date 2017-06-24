@@ -34,10 +34,12 @@ verify_tests:
 .PHONY: my_gcov
 
 mv_gcov:
+	cp $(DEPS) $(GCOVDIR)
+	cp *.c $(GCOVDIR)
+	mv $(TDIR)/*.gcda $(GCOVDIR)
+	mv $(TDIR)/*.gcno $(GCOVDIR)
 	mv $(ODIR)/*.gcda $(GCOVDIR)
 	mv $(ODIR)/*.gcno $(GCOVDIR)
-	cp $(IDIR)/$(_DEPS) $(GCOVDIR)
-	cp *.c $(GCOVDIR)
 
 .PHONY: clean
 

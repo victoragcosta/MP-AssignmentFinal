@@ -15,11 +15,17 @@
 char name[75];
 product novoProduto, copia, outro;
 
+/* Inicialização das variáveis utilizadas nos testes.*/
+
 TEST (Initialization, Variables) {
 
   EXPECT_EQ(1, true);
 
 }
+
+/*
+  Teste da função CreateProduct utilizando-se parâmetros válidos para o produto.
+ */
 
 TEST (CreateProduct, Normal_Product) {
 
@@ -33,6 +39,11 @@ TEST (CreateProduct, Normal_Product) {
 
 }
 
+/*
+  Teste da função CreateProduct utilizando-se um parâmetro preço negativo (algo
+  inválido) para o produto.
+ */
+
 TEST (CreateProduct, Illegal_Price_01) {
 
   strcpy(name, "Arroz estragado");
@@ -40,6 +51,11 @@ TEST (CreateProduct, Illegal_Price_01) {
   EXPECT_EQ(CreateProduct(name, Sale, -2, 5, &novoProduto), Illegal_argument);
 
 }
+
+/*
+  Teste da função CreateProduct utilizando-se um parâmetro preço muito grande
+  (algo inválido) para o produto.
+ */
 
 TEST (CreateProduct, Illegal_Price_02) {
 
@@ -50,6 +66,11 @@ TEST (CreateProduct, Illegal_Price_02) {
 
 }
 
+/*
+  Teste da função CreateProduct utilizando-se um parâmetro popularidade negativo
+  (algo inválido) para o produto.
+ */
+
 TEST (CreateProduct, Illegal_Popularity_01) {
 
   strcpy(name, "Bomba atômica");
@@ -59,6 +80,11 @@ TEST (CreateProduct, Illegal_Popularity_01) {
 
 }
 
+/*
+  Teste da função CreateProduct utilizando-se um parâmetro popularidade muito
+  grande (algo inválido) para o produto.
+ */
+
 TEST (CreateProduct, Illegal_Popularity_02) {
 
   strcpy(name, "Bilhete premiado de loteria");
@@ -67,11 +93,64 @@ TEST (CreateProduct, Illegal_Popularity_02) {
 
 }
 
+/*
+  Teste da função CreateProduct passando um ponteiro NULL como endereço do
+  produto (algo inválido).
+ */
+
 TEST (CreateProduct, Null_Pointer) {
 
   EXPECT_EQ(CreateProduct(name, Sale, 5, 120, NULL), Illegal_argument);
 
 }
+
+/* Teste da função ValidProduct para um produto válido. */
+
+TEST (ValidProduct, Valid_Product) {
+
+  EXPECT_EQ(CreateProduct(name, Sale, 5, 100, &novoProduto), Success);
+  EXPECT_EQ(ValidProduct(&novoProduto), 1);
+
+}
+
+/* Teste da função ValidProduct para um produto com preço inválido. */
+
+TEST (ValidProduct, Invalid_Price) {
+
+  strcpy(novoProduto.name, "Iate de ouro");
+  novoProduto.price = 400000000;
+  novoProduto.popularity = 60;
+  novoProduto.type = Rental;
+  EXPECT_EQ(ValidProduct(&novoProduto), 0);
+
+}
+
+/* Teste da função ValidProduct para um produto com popularide inválida. */
+
+TEST (ValidProduct, Invalid_Popularity) {
+
+  strcpy(novoProduto.name, "Vitrola anos 70");
+  novoProduto.price = 125;
+  novoProduto.popularity = 120;
+  novoProduto.type = Rental;
+  EXPECT_EQ(ValidProduct(&novoProduto), 0);
+
+}
+
+/*
+  Teste da função ValidProduct passando um ponteiro NULL como endereço do
+  produto (algo inválido).
+ */
+
+TEST (ValidProduct, Null_Pointer) {
+
+  EXPECT_EQ(ValidProduct(NULL), -1);
+
+}
+
+/*
+  Teste da função CopyProduct utilizando-se endereços válidos de produtos.
+ */
 
 TEST (CopyProduct, Normal_Copy) {
 
@@ -88,12 +167,22 @@ TEST (CopyProduct, Normal_Copy) {
 
 }
 
+/*
+  Teste da função CopyProduct passando um ponteiro NULL como endereço de um dos
+  produtos (algo inválido).
+ */
+
 TEST (CopyProduct, Null_Pointer) {
 
   EXPECT_EQ(CopyProduct(&novoProduto, NULL), Illegal_argument);
   EXPECT_EQ(CopyProduct(NULL, &novoProduto), Illegal_argument);
 
 }
+
+/*
+  Teste da função CompareProducts passando os endereços de dois produtos iguais
+  como argumentos.
+ */
 
 TEST (CompareProducts, Equal) {
 
@@ -107,6 +196,23 @@ TEST (CompareProducts, Equal) {
   EXPECT_EQ(CompareProducts(&copia, &novoProduto), 0);
 
 }
+
+/*
+  Teste da função CompareProducts passando um mesmo endereço duas vezes como
+  argumento.
+ */
+
+TEST (CompareProducts, Same_Argument) {
+
+  EXPECT_EQ(CompareProducts(&copia, &copia), 0);
+
+}
+
+/*
+  Teste da função CompareProducts passando os endereços de produtos com o nome
+  diferente como argumentos.
+ */
+
 
 TEST (CompareProducts, Different_Name) {
 
@@ -123,6 +229,11 @@ TEST (CompareProducts, Different_Name) {
 
 }
 
+/*
+  Teste da função CompareProducts passando os endereços de produtos com o tipo
+  diferente como argumentos.
+ */
+
 TEST (CompareProducts, Different_Type) {
 
   strcpy(name, "Clone");
@@ -134,6 +245,11 @@ TEST (CompareProducts, Different_Type) {
   EXPECT_EQ(CompareProducts(&outro, &novoProduto), 1);
 
 }
+
+/*
+  Teste da função CompareProducts passando os endereços de produtos com o preço
+  diferente como argumentos.
+ */
 
 TEST (CompareProducts, Different_Price) {
 
@@ -147,6 +263,11 @@ TEST (CompareProducts, Different_Price) {
 
 }
 
+/*
+  Teste da função CompareProducts passando os endereços de produtos com a
+  popularidade diferente como argumentos.
+ */
+
 TEST (CompareProducts, Different_Popularity) {
 
   strcpy(name, "Clone");
@@ -159,12 +280,20 @@ TEST (CompareProducts, Different_Popularity) {
 
 }
 
+/* Teste da função CompareProducts passando ponteiros NULL como argumentos. */
+
 TEST (CompareProducts, Null_Pointer) {
 
   EXPECT_EQ(CompareProducts(&novoProduto, NULL), -1);
   EXPECT_EQ(CompareProducts(NULL, &novoProduto), -1);
+  EXPECT_EQ(CompareProducts(NULL, NULL), -1);
 
 }
+
+/*
+  Finalização (desalocação de memória alocada dinamicamente) das variáveis
+  utilizadas nos testes.
+ */
 
 TEST (Termination, Variables) {
 

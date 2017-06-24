@@ -17,6 +17,8 @@ productList list, list2, query_results;
 product novoProduto, copia, outro;
 productSpecification generic, specific;
 
+/* Inicialização das variáveis utilizadas nos testes.*/
+
 TEST (Initialization, Variables) {
 
   CleanProductList(&list);
@@ -27,6 +29,11 @@ TEST (Initialization, Variables) {
   EXPECT_EQ(1, true);
 
 }
+
+/*
+  Teste da função AddProduct para adicionar o primeiro produto à uma lista de
+  produtos.
+ */
 
 TEST (AddProduct, First) {
 
@@ -44,6 +51,11 @@ TEST (AddProduct, First) {
   EXPECT_EQ(list.items[0].popularity, 100);
 
 }
+
+/*
+  Teste da função AddProduct para adicionar o segundo produto à uma lista de
+  produtos.
+ */
 
 TEST (AddProduct, Second) {
 
@@ -77,6 +89,11 @@ TEST (AddProduct, Repeated_Product) {
 
 }
 
+/*
+  Primeiro teste da função AddProduct para tentar adicionar um produto com preço
+  ilegal à uma lista de produtos.
+ */
+
 TEST (AddProduct, Illegal_Price_01) {
 
   list.size = 0;
@@ -95,6 +112,11 @@ TEST (AddProduct, Illegal_Price_01) {
 
 }
 
+/*
+  Segundo teste da função AddProduct para tentar adicionar um produto com preço
+  ilegal à uma lista de produtos.
+ */
+
 TEST (AddProduct, Illegal_Price_02) {
 
   ASSERT_EQ(list.size, 0);
@@ -109,6 +131,11 @@ TEST (AddProduct, Illegal_Price_02) {
   ASSERT_EQ(list.size, 0);
 
 }
+
+/*
+  Primeiro teste da função AddProduct para tentar adicionar um produto com
+  popularidade ilegal à uma lista de produtos.
+ */
 
 TEST (AddProduct, Illegal_Popularity_01) {
 
@@ -125,6 +152,11 @@ TEST (AddProduct, Illegal_Popularity_01) {
 
 }
 
+/*
+  Segundo teste da função AddProduct para tentar adicionar um produto com
+  popularidade ilegal à uma lista de produtos.
+ */
+
 TEST (AddProduct, Illegal_Popularity_02) {
 
   ASSERT_EQ(list.size, 0);
@@ -140,11 +172,15 @@ TEST (AddProduct, Illegal_Popularity_02) {
 
 }
 
+/* Teste da função AddProduct passando-se como argumento um ponteiro nulo. */
+
 TEST (CleanProductList, Invalid_List) {
 
   EXPECT_EQ(CleanProductList(NULL), Illegal_argument);
 
 }
+
+/* Teste da função AddProduct passando-se como argumento uma lista vazia. */
 
 TEST (CleanProductList, New_List) {
 
@@ -156,6 +192,8 @@ TEST (CleanProductList, New_List) {
   ASSERT_EQ((list2.items == NULL), true);
 
 }
+
+/* Teste da função AddProduct passando-se como argumento uma lista cheia. */
 
 TEST (CleanProductList, Used_List) {
 
@@ -180,6 +218,11 @@ TEST (CleanProductList, Used_List) {
 
 }
 
+/*
+  Teste da função CreateSpecification passando-se como argumento um endereço de
+  especificação válido.
+ */
+
 TEST (CreateSpecification, Normal_Specification) {
 
   EXPECT_EQ(CreateSpecification(Rental, 0, 100000, 0, 100, &specific), Success);
@@ -190,6 +233,19 @@ TEST (CreateSpecification, Normal_Specification) {
   EXPECT_EQ(specific.maximum_popularity, 100);
 
 }
+
+/*
+  Teste da função CreateSpecification passando-se como argumento um ponteiro
+  nulo.
+ */
+
+TEST (CreateSpecification, Invalid_Specification) {
+
+  EXPECT_EQ(CreateSpecification(Rental, 0, 10, 0, 100, NULL), Illegal_argument);
+
+}
+
+/* Teste da função ProductSearch para uma busca sem resultados. */
 
 TEST (ProductSearch, Product_Not_Found) {
 
@@ -206,6 +262,8 @@ TEST (ProductSearch, Product_Not_Found) {
 
 }
 
+/* Teste da função ProductSearch para uma busca com resultados. */
+
 TEST (ProductSearch, Product_Found) {
 
   ASSERT_EQ(list.size, 1);
@@ -217,6 +275,8 @@ TEST (ProductSearch, Product_Found) {
   EXPECT_EQ(CompareProducts(&(query_results.items[0]), &(list.items[0])), 0);
 
 }
+
+/* Teste da função ProductSearch para uma busca com múltiplos resultados. */
 
 TEST (ProductSearch, Multiple_results) {
 
@@ -241,6 +301,8 @@ TEST (ProductSearch, Multiple_results) {
 
 }
 
+/* Teste da função ProductSearch para uma busca com restrição de tipo. */
+
 TEST (ProductSearch, Type_Restriction) {
 
   ASSERT_EQ(list.size, 3);
@@ -254,6 +316,10 @@ TEST (ProductSearch, Type_Restriction) {
   EXPECT_EQ(CompareProducts(&(query_results.items[0]), &(list.items[2])), 0);
 
 }
+
+/*
+  Primeiro teste da função ProductSearch para uma busca com restrição de preço.
+ */
 
 TEST (ProductSearch, Price_Restriction_01) {
 
@@ -281,6 +347,10 @@ TEST (ProductSearch, Price_Restriction_01) {
 
 }
 
+/*
+  Segundo teste da função ProductSearch para uma busca com restrição de preço.
+ */
+
 TEST (ProductSearch, Price_Restriction_02) {
 
   ASSERT_EQ(list.size, 6);
@@ -295,6 +365,10 @@ TEST (ProductSearch, Price_Restriction_02) {
   EXPECT_EQ(CompareProducts(&(query_results.items[1]), &(list.items[4])), 0);
 
 }
+
+/*
+  Teste da função ProductSearch para uma busca com restrição de popularidade.
+ */
 
 TEST (ProductSearch, Popularity_Restriction) {
 
@@ -311,6 +385,10 @@ TEST (ProductSearch, Popularity_Restriction) {
   EXPECT_EQ(CompareProducts(&(query_results.items[2]), &(list.items[4])), 0);
 
 }
+
+/*
+  Teste da função ProductSearch para uma busca com um nome parcial do produto.
+ */
 
 TEST (ProductSearch, Partial_Name) {
 
@@ -331,6 +409,27 @@ TEST (ProductSearch, Partial_Name) {
 
 }
 
+/*
+  Teste da função ProductSearch para ponteiros nulos passados como argumentos.
+ */
+
+TEST (ProductSearch, Invalid_Adresses) {
+
+  strcpy(name, "Camisa");
+
+  EXPECT_EQ(SearchProduct(name, NULL, &generic, &query_results),
+            Illegal_argument);
+  EXPECT_EQ(SearchProduct(name, &list, NULL, &query_results), Illegal_argument);
+  EXPECT_EQ(SearchProduct(name, &list, &generic, NULL), Illegal_argument);
+  EXPECT_EQ(SearchProduct(name, NULL, NULL, &query_results), Illegal_argument);
+  EXPECT_EQ(SearchProduct(name, NULL, &generic, NULL), Illegal_argument);
+  EXPECT_EQ(SearchProduct(name, &list, NULL, NULL), Illegal_argument);
+  EXPECT_EQ(SearchProduct(name, NULL, NULL, NULL), Illegal_argument);
+
+}
+
+/* Teste da função SelectProduct para uma seleção válida. */
+
 TEST (SelectProduct, Valid_Select) {
 
   strcpy(name, "Carro");
@@ -346,6 +445,8 @@ TEST (SelectProduct, Valid_Select) {
 
 }
 
+/* Teste da função SelectProduct para uma seleção com indíce inválido. */
+
 TEST (SelectProduct, Invalid_Select) {
 
   ASSERT_EQ(query_results.size, 2);
@@ -355,6 +456,24 @@ TEST (SelectProduct, Invalid_Select) {
   ASSERT_EQ(SelectProduct(2, &query_results, &novoProduto), Illegal_argument);
 
 }
+
+/*
+  Teste da função SelectProduct para ponteiros nulos passados como argumentos.
+ */
+
+TEST (SelectProduct, Invalid_Adresses) {
+
+  ASSERT_EQ(query_results.size, 2);
+  EXPECT_EQ(CompareProducts(&(query_results.items[0]), &(list.items[1])), 0);
+  EXPECT_EQ(CompareProducts(&(query_results.items[1]), &(list.items[2])), 0);
+
+  ASSERT_EQ(SelectProduct(0, NULL, &novoProduto), Illegal_argument);
+  ASSERT_EQ(SelectProduct(0, &query_results, NULL), Illegal_argument);
+  ASSERT_EQ(SelectProduct(0, NULL, NULL), Illegal_argument);
+
+}
+
+/* Teste da função DeleteProduct para uma deleção válida. */
 
 TEST (DeleteProduct, Valid_Delete) {
 
@@ -368,6 +487,8 @@ TEST (DeleteProduct, Valid_Delete) {
 
 }
 
+/* Teste da função DeleteProduct para uma deleção inválida. */
+
 TEST (DeleteProduct, Invalid_Delete) {
 
   ASSERT_EQ(query_results.size, 1);
@@ -376,6 +497,8 @@ TEST (DeleteProduct, Invalid_Delete) {
   ASSERT_EQ(DeleteProduct(1, &query_results), Illegal_argument);
 
 }
+
+/* Teste da função DeleteProduct para uma lista vazia. */
 
 TEST (DeleteProduct, Empty_List) {
 
@@ -386,6 +509,11 @@ TEST (DeleteProduct, Empty_List) {
   ASSERT_EQ(DeleteProduct(0, &query_results), Illegal_argument);
 
 }
+
+/*
+  Finalização (desalocação de memória alocada dinamicamente) das variáveis
+  utilizadas nos testes.
+ */
 
 TEST (Termination, Variables) {
 
