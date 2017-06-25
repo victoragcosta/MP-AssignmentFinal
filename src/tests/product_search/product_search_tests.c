@@ -172,6 +172,26 @@ TEST (AddProduct, Illegal_Popularity_02) {
 
 }
 
+/*
+  Teste da função AddProduct para tentar adicionar um produto de tipo ilegal à
+  uma lista de produtos.
+ */
+
+TEST (AddProduct, Illegal_Type) {
+
+  ASSERT_EQ(list.size, 0);
+
+  strcpy(novoProduto.name, "Buffet all-incluse");
+  novoProduto.price = 80;
+  novoProduto.popularity = 20;
+  novoProduto.type = All;
+
+  EXPECT_EQ(AddProduct(&novoProduto, &list), Illegal_argument);
+
+  ASSERT_EQ(list.size, 0);
+
+}
+
 /* Teste da função AddProduct passando-se como argumento um ponteiro nulo. */
 
 TEST (CleanProductList, Invalid_List) {

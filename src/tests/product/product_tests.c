@@ -93,6 +93,16 @@ TEST (CreateProduct, Illegal_Popularity_02) {
 
 }
 
+/* Teste da função CreateProduct utilizando-se um parâmetro tipo inválido. */
+
+TEST (CreateProduct, Illegal_Type) {
+
+  strcpy(name, "Buffet all-incluse");
+
+  EXPECT_EQ(CreateProduct(name, All, 5, 90, &novoProduto), Illegal_argument);
+
+}
+
 /*
   Teste da função CreateProduct passando um ponteiro NULL como endereço do
   produto (algo inválido).

@@ -565,10 +565,10 @@ int MatchesSpecification(product *item, productSpecification *specification) {
     return -1;
 
   else if((specification->type == All || specification->type == item->type)
-    && (item->price >= specification->minimum_price
-    && item->price <= specification->maximum_price)
-    && (item->popularity >= specification->minimum_popularity
-    && item->popularity <= specification->maximum_popularity))
+          && (item->price >= specification->minimum_price
+          && item->price <= specification->maximum_price)
+          && (item->popularity >= specification->minimum_popularity
+          && item->popularity <= specification->maximum_popularity))
     return 1;
 
   else

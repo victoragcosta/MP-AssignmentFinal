@@ -109,7 +109,8 @@ errorLevel CopyProduct(product *copy, product *original) {
 errorLevel CreateProduct(char name[75], productType type, double price,
 int popularity, product *new_product) {
 
-  if(new_product == NULL || !ValidPrice(price) || !ValidPopularity(popularity))
+  if(new_product == NULL || !ValidPrice(price) || !ValidPopularity(popularity)
+     || type == All)
     return Illegal_argument;
 
   strcpy(new_product->name, name);
@@ -308,7 +309,8 @@ int ValidProduct(product *item) {
   if(item == NULL)
     return -1;
 
-  else if(ValidPrice(item->price) && ValidPopularity(item->popularity))
+  else if(ValidPrice(item->price) && ValidPopularity(item->popularity)
+          && item->type != All)
     return 1;
 
   else
