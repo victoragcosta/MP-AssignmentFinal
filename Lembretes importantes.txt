@@ -1,23 +1,25 @@
 Lembretes importantes para a realização do trabalho:
 
-1) Sempre que for realizar uma tarefa, mesmo que seja pesquisar sobre algum
+(1) Sempre que for realizar uma tarefa, mesmo que seja pesquisar sobre algum 
 assunto, cronometre o tempo utilizando o toggl.com.
 
-2) Ao escrever o código do programa, não se esqueça de:
+(2) Ao escrever o código do programa, não se esqueça de:
 
-   2.1) Utilizar o desenvolvimento orientado a testes.
-   2.2) Realizar testes utilizando o Gtest (ou o Catch).
-   2.3) Utilizar o conceito de modularização.
-   2.4) Seguir o padrão de codificação da google (https://google.github.io/styleguide/cppguide.html).
-   2.5) Comentar funções adequadamente (Assertivas de entrada, assertivas
-de saída, assertivas estruturais, assertivas de contrato, argumentação da
-corretude, requisitos e hipóteses).
-   2.6) Comentar o código adequadamente para a documentação com o Doxygen.
-   2.7) Utilizar assertivas.
-   2.8) Fazer a modelagem física das estruturas de dados e utilizar cabeças
+   (2.1) Utilizar o desenvolvimento orientado a testes.
+   (2.2) Realizar testes utilizando o Gtest (ou o Catch).
+   (2.3) Utilizar o conceito de modularização.
+   (2.4) Seguir o padrão de codificação da google (https://google.github.io/
+styleguide/cppguide.html).
+   (2.5) Comentar funções adequadamente (Assertivas de entrada, assertivas 
+de saída, assertivas estruturais, assertivas de contrato, argumentação da 
+corretude, interfaces explícitas, interfaces implícitas, requisitos e 
+hipóteses).
+   (2.6) Comentar o código adequadamente para a documentação com o Doxygen.   
+   (2.7) Utilizar assertivas.
+   (2.8) Fazer a modelagem física das estruturas de dados e utilizar cabeças
 de estruturas de dados.
-   2.9) Revisar e refatorar o código.
-   2.10) Utilizar o cppcheck e o valgrind para detectar erros.
+   (2.9) Revisar e refatorar o código.
+   (2.10) Utilizar o cppcheck e o valgrind para detectar erros.
 
-3) Escrever o programa para Linux (de preferência em uma versão estável de
-Linux, pois o programa deve rodar nos computadores do LINF).
+(3) Escrever o programa para GNU/Linux (de preferência em uma versão estável de
+GNU/Linux, pois o programa deve rodar nos computadores do LINF).
