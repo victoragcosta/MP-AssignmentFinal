@@ -235,6 +235,7 @@ TEST(Amizade, criarAmizade){
 	EXPECT_EQ(usuarios_logout(), USUARIOS_SUCESSO);
 }
 
+
 TEST(Amizade, amigodeamigo){
   unsigned int i=0,j,k,max=usuarios_max()+1, id;
   char usuario[USUARIOS_LIMITE_USUARIO];
@@ -293,8 +294,17 @@ TEST(Amizade, amigodeamigo){
     }
     EXPECT_EQ(usuarios_freeUint(&amigosdeamigos), USUARIOS_SUCESSO);
   }
+}
+
+TEST(Amizade, removerAmizade){
+
+	EXPECT_EQ(usuarios_login((char *)"jose123", (char *)"987654"), USUARIOS_SUCESSO);
+	EXPECT_EQ(usuarios_verificarAmizade(2), AMIGOS);
+	EXPECT_EQ(usuarios_removerAmizade(0, 2), USUARIOS_SUCESSO);
+	EXPECT_EQ(usuarios_logout(), USUARIOS_SUCESSO);
 	EXPECT_EQ(usuarios_limpar(), USUARIOS_SUCESSO);
 }
+
 
 int main(int argc, char **argv)
 {

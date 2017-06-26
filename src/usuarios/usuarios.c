@@ -17,6 +17,11 @@ static grafo *usuarios_grafo = NULL;
 static unsigned int usuarios_contador = 0;
 
 /*!
+ * @brief Contador do número de relações entre os nodos
+*/
+static int usuarios_contador_amizades = 0;
+
+/*!
  * @brief Sessão aberta
 */
 static tpUsuario *usuarios_sessao = NULL; /* Inicialmente NULL significa que não há usuário logado */
@@ -232,6 +237,7 @@ usuarios_condRet usuarios_carregarArquivo(){
   
   /* Identificadores para os amigos */
   unsigned int identificador_A, identificador_B;
+  int valorAresta;
   
   usuarios_condRet busca;
 
@@ -325,19 +331,28 @@ usuarios_condRet usuarios_carregarArquivo(){
   /* Agora carregamos os amigos */
   while(!feof(db_amigos)){
     /* Lemos do arquivo */
-    fscanf(db_amigos, "%u%*[^\t]\t%u%*[^\n]\n", &identificador_A, &identificador_B);
-    
-    /* Vemos se já há um arco entre eles nesta direção, uma assertiva */
-    if(grafo_busca_arco(usuarios_grafo, identificador_A, identificador_B) != NULL){
-      fclose(db_amigos);
-       destroi_grafo(&usuarios_grafo);
-      return USUARIOS_DB_CORROMPIDO;
-    }
-    
-    if(adiciona_aresta(usuarios_grafo, identificador_A, identificador_B) != SUCESSO){
-      fclose(db_amigos);
-      destroi_grafo(&usuarios_grafo);
-      return USUARIOS_FALHA_CRIARAMIZADE;
+    fscanf(db_amigos, "%4d%4u%*[^\t]\t%4u%*[^\n]\n", &valorAresta, &identificador_A, &identificador_B);
+    /* Pulamos relações mortas */
+    if(valorAresta){
+      /* Vemos se já há um arco entre eles nesta direção, uma assertiva */
+      if(grafo_busca_arco(usuarios_grafo, identificador_A, identificador_B) != NULL){
+        fclose(db_amigos);
+         destroi_grafo(&usuarios_grafo);
+        return USUARIOS_DB_CORROMPIDO;
+      }
+      
+      /* Colocamos e definimos o id da aresta */
+      if(
+         adiciona_aresta(usuarios_grafo, identificador_A, identificador_B) != SUCESSO ||
+         muda_valor_aresta(usuarios_grafo, identificador_A, identificador_B, valorAresta) != SUCESSO
+      ){
+        fclose(db_amigos);
+        destroi_grafo(&usuarios_grafo);
+        return USUARIOS_FALHA_CRIARAMIZADE;
+      }
+      
+      /* Atualizamos o contador */
+      usuarios_contador_amizades++;
     }
   }
   
@@ -591,11 +606,16 @@ usuarios_condRet usuarios_criarAmizade(unsigned int identificador){
         return USUARIOS_AMIZADEJASOLICITADA;
       
       if(adiciona_aresta(usuarios_grafo, usuarios_sessao->identificador, corrente->identificador) == SUCESSO){
+        /* Definimos um valor para a aresta */
+        usuarios_contador_amizades++;
+        if(muda_valor_aresta(usuarios_grafo, usuarios_sessao->identificador, corrente->identificador, usuarios_contador_amizades) != SUCESSO)
+          return USUARIOS_FALHA_CRIARAMIZADE;
+        
         db_amigos = fopen(USUARIOS_DB_AMIGOS, "a+");
         if(db_amigos == NULL) return USUARIOS_FALHACRIARAMIZADE;
         
         /* Gravamos no arquivo */
-        fprintf(db_amigos, "%*u\t%*u\n", -USUARIOS_LIMITE_INT, usuarios_sessao->identificador, -USUARIOS_LIMITE_INT, identificador);
+        fprintf(db_amigos, "%*d\t%*u\t%*u\n", -USUARIOS_LIMITE_INT, usuarios_contador_amizades, -USUARIOS_LIMITE_INT, usuarios_sessao->identificador, -USUARIOS_LIMITE_INT, identificador);
         fclose(db_amigos);
         return USUARIOS_SUCESSO;
         
@@ -604,6 +624,59 @@ usuarios_condRet usuarios_criarAmizade(unsigned int identificador){
     }
   }
   return USUARIOS_FALHAUSUARIONAOEXISTE;
+}
+
+/*!
+ * @brief Função que remove uma relação de amizade
+ * 
+ * Recebe os identificadores dos usuários A e B, se A for 0 assume que é da sessão
+*/
+usuarios_condRet usuarios_removerAmizade(unsigned int identificador_A, unsigned int identificador_B){
+  int valorAresta;
+  FILE *db_amigos;
+  /* Verificamos se o grafo existe */
+  if(usuarios_grafo == NULL) return USUARIOS_FALHA_GRAFONULL;
+  
+  /* Pegamos o identificador da sessão */
+  if(identificador_A == 0) {
+    if(!usuarios_sessaoAberta()) return USUARIOS_FALHA_SESSAONULA;
+    if(usuarios_retornaDados(0, "identificador", &identificador_A) != USUARIOS_SUCESSO)
+      return USUARIOS_FALHA_DADOSINCORRETOS;
+  }
+  
+  /* Removemos do arquivo */
+  db_amigos = fopen(USUARIOS_DB_AMIGOS, "r+");
+  if(db_amigos == NULL) return USUARIOS_FALHA_LERDB;
+  
+  /* Removemos de A para B, se tiver */
+  valorAresta = retorna_valor_aresta(usuarios_grafo, identificador_A, identificador_B);
+  if(valorAresta){
+    fseek(db_amigos, USUARIOS_DB_AMIGOS_REGISTRO_TAMANHO*(valorAresta-1), SEEK_SET);
+    fprintf(db_amigos, "%4d\t%4u\t%4u\n", 0, (unsigned int)0, (unsigned int)0);
+    
+    if(remove_aresta(usuarios_grafo, identificador_A, identificador_B) != SUCESSO){
+      fclose(db_amigos);
+      return USUARIOS_FALHA_REMOVER_AMIZADE;
+    }
+  }
+  
+  /* Removemos de B para A, se tiver */
+  valorAresta = retorna_valor_aresta(usuarios_grafo, identificador_B, identificador_A);
+  if(valorAresta){
+    fseek(db_amigos, USUARIOS_DB_AMIGOS_REGISTRO_TAMANHO*(valorAresta-1), SEEK_SET);
+    fprintf(db_amigos, "%4d\t%4u\t%4u\n", 0, (unsigned int)0, (unsigned int)0);
+    
+    /* Removemos no grafo */
+    if(remove_aresta(usuarios_grafo, identificador_B, identificador_A) != SUCESSO){
+      fclose(db_amigos);
+      return USUARIOS_FALHA_REMOVER_AMIZADE;
+    }
+  }
+  
+  fclose(db_amigos);
+  return USUARIOS_SUCESSO;
+  
+  
 }
 
 /*!

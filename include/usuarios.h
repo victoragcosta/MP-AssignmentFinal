@@ -25,6 +25,7 @@
 #define USUARIOS_DB_ESTRUTURA "%-4u\t%-20s\t%-40s\t%-30s\t%-20s\t%-40s\t%-4d\t%-4d\t%-4d\t%-9lf\t%-4u\t%-4u\n"
 #define USUARIOS_DB_ESTRUTURA_SCAN "%4u%*c%20[^\t]\t%40[^\t]\t%30[^\t]\t%20[^\t]\t%40[^\t]\t%4d%*c%4d%*c%4d%*c%9lf%*c%4u%*c%4u\n"
 #define USUARIOS_DB_AMIGOS "../../db/amigos.txt"
+#define USUARIOS_DB_AMIGOS_REGISTRO_TAMANHO 15 
 
 /*!
  * @brief Estrutura de numeração para as formas de pagamento
@@ -115,7 +116,8 @@ typedef enum {
 	USUARIOS_FALHAUSUARIONAOEXISTE,
 	USUARIOS_FALHA_INATIVO,
   USUARIOS_FALHA_ACESSORESTRITO,
-  USUARIOS_FALHA_LISTARAMIGOS
+  USUARIOS_FALHA_LISTARAMIGOS,
+  USUARIOS_FALHA_REMOVER_AMIZADE
 } usuarios_condRet;
 
 /*!
@@ -160,6 +162,7 @@ usuarios_condRet usuarios_listarAmigos(unsigned int, usuarios_uintarray *);
 usuarios_condRet usuarios_listarAmigosdeAmigos(unsigned int, usuarios_uintarray *);
 usuarios_condRet usuarios_listarAmigosPendentes(unsigned int, usuarios_uintarray *);
 usuarios_condRet usuarios_freeUint(usuarios_uintarray *);
+usuarios_condRet usuarios_removerAmizade(unsigned int, unsigned int);
 int usuarios_sessaoAberta();
 int usuarios_max();
 
