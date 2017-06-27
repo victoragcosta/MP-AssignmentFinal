@@ -12,7 +12,7 @@ LIBS = -lm -lgtest
 _DEPS = error_level.h product.h transaction.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = transaction.o
+_OBJ = product.o transaction.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 _TEST = transaction_tests.o

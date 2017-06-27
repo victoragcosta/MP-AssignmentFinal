@@ -12,7 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 
-#include "avaliacao.h"
+//#include "avaliacao.h"
 #include "error_level.h"
 #include "product.h"
 
@@ -33,21 +33,22 @@ typedef struct userSpecification {
   relationship proximity;
   double minimum_rating;
   double maximum_rating;
-}
+}userSpecification;
 
 typedef struct transaction {
   unsigned int user1;
   unsigned int user2;
   product item;
   transactionStatus status;
-}
+}transaction;
 
 typedef struct transactionList {
   transaction *items; /**< Items na lista. Vetor de tipo transaction. */
   int size; /**< Tamanho da lista. Não pode ser negativo. */
 }transactionList;
 
-errorLevel CreateTransaction(unsigned int, unsigned int, product*,
-                             transactionStatus, transaction);
+errorLevel CancelTransaction(transaction*);
+errorLevel CreateTransaction(unsigned int, product*, transaction*);
+errorLevel UpdateTransaction(unsigned int, transaction*);
 
 #endif  // TRANSACTION_H_
