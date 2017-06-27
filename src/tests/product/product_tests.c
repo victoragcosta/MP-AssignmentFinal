@@ -2,7 +2,7 @@
 
 /**
 
-  @file
+  @file product_tests.c
   @brief Arquivo que testa as funções relativas ao módulo de produtos do
   aplicativo
 
