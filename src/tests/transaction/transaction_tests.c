@@ -4,7 +4,7 @@
 
   @file transaction_tests.c
   @brief Arquivo que testa as funções relativas ao módulo de transações do
-  aplicativo
+  aplicativo.
 
 */
 
@@ -13,8 +13,8 @@
 #include "gtest/gtest.h"
 
 char name[75];
-product new_product;
-transaction new_transaction, new_transaction2;
+product new_product, different_product;
+transaction new_transaction, new_transaction2, copy, other;
 
 /* Inicialização das variáveis utilizadas nos testes.*/
 
@@ -22,6 +22,9 @@ TEST (Initialization, Variables) {
 
   strcpy(name, "Arroz");
   CreateProduct(name, Sale, 5, 100, &new_product);
+
+  strcpy(name, "Feijão");
+  CreateProduct(name, Sale, 7, 92, &different_product);
 
   EXPECT_EQ(1, true);
 
@@ -150,6 +153,154 @@ TEST (CancelTransaction, Canceled_Transaction) {
 TEST (CancelTransaction, Invalid_Transaction) {
 
   EXPECT_EQ(CancelTransaction(NULL), Illegal_argument);
+
+}
+
+TEST (CopyTransaction, Normal_Copy) {
+
+  EXPECT_EQ(new_transaction.user1, 171);
+  EXPECT_EQ(new_transaction.user2, 501);
+  EXPECT_EQ(CompareProducts(&(new_transaction.item), &new_product), 0);
+  EXPECT_EQ(new_transaction.status, Canceled);
+
+  EXPECT_EQ(CopyTransaction(&copy, &new_transaction), Success);
+
+  EXPECT_EQ(copy.user1, 171);
+  EXPECT_EQ(copy.user2, 501);
+  EXPECT_EQ(CompareProducts(&(copy.item), &new_product), 0);
+  EXPECT_EQ(copy.status, Canceled);
+
+}
+
+TEST (CopyTransaction, Invalid_Copy) {
+
+  EXPECT_EQ(CopyTransaction(&new_transaction, NULL), Illegal_argument);
+  EXPECT_EQ(CopyTransaction(NULL, &new_transaction), Illegal_argument);
+  EXPECT_EQ(CopyTransaction(NULL, NULL), Illegal_argument);
+
+}
+
+TEST (CompareTransactions, Equal) {
+
+  EXPECT_EQ(new_transaction.user1, 171);
+  EXPECT_EQ(new_transaction.user2, 501);
+  EXPECT_EQ(CompareProducts(&(new_transaction.item), &new_product), 0);
+  EXPECT_EQ(new_transaction.status, Canceled);
+
+  EXPECT_EQ(CopyTransaction(&copy, &new_transaction), Success);
+
+  EXPECT_EQ(copy.user1, 171);
+  EXPECT_EQ(copy.user2, 501);
+  EXPECT_EQ(CompareProducts(&(copy.item), &new_product), 0);
+  EXPECT_EQ(copy.status, Canceled);
+
+  EXPECT_EQ(CompareTransactions(&new_transaction, &copy), 0);
+  EXPECT_EQ(CompareTransactions(&copy, &new_transaction), 0);
+
+}
+
+/*
+  Teste da função CompareTransactions passando um mesmo endereço duas vezes como
+  argumento.
+ */
+
+TEST (CompareTransactions, Same_Argument) {
+
+  EXPECT_EQ(CompareTransactions(&new_transaction, &new_transaction), 0);
+
+}
+
+TEST (CompareTransactions, Different_User1) {
+
+  EXPECT_EQ(new_transaction.user1, 171);
+  EXPECT_EQ(new_transaction.user2, 501);
+  EXPECT_EQ(CompareProducts(&(new_transaction.item), &new_product), 0);
+  EXPECT_EQ(new_transaction.status, Canceled);
+
+  CopyTransaction(&other, &new_transaction);
+
+  other.user1 = 170;
+
+  EXPECT_EQ(other.user1, 170);
+  EXPECT_EQ(other.user2, 501);
+  EXPECT_EQ(CompareProducts(&(other.item), &new_product), 0);
+  EXPECT_EQ(other.status, Canceled);
+
+  EXPECT_EQ(CompareTransactions(&new_transaction, &other), 1);
+  EXPECT_EQ(CompareTransactions(&other, &new_transaction), 1);
+
+}
+
+TEST (CompareTransactions, Different_User2) {
+
+  EXPECT_EQ(new_transaction.user1, 171);
+  EXPECT_EQ(new_transaction.user2, 501);
+  EXPECT_EQ(CompareProducts(&(new_transaction.item), &new_product), 0);
+  EXPECT_EQ(new_transaction.status, Canceled);
+
+  CopyTransaction(&other, &new_transaction);
+
+  other.user2 = 532;
+
+  EXPECT_EQ(other.user1, 171);
+  EXPECT_EQ(other.user2, 532);
+  EXPECT_EQ(CompareProducts(&(other.item), &new_product), 0);
+  EXPECT_EQ(other.status, Canceled);
+
+  EXPECT_EQ(CompareTransactions(&new_transaction, &other), 1);
+  EXPECT_EQ(CompareTransactions(&other, &new_transaction), 1);
+
+}
+
+TEST (CompareTransactions, Different_Status) {
+
+  EXPECT_EQ(new_transaction.user1, 171);
+  EXPECT_EQ(new_transaction.user2, 501);
+  EXPECT_EQ(CompareProducts(&(new_transaction.item), &new_product), 0);
+  EXPECT_EQ(new_transaction.status, Canceled);
+
+  CopyTransaction(&other, &new_transaction);
+
+  other.status = Open;
+
+  EXPECT_EQ(other.user1, 171);
+  EXPECT_EQ(other.user2, 501);
+  EXPECT_EQ(CompareProducts(&(other.item), &new_product), 0);
+  EXPECT_EQ(other.status, Open);
+
+  EXPECT_EQ(CompareTransactions(&new_transaction, &other), 1);
+  EXPECT_EQ(CompareTransactions(&other, &new_transaction), 1);
+
+}
+
+TEST (CompareTransactions, Different_Products) {
+
+  EXPECT_EQ(new_transaction.user1, 171);
+  EXPECT_EQ(new_transaction.user2, 501);
+  EXPECT_EQ(CompareProducts(&(new_transaction.item), &new_product), 0);
+  EXPECT_EQ(new_transaction.status, Canceled);
+
+  CopyTransaction(&other, &new_transaction);
+
+  CopyProduct(&(other.item), &different_product);
+
+  EXPECT_EQ(other.user1, 171);
+  EXPECT_EQ(other.user2, 501);
+  EXPECT_EQ(CompareProducts(&(other.item), &different_product), 0);
+  EXPECT_EQ(other.status, Canceled);
+
+  EXPECT_EQ(CompareTransactions(&new_transaction, &other), 1);
+  EXPECT_EQ(CompareTransactions(&other, &new_transaction), 1);
+
+}
+
+/* Teste da função CompareTransactions passando ponteiros NULL como argumentos. */
+
+TEST (CompareTransactions, Null_Pointer) {
+
+  EXPECT_EQ(CompareTransactions(&new_transaction, NULL), -1);
+  EXPECT_EQ(CompareTransactions(NULL, &new_transaction), -1);
+  EXPECT_EQ(CompareTransactions(NULL, NULL), -1);
 
 }
 

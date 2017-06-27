@@ -192,7 +192,9 @@ TEST (AddProduct, Illegal_Type) {
 
 }
 
-/* Teste da função AddProduct passando-se como argumento um ponteiro nulo. */
+/*
+  Teste da função CleanProductList passando-se como argumento um ponteiro nulo.
+ */
 
 TEST (CleanProductList, Invalid_List) {
 
@@ -200,7 +202,9 @@ TEST (CleanProductList, Invalid_List) {
 
 }
 
-/* Teste da função AddProduct passando-se como argumento uma lista vazia. */
+/*
+  Teste da função CleanProductList passando-se como argumento uma lista vazia.
+ */
 
 TEST (CleanProductList, New_List) {
 

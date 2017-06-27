@@ -17,23 +17,11 @@
 #include "product.h"
 
 typedef enum {
-  Friend,
-  FriendOfFriend,
-  Other
-}relationship;
-
-typedef enum {
   Open,
   InProgress,
   Closed,
   Canceled
 }transactionStatus;
-
-typedef struct userSpecification {
-  relationship proximity;
-  double minimum_rating;
-  double maximum_rating;
-}userSpecification;
 
 typedef struct transaction {
   unsigned int user1;
@@ -42,13 +30,11 @@ typedef struct transaction {
   transactionStatus status;
 }transaction;
 
-typedef struct transactionList {
-  transaction *items; /**< Items na lista. Vetor de tipo transaction. */
-  int size; /**< Tamanho da lista. Não pode ser negativo. */
-}transactionList;
-
 errorLevel CancelTransaction(transaction*);
+errorLevel CopyTransaction(transaction*, transaction*);
 errorLevel CreateTransaction(unsigned int, product*, transaction*);
 errorLevel UpdateTransaction(unsigned int, transaction*);
+int CompareTransactions(transaction*, transaction*);
+int ValidTransaction(transaction*);
 
 #endif  // TRANSACTION_H_
