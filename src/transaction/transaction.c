@@ -36,7 +36,7 @@ errorLevel CopyTransaction(transaction *copy, transaction *original) {
 errorLevel CreateTransaction(unsigned int user_id, product *item,
                              transaction *new_transaction) {
 
-  if(item == NULL || new_transaction == NULL)
+  if(item == NULL || new_transaction == NULL || !ValidProduct(item))
     return Illegal_argument;
 
   new_transaction->user1 = user_id;
@@ -87,9 +87,9 @@ int ValidTransaction (transaction *given_transaction) {
   if(given_transaction == NULL)
     return -1;
 
-  else if(ValidProduct(&(given_transaction->item))
-          && (given_transaction->user1 != given_transaction->user2
-          || given_transaction->status == Open))
+  else if(!ValidProduct(&(given_transaction->item))
+          || (given_transaction->user1 == given_transaction->user2
+          && given_transaction->status != Open))
     return 0;
 
   else

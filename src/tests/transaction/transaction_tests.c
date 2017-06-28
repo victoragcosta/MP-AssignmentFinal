@@ -40,6 +40,20 @@ TEST (CreateTransaction, Normal_Transaction) {
 
 }
 
+TEST (CreateTransaction, Invalid_Product) {
+
+  strcpy(new_product.name, "Sick dog");
+  new_product.price = -5;
+  new_product.popularity = 0;
+  new_product.type = Sale;
+
+  CopyProduct(&(new_transaction.item), &new_product);
+
+  EXPECT_EQ(CreateTransaction(171, &new_product, &new_transaction),
+                              Illegal_argument);
+
+}
+
 TEST (CreateTransaction, Invalid_Transaction) {
 
   EXPECT_EQ(CreateTransaction(171, &new_product, NULL), Illegal_argument);
@@ -49,6 +63,11 @@ TEST (CreateTransaction, Invalid_Transaction) {
 }
 
 TEST (UpdateTransaction, Normal_Transaction) {
+
+  strcpy(name, "Arroz");
+  CreateProduct(name, Sale, 5, 100, &new_product);
+
+  CreateTransaction(171, &new_product, &new_transaction);
 
   EXPECT_EQ(new_transaction.user1, 171);
   EXPECT_EQ(new_transaction.user2, 171);

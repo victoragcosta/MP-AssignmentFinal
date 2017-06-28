@@ -30,6 +30,14 @@ typedef struct transaction {
   transactionStatus status;
 }transaction;
 
+/*
+  avaliacao new1, new2;
+
+  &new1 = avaliacao_iniciar();
+  avaliacao_definir(&new1, "o que", dado);
+  avaliacao_fazerAvaliacao(&avaliacao);
+*/
+
 errorLevel CancelTransaction(transaction*);
 errorLevel CopyTransaction(transaction*, transaction*);
 errorLevel CreateTransaction(unsigned int, product*, transaction*);

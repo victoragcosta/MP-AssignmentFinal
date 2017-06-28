@@ -96,8 +96,7 @@ TEST (AddProduct, Repeated_Product) {
 
 TEST (AddProduct, Illegal_Price_01) {
 
-  list.size = 0;
-  free(list.items);
+  CleanProductList(&list);
 
   ASSERT_EQ(list.size, 0);
 

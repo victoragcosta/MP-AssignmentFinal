@@ -1,7 +1,7 @@
 // Módulo de produtos - Cabeçalho.
 
 /**
- * @file product_search.h
+ * @file product.h
  * @brief Cabeçalho do módulo de produtos.
  */
 
