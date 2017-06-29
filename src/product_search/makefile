@@ -9,10 +9,10 @@ GCOVDIR = ../gcov
 
 LIBS = -lm -lgtest
 
-_DEPS = error_level.h product_search.h product.h
+_DEPS = error_level.h product.h product_search.h valid_index.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = product.o product_search.o
+_OBJ = product.o  valid_index.o product_search.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 _TEST = product_search_tests.o

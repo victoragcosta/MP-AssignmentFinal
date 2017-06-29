@@ -17,6 +17,7 @@
 #include "product.h"
 #include "transaction.h"
 #include "usuarios.h"
+#include "valid_index.h"
 
 #define TRANSACTION_DB "../../db/transactions.txt"
 
@@ -53,6 +54,7 @@ typedef struct transactionList {
 errorLevel AddTransaction(transaction*, transactionList*);
 errorLevel CleanTransactionList(transactionList*);
 errorLevel CreateRestriction(relationship, double, double, userRestriction*);
+errorLevel DeleteTransaction(int, transactionList*);
 errorLevel LoadTransactionList(transactionList*);
 errorLevel SaveTransactionList(transactionList*);
 

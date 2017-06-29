@@ -195,6 +195,48 @@ TEST (CreateRestriction, Invalid_Restriction) {
 
 }
 
+TEST (DeleteTransaction, Valid_Delete) {
+
+  CleanTransactionList(&list);
+
+  CreateTransaction(171, 501, &new_product, InProgress, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(23, 12, &new_product2, Closed, &new_transaction2);
+  AddTransaction(&new_transaction2, &list);
+
+  ASSERT_EQ(list.size, 2);
+  EXPECT_EQ(CompareTransactions(&(list.items[0]), &new_transaction), 0);
+  EXPECT_EQ(CompareTransactions(&(list.items[1]), &new_transaction2), 0);
+
+  ASSERT_EQ(DeleteTransaction(0, &list), Success);
+  ASSERT_EQ(list.size, 1);
+  EXPECT_EQ(CompareTransactions(&(list.items[0]), &new_transaction2), 0);
+
+}
+
+/* Teste da função DeleteTransaction para uma deleção inválida. */
+
+TEST (DeleteTransaction, Invalid_Delete) {
+
+  ASSERT_EQ(list.size, 1);
+  EXPECT_EQ(CompareTransactions(&(list.items[0]), &new_transaction2), 0);
+
+  ASSERT_EQ(DeleteTransaction(1, &list), Illegal_argument);
+
+}
+
+/* Teste da função DeleteTransaction para uma lista vazia. */
+
+TEST (DeleteTransaction, Empty_List) {
+
+  CleanTransactionList(&list);
+
+  ASSERT_EQ(list.size, 0);
+
+  ASSERT_EQ(DeleteTransaction(0, &list), Illegal_argument);
+
+}
 
 TEST (SaveTransactionList, Valid_List) {
 

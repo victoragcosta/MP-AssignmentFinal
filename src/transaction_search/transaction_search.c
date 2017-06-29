@@ -78,6 +78,62 @@ errorLevel CreateRestriction(relationship proximity, double min_rating,
 
 }
 
+errorLevel DeleteTransaction (int index, transactionList *list) {
+
+  int i;
+
+  if(list == NULL || !ValidIndex(index, list->size)) {
+    return Illegal_argument;
+  }
+
+  /*
+    Caso a lista contenha apenas 1 item, libera-se o vetor de items e atribui-se
+    a ele o valor NULL.
+   */
+
+  else if(list->size == 1) {
+    free(list->items);
+    list->items = NULL;
+  }
+
+  /* Caso contrário, o procedimento de deleção é mais complicado. */
+
+  else {
+
+    /*
+      Primeiro, vamos "mover" todos os elementos do vetor de produtos que estão
+      à direita do produto a ser removido uma "posição" para esquerda.
+      Atingimos tal resultado sobrescrevendo o produto a ser removido com o
+      produto que está a sua direita (o que pode ser feito com a função de
+      copiar produtos) e repetindo esse procedimento até o penúltimo produto do
+      vetor de produtos.
+     */
+
+    for (i = index; i < list->size - 1; ++i)
+      CopyTransaction(&(list->items[i]), &(list->items[i + 1]));
+
+      /*
+        Por fim, basta realocar a lista para que ela tenha um espaço a menos.
+        Como o produto da última posição terá sido copiado para a penúltima
+        posição, o produto que será "perdido" com o realocamento do vetor será
+        aquele que deveria ser removido.
+       */
+
+    list->items = (transaction*) realloc(list->items, (list->size - 1)
+                                     * sizeof(transaction));
+
+  }
+
+  /*
+    Após uma deleção bem sucedida, deve-se diminuir o tamanho da lista em uma
+    unidade.
+   */
+
+  (list->size) -= 1;
+
+  return Success;
+
+}
 
 errorLevel LoadTransactionList(transactionList *list) {
 

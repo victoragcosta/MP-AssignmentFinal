@@ -14,6 +14,7 @@
 
 #include "error_level.h"
 #include "product.h"
+#include "valid_index.h"
 
 #define PRODUCT_DB "../../db/products.txt"
 
@@ -67,6 +68,5 @@ errorLevel SearchProduct(char[75], productList*, productSpecification*,
                          productList*);
 errorLevel SelectProduct(int, productList*, product*);
 int MatchesSpecification(product*, productSpecification*);
-int ValidIndex (int, int);
 
 #endif  // PRODUCT_SEARCH_H_
