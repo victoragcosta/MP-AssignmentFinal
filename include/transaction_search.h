@@ -12,11 +12,13 @@
 #include <stdlib.h>
 #include <string.h>
 
-//#include "avaliacao.h"
+#include "avaliacao.h"
 #include "error_level.h"
 #include "product.h"
 #include "transaction.h"
 #include "usuarios.h"
+
+#define TRANSACTION_DB "../../db/transactions.txt"
 
 typedef enum {
   Friend,
@@ -51,5 +53,7 @@ typedef struct transactionList {
 errorLevel AddTransaction(transaction*, transactionList*);
 errorLevel CleanTransactionList(transactionList*);
 errorLevel CreateRestriction(relationship, double, double, userRestriction*);
+errorLevel LoadTransactionList(transactionList*);
+errorLevel SaveTransactionList(transactionList*);
 
 #endif  // TRANSACTION_SEARCH_H_

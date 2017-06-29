@@ -30,8 +30,8 @@ TEST (Initialization, Variables) {
   strcpy(name, "Feijão");
   CreateProduct(name, Sale, 7, 92, &new_product2);
 
-  CreateTransaction(171, &new_product, &new_transaction);
-  CreateTransaction(705, &new_product2, &new_transaction2);
+  StartTransaction(171, &new_product, &new_transaction);
+  StartTransaction(705, &new_product2, &new_transaction2);
 
   EXPECT_EQ(1, true);
 
@@ -84,6 +84,22 @@ TEST (AddTransaction, Repeated_Transaction) {
 
 }
 
+TEST (AddTransaction, Illegal_Status) {
+
+  CleanTransactionList(&list);
+
+  ASSERT_EQ(list.size, 0);
+
+  new_transaction.user1 = 171;
+  new_transaction.user2 = 501;
+  new_transaction.status = Error;
+
+  EXPECT_EQ(AddTransaction(&new_transaction, &list), Illegal_argument);
+
+  ASSERT_EQ(list.size, 0);
+
+}
+
 TEST (AddTransaction, Illegal_Users) {
 
   CleanTransactionList(&list);
@@ -127,7 +143,7 @@ TEST (AddTransaction, Illegal_Transaction) {
   strcpy(name, "Arroz");
   CreateProduct(name, Sale, 5, 100, &new_product);
 
-  CreateTransaction(171, &new_product, &new_transaction);
+  StartTransaction(171, &new_product, &new_transaction);
 
   EXPECT_EQ(AddTransaction(NULL, &list), Illegal_argument);
   EXPECT_EQ(AddTransaction(&new_transaction, NULL), Illegal_argument);
@@ -179,12 +195,92 @@ TEST (CreateRestriction, Invalid_Restriction) {
 
 }
 
+
+TEST (SaveTransactionList, Valid_List) {
+
+  CreateTransaction(171, 501, &new_product, InProgress, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(23, 12, &new_product2, Closed, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(16, 16, &new_product, Open, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(70, 79, &new_product2, Canceled, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(230, 33, &new_product, Closed, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(11, 50, &new_product2, InProgress, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(45, 45, &new_product, Canceled, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  ASSERT_EQ(list.size, 7);
+
+  EXPECT_EQ(SaveTransactionList(&list), Success);
+
+}
+
+TEST (SaveTransactionList, Invalid_List) {
+
+  EXPECT_EQ(SaveTransactionList(NULL), Illegal_argument);
+
+}
+
+TEST (LoadTransactionList, Clean_List) {
+
+  CleanTransactionList(&list2);
+
+  ASSERT_EQ(list2.size, 0);
+
+  EXPECT_EQ(LoadTransactionList(&list2), Success);
+
+  EXPECT_EQ(list2.size, 7);
+
+}
+
+TEST (LoadTransactionList, List_With_Items) {
+
+  CleanTransactionList(&list2);
+
+  ASSERT_EQ(list2.size, 0);
+
+  CreateTransaction(230, 230, &new_product, Canceled, &new_transaction);
+  AddTransaction(&new_transaction, &list2);
+
+  CreateTransaction(112, 80, &new_product, InProgress, &new_transaction);
+  AddTransaction(&new_transaction, &list2);
+
+  CreateTransaction(45, 77, &new_product2, Canceled, &new_transaction);
+  AddTransaction(&new_transaction, &list2);
+
+  ASSERT_EQ(list2.size, 3);
+
+  EXPECT_EQ(LoadTransactionList(&list2), Success);
+
+  EXPECT_EQ(list2.size, 7);
+
+}
+
+TEST (LoadTransactionList, Invalid_List) {
+
+  EXPECT_EQ(LoadTransactionList(NULL), Illegal_argument);
+
+}
+
 /*
   Finalização (desalocação de memória alocada dinamicamente) das variáveis
   utilizadas nos testes.
  */
 
 TEST (Termination, Variables) {
+
+  CleanTransactionList(&list);
+  CleanTransactionList(&list2);
 
   EXPECT_EQ(1, true);
 

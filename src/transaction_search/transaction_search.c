@@ -77,3 +77,71 @@ errorLevel CreateRestriction(relationship proximity, double min_rating,
   return Success;
 
 }
+
+
+errorLevel LoadTransactionList(transactionList *list) {
+
+  FILE *fp;
+  transaction new_transaction;
+  product item;
+  char name[75];
+  productType type;
+  double price;
+  int popularity, auxiliary1, auxiliary2;
+  unsigned int user1, user2;
+  transactionStatus status;
+
+  if(list == NULL)
+    return Illegal_argument;
+
+  fp = fopen(TRANSACTION_DB, "r");
+
+  if(fp == NULL)
+    return Failure;
+
+  CleanTransactionList(list);
+
+  while(fscanf(fp, "%u|%u|%[^|]|%d|%lf|%d|%d\n", &user1, &user2, name,
+               &auxiliary1, &price, &popularity, &auxiliary2) != EOF) {
+
+    if (ConvertIntToProductType(auxiliary1, &type) == 0
+        && ConvertIntToTransactionStatus(auxiliary2, &status) == 0) {
+
+      CreateProduct(name, type, price, popularity, &item);
+      CreateTransaction(user1, user2, &item, status, &new_transaction);
+      AddTransaction(&new_transaction, list);
+
+    }
+
+  }
+
+  fclose(fp);
+
+  return Success;
+
+}
+
+errorLevel SaveTransactionList(transactionList *list) {
+
+  FILE *fp;
+  int i;
+
+  if(list == NULL)
+    return Illegal_argument;
+
+  fp = fopen(TRANSACTION_DB, "w");
+
+  if(fp == NULL)
+    return Failure;
+
+  for (i = 0; i < list->size; i++)
+    fprintf(fp, "%u|%u|%s|%d|%lf|%d|%d\n", list->items[i].user1,
+            list->items[i].user2, list->items[i].item.name,
+            list->items[i].item.type, list->items[i].item.price,
+            list->items[i].item.popularity, list->items[i].status);
+
+  fclose(fp);
+
+  return Success;
+
+}

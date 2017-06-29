@@ -9,10 +9,10 @@ GCOVDIR = ../gcov
 
 LIBS = -lm -lgtest
 
-_DEPS = error_level.h product.h transaction.h transaction_search.h
+_DEPS = avaliacao.h error_level.h grafo.h product.h transaction.h transaction_search.h usuarios.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = product.o transaction.o transaction_search.o
+_OBJ = avaliacao.o grafo.o product.o transaction.o transaction_search.o usuarios.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 _TEST = transaction_search_tests.o
