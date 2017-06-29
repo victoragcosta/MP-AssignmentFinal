@@ -179,27 +179,27 @@ int CompareProducts(product *first, product *second) {
 
 }
 
-int ConvertToProdutType(int number, productType *given_type) {
+int ConvertIntToProductType(int number, productType *type) {
 
-  if(given_type == NULL)
+  if(type == NULL)
     return -1;
 
   switch (number) {
 
     case 0:
-      *given_type = Rental;
+      *type = Rental;
       break;
 
     case 1:
-      *given_type = Sale;
+      *type = Sale;
       break;
 
     case 2:
-      *given_type = Service;
+      *type = Service;
       break;
 
     default:
-      *given_type = All;
+      *type = All;
 
   }
 

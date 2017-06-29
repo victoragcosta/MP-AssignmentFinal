@@ -356,7 +356,7 @@ errorLevel LoadProductList(productList *list) {
   while(fscanf(fp, "%[^|]|%d|%lf|%d\n", name, &auxiliary, &price, &popularity)
         != EOF) {
 
-    if (ConvertToProdutType(auxiliary, &type) == 0) {
+    if (ConvertIntToProductType(auxiliary, &type) == 0) {
 
       CreateProduct(name, type, price, popularity, &item);
       AddProduct(&item, list);

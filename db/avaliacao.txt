@@ -1,4 +1,16 @@
-18  
+30  
+11  	15  	3   	Ofertante mediano.                                                                                                                                                                                      
+15  	11  	4   	Sem reclamações.                                                                                                                                                                                      
+11  	15  	3   	Ofertante mediano.                                                                                                                                                                                      
+15  	11  	4   	Sem reclamações.                                                                                                                                                                                      
+11  	15  	3   	Ofertante mediano.                                                                                                                                                                                      
+15  	11  	4   	Sem reclamações.                                                                                                                                                                                      
+11  	15  	3   	Ofertante mediano.                                                                                                                                                                                      
+15  	11  	4   	Sem reclamações.                                                                                                                                                                                      
+11  	15  	3   	Ofertante mediano.                                                                                                                                                                                      
+15  	11  	4   	Sem reclamações.                                                                                                                                                                                      
+11  	15  	3   	Ofertante mediano.                                                                                                                                                                                      
+15  	11  	4   	Sem reclamações.                                                                                                                                                                                      
 11  	15  	3   	Ofertante mediano.                                                                                                                                                                                      
 15  	11  	4   	Sem reclamações.                                                                                                                                                                                      
 11  	15  	3   	Ofertante mediano.                                                                                                                                                                                      

@@ -21,7 +21,8 @@ typedef enum {
   Open,
   InProgress,
   Closed,
-  Canceled
+  Canceled,
+  Error
 }transactionStatus;
 
 typedef struct transaction {
@@ -31,22 +32,17 @@ typedef struct transaction {
   transactionStatus status;
 }transaction;
 
-/*
-  avaliacao new1, new2;
-
-  &new1 = avaliacao_iniciar();
-  avaliacao_definir(&new1, "o que", dado);
-  avaliacao_fazerAvaliacao(&avaliacao);
-*/
-
 errorLevel CancelTransaction(transaction*);
 errorLevel CopyTransaction(transaction*, transaction*);
-errorLevel CreateTransaction(unsigned int, product*, transaction*);
+errorLevel CreateTransaction(unsigned int, unsigned int, product*,
+                             transactionStatus, transaction*);
 errorLevel FinishTransaction(transaction*, unsigned int, unsigned int,
                              char[AVALIACAO_LIMITE_COMENTARIO],
                              char[AVALIACAO_LIMITE_COMENTARIO]);
+errorLevel StartTransaction(unsigned int, product*, transaction*);
 errorLevel UpdateTransaction(unsigned int, transaction*);
 int CompareTransactions(transaction*, transaction*);
+int ConvertIntToTransactionStatus(int, transactionStatus*);
 int ValidGrade(unsigned int);
 int ValidTransaction(transaction*);
 

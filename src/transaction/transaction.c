@@ -9,8 +9,8 @@
 
 errorLevel CancelTransaction(transaction *target_transaction) {
 
-  if(target_transaction == NULL || target_transaction->status == Closed
-     || target_transaction->status == Canceled)
+  if(target_transaction == NULL || (target_transaction->status != Open
+     && target_transaction->status != InProgress))
     return Illegal_argument;
 
   target_transaction->status = Canceled;
@@ -33,15 +33,18 @@ errorLevel CopyTransaction(transaction *copy, transaction *original) {
 
 }
 
-errorLevel CreateTransaction(unsigned int user_id, product *item,
+errorLevel CreateTransaction(unsigned int user_id1, unsigned int user_id2,
+                             product *item, transactionStatus status,
                              transaction *new_transaction) {
 
-  if(item == NULL || new_transaction == NULL || !ValidProduct(item))
+  if(item == NULL || new_transaction == NULL || !ValidProduct(item)
+     || (user_id1 == user_id2 && (status != Open && status != Canceled))
+     || (user_id1 != user_id2 && status == Open) || status == Error)
     return Illegal_argument;
 
-  new_transaction->user1 = user_id;
-  new_transaction->user2 = user_id;
-  new_transaction->status = Open;
+  new_transaction->user1 = user_id1;
+  new_transaction->user2 = user_id2;
+  new_transaction->status = status;
   CopyProduct(&(new_transaction->item), item);
 
   return Success;
@@ -67,6 +70,21 @@ errorLevel FinishTransaction(
      || avaliacao_avaliar(given_transaction->user2, given_transaction->user1,
                           grade2, comment2) != AVALIACAO_SUCESSO)
     return Failure;
+
+  return Success;
+
+}
+
+errorLevel StartTransaction(unsigned int user_id, product *item,
+                             transaction *new_transaction) {
+
+  if(item == NULL || new_transaction == NULL || !ValidProduct(item))
+    return Illegal_argument;
+
+  new_transaction->user1 = user_id;
+  new_transaction->user2 = user_id;
+  new_transaction->status = Open;
+  CopyProduct(&(new_transaction->item), item);
 
   return Success;
 
@@ -106,6 +124,38 @@ int CompareTransactions(transaction *first, transaction *second) {
 
 }
 
+int ConvertIntToTransactionStatus(int number, transactionStatus *status) {
+
+  if(status == NULL)
+    return -1;
+
+  switch (number) {
+
+    case 0:
+      *status = Open;
+      break;
+
+    case 1:
+      *status = InProgress;
+      break;
+
+    case 2:
+      *status = Closed;
+      break;
+
+    case 3:
+      *status = Canceled;
+      break;
+
+    default:
+      *status = Error;
+
+  }
+
+  return 0;
+
+}
+
 int ValidGrade (unsigned int grade) {
 
   if(grade <= 5)
@@ -123,7 +173,9 @@ int ValidTransaction (transaction *given_transaction) {
 
   else if(!ValidProduct(&(given_transaction->item))
           || (given_transaction->user1 == given_transaction->user2
-          && given_transaction->status != Open))
+          && (given_transaction->status != Open
+          && given_transaction->status != Canceled))
+          || given_transaction->status == Error)
     return 0;
 
   else

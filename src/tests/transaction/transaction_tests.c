@@ -38,13 +38,79 @@ TEST (Initialization, Variables) {
 
 }
 
-TEST (CreateTransaction, Normal_Transaction) {
+TEST (CreateTransaction, Valid_Transaction_01) {
 
-  EXPECT_EQ(CreateTransaction(171, &new_product, &new_transaction), Success);
+  EXPECT_EQ(CreateTransaction(171, 171, &new_product, Open,
+            &new_transaction), Success);
+
   EXPECT_EQ(new_transaction.user1, 171);
   EXPECT_EQ(new_transaction.user2, 171);
   EXPECT_EQ(CompareProducts(&(new_transaction.item), &new_product), 0);
   EXPECT_EQ(new_transaction.status, Open);
+
+}
+
+TEST (CreateTransaction, Valid_Transaction_02) {
+
+  EXPECT_EQ(CreateTransaction(171, 501, &new_product, InProgress,
+            &new_transaction), Success);
+
+  EXPECT_EQ(new_transaction.user1, 171);
+  EXPECT_EQ(new_transaction.user2, 501);
+  EXPECT_EQ(CompareProducts(&(new_transaction.item), &new_product), 0);
+  EXPECT_EQ(new_transaction.status, InProgress);
+
+}
+
+TEST (CreateTransaction, Valid_Transaction_03) {
+
+  EXPECT_EQ(CreateTransaction(134, 501, &new_product, Closed,
+            &new_transaction), Success);
+
+  EXPECT_EQ(new_transaction.user1, 134);
+  EXPECT_EQ(new_transaction.user2, 501);
+  EXPECT_EQ(CompareProducts(&(new_transaction.item), &new_product), 0);
+  EXPECT_EQ(new_transaction.status, Closed);
+
+}
+
+TEST (CreateTransaction, Valid_Transaction_04) {
+
+  EXPECT_EQ(CreateTransaction(134, 501, &new_product, Canceled,
+            &new_transaction), Success);
+
+  EXPECT_EQ(new_transaction.user1, 134);
+  EXPECT_EQ(new_transaction.user2, 501);
+  EXPECT_EQ(CompareProducts(&(new_transaction.item), &new_product), 0);
+  EXPECT_EQ(new_transaction.status, Canceled);
+
+}
+
+TEST (CreateTransaction, Valid_Transaction_05) {
+
+  EXPECT_EQ(CreateTransaction(134, 134, &new_product, Canceled,
+            &new_transaction), Success);
+
+  EXPECT_EQ(new_transaction.user1, 134);
+  EXPECT_EQ(new_transaction.user2, 134);
+  EXPECT_EQ(CompareProducts(&(new_transaction.item), &new_product), 0);
+  EXPECT_EQ(new_transaction.status, Canceled);
+
+}
+
+TEST (CreateTransaction, Invalid_Open_Transaction) {
+
+  EXPECT_EQ(CreateTransaction(134, 137, &new_product, Open,
+            &new_transaction), Illegal_argument);
+
+}
+
+TEST (CreateTransaction, Invalid_Same_User) {
+
+  EXPECT_EQ(CreateTransaction(134, 134, &new_product, InProgress,
+            &new_transaction), Illegal_argument);
+  EXPECT_EQ(CreateTransaction(134, 134, &new_product, Closed,
+            &new_transaction), Illegal_argument);
 
 }
 
@@ -55,27 +121,67 @@ TEST (CreateTransaction, Invalid_Product) {
   new_product.popularity = 0;
   new_product.type = Sale;
 
-  CopyProduct(&(new_transaction.item), &new_product);
-
-  EXPECT_EQ(CreateTransaction(171, &new_product, &new_transaction),
-                              Illegal_argument);
+  EXPECT_EQ(CreateTransaction(134, 134, &new_product, Open,
+            &new_transaction), Illegal_argument);
 
 }
 
-TEST (CreateTransaction, Invalid_Transaction) {
+TEST (CreateTransaction, Invalid_Status) {
 
-  EXPECT_EQ(CreateTransaction(171, &new_product, NULL), Illegal_argument);
-  EXPECT_EQ(CreateTransaction(171, NULL, &new_transaction), Illegal_argument);
-  EXPECT_EQ(CreateTransaction(171, NULL, NULL), Illegal_argument);
+  EXPECT_EQ(CreateTransaction(134, 139, &new_product, Error,
+            &new_transaction), Illegal_argument);
+
+}
+
+TEST (CreateTransaction, Invalid_Adresses) {
+
+  EXPECT_EQ(CreateTransaction(134, 134, NULL, Open, &new_transaction),
+            Illegal_argument);
+  EXPECT_EQ(CreateTransaction(134, 134, &new_product, Open, NULL),
+            Illegal_argument);
+  EXPECT_EQ(CreateTransaction(134, 134, NULL, Open, NULL), Illegal_argument);
+
+}
+
+TEST (StartTransaction, Normal_Transaction) {
+
+  CreateProduct(name, Sale, 5, 100, &new_product);
+
+  EXPECT_EQ(StartTransaction(171, &new_product, &new_transaction), Success);
+  EXPECT_EQ(new_transaction.user1, 171);
+  EXPECT_EQ(new_transaction.user2, 171);
+  EXPECT_EQ(CompareProducts(&(new_transaction.item), &new_product), 0);
+  EXPECT_EQ(new_transaction.status, Open);
+
+}
+
+TEST (StartTransaction, Invalid_Product) {
+
+  strcpy(new_product.name, "Sick dog");
+  new_product.price = -5;
+  new_product.popularity = 0;
+  new_product.type = Sale;
+
+  CopyProduct(&(new_transaction.item), &new_product);
+
+  EXPECT_EQ(StartTransaction(171, &new_product, &new_transaction),
+            Illegal_argument);
+
+}
+
+TEST (StartTransaction, Invalid_Transaction) {
+
+  EXPECT_EQ(StartTransaction(171, &new_product, NULL), Illegal_argument);
+  EXPECT_EQ(StartTransaction(171, NULL, &new_transaction), Illegal_argument);
+  EXPECT_EQ(StartTransaction(171, NULL, NULL), Illegal_argument);
 
 }
 
 TEST (UpdateTransaction, Normal_Transaction) {
 
-  strcpy(name, "Arroz");
   CreateProduct(name, Sale, 5, 100, &new_product);
 
-  CreateTransaction(171, &new_product, &new_transaction);
+  StartTransaction(171, &new_product, &new_transaction);
 
   EXPECT_EQ(new_transaction.user1, 171);
   EXPECT_EQ(new_transaction.user2, 171);
@@ -93,7 +199,7 @@ TEST (UpdateTransaction, Normal_Transaction) {
 
 TEST (UpdateTransaction, Same_User) {
 
-  EXPECT_EQ(CreateTransaction(171, &new_product, &new_transaction2), Success);
+  EXPECT_EQ(StartTransaction(171, &new_product, &new_transaction2), Success);
   EXPECT_EQ(UpdateTransaction(171, &new_transaction2), Illegal_argument);
 
 }
@@ -113,7 +219,7 @@ TEST (UpdateTransaction, Invalid_Transaction) {
 
 TEST (CancelTransaction, Open_Transaction) {
 
-  EXPECT_EQ(CreateTransaction(171, &new_product, &new_transaction2), Success);
+  EXPECT_EQ(StartTransaction(171, &new_product, &new_transaction2), Success);
   EXPECT_EQ(new_transaction2.user1, 171);
   EXPECT_EQ(new_transaction2.user2, 171);
   EXPECT_EQ(CompareProducts(&(new_transaction2.item), &new_product), 0);
@@ -177,6 +283,24 @@ TEST (CancelTransaction, Canceled_Transaction) {
 
 }
 
+TEST (CancelTransaction, Error_Transaction) {
+
+  new_transaction.status = Error;
+
+  EXPECT_EQ(new_transaction.user1, 171);
+  EXPECT_EQ(new_transaction.user2, 501);
+  EXPECT_EQ(CompareProducts(&(new_transaction.item), &new_product), 0);
+  EXPECT_EQ(new_transaction.status, Error);
+
+  EXPECT_EQ(CancelTransaction(&new_transaction), Illegal_argument);
+
+  EXPECT_EQ(new_transaction.user1, 171);
+  EXPECT_EQ(new_transaction.user2, 501);
+  EXPECT_EQ(CompareProducts(&(new_transaction.item), &new_product), 0);
+  EXPECT_EQ(new_transaction.status, Error);
+
+}
+
 TEST (CancelTransaction, Invalid_Transaction) {
 
   EXPECT_EQ(CancelTransaction(NULL), Illegal_argument);
@@ -184,6 +308,8 @@ TEST (CancelTransaction, Invalid_Transaction) {
 }
 
 TEST (CopyTransaction, Normal_Copy) {
+
+  new_transaction.status = Canceled;
 
   EXPECT_EQ(new_transaction.user1, 171);
   EXPECT_EQ(new_transaction.user2, 501);
@@ -333,7 +459,7 @@ TEST (CompareTransactions, Null_Pointer) {
 
  TEST (FinishTransaction, Normal_Transaction) {
 
-  EXPECT_EQ(CreateTransaction(11, &new_product, &new_transaction), Success);
+  EXPECT_EQ(StartTransaction(11, &new_product, &new_transaction), Success);
   EXPECT_EQ(UpdateTransaction(15, &new_transaction), Success);
 
   EXPECT_EQ(new_transaction.user1, 11);
@@ -353,7 +479,7 @@ TEST (CompareTransactions, Null_Pointer) {
 
 TEST (FinishTransaction, Invalid_Grades) {
 
-  EXPECT_EQ(CreateTransaction(11, &new_product, &new_transaction), Success);
+  EXPECT_EQ(StartTransaction(11, &new_product, &new_transaction), Success);
   EXPECT_EQ(UpdateTransaction(15, &new_transaction), Success);
 
   EXPECT_EQ(new_transaction.user1, 11);
@@ -372,10 +498,12 @@ TEST (FinishTransaction, Invalid_Grades) {
 
 TEST (FinishTransaction, Status_Open) {
 
-  EXPECT_EQ(CreateTransaction(11, &new_product, &new_transaction), Success);
+  EXPECT_EQ(StartTransaction(11, &new_product, &new_transaction), Success);
+
+  new_transaction.user2 = 13;
 
   EXPECT_EQ(new_transaction.user1, 11);
-  EXPECT_EQ(new_transaction.user2, 11);
+  EXPECT_EQ(new_transaction.user2, 13);
   EXPECT_EQ(CompareProducts(&(new_transaction.item), &new_product), 0);
   EXPECT_EQ(new_transaction.status, Open);
 
@@ -386,7 +514,7 @@ TEST (FinishTransaction, Status_Open) {
 
 TEST (FinishTransaction, Status_Cancelled) {
 
-  EXPECT_EQ(CreateTransaction(11, &new_product, &new_transaction), Success);
+  EXPECT_EQ(StartTransaction(11, &new_product, &new_transaction), Success);
   EXPECT_EQ(CancelTransaction(&new_transaction), Success);
 
   EXPECT_EQ(new_transaction.user1, 11);
@@ -401,7 +529,7 @@ TEST (FinishTransaction, Status_Cancelled) {
 
 TEST (FinishTransaction, Status_Closed) {
 
-  EXPECT_EQ(CreateTransaction(11, &new_product, &new_transaction), Success);
+  EXPECT_EQ(StartTransaction(11, &new_product, &new_transaction), Success);
   EXPECT_EQ(UpdateTransaction(15, &new_transaction), Success);
   EXPECT_EQ(FinishTransaction(&new_transaction, 3, 4, review1, review2),
             Success);
@@ -413,7 +541,7 @@ TEST (FinishTransaction, Status_Closed) {
 
 TEST (FinishTransaction, Invalid_Users) {
 
-  EXPECT_EQ(CreateTransaction(11, &new_product, &new_transaction), Success);
+  EXPECT_EQ(StartTransaction(11, &new_product, &new_transaction), Success);
   EXPECT_EQ(UpdateTransaction(15, &new_transaction), Success);
 
   new_transaction.user2 = 11;
@@ -430,7 +558,7 @@ TEST (FinishTransaction, Invalid_Users) {
 
 TEST (FinishTransaction, Invalid_Product) {
 
-  EXPECT_EQ(CreateTransaction(11, &new_product, &new_transaction), Success);
+  EXPECT_EQ(StartTransaction(11, &new_product, &new_transaction), Success);
   EXPECT_EQ(UpdateTransaction(15, &new_transaction), Success);
 
   EXPECT_EQ(new_transaction.user1, 11);
