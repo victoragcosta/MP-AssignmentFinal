@@ -28,6 +28,9 @@ TEST (Initialization, Variables) {
   strcpy(name, "Feijão");
   CreateProduct(name, Sale, 7, 92, &different_product);
 
+  strcpy(review1, "Ofertante mediano.");
+  strcpy(review2, "Sem reclamações.");
+
   usuarios_carregarArquivo();
   avaliacao_pegarContador();
 
@@ -338,9 +341,6 @@ TEST (CompareTransactions, Null_Pointer) {
   EXPECT_EQ(CompareProducts(&(new_transaction.item), &new_product), 0);
   EXPECT_EQ(new_transaction.status, InProgress);
 
-  strcpy(review1, "Ofertante mediano.");
-  strcpy(review2, "Sem reclamações.");
-
   EXPECT_EQ(FinishTransaction(&new_transaction, 3, 4, review1, review2),
             Success);
 
@@ -393,6 +393,18 @@ TEST (FinishTransaction, Status_Cancelled) {
   EXPECT_EQ(new_transaction.user2, 11);
   EXPECT_EQ(CompareProducts(&(new_transaction.item), &new_product), 0);
   EXPECT_EQ(new_transaction.status, Canceled);
+
+  EXPECT_EQ(FinishTransaction(&new_transaction, 3, 4, review1, review2),
+            Illegal_argument);
+
+}
+
+TEST (FinishTransaction, Status_Closed) {
+
+  EXPECT_EQ(CreateTransaction(11, &new_product, &new_transaction), Success);
+  EXPECT_EQ(UpdateTransaction(15, &new_transaction), Success);
+  EXPECT_EQ(FinishTransaction(&new_transaction, 3, 4, review1, review2),
+            Success);
 
   EXPECT_EQ(FinishTransaction(&new_transaction, 3, 4, review1, review2),
             Illegal_argument);
