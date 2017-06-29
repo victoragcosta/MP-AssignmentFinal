@@ -201,3 +201,15 @@ errorLevel SaveTransactionList(transactionList *list) {
   return Success;
 
 }
+
+errorLevel SelectTransaction(int index, transactionList *list,
+                             transaction *selection) {
+
+  if(list == NULL || selection == NULL || !ValidIndex(index, list->size))
+    return Illegal_argument;
+
+  CopyTransaction(selection, &(list->items[index]));
+
+  return Success;
+
+}

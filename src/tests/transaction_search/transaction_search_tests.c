@@ -14,7 +14,7 @@
 
 char name[75];
 product new_product, new_product2;
-transaction new_transaction, new_transaction2;
+transaction new_transaction, new_transaction2, result;
 transactionList list, list2;
 userRestriction restriction;
 
@@ -192,6 +192,49 @@ TEST (CreateRestriction, Normal_Restriction) {
 TEST (CreateRestriction, Invalid_Restriction) {
 
   EXPECT_EQ(CreateRestriction(Friend, 0, 5, NULL), Illegal_argument);
+
+}
+
+/* Teste da função SelectTransaction para uma seleção válida. */
+
+TEST (SelectTransaction, Valid_Select) {
+
+  CleanTransactionList(&list);
+
+  CreateTransaction(171, 501, &new_product, InProgress, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(23, 12, &new_product2, Closed, &new_transaction2);
+  AddTransaction(&new_transaction2, &list);
+
+  ASSERT_EQ(list.size, 2);
+
+  ASSERT_EQ(SelectTransaction(1, &list, &result), Success);
+  EXPECT_EQ(CompareTransactions(&result, &(list.items[1])), 0);
+
+}
+
+/* Teste da função SelectTransaction para uma seleção com indíce inválido. */
+
+TEST (SelectTransaction, Invalid_Select) {
+
+  ASSERT_EQ(list.size, 2);
+
+  ASSERT_EQ(SelectTransaction(2, &list, &result), Illegal_argument);
+
+}
+
+/*
+  Teste da função SelectTransaction para ponteiros nulos passados como argumentos.
+ */
+
+TEST (SelectTransaction, Invalid_Adresses) {
+
+  ASSERT_EQ(list.size, 2);
+
+  ASSERT_EQ(SelectTransaction(0, NULL, &result), Illegal_argument);
+  ASSERT_EQ(SelectTransaction(0, &list, NULL), Illegal_argument);
+  ASSERT_EQ(SelectTransaction(0, NULL, NULL), Illegal_argument);
 
 }
 

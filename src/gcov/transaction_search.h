@@ -57,5 +57,6 @@ errorLevel CreateRestriction(relationship, double, double, userRestriction*);
 errorLevel DeleteTransaction(int, transactionList*);
 errorLevel LoadTransactionList(transactionList*);
 errorLevel SaveTransactionList(transactionList*);
+errorLevel SelectTransaction(int, transactionList*, transaction*);
 
 #endif  // TRANSACTION_SEARCH_H_
