@@ -89,6 +89,23 @@ TEST (AddProduct, Repeated_Product) {
 
 }
 
+TEST (AddProduct, Illegal_Name) {
+
+  CleanProductList(&list);
+
+  ASSERT_EQ(list.size, 0);
+
+  strcpy(novo_produto.name, "Coisas|Coisas");
+  novo_produto.price = 400;
+  novo_produto.popularity = 60;
+  novo_produto.type = Rental;
+
+  EXPECT_EQ(AddProduct(&novo_produto, &list), Illegal_argument);
+
+  ASSERT_EQ(list.size, 0);
+
+}
+
 /*
   Primeiro teste da função AddProduct para tentar adicionar um produto com preço
   ilegal à uma lista de produtos.
