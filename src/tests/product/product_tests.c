@@ -39,6 +39,14 @@ TEST (CreateProduct, Normal_Product) {
 
 }
 
+TEST (CreateProduct, Illegal_Name) {
+
+  strcpy(name, "Coisas|Coisas");
+
+  EXPECT_EQ(CreateProduct(name, Sale, 54, 5, &novo_produto), Illegal_argument);
+
+}
+
 /*
   Teste da função CreateProduct utilizando-se um parâmetro preço negativo (algo
   inválido) para o produto.
@@ -120,6 +128,16 @@ TEST (ValidProduct, Valid_Product) {
 
   EXPECT_EQ(CreateProduct(name, Sale, 5, 100, &novo_produto), Success);
   EXPECT_EQ(ValidProduct(&novo_produto), 1);
+
+}
+
+TEST (ValidProduct, Invalid_Name) {
+
+  strcpy(novo_produto.name, "Coisas|Coisas");
+  novo_produto.price = 400;
+  novo_produto.popularity = 60;
+  novo_produto.type = Rental;
+  EXPECT_EQ(ValidProduct(&novo_produto), 0);
 
 }
 
