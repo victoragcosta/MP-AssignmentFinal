@@ -15,6 +15,8 @@
 #include "error_level.h"
 #include "product.h"
 
+#define PRODUCT_DB "../../db/products.txt"
+
 /**
  * @typedef productList
  * @brief Lista de produtos.
@@ -55,10 +57,12 @@ typedef struct productSpecification {
 }productSpecification;
 
 errorLevel AddProduct(product*, productList*);
-errorLevel CleanProductList (productList*);
+errorLevel CleanProductList(productList*);
 errorLevel CreateSpecification(productType, double, double, int, int,
                                productSpecification*);
-errorLevel DeleteProduct (int, productList*);
+errorLevel DeleteProduct(int, productList*);
+errorLevel LoadProductList(productList*);
+errorLevel SaveProductList(productList*);
 errorLevel SearchProduct(char[75], productList*, productSpecification*,
                          productList*);
 errorLevel SelectProduct(int, productList*, product*);

@@ -533,6 +533,63 @@ TEST (DeleteProduct, Empty_List) {
 
 }
 
+TEST (SaveProductList, Valid_List) {
+
+  ASSERT_EQ(list.size, 7);
+
+  EXPECT_EQ(SaveProductList(&list), Success);
+
+}
+
+TEST (SaveProductList, Invalid_List) {
+
+  EXPECT_EQ(SaveProductList(NULL), Illegal_argument);
+
+}
+
+TEST (LoadProductList, Clean_List) {
+
+  CleanProductList(&list2);
+
+  ASSERT_EQ(list2.size, 0);
+
+  EXPECT_EQ(LoadProductList(&list2), Success);
+
+  EXPECT_EQ(list2.size, 7);
+
+}
+
+TEST (LoadProductList, List_With_Items) {
+
+  CleanProductList(&list2);
+
+  ASSERT_EQ(list2.size, 0);
+
+  strcpy(name, "Arroz");
+
+  CreateProduct(name, Sale, 10, 90, &novo_produto);
+  AddProduct(&novo_produto, &list2);
+
+  CreateProduct(name, Sale, 20, 95, &novo_produto);
+  AddProduct(&novo_produto, &list2);
+
+  CreateProduct(name, Sale, 100, 82, &novo_produto);
+  AddProduct(&novo_produto, &list2);
+
+  ASSERT_EQ(list2.size, 3);
+
+  EXPECT_EQ(LoadProductList(&list2), Success);
+
+  EXPECT_EQ(list2.size, 7);
+
+}
+
+TEST (LoadProductList, Invalid_List) {
+
+  EXPECT_EQ(LoadProductList(NULL), Illegal_argument);
+
+}
+
 /*
   Finalização (desalocação de memória alocada dinamicamente) das variáveis
   utilizadas nos testes.

@@ -334,6 +334,66 @@ errorLevel DeleteProduct (int index, productList *list) {
 
 }
 
+errorLevel LoadProductList(productList *list) {
+
+  FILE *fp;
+  product item;
+  char name[75];
+  productType type;
+  double price;
+  int popularity, auxiliary;
+
+  if(list == NULL)
+    return Illegal_argument;
+
+  fp = fopen(PRODUCT_DB, "r");
+
+  if(fp == NULL)
+    return Failure;
+
+  CleanProductList(list);
+
+  while(fscanf(fp, "%[^|]|%d|%lf|%d\n", name, &auxiliary, &price, &popularity)
+        != EOF) {
+
+    if (ConvertToProdutType(auxiliary, &type) == 0) {
+
+      CreateProduct(name, type, price, popularity, &item);
+      AddProduct(&item, list);
+
+    }
+
+  }
+
+  fclose(fp);
+
+  return Success;
+
+}
+
+errorLevel SaveProductList(productList *list) {
+
+  FILE *fp;
+  int i;
+
+  if(list == NULL)
+    return Illegal_argument;
+
+  fp = fopen(PRODUCT_DB, "w");
+
+  if(fp == NULL)
+    return Failure;
+
+  for (i = 0; i < list->size; i++)
+    fprintf(fp, "%s|%d|%lf|%d\n", list->items[i].name, list->items[i].type,
+            list->items[i].price, list->items[i].popularity);
+
+  fclose(fp);
+
+  return Success;
+
+}
+
 /**
  * @fn errorLevel SearchProduct(char query[75], productList *list,
  * productSpecification *specifics, productList *matches)

@@ -179,6 +179,34 @@ int CompareProducts(product *first, product *second) {
 
 }
 
+int ConvertToProdutType(int number, productType *given_type) {
+
+  if(given_type == NULL)
+    return -1;
+
+  switch (number) {
+
+    case 0:
+      *given_type = Rental;
+      break;
+
+    case 1:
+      *given_type = Sale;
+      break;
+
+    case 2:
+      *given_type = Service;
+      break;
+
+    default:
+      *given_type = All;
+
+  }
+
+  return 0;
+
+}
+
 /**
  * @fn ValidPrice(double price)
  * @brief Função que verifica se um preço é válido.
