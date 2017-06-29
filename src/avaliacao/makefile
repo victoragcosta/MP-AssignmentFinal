@@ -1,6 +1,6 @@
 IDIR = ../../include
 CC = g++
-CFLAGS = -ftest-coverage -fprofile-arcs -I $(IDIR) 
+CFLAGS = -ftest-coverage -fprofile-arcs -I $(IDIR)
 LIBS = -lm -lgtest
 
 ODIR = ../obj
@@ -20,7 +20,7 @@ TEST = $(patsubst %,$(TDIR)/%,$(_TEST))
 $(ODIR)/grafo.o: $(GRAFOSDIR)/grafo.c $(DEPS)
 	cppcheck --enable=warning $<
 	$(CC) -c -o $@ $< $(CFLAGS)
-	
+
 $(ODIR)/usuarios.o: ../usuarios/usuarios.c $(DEPS)
 	cppcheck --enable=warning $<
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -31,7 +31,7 @@ $(ODIR)/%.o: %.c $(DEPS)
 
 $(TDIR)/%.o: %.c $(DEPS)
 	cppcheck --enable=warning $<
-	$(CC) -c -o $@ $< 
+	$(CC) -c -o $@ $<
 
 
 testes_avaliacao: $(OBJ) $(TEST) $(ODIR)/grafo.o
