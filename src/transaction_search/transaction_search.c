@@ -21,16 +21,16 @@ errorLevel AddTransaction(transaction *given_transaction,
       return Failure;
 
   /*
-    Caso o produto passado como argumento contenha campos válidos e ainda não
-    pertença à lista, adiciona-se o produto à lista.
+    Caso a transação passada como argumento contenha campos válidos e ainda não
+    pertença à lista, adiciona-se a transação à lista.
    */
 
   list->size++; /* Aumenta-se o tamanho da lista devido à adição. */
 
   /*
-    Caso o produto adicionado seja o primeiro da lista, utiliza-se a função
-    malloc para gerar o vetor de produtos. Do contrário, utiliza-se a função
-    realloc para realocar o vetor de produtos.
+    Caso a transação adicionada seja a primeira da lista, utiliza-se a função
+    malloc para gerar o vetor de transações. Do contrário, utiliza-se a função
+    realloc para realocar o vetor de transações.
    */
 
   if(list->size == 1)
@@ -101,12 +101,12 @@ errorLevel DeleteTransaction (int index, transactionList *list) {
   else {
 
     /*
-      Primeiro, vamos "mover" todos os elementos do vetor de produtos que estão
-      à direita do produto a ser removido uma "posição" para esquerda.
-      Atingimos tal resultado sobrescrevendo o produto a ser removido com o
-      produto que está a sua direita (o que pode ser feito com a função de
-      copiar produtos) e repetindo esse procedimento até o penúltimo produto do
-      vetor de produtos.
+      Primeiro, vamos "mover" todos os elementos do vetor de transações que
+      estão à direita da transação a ser removida uma "posição" para esquerda.
+      Atingimos tal resultado sobrescrevendo a transação a ser removida com a
+      transação que está a sua direita (o que pode ser feito com a função de
+      copiar transações) e repetindo esse procedimento até a penúltimo transação
+      do vetor de transações.
      */
 
     for (i = index; i < list->size - 1; ++i)
@@ -114,9 +114,9 @@ errorLevel DeleteTransaction (int index, transactionList *list) {
 
       /*
         Por fim, basta realocar a lista para que ela tenha um espaço a menos.
-        Como o produto da última posição terá sido copiado para a penúltima
-        posição, o produto que será "perdido" com o realocamento do vetor será
-        aquele que deveria ser removido.
+        Como a transação da última posição terá sido copiado para a penúltima
+        posição, a transação que será "perdida" com o realocamento do vetor será
+        aquela que deveria ser removida.
        */
 
     list->items = (transaction*) realloc(list->items, (list->size - 1)
@@ -158,14 +158,15 @@ errorLevel LoadTransactionList(transactionList *list) {
   CleanTransactionList(list);
 
   while(fscanf(fp, "%u|%u|%[^|]|%d|%lf|%d|%d\n", &user1, &user2, name,
-               &auxiliary1, &price, &popularity, &auxiliary2) != EOF) {
+        &auxiliary1, &price, &popularity, &auxiliary2) != EOF) {
 
-    if (ConvertIntToProductType(auxiliary1, &type) == 0
-        && ConvertIntToTransactionStatus(auxiliary2, &status) == 0) {
+    if(ConvertIntToProductType(auxiliary1, &type) == 0
+       && ConvertIntToTransactionStatus(auxiliary2, &status) == 0) {
 
-      CreateProduct(name, type, price, popularity, &item);
-      CreateTransaction(user1, user2, &item, status, &new_transaction);
-      AddTransaction(&new_transaction, list);
+      if(CreateProduct(name, type, price, popularity, &item) == Success)
+        if(CreateTransaction(user1, user2, &item, status, &new_transaction)
+           == Success)
+          AddTransaction(&new_transaction, list);
 
     }
 
@@ -300,7 +301,7 @@ errorLevel UserTransactions(unsigned int user, transactionList *list,
 
   int i;
 
-  if(list == NULL || matches == NULL)
+  if(list == NULL || matches == NULL || user == 0)
     return Illegal_argument;
 
   CleanTransactionList(matches);
@@ -321,36 +322,34 @@ int MatchesRestriction(unsigned int original_user, unsigned int given_user,
                        userRestriction *restriction) {
 
   double rating;
+  int result = 0;
   unsigned int i;
   usuarios_uintarray friends, friends_of_friends;
   relationship proximity;
 
-  if(restriction == NULL
-     || usuarios_retornaDados(given_user, "avaliacao", &rating)
-     != USUARIOS_SUCESSO) {
+  if(restriction == NULL || original_user == 0 || given_user == 0
+     || (usuarios_retornaDados(given_user, "avaliacao", &rating)
+     != USUARIOS_SUCESSO)) {
     return -1;
   }
 
   else if(rating > restriction->maximum_rating
-     || rating < restriction->minimum_rating) {
+          || rating < restriction->minimum_rating) {
     return 0;
   }
 
   else {
 
-    if(usuarios_listarAmigos(given_user, &friends) != USUARIOS_SUCESSO
-       || usuarios_listarAmigosdeAmigos(given_user, &friends_of_friends)
-       != USUARIOS_SUCESSO) {
+    if((usuarios_listarAmigos(given_user, &friends) != USUARIOS_SUCESSO)
+       || (usuarios_listarAmigosdeAmigos(given_user, &friends_of_friends)
+       != USUARIOS_SUCESSO)) {
       usuarios_freeUint(&friends);
       usuarios_freeUint(&friends_of_friends);
       return -1;
     }
 
-
     else if(restriction->proximity == Other){
-      usuarios_freeUint(&friends);
-      usuarios_freeUint(&friends_of_friends);
-      return 1;
+      result = 1;
     }
 
     else {
@@ -363,9 +362,7 @@ int MatchesRestriction(unsigned int original_user, unsigned int given_user,
 
       if((restriction->proximity == Friend
          || restriction->proximity == FriendOfFriend) && proximity == Friend) {
-        usuarios_freeUint(&friends);
-        usuarios_freeUint(&friends_of_friends);
-        return 1;
+        result = 1;
       }
 
       for(i = 0; i < friends_of_friends.length; i++)
@@ -374,16 +371,14 @@ int MatchesRestriction(unsigned int original_user, unsigned int given_user,
 
       if(restriction->proximity == FriendOfFriend
          && proximity == FriendOfFriend) {
-        usuarios_freeUint(&friends);
-        usuarios_freeUint(&friends_of_friends);
-        return 1;
+        result = 1;
       }
 
-      usuarios_freeUint(&friends);
-      usuarios_freeUint(&friends_of_friends);
-      return 0;
-
     }
+
+    usuarios_freeUint(&friends);
+    usuarios_freeUint(&friends_of_friends);
+    return result;
 
   }
 

@@ -14,7 +14,7 @@
 
 char name[75];
 char review1[AVALIACAO_LIMITE_COMENTARIO], review2[AVALIACAO_LIMITE_COMENTARIO];
-product new_product, different_product;
+product new_product, different_product, invalid;
 transaction new_transaction, new_transaction2, copy, other;
 avaliacao *test_review;
 
@@ -27,6 +27,11 @@ TEST (Initialization, Variables) {
 
   strcpy(name, "Feijão");
   CreateProduct(name, Sale, 7, 92, &different_product);
+
+  strcpy(invalid.name, "Sick dog");
+  invalid.price = -5;
+  invalid.popularity = 0;
+  invalid.type = Sale;
 
   strcpy(review1, "Ofertante mediano.");
   strcpy(review2, "Sem reclamações.");
@@ -105,7 +110,7 @@ TEST (CreateTransaction, Invalid_Open_Transaction) {
 
 }
 
-TEST (CreateTransaction, Invalid_Same_User) {
+TEST (CreateTransaction, Same_User) {
 
   EXPECT_EQ(CreateTransaction(134, 134, &new_product, InProgress,
             &new_transaction), Illegal_argument);
@@ -114,14 +119,22 @@ TEST (CreateTransaction, Invalid_Same_User) {
 
 }
 
+TEST (CreateTransaction, Invalid_User) {
+
+  EXPECT_EQ(CreateTransaction(0, 0, &new_product, Open,
+            &new_transaction), Illegal_argument);
+  EXPECT_EQ(CreateTransaction(0, 134, &new_product, InProgress,
+            &new_transaction), Illegal_argument);
+  EXPECT_EQ(CreateTransaction(0, 134, &new_product, Canceled,
+            &new_transaction), Illegal_argument);
+  EXPECT_EQ(CreateTransaction(0, 134, &new_product, Closed,
+            &new_transaction), Illegal_argument);
+
+}
+
 TEST (CreateTransaction, Invalid_Product) {
 
-  strcpy(new_product.name, "Sick dog");
-  new_product.price = -5;
-  new_product.popularity = 0;
-  new_product.type = Sale;
-
-  EXPECT_EQ(CreateTransaction(134, 134, &new_product, Open,
+  EXPECT_EQ(CreateTransaction(134, 134, &invalid, Open,
             &new_transaction), Illegal_argument);
 
 }
@@ -145,8 +158,6 @@ TEST (CreateTransaction, Invalid_Adresses) {
 
 TEST (StartTransaction, Normal_Transaction) {
 
-  CreateProduct(name, Sale, 5, 100, &new_product);
-
   EXPECT_EQ(StartTransaction(171, &new_product, &new_transaction), Success);
   EXPECT_EQ(new_transaction.user1, 171);
   EXPECT_EQ(new_transaction.user2, 171);
@@ -157,14 +168,7 @@ TEST (StartTransaction, Normal_Transaction) {
 
 TEST (StartTransaction, Invalid_Product) {
 
-  strcpy(new_product.name, "Sick dog");
-  new_product.price = -5;
-  new_product.popularity = 0;
-  new_product.type = Sale;
-
-  CopyProduct(&(new_transaction.item), &new_product);
-
-  EXPECT_EQ(StartTransaction(171, &new_product, &new_transaction),
+  EXPECT_EQ(StartTransaction(171, &invalid, &new_transaction),
             Illegal_argument);
 
 }
@@ -178,8 +182,6 @@ TEST (StartTransaction, Invalid_Transaction) {
 }
 
 TEST (UpdateTransaction, Normal_Transaction) {
-
-  CreateProduct(name, Sale, 5, 100, &new_product);
 
   StartTransaction(171, &new_product, &new_transaction);
 
@@ -204,9 +206,22 @@ TEST (UpdateTransaction, Same_User) {
 
 }
 
+TEST (UpdateTransaction, Invalid_User) {
+
+  EXPECT_EQ(StartTransaction(171, &new_product, &new_transaction2), Success);
+  EXPECT_EQ(UpdateTransaction(0, &new_transaction2), Illegal_argument);
+
+}
+
 TEST (UpdateTransaction, Invalid_Status) {
 
   new_transaction2.status = Closed;
+  EXPECT_EQ(UpdateTransaction(501, &new_transaction2), Illegal_argument);
+
+  new_transaction2.status = Canceled;
+  EXPECT_EQ(UpdateTransaction(501, &new_transaction2), Illegal_argument);
+
+  new_transaction2.status = Error;
   EXPECT_EQ(UpdateTransaction(501, &new_transaction2), Illegal_argument);
 
 }
@@ -500,10 +515,8 @@ TEST (FinishTransaction, Status_Open) {
 
   EXPECT_EQ(StartTransaction(11, &new_product, &new_transaction), Success);
 
-  new_transaction.user2 = 13;
-
   EXPECT_EQ(new_transaction.user1, 11);
-  EXPECT_EQ(new_transaction.user2, 13);
+  EXPECT_EQ(new_transaction.user2, 11);
   EXPECT_EQ(CompareProducts(&(new_transaction.item), &new_product), 0);
   EXPECT_EQ(new_transaction.status, Open);
 
@@ -565,12 +578,9 @@ TEST (FinishTransaction, Invalid_Product) {
   EXPECT_EQ(new_transaction.user2, 15);
   EXPECT_EQ(new_transaction.status, InProgress);
 
-  strcpy(new_product.name, "Sick dog");
-  new_product.price = -5;
-  new_product.popularity = 0;
-  new_product.type = Sale;
+  CopyProduct(&(new_transaction.item), &invalid);
 
-  CopyProduct(&(new_transaction.item), &new_product);
+  ASSERT_EQ(CompareProducts(&(new_transaction.item), &invalid), 0);
 
   EXPECT_EQ(FinishTransaction(&new_transaction, 3, 4, review1, review2),
             Illegal_argument);
@@ -580,6 +590,11 @@ TEST (FinishTransaction, Invalid_Product) {
 TEST (FinishTransaction, Invalid_Transaction) {
 
   EXPECT_EQ(FinishTransaction(NULL, 1, 4, review1, review2), Illegal_argument);
+  EXPECT_EQ(FinishTransaction(&new_transaction, 1, 4, NULL, review2),
+                              Illegal_argument);
+  EXPECT_EQ(FinishTransaction(&new_transaction, 1, 4, review1, NULL),
+                              Illegal_argument);
+  EXPECT_EQ(FinishTransaction(NULL, 1, 4, NULL, NULL), Illegal_argument);
 
 }
 

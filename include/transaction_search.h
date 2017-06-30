@@ -33,19 +33,6 @@ typedef struct userRestriction {
   double maximum_rating;
 }userRestriction;
 
-/*
-  Usuario_login
-
-  Retorna avaliacao;
-  usuarios_retornaDados(unsigned int, "avaliacao", &unsigned int);
-
-  Relacao de amizade:
-  usuarios_verificaramizade(unsigned int) == AMIGOS (Amigos)
-  usuarios_listarAmigosdeAmigos(unsigned int, usuarios_uintarray*)
-  unsigned int pertence à usuarios_uintarray (AMIGOSDEAMIGOS)
-
-*/
-
 typedef struct transactionList {
   transaction *items; /**< Items na lista. Vetor de tipo transaction. */
   int size; /**< Tamanho da lista. Não pode ser negativo. */

@@ -51,6 +51,11 @@ TEST (AddTransaction, First) {
 
   ASSERT_EQ(list.size, 0);
 
+  EXPECT_EQ(new_transaction.user1, 171);
+  EXPECT_EQ(new_transaction.user2, 171);
+  EXPECT_EQ(new_transaction.status, Open);
+  EXPECT_EQ(CompareProducts(&(new_transaction.item), &new_product), 0);
+
   EXPECT_EQ(AddTransaction(&new_transaction, &list), Success);
 
   ASSERT_EQ(list.size, 1);
@@ -69,6 +74,11 @@ TEST (AddTransaction, First) {
 TEST (AddTransaction, Second) {
 
   ASSERT_EQ(list.size, 1);
+
+  EXPECT_EQ(new_transaction2.user1, 705);
+  EXPECT_EQ(new_transaction2.user2, 705);
+  EXPECT_EQ(new_transaction2.status, Open);
+  EXPECT_EQ(CompareProducts(&(new_transaction2.item), &new_product2), 0);
 
   EXPECT_EQ(AddTransaction(&new_transaction2, &list), Success);
 
@@ -100,9 +110,12 @@ TEST (AddTransaction, Illegal_Status) {
 
   ASSERT_EQ(list.size, 0);
 
-  new_transaction.user1 = 171;
-  new_transaction.user2 = 501;
   new_transaction.status = Error;
+
+  EXPECT_EQ(new_transaction.user1, 171);
+  EXPECT_EQ(new_transaction.user2, 171);
+  EXPECT_EQ(new_transaction.status, Error);
+  EXPECT_EQ(CompareProducts(&(new_transaction.item), &new_product), 0);
 
   EXPECT_EQ(AddTransaction(&new_transaction, &list), Illegal_argument);
 
@@ -116,9 +129,12 @@ TEST (AddTransaction, Illegal_Users) {
 
   ASSERT_EQ(list.size, 0);
 
-  new_transaction.user1 = 171;
-  new_transaction.user2 = 171;
   new_transaction.status = InProgress;
+
+  EXPECT_EQ(new_transaction.user1, 171);
+  EXPECT_EQ(new_transaction.user2, 171);
+  EXPECT_EQ(new_transaction.status, InProgress);
+  EXPECT_EQ(CompareProducts(&(new_transaction.item), &new_product), 0);
 
   EXPECT_EQ(AddTransaction(&new_transaction, &list), Illegal_argument);
 
@@ -130,15 +146,10 @@ TEST (AddTransaction, Illegal_Product) {
 
   ASSERT_EQ(list.size, 0);
 
-  strcpy(new_product.name, "Sick dog");
-  new_product.price = -5;
-  new_product.popularity = 0;
-  new_product.type = Sale;
-
   new_transaction.user1 = 171;
   new_transaction.user2 = 171;
   new_transaction.status = Open;
-  CopyProduct(&(new_transaction.item), &new_product);
+  CopyProduct(&(new_transaction.item), &invalid);
 
   EXPECT_EQ(AddTransaction(&new_transaction, &list), Illegal_argument);
 
@@ -149,9 +160,6 @@ TEST (AddTransaction, Illegal_Product) {
 TEST (AddTransaction, Illegal_Transaction) {
 
   ASSERT_EQ(list.size, 0);
-
-  strcpy(name, "Arroz");
-  CreateProduct(name, Sale, 5, 100, &new_product);
 
   StartTransaction(171, &new_product, &new_transaction);
 
@@ -171,6 +179,21 @@ TEST (AddTransaction, Illegal_Transaction) {
 TEST (CleanTransactionList, New_List) {
 
   ASSERT_EQ((list2.items == NULL), true);
+
+  EXPECT_EQ(CleanTransactionList(&list2), Success);
+
+  ASSERT_EQ(list2.size, 0);
+  ASSERT_EQ((list2.items == NULL), true);
+
+}
+
+TEST (CleanTransactionList, List_With_Items) {
+
+  EXPECT_EQ(AddTransaction(&new_transaction, &list2), Success);
+  EXPECT_EQ(AddTransaction(&new_transaction2, &list2), Success);
+
+  ASSERT_EQ(list2.size, 2);
+  ASSERT_EQ((list2.items != NULL), true);
 
   EXPECT_EQ(CleanTransactionList(&list2), Success);
 
@@ -468,13 +491,7 @@ TEST (ProductTransactions, Illegal_Product) {
   CreateTransaction(70, 79, &new_product2, Canceled, &new_transaction);
   AddTransaction(&new_transaction, &list);
 
-  CreateTransaction(230, 33, &new_product2, Closed, &new_transaction);
-  AddTransaction(&new_transaction, &list);
-
-  CreateTransaction(23, 12, &new_product2, Closed, &new_transaction);
-  AddTransaction(&new_transaction, &list);
-
-  ASSERT_EQ(list.size, 3);
+  ASSERT_EQ(list.size, 1);
 
   EXPECT_EQ(ProductTransactions(&invalid, &list, &matches), Illegal_argument);
 
@@ -649,6 +666,19 @@ TEST (UserTransactions, Empty_List) {
 
 }
 
+TEST (UserTransactions, Illegal_User) {
+
+  CleanTransactionList(&list);
+
+  CreateTransaction(70, 79, &new_product2, Canceled, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  ASSERT_EQ(list.size, 1);
+
+  EXPECT_EQ(UserTransactions(0, &list, &matches), Illegal_argument);
+
+}
+
 TEST (UserTransactions, Illegal_Addresses) {
 
   EXPECT_EQ(UserTransactions(16, NULL, &matches), Illegal_argument);
@@ -744,6 +774,8 @@ TEST (DeleteTransaction, Empty_List) {
 }
 
 TEST (SaveTransactionList, Valid_List) {
+
+  CleanTransactionList(&list);
 
   CreateTransaction(171, 501, &new_product, InProgress, &new_transaction);
   AddTransaction(&new_transaction, &list);

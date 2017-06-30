@@ -45,5 +45,7 @@ int CompareTransactions(transaction*, transaction*);
 int ConvertIntToTransactionStatus(int, transactionStatus*);
 int ValidGrade(unsigned int);
 int ValidTransaction(transaction*);
+int ValidTransactionArguments(unsigned int, unsigned int, product*,
+                              transactionStatus);
 
 #endif  // TRANSACTION_H_
