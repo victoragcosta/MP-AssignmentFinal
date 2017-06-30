@@ -13,10 +13,11 @@
 #include "gtest/gtest.h"
 
 char name[75];
-product new_product, new_product2;
+product new_product, new_product2, invalid;
 transaction new_transaction, new_transaction2, new_transaction3, result;
+transaction new_transaction4;
 transactionList list, list2, matches;
-userRestriction restriction;
+userRestriction generic, specific;
 
 /* Inicialização das variáveis utilizadas nos testes.*/
 
@@ -32,6 +33,8 @@ TEST (Initialization, Variables) {
 
   StartTransaction(171, &new_product, &new_transaction);
   StartTransaction(705, &new_product2, &new_transaction2);
+
+  CreateRestriction(Other, 0, 5, &generic);
 
   usuarios_carregarArquivo();
 
@@ -184,10 +187,10 @@ TEST (CleanTransactionList, Invalid_List) {
 
 TEST (CreateRestriction, Normal_Restriction) {
 
-  EXPECT_EQ(CreateRestriction(Friend, 0, 5, &restriction), Success);
-  EXPECT_EQ(restriction.proximity, Friend);
-  EXPECT_EQ(restriction.minimum_rating, 0);
-  EXPECT_EQ(restriction.maximum_rating, 5);
+  EXPECT_EQ(CreateRestriction(Friend, 0, 5, &specific), Success);
+  EXPECT_EQ(specific.proximity, Friend);
+  EXPECT_EQ(specific.minimum_rating, 0);
+  EXPECT_EQ(specific.maximum_rating, 5);
 
 }
 
@@ -195,6 +198,201 @@ TEST (CreateRestriction, Invalid_Restriction) {
 
   EXPECT_EQ(CreateRestriction(Friend, 0, 5, NULL), Illegal_argument);
 
+}
+
+TEST (OpenTransactions, No_Restrictions) {
+
+  /*
+    O usuário 105 será o autor da nossa busca.
+    A proximidade entre o usuário 105 e o usuário 130 é Friend.
+    A proximidade entre o usuário 105 e o usuário 155 é FriendOfFriend.
+    A proximidade entre o usuário 105 e o usuário 3 é Other.
+   */
+
+  CleanTransactionList(&list);
+
+  CreateTransaction(130, 501, &new_product, InProgress, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(16, 16, &new_product2, Open, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(11, 16, &new_product2, InProgress, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(130, 130, &new_product, Open, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(155, 155, &new_product, Open, &new_transaction2);
+  AddTransaction(&new_transaction2, &list);
+
+  CreateTransaction(3, 3, &new_product, Open, &new_transaction3);
+  AddTransaction(&new_transaction3, &list);
+
+  ASSERT_EQ(list.size, 6);
+  ASSERT_EQ(generic.proximity, Other);
+  ASSERT_EQ(generic.minimum_rating, 0);
+  ASSERT_EQ(generic.maximum_rating, 5);
+
+  ASSERT_EQ(OpenTransactions(105, &new_product, &generic, &list, &matches),
+            Success);
+
+  ASSERT_EQ(matches.size, 3);
+  EXPECT_EQ(CompareTransactions(&(matches.items[0]), &new_transaction), 0);
+  EXPECT_EQ(CompareTransactions(&(matches.items[1]), &new_transaction2), 0);
+  EXPECT_EQ(CompareTransactions(&(matches.items[2]), &new_transaction3), 0);
+
+}
+
+TEST (OpenTransactions, Friend_Restriction) {
+
+  /*
+    O usuário 105 será o autor da nossa busca.
+    A proximidade entre o usuário 105 e o usuário 130 é Friend.
+    A proximidade entre o usuário 105 e o usuário 155 é FriendOfFriend.
+    A proximidade entre o usuário 105 e o usuário 3 é Other.
+   */
+
+  ASSERT_EQ(list.size, 6);
+
+  ASSERT_EQ(CreateRestriction(Friend, 0, 5, &specific), Success);
+
+  ASSERT_EQ(OpenTransactions(105, &new_product, &specific, &list, &matches),
+            Success);
+
+  ASSERT_EQ(matches.size, 1);
+  EXPECT_EQ(CompareTransactions(&(matches.items[0]), &new_transaction), 0);
+
+}
+
+TEST (OpenTransactions, Friend_Of_Friend_Restriction) {
+
+  /*
+    O usuário 105 será o autor da nossa busca.
+    A proximidade entre o usuário 105 e o usuário 130 é Friend.
+    A proximidade entre o usuário 105 e o usuário 155 é FriendOfFriend.
+    A proximidade entre o usuário 105 e o usuário 3 é Other.
+   */
+
+  ASSERT_EQ(list.size, 6);
+
+  ASSERT_EQ(CreateRestriction(FriendOfFriend, 0, 5, &specific), Success);
+
+  ASSERT_EQ(OpenTransactions(105, &new_product, &specific, &list, &matches),
+            Success);
+
+  ASSERT_EQ(matches.size, 2);
+  EXPECT_EQ(CompareTransactions(&(matches.items[0]), &new_transaction), 0);
+  EXPECT_EQ(CompareTransactions(&(matches.items[1]), &new_transaction2), 0);
+
+}
+
+TEST (OpenTransactions, Rating_Restriction_01) {
+
+  /*
+    O usuário 11 possui avaliação 4.
+    O usuário 13 possui avaliação 3.
+    O usuário 15 possui avaliação 3.
+    O usuário 16 possui avaliação 0.
+   */
+
+  CleanTransactionList(&list);
+
+  CreateTransaction(130, 501, &new_product, InProgress, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(11, 16, &new_product2, InProgress, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(11, 11, &new_product2, Open, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(13, 13, &new_product2, Open, &new_transaction2);
+  AddTransaction(&new_transaction2, &list);
+
+  CreateTransaction(15, 15, &new_product2, Open, &new_transaction3);
+  AddTransaction(&new_transaction3, &list);
+
+  CreateTransaction(16, 16, &new_product2, Open, &new_transaction4);
+  AddTransaction(&new_transaction4, &list);
+
+  ASSERT_EQ(list.size, 6);
+
+  ASSERT_EQ(CreateRestriction(Other, 3, 5, &specific), Success);
+
+  ASSERT_EQ(OpenTransactions(171, &new_product2, &specific, &list, &matches),
+            Success);
+
+  ASSERT_EQ(matches.size, 3);
+  EXPECT_EQ(CompareTransactions(&(matches.items[0]), &new_transaction), 0);
+  EXPECT_EQ(CompareTransactions(&(matches.items[1]), &new_transaction2), 0);
+  EXPECT_EQ(CompareTransactions(&(matches.items[2]), &new_transaction3), 0);
+
+}
+
+TEST (OpenTransactions, Rating_Restriction_02) {
+
+  /*
+    O usuário 11 possui avaliação 4.
+    O usuário 13 possui avaliação 3.
+    O usuário 15 possui avaliação 3.
+    O usuário 16 possui avaliação 0.
+   */
+
+  ASSERT_EQ(list.size, 6);
+
+  ASSERT_EQ(CreateRestriction(Other, 0, 3, &specific), Success);
+
+  ASSERT_EQ(OpenTransactions(171, &new_product2, &specific, &list, &matches),
+            Success);
+
+  ASSERT_EQ(matches.size, 3);
+  EXPECT_EQ(CompareTransactions(&(matches.items[0]), &new_transaction2), 0);
+  EXPECT_EQ(CompareTransactions(&(matches.items[1]), &new_transaction3), 0);
+  EXPECT_EQ(CompareTransactions(&(matches.items[2]), &new_transaction4), 0);
+
+}
+
+TEST (OpenTransactions, No_Results) {
+
+  ASSERT_EQ(list.size, 6);
+
+  ASSERT_EQ(CreateRestriction(Friend, 4.5, 5, &specific), Success);
+
+  ASSERT_EQ(OpenTransactions(171, &new_product, &specific, &list, &matches),
+            Failure);
+
+  ASSERT_EQ(matches.size, 0);
+
+}
+
+TEST (OpenTransactions, Invalid_Product) {
+
+  ASSERT_EQ(list.size, 6);
+
+  strcpy(invalid.name, "Iate de ouro");
+  invalid.price = 400000000;
+  invalid.popularity = 60;
+  invalid.type = Rental;
+
+  ASSERT_EQ(OpenTransactions(105, &invalid, &generic, &list, &matches),
+            Illegal_argument);
+
+  ASSERT_EQ(matches.size, 0);
+
+}
+
+TEST (OpenTransactions, Invalid_Adresses) {
+
+  ASSERT_EQ(OpenTransactions(105, NULL, &generic, &list, &matches),
+            Illegal_argument);
+  ASSERT_EQ(OpenTransactions(105, &invalid, NULL, &list, &matches),
+            Illegal_argument);
+  ASSERT_EQ(OpenTransactions(105, &invalid, &generic, NULL, &matches),
+            Illegal_argument);
+  ASSERT_EQ(OpenTransactions(105, &invalid, &generic, &list, NULL),
+            Illegal_argument);
+  ASSERT_EQ(OpenTransactions(105, NULL, NULL, NULL, NULL), Illegal_argument);
 }
 
 TEST (UserTransactions, Valid_Search) {

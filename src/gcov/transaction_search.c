@@ -202,6 +202,41 @@ errorLevel SaveTransactionList(transactionList *list) {
 
 }
 
+errorLevel OpenTransactions(
+    unsigned int search_author,
+    product *given_product,
+    userRestriction *restriction,
+    transactionList *list,
+    transactionList *matches) {
+
+  int i;
+
+  if(restriction == NULL || list == NULL || matches == NULL ||
+     given_product == NULL || !ValidProduct(given_product))
+    return Illegal_argument;
+
+  CleanTransactionList(matches);
+
+  for (i = 0; i < (list->size); ++i) {
+
+    if(list->items[i].status == Open
+       && !CompareProducts(&(list->items[i].item), given_product)
+       && MatchesRestriction(search_author, list->items[i].user1, restriction)) {
+
+      AddTransaction(&(list->items[i]), matches);
+
+    }
+
+  }
+
+  if(matches->size == 0)
+    return Failure;
+
+  else
+    return Success;
+
+}
+
 errorLevel SelectTransaction(int index, transactionList *list,
                              transaction *selection) {
 
@@ -246,10 +281,6 @@ int MatchesRestriction(unsigned int original_user, unsigned int given_user,
 
   if(restriction == NULL
      || usuarios_retornaDados(given_user, "avaliacao", &rating)
-     != USUARIOS_SUCESSO
-     || usuarios_listarAmigos(given_user, &friends)
-     != USUARIOS_SUCESSO
-     || usuarios_listarAmigosdeAmigos(given_user, &friends_of_friends)
      != USUARIOS_SUCESSO) {
     return -1;
   }
@@ -261,7 +292,18 @@ int MatchesRestriction(unsigned int original_user, unsigned int given_user,
 
   else {
 
-    if(restriction->proximity == Other){
+    if(usuarios_listarAmigos(given_user, &friends) != USUARIOS_SUCESSO
+       || usuarios_listarAmigosdeAmigos(given_user, &friends_of_friends)
+       != USUARIOS_SUCESSO) {
+      usuarios_freeUint(&friends);
+      usuarios_freeUint(&friends_of_friends);
+      return -1;
+    }
+
+
+    else if(restriction->proximity == Other){
+      usuarios_freeUint(&friends);
+      usuarios_freeUint(&friends_of_friends);
       return 1;
     }
 
@@ -274,17 +316,25 @@ int MatchesRestriction(unsigned int original_user, unsigned int given_user,
           proximity = Friend;
 
       if((restriction->proximity == Friend
-         || restriction->proximity == FriendOfFriend) && proximity == Friend)
+         || restriction->proximity == FriendOfFriend) && proximity == Friend) {
+        usuarios_freeUint(&friends);
+        usuarios_freeUint(&friends_of_friends);
         return 1;
+      }
 
       for(i = 0; i < friends_of_friends.length; i++)
         if(friends_of_friends.array[i] == original_user)
           proximity = FriendOfFriend;
 
       if(restriction->proximity == FriendOfFriend
-         && proximity == FriendOfFriend)
+         && proximity == FriendOfFriend) {
+        usuarios_freeUint(&friends);
+        usuarios_freeUint(&friends_of_friends);
         return 1;
+      }
 
+      usuarios_freeUint(&friends);
+      usuarios_freeUint(&friends_of_friends);
       return 0;
 
     }

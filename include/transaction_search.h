@@ -57,6 +57,8 @@ errorLevel CreateRestriction(relationship, double, double, userRestriction*);
 errorLevel DeleteTransaction(int, transactionList*);
 errorLevel LoadTransactionList(transactionList*);
 errorLevel SaveTransactionList(transactionList*);
+errorLevel OpenTransactions(unsigned int, product*, userRestriction*,
+                            transactionList*, transactionList*);
 errorLevel SelectTransaction(int, transactionList*, transaction*);
 errorLevel UserTransactions(unsigned int, transactionList*, transactionList*);
 int MatchesRestriction(unsigned int, unsigned int, userRestriction*);
