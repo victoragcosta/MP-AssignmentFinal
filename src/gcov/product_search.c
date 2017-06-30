@@ -65,7 +65,7 @@ errorLevel AddProduct(product *new_product, productList *list) {
 
   int i, empty_slot;
 
-  if(new_product == NULL || list == NULL || !ValidProduct(new_product))
+  if(new_product == NULL || list == NULL || (ValidProduct(new_product) != 1))
       return Illegal_argument;
 
   /*
@@ -491,7 +491,7 @@ errorLevel SearchProduct(char query[75], productList *list,
   for (i = 0; i < (list->size); ++i) {
 
     if((strstr(list->items[i].name, query) != NULL)
-      && MatchesSpecification(&(list->items[i]), specifics)) {
+      && (MatchesSpecification(&(list->items[i]), specifics) == 1)) {
 
       AddProduct(&(list->items[i]), matches);
 

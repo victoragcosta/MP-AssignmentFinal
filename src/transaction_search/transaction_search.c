@@ -13,7 +13,7 @@ errorLevel AddTransaction(transaction *given_transaction,
   int i, empty_slot;
 
   if(given_transaction == NULL || list == NULL
-     || !ValidTransaction(given_transaction))
+     || (ValidTransaction(given_transaction) != 1))
     return Illegal_argument;
 
   for (i = 0; i < (list->size); ++i)
@@ -177,6 +177,65 @@ errorLevel LoadTransactionList(transactionList *list) {
 
 }
 
+errorLevel OpenTransactions(
+    unsigned int search_author,
+    product *given_product,
+    userRestriction *restriction,
+    transactionList *list,
+    transactionList *matches) {
+
+  int i;
+
+  if(restriction == NULL || list == NULL || matches == NULL ||
+     given_product == NULL || (ValidProduct(given_product) != 1))
+    return Illegal_argument;
+
+  CleanTransactionList(matches);
+
+  for (i = 0; i < (list->size); ++i) {
+
+    if(list->items[i].status == Open
+       && !CompareProducts(&(list->items[i].item), given_product)
+       && (MatchesRestriction(search_author, list->items[i].user1, restriction)
+       == 1)) {
+
+      AddTransaction(&(list->items[i]), matches);
+
+    }
+
+  }
+
+  if(matches->size == 0)
+    return Failure;
+
+  else
+    return Success;
+
+}
+
+errorLevel ProductTransactions(product *given_product, transactionList *list,
+                               transactionList *matches) {
+
+  int i;
+
+  if(given_product == NULL || list == NULL || matches == NULL ||
+     (ValidProduct(given_product) != 1))
+    return Illegal_argument;
+
+  CleanTransactionList(matches);
+
+  for (i = 0; i < (list->size); ++i)
+    if(!CompareProducts(&(list->items[i].item), given_product))
+      AddTransaction(&(list->items[i]), matches);
+
+  if(matches->size == 0)
+    return Failure;
+
+  else
+    return Success;
+
+}
+
 errorLevel SaveTransactionList(transactionList *list) {
 
   FILE *fp;
@@ -202,41 +261,6 @@ errorLevel SaveTransactionList(transactionList *list) {
 
 }
 
-errorLevel OpenTransactions(
-    unsigned int search_author,
-    product *given_product,
-    userRestriction *restriction,
-    transactionList *list,
-    transactionList *matches) {
-
-  int i;
-
-  if(restriction == NULL || list == NULL || matches == NULL ||
-     given_product == NULL || !ValidProduct(given_product))
-    return Illegal_argument;
-
-  CleanTransactionList(matches);
-
-  for (i = 0; i < (list->size); ++i) {
-
-    if(list->items[i].status == Open
-       && !CompareProducts(&(list->items[i].item), given_product)
-       && MatchesRestriction(search_author, list->items[i].user1, restriction)) {
-
-      AddTransaction(&(list->items[i]), matches);
-
-    }
-
-  }
-
-  if(matches->size == 0)
-    return Failure;
-
-  else
-    return Success;
-
-}
-
 errorLevel SelectTransaction(int index, transactionList *list,
                              transaction *selection) {
 
@@ -246,6 +270,28 @@ errorLevel SelectTransaction(int index, transactionList *list,
   CopyTransaction(selection, &(list->items[index]));
 
   return Success;
+
+}
+
+errorLevel StatusTransactions(transactionStatus status, transactionList *list,
+                              transactionList *matches) {
+
+  int i;
+
+  if(list == NULL || matches == NULL || status == Error)
+    return Illegal_argument;
+
+  CleanTransactionList(matches);
+
+  for (i = 0; i < (list->size); ++i)
+    if(status == list->items[i].status)
+      AddTransaction(&(list->items[i]), matches);
+
+  if(matches->size == 0)
+    return Failure;
+
+  else
+    return Success;
 
 }
 

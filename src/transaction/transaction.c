@@ -37,7 +37,7 @@ errorLevel CreateTransaction(unsigned int user_id1, unsigned int user_id2,
                              product *item, transactionStatus status,
                              transaction *new_transaction) {
 
-  if(item == NULL || new_transaction == NULL || !ValidProduct(item)
+  if(item == NULL || new_transaction == NULL || (ValidProduct(item) != 1)
      || (user_id1 == user_id2 && (status != Open && status != Canceled))
      || (user_id1 != user_id2 && status == Open) || status == Error)
     return Illegal_argument;
@@ -58,7 +58,7 @@ errorLevel FinishTransaction(
     char comment1[AVALIACAO_LIMITE_COMENTARIO],
     char comment2[AVALIACAO_LIMITE_COMENTARIO]) {
 
-  if(given_transaction == NULL || !ValidTransaction(given_transaction)
+  if(given_transaction == NULL || (ValidTransaction(given_transaction) != 1)
      || given_transaction->status != InProgress || !ValidGrade(grade1)
      || !ValidGrade(grade2))
     return Illegal_argument;
@@ -78,7 +78,7 @@ errorLevel FinishTransaction(
 errorLevel StartTransaction(unsigned int user_id, product *item,
                              transaction *new_transaction) {
 
-  if(item == NULL || new_transaction == NULL || !ValidProduct(item))
+  if(item == NULL || new_transaction == NULL || (ValidProduct(item) != 1))
     return Illegal_argument;
 
   new_transaction->user1 = user_id;
@@ -171,7 +171,7 @@ int ValidTransaction (transaction *given_transaction) {
   if(given_transaction == NULL)
     return -1;
 
-  else if(!ValidProduct(&(given_transaction->item))
+  else if((ValidProduct(&(given_transaction->item)) != 1)
           || (given_transaction->user1 == given_transaction->user2
           && (given_transaction->status != Open
           && given_transaction->status != Canceled))

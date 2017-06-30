@@ -31,6 +31,11 @@ TEST (Initialization, Variables) {
   strcpy(name, "Feijão");
   CreateProduct(name, Sale, 7, 92, &new_product2);
 
+  strcpy(invalid.name, "Iate de ouro");
+  invalid.price = 400000000;
+  invalid.popularity = 60;
+  invalid.type = Rental;
+
   StartTransaction(171, &new_product, &new_transaction);
   StartTransaction(705, &new_product2, &new_transaction2);
 
@@ -370,11 +375,6 @@ TEST (OpenTransactions, Invalid_Product) {
 
   ASSERT_EQ(list.size, 6);
 
-  strcpy(invalid.name, "Iate de ouro");
-  invalid.price = 400000000;
-  invalid.popularity = 60;
-  invalid.type = Rental;
-
   ASSERT_EQ(OpenTransactions(105, &invalid, &generic, &list, &matches),
             Illegal_argument);
 
@@ -386,13 +386,201 @@ TEST (OpenTransactions, Invalid_Adresses) {
 
   ASSERT_EQ(OpenTransactions(105, NULL, &generic, &list, &matches),
             Illegal_argument);
-  ASSERT_EQ(OpenTransactions(105, &invalid, NULL, &list, &matches),
+  ASSERT_EQ(OpenTransactions(105, &new_product, NULL, &list, &matches),
             Illegal_argument);
-  ASSERT_EQ(OpenTransactions(105, &invalid, &generic, NULL, &matches),
+  ASSERT_EQ(OpenTransactions(105, &new_product, &generic, NULL, &matches),
             Illegal_argument);
-  ASSERT_EQ(OpenTransactions(105, &invalid, &generic, &list, NULL),
+  ASSERT_EQ(OpenTransactions(105, &new_product, &generic, &list, NULL),
             Illegal_argument);
   ASSERT_EQ(OpenTransactions(105, NULL, NULL, NULL, NULL), Illegal_argument);
+}
+
+TEST (ProductTransactions, Valid_Search) {
+
+  CleanTransactionList(&list);
+
+  CreateTransaction(16, 501, &new_product, InProgress, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(16, 16, &new_product, Open, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(230, 33, &new_product, Closed, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(70, 79, &new_product2, Canceled, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(23, 12, &new_product2, Closed, &new_transaction2);
+  AddTransaction(&new_transaction2, &list);
+
+  CreateTransaction(11, 16, &new_product2, InProgress, &new_transaction3);
+  AddTransaction(&new_transaction3, &list);
+
+  ASSERT_EQ(list.size, 6);
+
+  EXPECT_EQ(ProductTransactions(&new_product2, &list, &matches), Success);
+
+  EXPECT_EQ(matches.size, 3);
+  EXPECT_EQ(CompareTransactions(&(matches.items[0]), &new_transaction), 0);
+  EXPECT_EQ(CompareTransactions(&(matches.items[1]), &new_transaction2), 0);
+  EXPECT_EQ(CompareTransactions(&(matches.items[2]), &new_transaction3), 0);
+
+}
+
+TEST (ProductTransactions, No_Results) {
+
+  CleanTransactionList(&list);
+
+  CreateTransaction(70, 79, &new_product2, Canceled, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(230, 33, &new_product2, Closed, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(23, 12, &new_product2, Closed, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  ASSERT_EQ(list.size, 3);
+
+  EXPECT_EQ(ProductTransactions(&new_product, &list, &matches), Failure);
+
+  EXPECT_EQ(matches.size, 0);
+
+}
+
+TEST (ProductTransactions, Empty_List) {
+
+  CleanTransactionList(&list);
+
+  ASSERT_EQ(list.size, 0);
+
+  EXPECT_EQ(ProductTransactions(&new_product, &list, &matches), Failure);
+
+  EXPECT_EQ(matches.size, 0);
+
+}
+
+TEST (ProductTransactions, Illegal_Product) {
+
+  CleanTransactionList(&list);
+
+  CreateTransaction(70, 79, &new_product2, Canceled, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(230, 33, &new_product2, Closed, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(23, 12, &new_product2, Closed, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  ASSERT_EQ(list.size, 3);
+
+  EXPECT_EQ(ProductTransactions(&invalid, &list, &matches), Illegal_argument);
+
+}
+
+TEST (ProductTransactions, Illegal_Addresses) {
+
+  EXPECT_EQ(ProductTransactions(NULL, &list, &matches), Illegal_argument);
+  EXPECT_EQ(ProductTransactions(&new_product, NULL, &matches), Illegal_argument);
+  EXPECT_EQ(ProductTransactions(&new_product, &list, NULL), Illegal_argument);
+  EXPECT_EQ(ProductTransactions(NULL, NULL, NULL), Illegal_argument);
+
+}
+
+TEST (StatusTransactions, Valid_Search) {
+
+  CleanTransactionList(&list);
+
+  CreateTransaction(70, 79, &new_product2, Canceled, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(16, 501, &new_product, InProgress, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(43, 43, &new_product, Open, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(11, 29, &new_product2, InProgress, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(230, 33, &new_product, Closed, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(23, 12, &new_product2, Closed, &new_transaction2);
+  AddTransaction(&new_transaction2, &list);
+
+  ASSERT_EQ(list.size, 6);
+
+  EXPECT_EQ(StatusTransactions(Closed, &list, &matches), Success);
+
+  ASSERT_EQ(matches.size, 2);
+  EXPECT_EQ(CompareTransactions(&(matches.items[0]), &new_transaction), 0);
+  EXPECT_EQ(CompareTransactions(&(matches.items[1]), &new_transaction2), 0);
+
+}
+
+TEST (StatusTransactions, No_Results) {
+
+  CleanTransactionList(&list);
+
+  CreateTransaction(79, 79, &new_product2, Open, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(230, 33, &new_product, InProgress, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(23, 12, &new_product2, Closed, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  ASSERT_EQ(list.size, 3);
+
+  EXPECT_EQ(StatusTransactions(Canceled, &list, &matches), Failure);
+
+  EXPECT_EQ(matches.size, 0);
+
+}
+
+TEST (StatusTransactions, Empty_List) {
+
+  CleanTransactionList(&list);
+
+  ASSERT_EQ(list.size, 0);
+
+  EXPECT_EQ(StatusTransactions(Open, &list, &matches), Failure);
+
+  EXPECT_EQ(matches.size, 0);
+
+}
+
+TEST (StatusTransactions, Illegal_Status) {
+
+  CleanTransactionList(&list);
+
+  CreateTransaction(79, 79, &new_product2, Open, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(230, 33, &new_product, InProgress, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(23, 12, &new_product2, Closed, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  ASSERT_EQ(list.size, 3);
+
+  EXPECT_EQ(StatusTransactions(Error, &list, &matches), Illegal_argument);
+
+  EXPECT_EQ(matches.size, 0);
+
+}
+
+TEST (StatusTransactions, Illegal_Addresses) {
+
+  EXPECT_EQ(StatusTransactions(Open, NULL, &matches), Illegal_argument);
+  EXPECT_EQ(StatusTransactions(Open, &list, NULL), Illegal_argument);
+  EXPECT_EQ(StatusTransactions(Open, NULL, NULL), Illegal_argument);
+
 }
 
 TEST (UserTransactions, Valid_Search) {
