@@ -15,6 +15,7 @@ void InicializaTela(char *screen_title);
 void Limpar();
 void Delay(unsigned int frameLimit);
 void CapturaEntrada();
-void Desenha();
+int Desenha();
+int MudaTela(int ind_tela);
 
 #endif

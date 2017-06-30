@@ -4,7 +4,6 @@
 
 #include <stdlib.h>
 #include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 
 #include "screen_management.h"
 #include "pagina_inicial.h"
@@ -90,15 +89,21 @@ void CapturaEntrada()
 	SDL_Event event;
 	while(SDL_PollEvent(&event)){
 
-		printf("eita porra\n");
-		printf("%d", event.type);
-
 		switch(event.type){
 			
 			//Apertar x ou alt+f4
 			case SDL_QUIT:
-				exit(0);
+			exit(0);
+			break;
+
+			//Apertar qualquer tecla
+			case SDL_KEYDOWN:
+			switch(event.key.keysym.sym){
+				case SDLK_UP:
+				MudaTela(PAGINA_INICIAL);
 				break;
+			}
+			break;
 
 		}
 
@@ -113,26 +118,51 @@ void CapturaEntrada()
 	}
 }
 
-void Desenha()
+int Desenha()
 {
-	if(janela != NULL){
-		//Limpa a janela
-		SDL_RenderClear(renderer);
-
-		//Desenha
-		switch(tela_atual){
-			case PAGINA_INICIAL:
-				DesenhaPaginaInicial(janela);
-				break;
-			default:
-				DesenhaPaginaInicial(janela);
-				break;
-		}
-
-		//Exibe na tela
-		SDL_RenderPresent(renderer);
-
-		//Delay para evitar uso excessivo de CPU
-		SDL_Delay(1);
+	if(janela == NULL){
+		return 1;
 	}
+	//Limpa a janela
+	SDL_RenderClear(renderer);
+
+	//Desenha
+	switch(tela_atual){
+		case PAGINA_INICIAL:
+			DesenhaPaginaInicial(janela, renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+			break;
+		default:
+			MudaTela(PAGINA_INICIAL);
+			printf("Pagina nao existe, trocando para a pagina inicial!\n");
+			break;
+	}
+
+	//Exibe na tela
+	SDL_RenderPresent(renderer);
+
+	//Delay para evitar uso excessivo de CPU
+	SDL_Delay(1);
+
+	return 0;
+}
+
+int MudaTela(int ind_tela)
+{
+	if(!(0 <= ind_tela && ind_tela < MAX_TELAS))
+		return 1;
+
+	switch(ind_tela){
+		case PAGINA_INICIAL:
+		TrocaPaginaInicial(renderer);
+		tela_atual = PAGINA_INICIAL;
+		break;
+
+		default:
+		printf("Pagina nao existe, trocando para a pagina inicial!\n");
+		MudaTela(PAGINA_INICIAL);
+		return 1;
+		break;
+	}
+
+	return 0;
 }

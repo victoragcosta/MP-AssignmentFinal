@@ -3,7 +3,7 @@ NOME_SAIDA=hub
 IDIR =../include
 CC=g++
 EXT = c
-LFLAGS = `sdl-config --libs` -lSDL2 -lSDL2_image #-lSDL2_mixer -lSDL2_ttf
+LFLAGS = `sdl-config --libs` -lSDL2 #-lSDL2_image -lSDL2_mixer -lSDL2_ttf
 CFLAGS=-Wall -g -fprofile-arcs -ftest-coverage -I $(IDIR) $(LFLAGS)
 
 GCOVDIR=gcov

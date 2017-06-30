@@ -20,14 +20,17 @@ int main(int argc, char const *argv[])
 	
 	//Inicializa a tela
 	InicializaTela("Teste");
+
+	//Garante que a tela a exibir é a inicial
+	MudaTela(PAGINA_INICIAL);
+	
+	//Muda para o estado de executando
 	executando = 1;
 
 	//Garante execuções finais antes de fechar programa
 	atexit(Limpar);
 
-	executando = 500;
-	while(executando > 0){
-		//SDL_Delay(5000);
+	while(executando){
 		
 		//Pega entrada
 		CapturaEntrada();
@@ -40,8 +43,6 @@ int main(int argc, char const *argv[])
 		//Pausa o programa para evitar gasto excessivo da CPU
 		Delay(frame_limit);
 		frame_limit = SDL_GetTicks() + MIN_DELAY;
-		printf("executando %d\n", executando);
-		executando--;
 	}
 
 	//Limpeza final antes de encerrar o programa
