@@ -213,3 +213,82 @@ errorLevel SelectTransaction(int index, transactionList *list,
   return Success;
 
 }
+
+errorLevel UserTransactions(unsigned int user, transactionList *list,
+                            transactionList *matches) {
+
+  int i;
+
+  if(list == NULL || matches == NULL)
+    return Illegal_argument;
+
+  CleanTransactionList(matches);
+
+  for (i = 0; i < (list->size); ++i)
+    if(user == list->items[i].user1 || user == list->items[i].user2)
+      AddTransaction(&(list->items[i]), matches);
+
+  if(matches->size == 0)
+    return Failure;
+
+  else
+    return Success;
+
+}
+
+int MatchesRestriction(unsigned int original_user, unsigned int given_user,
+                       userRestriction *restriction) {
+
+  double rating;
+  unsigned int i;
+  usuarios_uintarray friends, friends_of_friends;
+  relationship proximity;
+
+  if(restriction == NULL
+     || usuarios_retornaDados(given_user, "avaliacao", &rating)
+     != USUARIOS_SUCESSO
+     || usuarios_listarAmigos(given_user, &friends)
+     != USUARIOS_SUCESSO
+     || usuarios_listarAmigosdeAmigos(given_user, &friends_of_friends)
+     != USUARIOS_SUCESSO) {
+    return -1;
+  }
+
+  else if(rating > restriction->maximum_rating
+     || rating < restriction->minimum_rating) {
+    return 0;
+  }
+
+  else {
+
+    if(restriction->proximity == Other){
+      return 1;
+    }
+
+    else {
+
+      proximity = Other;
+
+      for(i = 0; i < friends.length; i++)
+        if(friends.array[i] == original_user)
+          proximity = Friend;
+
+      if((restriction->proximity == Friend
+         || restriction->proximity == FriendOfFriend) && proximity == Friend)
+        return 1;
+
+      for(i = 0; i < friends_of_friends.length; i++)
+        if(friends_of_friends.array[i] == original_user)
+          proximity = FriendOfFriend;
+
+      if(restriction->proximity == FriendOfFriend
+         && proximity == FriendOfFriend)
+        return 1;
+
+      return 0;
+
+    }
+
+  }
+
+}

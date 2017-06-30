@@ -14,8 +14,8 @@
 
 char name[75];
 product new_product, new_product2;
-transaction new_transaction, new_transaction2, result;
-transactionList list, list2;
+transaction new_transaction, new_transaction2, new_transaction3, result;
+transactionList list, list2, matches;
 userRestriction restriction;
 
 /* Inicialização das variáveis utilizadas nos testes.*/
@@ -32,6 +32,8 @@ TEST (Initialization, Variables) {
 
   StartTransaction(171, &new_product, &new_transaction);
   StartTransaction(705, &new_product2, &new_transaction2);
+
+  usuarios_carregarArquivo();
 
   EXPECT_EQ(1, true);
 
@@ -192,6 +194,80 @@ TEST (CreateRestriction, Normal_Restriction) {
 TEST (CreateRestriction, Invalid_Restriction) {
 
   EXPECT_EQ(CreateRestriction(Friend, 0, 5, NULL), Illegal_argument);
+
+}
+
+TEST (UserTransactions, Valid_Search) {
+
+  CleanTransactionList(&list);
+
+  CreateTransaction(70, 79, &new_product2, Canceled, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(230, 33, &new_product, Closed, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(23, 12, &new_product2, Closed, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(16, 501, &new_product, InProgress, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(16, 16, &new_product, Open, &new_transaction2);
+  AddTransaction(&new_transaction2, &list);
+
+  CreateTransaction(11, 16, &new_product2, InProgress, &new_transaction3);
+  AddTransaction(&new_transaction3, &list);
+
+  ASSERT_EQ(list.size, 6);
+
+  EXPECT_EQ(UserTransactions(16, &list, &matches), Success);
+
+  EXPECT_EQ(matches.size, 3);
+  EXPECT_EQ(CompareTransactions(&(matches.items[0]), &new_transaction), 0);
+  EXPECT_EQ(CompareTransactions(&(matches.items[1]), &new_transaction2), 0);
+  EXPECT_EQ(CompareTransactions(&(matches.items[2]), &new_transaction3), 0);
+
+}
+
+TEST (UserTransactions, No_Results) {
+
+  CleanTransactionList(&list);
+
+  CreateTransaction(70, 79, &new_product2, Canceled, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(230, 33, &new_product, Closed, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  CreateTransaction(23, 12, &new_product2, Closed, &new_transaction);
+  AddTransaction(&new_transaction, &list);
+
+  ASSERT_EQ(list.size, 3);
+
+  EXPECT_EQ(UserTransactions(16, &list, &matches), Failure);
+
+  EXPECT_EQ(matches.size, 0);
+
+}
+
+TEST (UserTransactions, Empty_List) {
+
+  CleanTransactionList(&list);
+
+  ASSERT_EQ(list.size, 0);
+
+  EXPECT_EQ(UserTransactions(16, &list, &matches), Failure);
+
+  EXPECT_EQ(matches.size, 0);
+
+}
+
+TEST (UserTransactions, Illegal_Addresses) {
+
+  EXPECT_EQ(UserTransactions(16, NULL, &matches), Illegal_argument);
+  EXPECT_EQ(UserTransactions(16, &list, NULL), Illegal_argument);
+  EXPECT_EQ(UserTransactions(16, NULL, NULL), Illegal_argument);
 
 }
 
@@ -366,6 +442,9 @@ TEST (Termination, Variables) {
 
   CleanTransactionList(&list);
   CleanTransactionList(&list2);
+  CleanTransactionList(&matches);
+
+  usuarios_limpar();
 
   EXPECT_EQ(1, true);
 

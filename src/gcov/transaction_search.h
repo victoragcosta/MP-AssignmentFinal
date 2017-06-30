@@ -58,5 +58,7 @@ errorLevel DeleteTransaction(int, transactionList*);
 errorLevel LoadTransactionList(transactionList*);
 errorLevel SaveTransactionList(transactionList*);
 errorLevel SelectTransaction(int, transactionList*, transaction*);
+errorLevel UserTransactions(unsigned int, transactionList*, transactionList*);
+int MatchesRestriction(unsigned int, unsigned int, userRestriction*);
 
 #endif  // TRANSACTION_SEARCH_H_
