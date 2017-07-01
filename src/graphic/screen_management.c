@@ -54,6 +54,9 @@ void InicializaTela(char *screen_title)
 
 void Limpar() 
 {
+	//Limpa Recursos da Pagina Inicial
+	LimparPaginaInicial();
+
 	//Destrói Renderizador
 	SDL_DestroyRenderer(renderer);
 

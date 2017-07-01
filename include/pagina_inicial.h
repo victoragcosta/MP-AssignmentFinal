@@ -4,5 +4,6 @@
 void DesenhaPaginaInicial(SDL_Window *janela, SDL_Renderer *renderer, int width, int height);
 void GerenciaEntradaPaginaInicial(SDL_Event event);
 void TrocaPaginaInicial(SDL_Renderer *renderer);
+void LimparPaginaInicial();
 
 #endif

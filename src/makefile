@@ -12,10 +12,10 @@ LDIR =../lib
 
 LIBS=-lm /usr/lib/libgtest.a -lgtest -lpthread 
 
-_DEPS = screen_management.h pagina_inicial.h
+_DEPS = screen_management.h pagina_inicial.h graphical_structures.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
-_OBJ = main.o screen_management.o pagina_inicial.o
+_OBJ = main.o screen_management.o pagina_inicial.o graphical_structures.o
 OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 
 $(NOME_SAIDA): $(OBJ)
@@ -27,10 +27,16 @@ obj/main.o: main.c $(DEPS)
 obj/screen_management.o: graphic/screen_management.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
+obj/graphical_structures.o: graphic/graphical_structures.c $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
 obj/pagina_inicial.o: graphic/pagina_inicial.c $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 $(ODIR)/%.o: %.$(EXT) $(DEPS)
+	$(CC) -c -o $@ $< $(CFLAGS)
+
+$(ODIR)/%.o: graphic/%.$(EXT) $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 .PHONY: clean
