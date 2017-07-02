@@ -2,8 +2,8 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
-#include "avaliacao.h"
-#include "usuarios.h"
+#include "../include/avaliacao.h"
+#include "../include/usuarios.h"
 
 /*!
  * @brief Identificador máximo já atribuido a uma avaliação

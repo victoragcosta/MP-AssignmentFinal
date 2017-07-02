@@ -1,0 +1,15 @@
+INPUT(
+./debug\mainwindow.o
+./debug\main.o
+./debug\login.o
+./debug\usuarios.o
+./debug\aleatorio.o
+./debug\product_search.o
+./debug\product.o
+./debug\grafo.o
+./debug\avaliacao.o
+./debug\registrar.o
+./debug\moc_mainwindow.o
+./debug\moc_login.o
+./debug\moc_registrar.o
+);

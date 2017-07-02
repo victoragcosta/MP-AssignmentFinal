@@ -2,9 +2,9 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stdarg.h>
-#include "aleatorio.h"
-#include "grafo.h"
-#include "usuarios.h"
+#include "../include/aleatorio.h"
+#include "../include/grafo.h"
+#include "../include/usuarios.h"
 
 /*!
  * @brief Grafo de usuários
@@ -501,7 +501,8 @@ int usuarios_sessaoAberta(){
  * 
  * Recebe as strings usuário e senha
 */
-usuarios_condRet usuarios_login(char *usuario, char *senha){
+usuarios_condRet usuarios_login(char* usuario, char* senha) {
+
   tpUsuario *corrente;
   usuarios_condRet busca;
   unsigned int posicao;

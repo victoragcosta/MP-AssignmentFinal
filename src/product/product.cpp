@@ -5,7 +5,7 @@
  * @brief Implementação do módulo de produtos.
  */
 
-#include "product.h"
+#include "../include/product.h"
 
 /**
  * @fn errorLevel CopyProduct(product *copy, product *original)

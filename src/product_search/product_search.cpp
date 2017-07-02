@@ -5,7 +5,7 @@
  * @brief Implementação do módulo de pesquisa de produtos.
  */
 
-#include "product_search.h"
+#include "../include/product_search.h"
 
 /**
  * @fn errorLevel AddProduct(product *new_product, productList *list)
