@@ -79,6 +79,11 @@ TEST (AddProduct, Second) {
 
 }
 
+/*
+  Teste da função AddProduct para tentar adicionar um produto repetido à uma
+  lista de produtos (algo inválido).
+ */
+
 TEST (AddProduct, Repeated_Product) {
 
   ASSERT_EQ(list.size, 2);
@@ -89,7 +94,12 @@ TEST (AddProduct, Repeated_Product) {
 
 }
 
-TEST (AddProduct, Illegal_Name) {
+/*
+  Teste da função AddProduct para tentar adicionar um produto com nome inválido
+  à uma lista de produtos.
+ */
+
+TEST (AddProduct, Invalid_Name) {
 
   CleanProductList(&list);
 
@@ -111,7 +121,7 @@ TEST (AddProduct, Illegal_Name) {
   ilegal à uma lista de produtos.
  */
 
-TEST (AddProduct, Illegal_Price_01) {
+TEST (AddProduct, Invalid_Price_01) {
 
   CleanProductList(&list);
 
@@ -133,7 +143,7 @@ TEST (AddProduct, Illegal_Price_01) {
   ilegal à uma lista de produtos.
  */
 
-TEST (AddProduct, Illegal_Price_02) {
+TEST (AddProduct, Invalid_Price_02) {
 
   ASSERT_EQ(list.size, 0);
 
@@ -153,7 +163,7 @@ TEST (AddProduct, Illegal_Price_02) {
   popularidade ilegal à uma lista de produtos.
  */
 
-TEST (AddProduct, Illegal_Popularity_01) {
+TEST (AddProduct, Invalid_Popularity_01) {
 
   ASSERT_EQ(list.size, 0);
 
@@ -173,7 +183,7 @@ TEST (AddProduct, Illegal_Popularity_01) {
   popularidade ilegal à uma lista de produtos.
  */
 
-TEST (AddProduct, Illegal_Popularity_02) {
+TEST (AddProduct, Invalid_Popularity_02) {
 
   ASSERT_EQ(list.size, 0);
 
@@ -193,7 +203,7 @@ TEST (AddProduct, Illegal_Popularity_02) {
   uma lista de produtos.
  */
 
-TEST (AddProduct, Illegal_Type) {
+TEST (AddProduct, Invalid_Type) {
 
   ASSERT_EQ(list.size, 0);
 
@@ -497,9 +507,7 @@ TEST (SelectProduct, Invalid_Select) {
 
 }
 
-/*
-  Teste da função SelectProduct para ponteiros nulos passados como argumentos.
- */
+/* Teste da função SelectProduct passando-se ponteiros NULL como argumentos. */
 
 TEST (SelectProduct, Invalid_Adresses) {
 
@@ -550,6 +558,8 @@ TEST (DeleteProduct, Empty_List) {
 
 }
 
+/* Teste da função SaveProductList para uma lista válida. */
+
 TEST (SaveProductList, Valid_List) {
 
   ASSERT_EQ(list.size, 7);
@@ -558,11 +568,18 @@ TEST (SaveProductList, Valid_List) {
 
 }
 
+/*
+  Teste da função SaveProductList passando um ponteiro NULL como endereço de
+  lista de produtos (algo inválido).
+ */
+
 TEST (SaveProductList, Invalid_List) {
 
   EXPECT_EQ(SaveProductList(NULL), Illegal_argument);
 
 }
+
+/* Teste da função LoadProductList para uma lista vazia. */
 
 TEST (LoadProductList, Clean_List) {
 
@@ -575,6 +592,8 @@ TEST (LoadProductList, Clean_List) {
   EXPECT_EQ(list2.size, 7);
 
 }
+
+/* Teste da função LoadProductList para uma lista com items. */
 
 TEST (LoadProductList, List_With_Items) {
 
@@ -600,6 +619,11 @@ TEST (LoadProductList, List_With_Items) {
   EXPECT_EQ(list2.size, 7);
 
 }
+
+/*
+  Teste da função LoadProductList passando um ponteiro NULL como endereço de
+  lista de produtos (algo inválido).
+ */
 
 TEST (LoadProductList, Invalid_List) {
 

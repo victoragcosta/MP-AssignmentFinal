@@ -311,12 +311,12 @@ errorLevel DeleteProduct (int index, productList *list) {
     for (i = index; i < list->size - 1; ++i)
       CopyProduct(&(list->items[i]), &(list->items[i + 1]));
 
-      /*
-        Por fim, basta realocar a lista para que ela tenha um espaço a menos.
-        Como o produto da última posição terá sido copiado para a penúltima
-        posição, o produto que será "perdido" com o realocamento do vetor será
-        aquele que deveria ser removido.
-       */
+    /*
+      Por fim, basta realocar a lista para que ela tenha um espaço a menos.
+      Como o produto da última posição terá sido copiado para a penúltima
+      posição, o produto que será "perdido" com o realocamento do vetor será
+      aquele que deveria ser removido.
+     */
 
     list->items = (product*) realloc(list->items, (list->size - 1)
                                      * sizeof(product));
@@ -346,12 +346,25 @@ errorLevel LoadProductList(productList *list) {
   if(list == NULL)
     return Illegal_argument;
 
+  /*
+    Caso não seja possível abrir o banco de dados para produtos, a função falha.
+   */
+
   fp = fopen(PRODUCT_DB, "r");
 
   if(fp == NULL)
     return Failure;
 
+  /* Limpa-se a lista para eliminar qualquer produto residual. */
+
   CleanProductList(list);
+
+  /*
+    Enquanto o arquivo não chegar ao fim, os dados de um produto são carregados
+    em váriaveis intermediárias que serão utilizadas para criar um produto. Note
+    que a enumeração productType de cada produto foi gravada como um int, então
+    devemos convertê-la para o tipo productType.
+   */
 
   while(fscanf(fp, "%[^|]|%d|%lf|%d\n", name, &auxiliary, &price, &popularity)
         != EOF) {
@@ -376,10 +389,20 @@ errorLevel SaveProductList(productList *list) {
   if(list == NULL)
     return Illegal_argument;
 
+  /*
+    Caso não seja possível abrir o banco de dados para produtos, a função falha.
+   */
+
   fp = fopen(PRODUCT_DB, "w");
 
   if(fp == NULL)
     return Failure;
+
+  /*
+    Grava-se os dados dos produtos separando-se os campos de um mesmo
+    produto pelo caractere reservado '|' e separando-se produtos diferentes pelo
+    caractere '\n'. Note que a enumeração productType é gravada como um int.
+   */
 
   for (i = 0; i < list->size; i++)
     fprintf(fp, "%s|%d|%lf|%d\n", list->items[i].name, list->items[i].type,
@@ -472,8 +495,8 @@ errorLevel SearchProduct(char query[75], productList *list,
     return Illegal_argument;
 
   /*
-    Deve-se limpar a lista de resultados da busca para evitar qualquer falso
-    positivo.
+    Deve-se limpar a lista de resultados da busca para evitar qualquer produto
+    residual.
    */
 
   CleanProductList(matches);

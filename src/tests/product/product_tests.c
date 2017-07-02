@@ -14,6 +14,7 @@
 
 char name[75];
 product novo_produto, copia, outro;
+productType type;
 
 /* Inicialização das variáveis utilizadas nos testes.*/
 
@@ -39,7 +40,12 @@ TEST (CreateProduct, Normal_Product) {
 
 }
 
-TEST (CreateProduct, Illegal_Name) {
+/*
+  Teste da função CreateProduct utilizando-se um parâmetro nome que contém um
+  caractere ilegal.
+ */
+
+TEST (CreateProduct, Invalid_Name) {
 
   strcpy(name, "Coisas|Coisas");
 
@@ -52,7 +58,7 @@ TEST (CreateProduct, Illegal_Name) {
   inválido) para o produto.
  */
 
-TEST (CreateProduct, Illegal_Price_01) {
+TEST (CreateProduct, Invalid_Price_01) {
 
   strcpy(name, "Arroz estragado");
 
@@ -65,7 +71,7 @@ TEST (CreateProduct, Illegal_Price_01) {
   (algo inválido) para o produto.
  */
 
-TEST (CreateProduct, Illegal_Price_02) {
+TEST (CreateProduct, Invalid_Price_02) {
 
   strcpy(name, "Mansão");
 
@@ -79,7 +85,7 @@ TEST (CreateProduct, Illegal_Price_02) {
   (algo inválido) para o produto.
  */
 
-TEST (CreateProduct, Illegal_Popularity_01) {
+TEST (CreateProduct, Invalid_Popularity_01) {
 
   strcpy(name, "Bomba atômica");
 
@@ -93,7 +99,7 @@ TEST (CreateProduct, Illegal_Popularity_01) {
   grande (algo inválido) para o produto.
  */
 
-TEST (CreateProduct, Illegal_Popularity_02) {
+TEST (CreateProduct, Invalid_Popularity_02) {
 
   strcpy(name, "Bilhete premiado de loteria");
 
@@ -103,7 +109,7 @@ TEST (CreateProduct, Illegal_Popularity_02) {
 
 /* Teste da função CreateProduct utilizando-se um parâmetro tipo inválido. */
 
-TEST (CreateProduct, Illegal_Type) {
+TEST (CreateProduct, Invalid_Type) {
 
   strcpy(name, "Buffet all-incluse");
 
@@ -130,6 +136,11 @@ TEST (ValidProduct, Valid_Product) {
   EXPECT_EQ(ValidProduct(&novo_produto), 1);
 
 }
+
+/*
+  Teste da função ValidProduct utilizando-se um parâmetro nome que contém um
+  caractere ilegal.
+ */
 
 TEST (ValidProduct, Invalid_Name) {
 
@@ -316,6 +327,53 @@ TEST (CompareProducts, Null_Pointer) {
   EXPECT_EQ(CompareProducts(&novo_produto, NULL), -1);
   EXPECT_EQ(CompareProducts(NULL, &novo_produto), -1);
   EXPECT_EQ(CompareProducts(NULL, NULL), -1);
+
+}
+
+/* Teste da função ConvertIntToProductType para o tipo Rental. */
+
+TEST (ConvertIntToProductType, Rental) {
+
+  EXPECT_EQ(ConvertIntToProductType(0, &type), 0);
+  EXPECT_EQ(type, Rental);
+
+}
+
+/* Teste da função ConvertIntToProductType para o tipo Sale. */
+
+TEST (ConvertIntToProductType, Sale) {
+
+  EXPECT_EQ(ConvertIntToProductType(1, &type), 0);
+  EXPECT_EQ(type, Sale);
+
+}
+
+/* Teste da função ConvertIntToProductType para o tipo Service. */
+
+TEST (ConvertIntToProductType, Service) {
+
+  EXPECT_EQ(ConvertIntToProductType(2, &type), 0);
+  EXPECT_EQ(type, Service);
+
+}
+
+/* Teste da função ConvertIntToProductType para um tipo inválido. */
+
+TEST (ConvertIntToProductType, Invalid_Type) {
+
+  EXPECT_EQ(ConvertIntToProductType(56, &type), 0);
+  EXPECT_EQ(type, All);
+
+}
+
+/*
+  Teste da função ConvertIntToProductType passando-se um ponteiro NULL como
+  argumento (algo inválido).
+ */
+
+TEST (ConvertIntToProductType, Invalid_Adress) {
+
+  EXPECT_EQ(ConvertIntToProductType(0, NULL), -1);
 
 }
 

@@ -17,19 +17,38 @@
 #include "product.h"
 #include "usuarios.h"
 
+/**
+ * @enum transactionStatus
+ * @brief Contém os possíveis estados de uma transação
+ *
+ * É utilizado como um dos membros da estrutura de dados que modela uma
+ * transação e atulizada a cada estágio da transação. Pode ser utilizada como
+ * parâmetro de busca de uma transação na função StatusTransactions.
+ *
+ */
+
 typedef enum {
-  Open,
-  InProgress,
-  Closed,
-  Canceled,
-  Error
+  Open,  /**< A transação está aberta para a entrada de um usuário. */
+  InProgress,  /**< A transação está sendo realizada. */
+  Closed,  /**< A transação foi realizada com sucesso. */
+  Canceled,  /**< A transação foi cancelada. */
+  Error  /**< Ocorreu um erro na leitura do estado ou no processamento da
+             transação. Não é um estado válido de transação. */
 }transactionStatus;
 
+/**
+ * @typedef transaction
+ * @brief Transação.
+ *
+ * Representa uma transação entre 2 usuários envolvendo um produto.
+ *
+ */
+
 typedef struct transaction {
-  unsigned int user1;
-  unsigned int user2;
-  product item;
-  transactionStatus status;
+  unsigned int user1;  /**< Primeiro usuário envolvido na transação. */
+  unsigned int user2;  /**< Segundo usuário envolvido na transação. */
+  product item;  /**< Produto transacionado. */
+  transactionStatus status;  /**< Estado da transação. */
 }transaction;
 
 errorLevel CancelTransaction(transaction*);

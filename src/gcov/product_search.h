@@ -16,13 +16,18 @@
 #include "product.h"
 #include "valid_index.h"
 
+/**
+ * @def PRODUCT_DB
+ * @brief Caminho ao banco de dados dos produtos.
+ */
+
 #define PRODUCT_DB "../../db/products.txt"
 
 /**
  * @typedef productList
  * @brief Lista de produtos.
  *
- * Não pode conter produtos repetidos.
+ * Não pode conter produtos repetidos ou inválidos.
  *
  * Importante: Aloca dinamicamente o vetor que contém os produtos. Tal memória
  * deve ser liberada no término do programa chamando-se a função
@@ -46,15 +51,19 @@ typedef struct productList {
 /**
  * @typedef productSpecification
  * @brief Especificação de busca de produtos.
+ *
+ * Restringe a busca por produtos ao especificar o preço, o tipo e a
+ * popularidade dos produtos desejados.
+ *
  */
 
 typedef struct productSpecification {
-  double minimum_price; /**< Preço mínimo do(s) produto(s). */
-  double maximum_price; /**< Preço máximo do(s) produto(s). */
+  double minimum_price;  /**< Preço mínimo do(s) produto(s). */
+  double maximum_price;  /**< Preço máximo do(s) produto(s). */
   productType type;  /**< Tipo do(s) produto(s). Pode ser "All" caso se deseje
                           pesquisar produtos de qualquer tipo.*/
-  int minimum_popularity; /**< Popularidade mínima do(s) produto(s). */
-  int maximum_popularity; /**< Popularidade máxima do(s) produto(s). */
+  int minimum_popularity;  /**< Popularidade mínima do(s) produto(s). */
+  int maximum_popularity;  /**< Popularidade máxima do(s) produto(s). */
 }productSpecification;
 
 errorLevel AddProduct(product*, productList*);
