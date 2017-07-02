@@ -488,7 +488,7 @@ usuarios_condRet usuarios_carregarArquivo(){
 /*!
  * @fn usuarios_condRet usuarios_cadastro(int n, ...)
  * @brief Função de cadastro de usuários
- * @param Recebe n=8 como parâmetro (necessário para uso da elipse)
+ * @param n=8 como parâmetro (necessário para uso da elipse)
  * @param (...) Deverá conter 8 pares de argumentos seguindo essa ordem: const char *tipo, dado com dado podendo assumir os tipos char *, usuarios_forma_de_pagamento, usuarios_tipo_usuario
  * @return Retorna uma instância usuarios_condRet que assume: 
  *  - USUARIOS_FALHA_GRAFONULL se o grafo de usuários for NULL; 
@@ -509,7 +509,7 @@ usuarios_condRet usuarios_carregarArquivo(){
  *
  * Assertivas de entrada: 
  *  - o arquivo USUARIOS_DB já existe, isto é a função usuarios_carregarArquivo já foi executada. 
- *  - Devem ser passados o número correto de argumentos
+ *  - Deve ser passado o número correto de argumentos
  *  - Todos os argumentos devem ser passados: usuario, nome, email, endereco, senha, senha_confirmacao, formaPagamento e tipo.
  *
  * Assertivas de saída:
@@ -1006,7 +1006,13 @@ usuarios_condRet usuarios_removerAmizade(unsigned int identificador_A, unsigned 
  * Retorna o dado por referência, recebe uma string com o dado a ser buscado
  * 
  * @code
+ * char string_nome[USUARIOS_LIMITE_NOME];
  * usuarios_retornaDados(0, "nome", (void *)string_nome);
+ * @endcode
+ * 
+ * @code
+ * usuarios_estado_de_usuario estado;
+ * usuarios_retornaDados(0, "estado", (void *)&estado);
  * @endcode
  * 
  * Assertivas de entrada:

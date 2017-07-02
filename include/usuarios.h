@@ -1,3 +1,10 @@
+// Módulo de usuários - Cabeçalho
+
+/**
+ * @file usuarios.h
+ * @brief Cabeçalho do módulo de usuários.
+ */
+ 
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -28,6 +35,7 @@
 /*!
  * @brief Arquivos do banco de dados a respeito dos usuários
 */
+
 #define USUARIOS_DB "../../db/usuarios.txt"
 #define USUARIOS_DB_ESTRUTURA "%-4u\t%-20s\t%-40s\t%-30s\t%-20s\t%-40s\t%-4d\t%-4d\t%-4d\t%-9lf\t%-4u\t%-4u\n"
 #define USUARIOS_DB_ESTRUTURA_SCAN "%4u%*c%20[^\t]\t%40[^\t]\t%30[^\t]\t%20[^\t]\t%40[^\t]\t%4d%*c%4d%*c%4d%*c%9lf%*c%4u%*c%4u\n"
@@ -35,17 +43,19 @@
 #define USUARIOS_DB_AMIGOS_REGISTRO_TAMANHO 15 
 
 /*!
+ * @enum usuarios_forma_de_pagamento
  * @brief Estrutura de numeração para as formas de pagamento
 */
 
 typedef enum {
-	BOLETO,
-	CARTAO_DEBITO,
-	CARTAO_CREDITO,
-	PAYPAL
+	BOLETO, /**< Forma de pagamento em boleto bancário */
+	CARTAO_DEBITO, /**< Forma de pagamento em cartão de débito */
+	CARTAO_CREDITO, /**< Forma de pagamento em cartão de crédito */
+	PAYPAL /**< Forma de pagamento usando PAYPAL */
 } usuarios_forma_de_pagamento;
 
 /*!
+ * @enum usuarios_estado_de_usuario
  * @brief Estrutura de numeração para os estados possíveis de um
  * usuário.
  * 
@@ -55,44 +65,46 @@ typedef enum {
 */
 
 typedef enum {
-	INATIVO_EMAIL,
-	INATIVO_TERMOSDEUSO,
-	INATIVO_ABUSO,
-	ATIVO
+	INATIVO_EMAIL, /**< Usuário não está ativo pois o e-mail não foi confirmado */
+	INATIVO_TERMOSDEUSO, /**< Usuário inativo por não aceitar os termos de uso */
+	INATIVO_ABUSO, /**< Usuário inativo por abuso */
+	ATIVO /**< O usuário está ativo */
 } usuarios_estado_de_usuario;
 
 /*! 
+ * @enum usuarios_tipo_usuario
  * @brief Estrutura de numeração para os tipos de conta
 */
 
 typedef enum {
-	CONSUMIDOR,
-	OFERTANTE,
-	ADMINISTRADOR
+	CONSUMIDOR, /**< O usuário é consumidor */
+	OFERTANTE, /**< O usuário é ofertante */
+	ADMINISTRADOR  /**< O usuário é administrador */
 } usuarios_tipo_usuario;
 
 /*!
- * @brief Estrutura de um usuário, 
- * dado a ser referenciado na estrutura de grafos
+ * @typedef tpUsuario
+ * @brief Estrutura de um usuário, dado a ser referenciado na estrutura de grafos
 */
 
 typedef struct tpUsuario {
-	unsigned int identificador;
-	char nome[USUARIOS_LIMITE_NOME];
-	char usuario[USUARIOS_LIMITE_USUARIO];
-	char email[USUARIOS_LIMITE_EMAIL];
-	char senha[USUARIOS_LIMITE_SENHA];
-	char endereco[USUARIOS_LIMITE_ENDERECO];
-	usuarios_forma_de_pagamento formaPagamento;
-	usuarios_tipo_usuario tipo;
-	usuarios_estado_de_usuario estado;
-	double avaliacao;
-	unsigned int n_avaliacao;
-	unsigned int n_reclamacoes;	
+	unsigned int identificador; /**< Identificador único do usuário no grafo e no arquivo de dados */
+	char nome[USUARIOS_LIMITE_NOME]; /**< Nome do cliente, não deve ultrapassar o limite de USUARIOS_LIMITE_NOME-1 caracteres */
+	char usuario[USUARIOS_LIMITE_USUARIO]; /**< Usuário do cliente, único, não deve ultrapassar o limite de USUARIOS_LIMITE_USUARIO-1 caracteres */
+	char email[USUARIOS_LIMITE_EMAIL]; /**< E-mail do cliente, não deve ultrapassar o limite de USUARIOS_LIMITE_EMAIL-1 caracteres */
+	char senha[USUARIOS_LIMITE_SENHA]; /**< Senha do cliente, não deve ultrapassar o limite de USUARIOS_LIMITE_SENHA-1 caracteres */
+	char endereco[USUARIOS_LIMITE_ENDERECO]; /**< Endereço do cliente, não deve ultrapassar o limite de USUARIOS_LIMITE_ENDERECO-1 caracteres */
+	usuarios_forma_de_pagamento formaPagamento; /**< Forma de pagamento padrão */
+	usuarios_tipo_usuario tipo; /**< Tipo do usuário, se é OFERTANTE, CONSUMIDOR ou ADMINISTRADOR */
+	usuarios_estado_de_usuario estado; /**< Estado do usuário, ATIVO ou INATIVO por alguma razão */
+	double avaliacao; /**< Avaliação do usuário, número de ponto flutuante de 0 a 5 */
+	unsigned int n_avaliacao; /**< Número de avaliações feitas por outros usuários a este usuário */
+	unsigned int n_reclamacoes;	/**< Número de reclamações feitas por outros usuários a este usuário, DEPRECATED, FORA DE USO */
 } tpUsuario;
 
 /*!
- * @brief Condições de retorno das funções deste módulo
+ * @enum usuarios_condRet
+ * @brief Condições de retorno das funções deste módulo, cada condição é explicada na documentação da função que a retorna.
 */
 
 typedef enum {
@@ -129,32 +141,36 @@ typedef enum {
 } usuarios_condRet;
 
 /*!
+ * @enum usuarios_relacao
  * @brief Estrutura com a relação entre dois usuários
 */
 typedef enum {
-	AMIGOS,
-	AGUARDANDOCONFIRMACAO, /* Usuário A pede amizade a B e B não respondeu, usuário A está neste estado*/
-	ACONFIRMAR, /* Usuário A pede amizade a B e B não respondeu, usuário B está neste estado*/
-	NENHUMA,
-	ERRO
+	AMIGOS, /**< Os usuários A e B são amigos */
+	AGUARDANDOCONFIRMACAO, /**< Usuário A pede amizade a B e B não respondeu, usuário A está neste estado */
+	ACONFIRMAR, /**< Usuário A pede amizade a B e B não respondeu, usuário B está neste estado */
+	NENHUMA, /**< Não há relação direta entre os usuários, mas podem ser amigos de amigos ainda */
+	ERRO /**< Ocorreu um erro na função */
 } usuarios_relacao;
 
 /*!
- * @brief Estrutura para os argumentos da função usuarios_cadastro
+ * @typedef usuarios_cadastro_argumentos
+ * @brief Estrutura para os argumentos da função usuarios_cadastro, de uso único do módulo. Serve para facilitar na leitura de argumentos
 */
 
 typedef struct usuarios_cadastro_argumentos {
-	const char *validos;
-	int tamanho;
-	char *destino;
+	const char *validos; /**< Um argumento válido */
+	int tamanho; /**< Tamanho em bytes que ocupa o dado do argumento */
+	char *destino; /**< Onde será armazenado o dado do argumento */
 } usuarios_cadastro_argumentos;
 
 /*!
+ * @typedef usuarios_uintarray
  * @brief Estrutura de array de inteiros
 */
+
 typedef struct usuarios_uintarray {
-  unsigned int length;
-  unsigned int *array;
+  unsigned int length; /**< Número de elementos no array */
+  unsigned int *array; /**< Ponteiro para os inteiros não negativos do array */
 } usuarios_uintarray;
 
 usuarios_condRet usuarios_cadastro(int, ...);

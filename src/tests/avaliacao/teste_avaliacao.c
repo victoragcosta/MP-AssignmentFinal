@@ -12,7 +12,6 @@ TEST(Avaliacao, AvaliarLogin) {
 	
 	/* Carregamos as avaliações */
 	remove(AVALIACAO_DB);
-	avaliacao_pegarContador();
 	
   /* Fazemos login como jose123 */
   EXPECT_EQ(usuarios_login((char *)"jose123", (char *)"987654"), USUARIOS_SUCESSO);
