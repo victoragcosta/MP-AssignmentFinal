@@ -1,7 +1,7 @@
 // Módulo de produtos - Cabeçalho.
 
 /**
- * @file product_search.h
+ * @file product.h
  * @brief Cabeçalho do módulo de produtos.
  */
 
@@ -50,6 +50,8 @@ typedef struct product {
 errorLevel CopyProduct(product*, product*);
 errorLevel CreateProduct(char[75], productType, double, int, product*);
 int CompareProducts(product*, product*);
+int ConvertIntToProductType(int, productType*);
+int ValidName(char[75]);
 int ValidPopularity(int);
 int ValidPrice(double);
 int ValidProduct(product*);

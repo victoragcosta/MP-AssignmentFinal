@@ -110,7 +110,7 @@ errorLevel CreateProduct(char name[75], productType type, double price,
 int popularity, product *new_product) {
 
   if(new_product == NULL || !ValidPrice(price) || !ValidPopularity(popularity)
-     || type == All)
+     || type == All || !ValidName(name))
     return Illegal_argument;
 
   strcpy(new_product->name, name);
@@ -176,6 +176,44 @@ int CompareProducts(product *first, product *second) {
 
   else
     return 1;
+
+}
+
+int ConvertIntToProductType(int number, productType *type) {
+
+  if(type == NULL)
+    return -1;
+
+  switch (number) {
+
+    case 0:
+      *type = Rental;
+      break;
+
+    case 1:
+      *type = Sale;
+      break;
+
+    case 2:
+      *type = Service;
+      break;
+
+    default:
+      *type = All;
+
+  }
+
+  return 0;
+
+}
+
+int ValidName(char name[75]) {
+
+  if(strchr(name, '|') == NULL)
+    return 1;
+
+  else
+    return 0;
 
 }
 
@@ -310,7 +348,7 @@ int ValidProduct(product *item) {
     return -1;
 
   else if(ValidPrice(item->price) && ValidPopularity(item->popularity)
-          && item->type != All)
+          && item->type != All && ValidName(item->name))
     return 1;
 
   else

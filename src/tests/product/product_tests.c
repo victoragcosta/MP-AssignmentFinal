@@ -2,7 +2,7 @@
 
 /**
 
-  @file
+  @file product_tests.c
   @brief Arquivo que testa as funções relativas ao módulo de produtos do
   aplicativo
 
@@ -13,7 +13,7 @@
 #include "gtest/gtest.h"
 
 char name[75];
-product novoProduto, copia, outro;
+product novo_produto, copia, outro;
 
 /* Inicialização das variáveis utilizadas nos testes.*/
 
@@ -31,11 +31,19 @@ TEST (CreateProduct, Normal_Product) {
 
   strcpy(name, "Arroz");
 
-  EXPECT_EQ(CreateProduct(name, Sale, 5, 100, &novoProduto), Success);
-  EXPECT_EQ(strcmp(novoProduto.name, "Arroz"), 0);
-  EXPECT_EQ(novoProduto.price, 5);
-  EXPECT_EQ(novoProduto.type, Sale);
-  EXPECT_EQ(novoProduto.popularity, 100);
+  EXPECT_EQ(CreateProduct(name, Sale, 5, 100, &novo_produto), Success);
+  EXPECT_EQ(strcmp(novo_produto.name, "Arroz"), 0);
+  EXPECT_EQ(novo_produto.price, 5);
+  EXPECT_EQ(novo_produto.type, Sale);
+  EXPECT_EQ(novo_produto.popularity, 100);
+
+}
+
+TEST (CreateProduct, Illegal_Name) {
+
+  strcpy(name, "Coisas|Coisas");
+
+  EXPECT_EQ(CreateProduct(name, Sale, 54, 5, &novo_produto), Illegal_argument);
 
 }
 
@@ -48,7 +56,7 @@ TEST (CreateProduct, Illegal_Price_01) {
 
   strcpy(name, "Arroz estragado");
 
-  EXPECT_EQ(CreateProduct(name, Sale, -2, 5, &novoProduto), Illegal_argument);
+  EXPECT_EQ(CreateProduct(name, Sale, -2, 5, &novo_produto), Illegal_argument);
 
 }
 
@@ -61,7 +69,7 @@ TEST (CreateProduct, Illegal_Price_02) {
 
   strcpy(name, "Mansão");
 
-  EXPECT_EQ(CreateProduct(name, Sale, 277899000, 55, &novoProduto),
+  EXPECT_EQ(CreateProduct(name, Sale, 277899000, 55, &novo_produto),
             Illegal_argument);
 
 }
@@ -75,7 +83,7 @@ TEST (CreateProduct, Illegal_Popularity_01) {
 
   strcpy(name, "Bomba atômica");
 
-  EXPECT_EQ(CreateProduct(name, Sale, 500000, -5, &novoProduto),
+  EXPECT_EQ(CreateProduct(name, Sale, 500000, -5, &novo_produto),
             Illegal_argument);
 
 }
@@ -89,7 +97,7 @@ TEST (CreateProduct, Illegal_Popularity_02) {
 
   strcpy(name, "Bilhete premiado de loteria");
 
-  EXPECT_EQ(CreateProduct(name, Sale, 5, 120, &novoProduto), Illegal_argument);
+  EXPECT_EQ(CreateProduct(name, Sale, 5, 120, &novo_produto), Illegal_argument);
 
 }
 
@@ -99,7 +107,7 @@ TEST (CreateProduct, Illegal_Type) {
 
   strcpy(name, "Buffet all-incluse");
 
-  EXPECT_EQ(CreateProduct(name, All, 5, 90, &novoProduto), Illegal_argument);
+  EXPECT_EQ(CreateProduct(name, All, 5, 90, &novo_produto), Illegal_argument);
 
 }
 
@@ -118,8 +126,18 @@ TEST (CreateProduct, Null_Pointer) {
 
 TEST (ValidProduct, Valid_Product) {
 
-  EXPECT_EQ(CreateProduct(name, Sale, 5, 100, &novoProduto), Success);
-  EXPECT_EQ(ValidProduct(&novoProduto), 1);
+  EXPECT_EQ(CreateProduct(name, Sale, 5, 100, &novo_produto), Success);
+  EXPECT_EQ(ValidProduct(&novo_produto), 1);
+
+}
+
+TEST (ValidProduct, Invalid_Name) {
+
+  strcpy(novo_produto.name, "Coisas|Coisas");
+  novo_produto.price = 400;
+  novo_produto.popularity = 60;
+  novo_produto.type = Rental;
+  EXPECT_EQ(ValidProduct(&novo_produto), 0);
 
 }
 
@@ -127,11 +145,11 @@ TEST (ValidProduct, Valid_Product) {
 
 TEST (ValidProduct, Invalid_Price) {
 
-  strcpy(novoProduto.name, "Iate de ouro");
-  novoProduto.price = 400000000;
-  novoProduto.popularity = 60;
-  novoProduto.type = Rental;
-  EXPECT_EQ(ValidProduct(&novoProduto), 0);
+  strcpy(novo_produto.name, "Iate de ouro");
+  novo_produto.price = 400000000;
+  novo_produto.popularity = 60;
+  novo_produto.type = Rental;
+  EXPECT_EQ(ValidProduct(&novo_produto), 0);
 
 }
 
@@ -139,11 +157,11 @@ TEST (ValidProduct, Invalid_Price) {
 
 TEST (ValidProduct, Invalid_Popularity) {
 
-  strcpy(novoProduto.name, "Vitrola anos 70");
-  novoProduto.price = 125;
-  novoProduto.popularity = 120;
-  novoProduto.type = Rental;
-  EXPECT_EQ(ValidProduct(&novoProduto), 0);
+  strcpy(novo_produto.name, "Vitrola anos 70");
+  novo_produto.price = 125;
+  novo_produto.popularity = 120;
+  novo_produto.type = Rental;
+  EXPECT_EQ(ValidProduct(&novo_produto), 0);
 
 }
 
@@ -166,9 +184,9 @@ TEST (CopyProduct, Normal_Copy) {
 
   strcpy(name, "Clone");
 
-  CreateProduct(name, Sale, 25, 92, &novoProduto);
+  CreateProduct(name, Sale, 25, 92, &novo_produto);
 
-  CopyProduct(&copia, &novoProduto);
+  CopyProduct(&copia, &novo_produto);
 
   EXPECT_EQ(strcmp(copia.name, "Clone"), 0);
   EXPECT_EQ(copia.price, 25);
@@ -182,10 +200,11 @@ TEST (CopyProduct, Normal_Copy) {
   produtos (algo inválido).
  */
 
-TEST (CopyProduct, Null_Pointer) {
+TEST (CopyProduct, Invalid_Copy) {
 
-  EXPECT_EQ(CopyProduct(&novoProduto, NULL), Illegal_argument);
-  EXPECT_EQ(CopyProduct(NULL, &novoProduto), Illegal_argument);
+  EXPECT_EQ(CopyProduct(&novo_produto, NULL), Illegal_argument);
+  EXPECT_EQ(CopyProduct(NULL, &novo_produto), Illegal_argument);
+  EXPECT_EQ(CopyProduct(NULL, NULL), Illegal_argument);
 
 }
 
@@ -198,12 +217,12 @@ TEST (CompareProducts, Equal) {
 
   strcpy(name, "Clone");
 
-  CreateProduct(name, Sale, 25, 92, &novoProduto);
+  CreateProduct(name, Sale, 25, 92, &novo_produto);
 
-  CopyProduct(&copia, &novoProduto);
+  CopyProduct(&copia, &novo_produto);
 
-  EXPECT_EQ(CompareProducts(&novoProduto, &copia), 0);
-  EXPECT_EQ(CompareProducts(&copia, &novoProduto), 0);
+  EXPECT_EQ(CompareProducts(&novo_produto, &copia), 0);
+  EXPECT_EQ(CompareProducts(&copia, &novo_produto), 0);
 
 }
 
@@ -228,14 +247,14 @@ TEST (CompareProducts, Different_Name) {
 
   strcpy(name, "Clone");
 
-  CreateProduct(name, Sale, 25, 92, &novoProduto);
+  CreateProduct(name, Sale, 25, 92, &novo_produto);
 
   strcpy(name, "Outro clone");
 
   CreateProduct(name, Sale, 25, 92, &outro);
 
-  EXPECT_EQ(CompareProducts(&novoProduto, &outro), 1);
-  EXPECT_EQ(CompareProducts(&outro, &novoProduto), 1);
+  EXPECT_EQ(CompareProducts(&novo_produto, &outro), 1);
+  EXPECT_EQ(CompareProducts(&outro, &novo_produto), 1);
 
 }
 
@@ -248,11 +267,11 @@ TEST (CompareProducts, Different_Type) {
 
   strcpy(name, "Clone");
 
-  CreateProduct(name, Sale, 25, 92, &novoProduto);
+  CreateProduct(name, Sale, 25, 92, &novo_produto);
   CreateProduct(name, Service, 25, 92, &outro);
 
-  EXPECT_EQ(CompareProducts(&novoProduto, &outro), 1);
-  EXPECT_EQ(CompareProducts(&outro, &novoProduto), 1);
+  EXPECT_EQ(CompareProducts(&novo_produto, &outro), 1);
+  EXPECT_EQ(CompareProducts(&outro, &novo_produto), 1);
 
 }
 
@@ -265,11 +284,11 @@ TEST (CompareProducts, Different_Price) {
 
   strcpy(name, "Clone");
 
-  CreateProduct(name, Sale, 25, 92, &novoProduto);
+  CreateProduct(name, Sale, 25, 92, &novo_produto);
   CreateProduct(name, Sale, 27, 92, &outro);
 
-  EXPECT_EQ(CompareProducts(&novoProduto, &outro), 1);
-  EXPECT_EQ(CompareProducts(&outro, &novoProduto), 1);
+  EXPECT_EQ(CompareProducts(&novo_produto, &outro), 1);
+  EXPECT_EQ(CompareProducts(&outro, &novo_produto), 1);
 
 }
 
@@ -282,11 +301,11 @@ TEST (CompareProducts, Different_Popularity) {
 
   strcpy(name, "Clone");
 
-  CreateProduct(name, Sale, 25, 92, &novoProduto);
+  CreateProduct(name, Sale, 25, 92, &novo_produto);
   CreateProduct(name, Sale, 25, 93, &outro);
 
-  EXPECT_EQ(CompareProducts(&novoProduto, &outro), 1);
-  EXPECT_EQ(CompareProducts(&outro, &novoProduto), 1);
+  EXPECT_EQ(CompareProducts(&novo_produto, &outro), 1);
+  EXPECT_EQ(CompareProducts(&outro, &novo_produto), 1);
 
 }
 
@@ -294,8 +313,8 @@ TEST (CompareProducts, Different_Popularity) {
 
 TEST (CompareProducts, Null_Pointer) {
 
-  EXPECT_EQ(CompareProducts(&novoProduto, NULL), -1);
-  EXPECT_EQ(CompareProducts(NULL, &novoProduto), -1);
+  EXPECT_EQ(CompareProducts(&novo_produto, NULL), -1);
+  EXPECT_EQ(CompareProducts(NULL, &novo_produto), -1);
   EXPECT_EQ(CompareProducts(NULL, NULL), -1);
 
 }

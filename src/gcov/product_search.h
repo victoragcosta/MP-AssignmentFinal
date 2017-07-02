@@ -14,6 +14,9 @@
 
 #include "error_level.h"
 #include "product.h"
+#include "valid_index.h"
+
+#define PRODUCT_DB "../../db/products.txt"
 
 /**
  * @typedef productList
@@ -55,14 +58,15 @@ typedef struct productSpecification {
 }productSpecification;
 
 errorLevel AddProduct(product*, productList*);
-errorLevel CleanProductList (productList*);
+errorLevel CleanProductList(productList*);
 errorLevel CreateSpecification(productType, double, double, int, int,
                                productSpecification*);
-errorLevel DeleteProduct (int, productList*);
+errorLevel DeleteProduct(int, productList*);
+errorLevel LoadProductList(productList*);
+errorLevel SaveProductList(productList*);
 errorLevel SearchProduct(char[75], productList*, productSpecification*,
                          productList*);
 errorLevel SelectProduct(int, productList*, product*);
 int MatchesSpecification(product*, productSpecification*);
-int ValidIndex (int, int);
 
 #endif  // PRODUCT_SEARCH_H_
