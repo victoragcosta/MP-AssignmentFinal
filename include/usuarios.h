@@ -1,3 +1,10 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdarg.h>
+#include "aleatorio.h"
+#include "grafo.h"
+
 /*!
  * @brief Header das estruturas de usuário
 */
@@ -117,7 +124,8 @@ typedef enum {
 	USUARIOS_FALHA_INATIVO,
   USUARIOS_FALHA_ACESSORESTRITO,
   USUARIOS_FALHA_LISTARAMIGOS,
-  USUARIOS_FALHA_REMOVER_AMIZADE
+  USUARIOS_FALHA_REMOVER_AMIZADE,
+  USUARIOS_FALHA_ALOCAR
 } usuarios_condRet;
 
 /*!
