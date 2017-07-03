@@ -62,8 +62,8 @@ void ProductWidget::on_visualizar_clicked()
     VisualizadorProduto *visu = new VisualizadorProduto;
     visu->setProduct(this);
     visu->setTransactionList(this->transactions);
-    visu->showTransactions();
     visu->show();
+    visu->showTransactions();
 }
 
 QString ProductWidget::getName()

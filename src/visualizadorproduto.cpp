@@ -2,6 +2,8 @@
 #include "ui_visualizadorproduto.h"
 
 #include <QString>
+#include "transacao.h"
+#include "transaction_search.h"
 
 VisualizadorProduto::VisualizadorProduto(QWidget *parent) :
     QWidget(parent),
@@ -29,22 +31,15 @@ void VisualizadorProduto::setTransactionList(transactionList *list){
 void VisualizadorProduto::showTransactions()
 {
     int i;
-    ProductWidget *productWidget;
-    char usuario[50];
-    usuarios_condRet erro;
-    printf("tamanho: %d\n", this->transactions->size);
+    Transacao *transacao;
+    printf("ue\n");
     for(i = 0; i < this->transactions->size; i++){
-        printf("id: %d", this->transactions->items[i].user1);
-        erro = usuarios_retornaDados(this->transactions->items[i].user1, "usuario", (void*)usuario);
-        printf("erro: %d\n", erro);
-        printf("name: %s\n", usuario);
-        productWidget = new ProductWidget(this);
-        productWidget->setName(QString(usuario));
-        productWidget->setPreco(this->transactions->items[i].item.price);
-        productWidget->setPop(this->transactions->items[i].item.popularity);
-        productWidget->applySet();
-        ui->resultados->addWidget(productWidget);
-        productWidget->show();
-        productWidget->setId(i);
+        printf("transa[%d]: %s\n", i, this->transactions->items[i].item.name);
+        transacao = new Transacao(this);
+        transacao->setTransactionList(this->transactions);
+        transacao->setId(i);
+        transacao->applySet();
+        ui->resultados->addWidget(transacao);
+        transacao->show();
     }
 }

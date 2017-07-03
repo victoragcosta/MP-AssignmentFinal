@@ -24,6 +24,7 @@ public:
     void addResult(ProductWidget *novo);
     ProductWidget *getResult();
     void cleanResults();
+    transactionList *listaTransactions;
 
 private slots:
 
@@ -39,7 +40,6 @@ private:
     Ui::MainWindow *ui;
     productList *listaProdutos;
     ProductWidget *results;
-    transactionList *listaTransactions;
 };
 
 #endif // MAINWINDOW_H

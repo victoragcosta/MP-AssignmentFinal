@@ -115,6 +115,7 @@ void MainWindow::on_busca_edit_returnPressed()
             productWidget->setPreco(resultado.items[i].price);
             productWidget->setPop(resultado.items[i].popularity);
             productWidget->applySet();
+            productWidget->setTransactionList(this->listaTransactions);
             ui->resultados->addWidget(productWidget);
             productWidget->show();
             productWidget->setId(i);
@@ -129,6 +130,7 @@ void MainWindow::on_busca_edit_returnPressed()
             productWidget->setPreco(this->listaProdutos->items[i].price);
             productWidget->setPop(this->listaProdutos->items[i].popularity);
             productWidget->applySet();
+            productWidget->setTransactionList(this->listaTransactions);
             ui->resultados->addWidget(productWidget);
             productWidget->show();
             productWidget->setId(i);

@@ -39,7 +39,9 @@ SOURCES += \
     transaction/transaction.cpp \
     transaction_search/transaction_search.cpp \
     valid_index/valid_index.cpp \
-    visualizadorproduto.cpp
+    visualizadorproduto.cpp \
+    admin.cpp \
+    transacao.cpp
 
 HEADERS += \
     ../include/aleatorio.h \
@@ -56,14 +58,18 @@ HEADERS += \
     ../include/login.h \
     ../include/productwidget.h \
     ../include/registrar.h \
-    ../include/visualizadorproduto.h
+    ../include/visualizadorproduto.h \
+    admin.h \
+    transacao.h
 
 FORMS += \
         mainwindow.ui \
     login.ui \
     registrar.ui \
     productwidget.ui \
-    visualizadorproduto.ui
+    visualizadorproduto.ui \
+    admin.ui \
+    transacao.ui
 
 INCLUDEPATH += \
     ../include
