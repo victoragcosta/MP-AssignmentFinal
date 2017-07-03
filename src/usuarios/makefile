@@ -1,7 +1,7 @@
 IDIR = ../../include
 CC = g++
 CFLAGS = -ftest-coverage -fprofile-arcs -I $(IDIR) 
-LIBS = -lm -lgtest
+LIBS = -lm -lgtest -pthread
 
 ODIR = ../obj
 TDIR = ../tests/usuarios
@@ -17,10 +17,6 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 _TEST = teste_usuarios.o
 TEST = $(patsubst %,$(TDIR)/%,$(_TEST))
 
-$(ODIR)/grafo.o: $(GRAFOSDIR)/grafo.cpp $(DEPS)
-	cppcheck --enable=warning $<
-	$(CC) -c -o $@ $< $(CFLAGS)
-
 $(ODIR)/%.o: %.cpp $(DEPS)
 	cppcheck --enable=warning $<
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -29,14 +25,13 @@ $(TDIR)/%.o: %.cpp $(DEPS)
 	cppcheck --enable=warning $<
 	$(CC) -c -o $@ $< 
 
-
 testes_usuarios: $(OBJ) $(TEST) $(ODIR)/grafo.o
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 .PHONY: gcov
 
 gcov:
-	cp *.c $(GCOVDIR)
+	cp *.cpp $(GCOVDIR)
 	mv -f $(ODIR)/*.gcda $(ODIR)/*.gcno -t $(GCOVDIR)
 
 .PHONY: clean

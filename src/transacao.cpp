@@ -38,3 +38,8 @@ void Transacao::applySet()
     ui->usuario2_edit->setText(QString::number(this->listaTransactions->items[this->id].user2));
     ui->nome_edit->setText(this->listaTransactions->items[this->id].item.name);
 }
+
+void Transacao::hideDelete()
+{
+    ui->pushButton->hide();
+}

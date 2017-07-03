@@ -39,6 +39,7 @@ void VisualizadorProduto::showTransactions()
         transacao->setTransactionList(this->transactions);
         transacao->setId(i);
         transacao->applySet();
+        transacao->hideDelete();
         ui->resultados->addWidget(transacao);
         transacao->show();
     }

@@ -21,7 +21,7 @@
  * @brief Caminho ao banco de dados dos produtos.
  */
 
-#define PRODUCT_DB "../db/products.txt"
+#define PRODUCT_DB "../../db/products.txt"
 
 /**
  * @typedef productList

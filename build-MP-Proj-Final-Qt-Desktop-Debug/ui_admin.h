@@ -37,10 +37,10 @@ public:
     {
         if (Admin->objectName().isEmpty())
             Admin->setObjectName(QString::fromUtf8("Admin"));
-        Admin->resize(400, 300);
+        Admin->resize(400, 408);
         widget = new QWidget(Admin);
         widget->setObjectName(QString::fromUtf8("widget"));
-        widget->setGeometry(QRect(-1, 0, 401, 301));
+        widget->setGeometry(QRect(-1, 0, 401, 411));
         verticalLayout_2 = new QVBoxLayout(widget);
         verticalLayout_2->setObjectName(QString::fromUtf8("verticalLayout_2"));
         verticalLayout_2->setContentsMargins(0, 0, 0, 0);

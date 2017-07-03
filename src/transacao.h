@@ -18,6 +18,7 @@ public:
     void setId(int id);
     void setTransactionList(transactionList *list);
     void applySet();
+    void hideDelete();
 
 private slots:
     void on_pushButton_clicked();

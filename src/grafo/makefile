@@ -7,12 +7,12 @@ GCOVDIR = ../gcov
 
 LIBS = -lm -lgtest -pthread
 
-_DEPS = valid_index.h
+_DEPS = grafo.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
 make:
-	$(CC) -c valid_index.cpp $(CFLAGS) $(LIBS)
-	mv valid_index.o $(ODIR)
+	$(CC) -c grafo.cpp $(CFLAGS) $(LIBS)
+	mv grafo.o $(ODIR)
 
 .PHONY: my_gcov
 
@@ -27,4 +27,4 @@ mv_gcov:
 .PHONY: clean
 
 clean:
-	rm $(ODIR)/valid_index.o *.gcno *.gcda
+	rm $(ODIR)/grafo.o *.gcno *.gcda

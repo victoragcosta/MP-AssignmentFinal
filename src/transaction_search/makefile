@@ -7,7 +7,7 @@ LDIR = ../../lib
 TDIR = ../tests/transaction_search
 GCOVDIR = ../gcov
 
-LIBS = -lm -lgtest
+LIBS = -lm -lgtest -pthread
 
 _DEPS = avaliacao.h error_level.h grafo.h product.h transaction.h transaction_search.h usuarios.h valid_index.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
@@ -18,24 +18,24 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 _TEST = transaction_search_tests.o
 TEST = $(patsubst %,$(TDIR)/%,$(_TEST))
 
-$(ODIR)/%.o: %.c $(DEPS)
+$(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-$(TDIR)/%.o: %.c $(DEPS)
+$(TDIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 transaction_search_tests: $(OBJ) $(TEST)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 verify_tests:
-	cppcheck ./transaction_search.c ./transaction_search_tests --enable=all
+	cppcheck ./transaction_search.cpp ./transaction_search_tests --enable=all
 	valgrind --leak-check=full ./transaction_search_tests
 
 .PHONY: my_gcov
 
 mv_gcov:
 	cp $(DEPS) $(GCOVDIR)
-	cp *.c $(GCOVDIR)
+	cp *.cpp $(GCOVDIR)
 	mv $(TDIR)/*.gcda $(GCOVDIR)
 	mv $(TDIR)/*.gcno $(GCOVDIR)
 	mv $(ODIR)/*.gcda $(GCOVDIR)
@@ -44,4 +44,5 @@ mv_gcov:
 .PHONY: clean
 
 clean:
-	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~
+	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~ $(TDIR)/*.gcda $(TDIR)/*.gcno $(TDIR)/*.o $(ODIR)/*.o
+	rm transaction_search_tests

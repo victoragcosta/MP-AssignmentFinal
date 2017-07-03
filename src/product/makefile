@@ -7,7 +7,7 @@ LDIR = ../../lib
 TDIR = ../tests/product
 GCOVDIR = ../gcov
 
-LIBS = -lm -lgtest
+LIBS = -lm -lgtest -pthread
 
 _DEPS = error_level.h product.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
@@ -18,24 +18,24 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 _TEST = product_tests.o
 TEST = $(patsubst %,$(TDIR)/%,$(_TEST))
 
-$(ODIR)/%.o: %.c $(DEPS)
+$(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-$(TDIR)/%.o: %.c $(DEPS)
+$(TDIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 product_tests: $(OBJ) $(TEST)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 verify_tests:
-	cppcheck ./product.c ./product_tests --enable=all
+	cppcheck ./product.cpp ./product_tests --enable=all
 	valgrind --leak-check=full ./product_tests
 
 .PHONY: my_gcov
 
 mv_gcov:
 	cp $(DEPS) $(GCOVDIR)
-	cp *.c $(GCOVDIR)
+	cp *.cpp $(GCOVDIR)
 	mv $(TDIR)/*.gcda $(GCOVDIR)
 	mv $(TDIR)/*.gcno $(GCOVDIR)
 	mv $(ODIR)/*.gcda $(GCOVDIR)
@@ -44,4 +44,5 @@ mv_gcov:
 .PHONY: clean
 
 clean:
-	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~
+	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~ $(TDIR)/*.gcda $(TDIR)/*.gcno $(TDIR)/*.o $(ODIR)/*.o
+	rm product_tests

@@ -24,7 +24,7 @@
  * @brief Caminho ao banco de dados das transações.
  */
 
-#define TRANSACTION_DB "../db/transactions.txt"
+#define TRANSACTION_DB "../../db/transactions.txt"
 
 /**
  * @enum relationship
