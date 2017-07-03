@@ -47,6 +47,11 @@ TEST (Initialization, Variables) {
 
 }
 
+/*
+  Teste da função AddTransaction para adicionar a primeira transação à uma lista
+  de transações.
+ */
+
 TEST (AddTransaction, First) {
 
   ASSERT_EQ(list.size, 0);
@@ -67,8 +72,8 @@ TEST (AddTransaction, First) {
 }
 
 /*
-  Teste da função AddTransaction para adicionar o segundo produto à uma lista de
-  produtos.
+  Teste da função AddTransaction para adicionar a segunda transação à uma lista
+  de transações
  */
 
 TEST (AddTransaction, Second) {
@@ -94,6 +99,11 @@ TEST (AddTransaction, Second) {
 
 }
 
+/*
+  Teste da função AddTransaction para tentar adicionar uma transação repetida à
+  uma lista de transações (algo inválido).
+ */
+
 TEST (AddTransaction, Repeated_Transaction) {
 
   ASSERT_EQ(list.size, 2);
@@ -104,7 +114,12 @@ TEST (AddTransaction, Repeated_Transaction) {
 
 }
 
-TEST (AddTransaction, Illegal_Status) {
+/*
+  Teste da função AddTransaction para tentar adicionar uma transação com estado
+  inválido à uma lista de transações.
+ */
+
+TEST (AddTransaction, Invalid_Status) {
 
   CleanTransactionList(&list);
 
@@ -123,7 +138,13 @@ TEST (AddTransaction, Illegal_Status) {
 
 }
 
-TEST (AddTransaction, Illegal_Users) {
+/*
+  Teste da função AddTransaction para tentar adicionar uma transação em
+  progresso com ids de usuários iguais (algo inválido) à uma lista de
+  transações.
+ */
+
+TEST (AddTransaction, Invalid_Users) {
 
   CleanTransactionList(&list);
 
@@ -142,7 +163,12 @@ TEST (AddTransaction, Illegal_Users) {
 
 }
 
-TEST (AddTransaction, Illegal_Product) {
+/*
+  Teste da função AddTransaction para tentar adicionar uma transação com um
+  produto transacionado inválido à uma lista de transações.
+ */
+
+TEST (AddTransaction, Invalid_Product) {
 
   ASSERT_EQ(list.size, 0);
 
@@ -157,7 +183,12 @@ TEST (AddTransaction, Illegal_Product) {
 
 }
 
-TEST (AddTransaction, Illegal_Transaction) {
+/*
+  Teste da função AddTransaction para tentar adicionar uma transação inválida à
+  uma lista de transações.
+ */
+
+TEST (AddTransaction, Invalid_Transaction) {
 
   ASSERT_EQ(list.size, 0);
 
@@ -187,6 +218,11 @@ TEST (CleanTransactionList, New_List) {
 
 }
 
+/*
+  Teste da função CleanTransactionList passando-se como argumento uma lista
+  com items.
+ */
+
 TEST (CleanTransactionList, List_With_Items) {
 
   EXPECT_EQ(AddTransaction(&new_transaction, &list2), Success);
@@ -204,7 +240,7 @@ TEST (CleanTransactionList, List_With_Items) {
 
 /*
   Teste da função CleanTransactionList passando-se como argumento um ponteiro
-  nulo.
+  nulo (algo inválido).
  */
 
 TEST (CleanTransactionList, Invalid_List) {
@@ -212,6 +248,8 @@ TEST (CleanTransactionList, Invalid_List) {
   EXPECT_EQ(CleanTransactionList(NULL), Illegal_argument);
 
 }
+
+/* Teste da função CreateRestriction para uma restrição normal. */
 
 TEST (CreateRestriction, Normal_Restriction) {
 
@@ -222,11 +260,18 @@ TEST (CreateRestriction, Normal_Restriction) {
 
 }
 
+/*
+  Teste da função CreateRestriction passando um ponteiro NULL como endereço de
+  restrição (algo inválido).
+ */
+
 TEST (CreateRestriction, Invalid_Restriction) {
 
   EXPECT_EQ(CreateRestriction(Friend, 0, 5, NULL), Illegal_argument);
 
 }
+
+/* Teste da função OpenTransactions sem restrições de usuários. */
 
 TEST (OpenTransactions, No_Restrictions) {
 
@@ -272,6 +317,11 @@ TEST (OpenTransactions, No_Restrictions) {
 
 }
 
+/*
+  Teste da função OpenTransactions com restrição de proximidade para amigos do
+  usuário.
+ */
+
 TEST (OpenTransactions, Friend_Restriction) {
 
   /*
@@ -292,6 +342,11 @@ TEST (OpenTransactions, Friend_Restriction) {
   EXPECT_EQ(CompareTransactions(&(matches.items[0]), &new_transaction), 0);
 
 }
+
+/*
+  Teste da função OpenTransactions com restrição de proximidade para amigos do
+  usuário ou amigos de amigos do usuário.
+ */
 
 TEST (OpenTransactions, Friend_Of_Friend_Restriction) {
 
@@ -314,6 +369,8 @@ TEST (OpenTransactions, Friend_Of_Friend_Restriction) {
   EXPECT_EQ(CompareTransactions(&(matches.items[1]), &new_transaction2), 0);
 
 }
+
+/* Primeiro teste da função OpenTransactions com restrição de avaliação. */
 
 TEST (OpenTransactions, Rating_Restriction_01) {
 
@@ -358,6 +415,8 @@ TEST (OpenTransactions, Rating_Restriction_01) {
 
 }
 
+/* Segundo teste da função OpenTransactions com restrição de avaliação. */
+
 TEST (OpenTransactions, Rating_Restriction_02) {
 
   /*
@@ -381,6 +440,8 @@ TEST (OpenTransactions, Rating_Restriction_02) {
 
 }
 
+/* Teste da função OpenTransactions quando ela não gera resultados. */
+
 TEST (OpenTransactions, No_Results) {
 
   ASSERT_EQ(list.size, 6);
@@ -394,6 +455,11 @@ TEST (OpenTransactions, No_Results) {
 
 }
 
+/*
+  Teste da função OpenTransactions passando-se um produto inválido como
+  argumento.
+ */
+
 TEST (OpenTransactions, Invalid_Product) {
 
   ASSERT_EQ(list.size, 6);
@@ -404,6 +470,26 @@ TEST (OpenTransactions, Invalid_Product) {
   ASSERT_EQ(matches.size, 0);
 
 }
+
+/* Teste da função OpenTransactions em uma lista vazia. */
+
+TEST (OpenTransactions, Empty_List) {
+
+  CleanTransactionList(&list);
+
+  ASSERT_EQ(list.size, 0);
+
+  ASSERT_EQ(OpenTransactions(105, &new_product, &generic, &list, &matches),
+            Failure);
+
+  ASSERT_EQ(matches.size, 0);
+
+}
+
+/*
+  Teste da função OpenTransactions passando-se endereços inválidos como
+  argumentos.
+ */
 
 TEST (OpenTransactions, Invalid_Adresses) {
 
@@ -417,6 +503,8 @@ TEST (OpenTransactions, Invalid_Adresses) {
             Illegal_argument);
   ASSERT_EQ(OpenTransactions(105, NULL, NULL, NULL, NULL), Illegal_argument);
 }
+
+/* Teste da função ProductTransactions para uma busca válida. */
 
 TEST (ProductTransactions, Valid_Search) {
 
@@ -451,6 +539,10 @@ TEST (ProductTransactions, Valid_Search) {
 
 }
 
+/*
+  Teste da função ProductTransactions para uma busca que não gera resultados.
+ */
+
 TEST (ProductTransactions, No_Results) {
 
   CleanTransactionList(&list);
@@ -472,6 +564,8 @@ TEST (ProductTransactions, No_Results) {
 
 }
 
+/* Teste da função ProductTransactions em uma lista vazia. */
+
 TEST (ProductTransactions, Empty_List) {
 
   CleanTransactionList(&list);
@@ -484,7 +578,12 @@ TEST (ProductTransactions, Empty_List) {
 
 }
 
-TEST (ProductTransactions, Illegal_Product) {
+/*
+  Teste da função ProductTransactions passando-se endereços inválidos como
+  argumentos.
+ */
+
+TEST (ProductTransactions, Invalid_Product) {
 
   CleanTransactionList(&list);
 
@@ -497,7 +596,12 @@ TEST (ProductTransactions, Illegal_Product) {
 
 }
 
-TEST (ProductTransactions, Illegal_Addresses) {
+/*
+  Teste da função ProductTransactions passando-se como argumento um produto
+  inválido.
+ */
+
+TEST (ProductTransactions, Invalid_Addresses) {
 
   EXPECT_EQ(ProductTransactions(NULL, &list, &matches), Illegal_argument);
   EXPECT_EQ(ProductTransactions(&new_product, NULL, &matches), Illegal_argument);
@@ -505,6 +609,8 @@ TEST (ProductTransactions, Illegal_Addresses) {
   EXPECT_EQ(ProductTransactions(NULL, NULL, NULL), Illegal_argument);
 
 }
+
+/* Teste da função StatusTransactions para uma busca válida. */
 
 TEST (StatusTransactions, Valid_Search) {
 
@@ -538,6 +644,8 @@ TEST (StatusTransactions, Valid_Search) {
 
 }
 
+/* Teste da função StatusTransactions para uma busca que não gera resultados. */
+
 TEST (StatusTransactions, No_Results) {
 
   CleanTransactionList(&list);
@@ -559,6 +667,8 @@ TEST (StatusTransactions, No_Results) {
 
 }
 
+/* Teste da função StatusTransactions em uma lista vazia. */
+
 TEST (StatusTransactions, Empty_List) {
 
   CleanTransactionList(&list);
@@ -571,7 +681,12 @@ TEST (StatusTransactions, Empty_List) {
 
 }
 
-TEST (StatusTransactions, Illegal_Status) {
+/*
+  Teste da função StatusTransactions passando-se um estado inválido como
+  argumento.
+ */
+
+TEST (StatusTransactions, Invalid_Status) {
 
   CleanTransactionList(&list);
 
@@ -592,13 +707,20 @@ TEST (StatusTransactions, Illegal_Status) {
 
 }
 
-TEST (StatusTransactions, Illegal_Addresses) {
+/*
+  Teste da função StatusTransactions passando-se endereços inválidos como
+  argumentos.
+ */
+
+TEST (StatusTransactions, Invalid_Addresses) {
 
   EXPECT_EQ(StatusTransactions(Open, NULL, &matches), Illegal_argument);
   EXPECT_EQ(StatusTransactions(Open, &list, NULL), Illegal_argument);
   EXPECT_EQ(StatusTransactions(Open, NULL, NULL), Illegal_argument);
 
 }
+
+/* Teste da função UserTransactions para uma busca válida. */
 
 TEST (UserTransactions, Valid_Search) {
 
@@ -633,6 +755,8 @@ TEST (UserTransactions, Valid_Search) {
 
 }
 
+/* Teste da função UserTransactions para uma busca que não gera resultados. */
+
 TEST (UserTransactions, No_Results) {
 
   CleanTransactionList(&list);
@@ -654,6 +778,8 @@ TEST (UserTransactions, No_Results) {
 
 }
 
+/* Teste da função UserTransactions em uma lista vazia. */
+
 TEST (UserTransactions, Empty_List) {
 
   CleanTransactionList(&list);
@@ -666,7 +792,12 @@ TEST (UserTransactions, Empty_List) {
 
 }
 
-TEST (UserTransactions, Illegal_User) {
+/*
+  Teste da função UserTransactions passando-se um id de usuário inválido como
+  argumento.
+ */
+
+TEST (UserTransactions, Invalid_User) {
 
   CleanTransactionList(&list);
 
@@ -679,7 +810,12 @@ TEST (UserTransactions, Illegal_User) {
 
 }
 
-TEST (UserTransactions, Illegal_Addresses) {
+/*
+  Teste da função UserTransactions passando-se endereços inválidos como
+  argumentos.
+ */
+
+TEST (UserTransactions, Invalid_Addresses) {
 
   EXPECT_EQ(UserTransactions(16, NULL, &matches), Illegal_argument);
   EXPECT_EQ(UserTransactions(16, &list, NULL), Illegal_argument);
@@ -717,7 +853,7 @@ TEST (SelectTransaction, Invalid_Select) {
 }
 
 /*
-  Teste da função SelectTransaction para ponteiros nulos passados como argumentos.
+  Teste da função SelectTransaction passando-se ponteiros NULL como argumentos.
  */
 
 TEST (SelectTransaction, Invalid_Adresses) {
@@ -729,6 +865,8 @@ TEST (SelectTransaction, Invalid_Adresses) {
   ASSERT_EQ(SelectTransaction(0, NULL, NULL), Illegal_argument);
 
 }
+
+/* Teste da função DeleteTransaction para uma deleção válida. */
 
 TEST (DeleteTransaction, Valid_Delete) {
 
@@ -773,6 +911,8 @@ TEST (DeleteTransaction, Empty_List) {
 
 }
 
+/* Teste da função SaveTransactionList para uma lista válida. */
+
 TEST (SaveTransactionList, Valid_List) {
 
   CleanTransactionList(&list);
@@ -804,11 +944,18 @@ TEST (SaveTransactionList, Valid_List) {
 
 }
 
+/*
+  Teste da função SaveTransactionList passando um ponteiro NULL como endereço de
+  lista de transações (algo inválido).
+ */
+
 TEST (SaveTransactionList, Invalid_List) {
 
   EXPECT_EQ(SaveTransactionList(NULL), Illegal_argument);
 
 }
+
+/* Teste da função LoadTransactionList para uma lista vazia. */
 
 TEST (LoadTransactionList, Clean_List) {
 
@@ -821,6 +968,8 @@ TEST (LoadTransactionList, Clean_List) {
   EXPECT_EQ(list2.size, 7);
 
 }
+
+/* Teste da função LoadTransactionList para uma lista com items. */
 
 TEST (LoadTransactionList, List_With_Items) {
 
@@ -844,6 +993,11 @@ TEST (LoadTransactionList, List_With_Items) {
   EXPECT_EQ(list2.size, 7);
 
 }
+
+/*
+  Teste da função LoadTransactionList passando um ponteiro NULL como endereço de
+  lista de transações (algo inválido).
+ */
 
 TEST (LoadTransactionList, Invalid_List) {
 

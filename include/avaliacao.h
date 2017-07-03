@@ -54,12 +54,6 @@ typedef struct avaliacao {
   char comentario[AVALIACAO_LIMITE_COMENTARIO];
 } avaliacao;
 
-typedef struct reclamacao {
-  unsigned int reclamador;
-  unsigned int reclamado;
-  char comentario[AVALIACAO_LIMITE_COMENTARIO];
-} reclamacao;
-
 /*!
  * @brief Lista de avaliações
 */
@@ -82,5 +76,3 @@ avaliacao_condRet avaliacao_obterAvaliacao(unsigned int, unsigned int, avaliacao
 avaliacao_condRet avaliacao_avaliar(unsigned int, unsigned int, unsigned int, char *);
 
 #endif
-
-

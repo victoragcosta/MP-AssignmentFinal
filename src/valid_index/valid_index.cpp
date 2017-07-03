@@ -38,6 +38,22 @@
  * Hipóteses:
  *  Nenhuma.
  *
+ * Interface:
+ *  valid_index(int index, int list_size) => int return
+ *
+ * Items da interface explícita:
+ *
+ *  -Recebe dados:
+ *    -index: Índice testado.
+ *    -list_size: Tamanho do vetor no qual o índice é testado.
+ *
+ *  -Produz resultados:
+ *    -return: A função retorna um inteiro: 1 se o índice é válido; 0 se o
+ *  índice é inválido.
+ *
+ * Items da interface implícita:
+ *  Nenhum.
+ *
  */
 
 int ValidIndex (int index, int list_size) {

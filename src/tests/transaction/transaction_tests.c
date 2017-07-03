@@ -16,6 +16,7 @@ char name[75];
 char review1[AVALIACAO_LIMITE_COMENTARIO], review2[AVALIACAO_LIMITE_COMENTARIO];
 product new_product, different_product, invalid;
 transaction new_transaction, new_transaction2, copy, other;
+transactionStatus status;
 avaliacao *test_review;
 
 /* Inicialização das variáveis utilizadas nos testes.*/
@@ -43,6 +44,11 @@ TEST (Initialization, Variables) {
 
 }
 
+/*
+  Primeiro teste da função CreateTransaction utilizando-se parâmetros válidos
+  para a transação.
+ */
+
 TEST (CreateTransaction, Valid_Transaction_01) {
 
   EXPECT_EQ(CreateTransaction(171, 171, &new_product, Open,
@@ -54,6 +60,11 @@ TEST (CreateTransaction, Valid_Transaction_01) {
   EXPECT_EQ(new_transaction.status, Open);
 
 }
+
+/*
+  Segundo teste da função CreateTransaction utilizando-se parâmetros válidos
+  para a transação.
+ */
 
 TEST (CreateTransaction, Valid_Transaction_02) {
 
@@ -67,6 +78,11 @@ TEST (CreateTransaction, Valid_Transaction_02) {
 
 }
 
+/*
+  Terceiro teste da função CreateTransaction utilizando-se parâmetros válidos
+  para a transação.
+ */
+
 TEST (CreateTransaction, Valid_Transaction_03) {
 
   EXPECT_EQ(CreateTransaction(134, 501, &new_product, Closed,
@@ -78,6 +94,11 @@ TEST (CreateTransaction, Valid_Transaction_03) {
   EXPECT_EQ(new_transaction.status, Closed);
 
 }
+
+/*
+  Quarto teste da função CreateTransaction utilizando-se parâmetros válidos
+  para a transação.
+ */
 
 TEST (CreateTransaction, Valid_Transaction_04) {
 
@@ -91,6 +112,11 @@ TEST (CreateTransaction, Valid_Transaction_04) {
 
 }
 
+/*
+  Quinto teste da função CreateTransaction utilizando-se parâmetros válidos
+  para a transação.
+ */
+
 TEST (CreateTransaction, Valid_Transaction_05) {
 
   EXPECT_EQ(CreateTransaction(134, 134, &new_product, Canceled,
@@ -103,12 +129,22 @@ TEST (CreateTransaction, Valid_Transaction_05) {
 
 }
 
+/*
+  Teste da função CreateTransaction utilizando-se parâmetros de usuário
+  diferentes para uma transação aberta.
+ */
+
 TEST (CreateTransaction, Invalid_Open_Transaction) {
 
   EXPECT_EQ(CreateTransaction(134, 137, &new_product, Open,
             &new_transaction), Illegal_argument);
 
 }
+
+/*
+  Teste da função CreateTransaction utilizando-se parâmetros de usuário
+  iguais para uma transação em progresso e para uma transação fechada.
+ */
 
 TEST (CreateTransaction, Same_User) {
 
@@ -118,6 +154,12 @@ TEST (CreateTransaction, Same_User) {
             &new_transaction), Illegal_argument);
 
 }
+
+/*
+  Teste da função CreateTransaction utilizando-se o id ilegal 0 como parâmetro
+  de usuário.
+ */
+
 
 TEST (CreateTransaction, Invalid_User) {
 
@@ -132,6 +174,8 @@ TEST (CreateTransaction, Invalid_User) {
 
 }
 
+/* Teste da função CreateTransaction utilizando-se um produto inválido. */
+
 TEST (CreateTransaction, Invalid_Product) {
 
   EXPECT_EQ(CreateTransaction(134, 134, &invalid, Open,
@@ -139,12 +183,16 @@ TEST (CreateTransaction, Invalid_Product) {
 
 }
 
+/* Teste da função CreateTransaction utilizando-se um status inválido. */
+
 TEST (CreateTransaction, Invalid_Status) {
 
   EXPECT_EQ(CreateTransaction(134, 139, &new_product, Error,
             &new_transaction), Illegal_argument);
 
 }
+
+/* Teste da função CreateTransaction utilizando-se endereços inválidos. */
 
 TEST (CreateTransaction, Invalid_Adresses) {
 
@@ -156,6 +204,11 @@ TEST (CreateTransaction, Invalid_Adresses) {
 
 }
 
+/*
+  Teste da função StartTransaction utilizando-se parâmetros válidos
+  para o início de transação.
+ */
+
 TEST (StartTransaction, Normal_Transaction) {
 
   EXPECT_EQ(StartTransaction(171, &new_product, &new_transaction), Success);
@@ -166,12 +219,19 @@ TEST (StartTransaction, Normal_Transaction) {
 
 }
 
+/* Teste da função StartTransaction utilizando-se um produto inválido. */
+
 TEST (StartTransaction, Invalid_Product) {
 
   EXPECT_EQ(StartTransaction(171, &invalid, &new_transaction),
             Illegal_argument);
 
 }
+
+/*
+  Teste da função StartTransaction passando um ponteiro NULL como endereço da
+  transação ou do produto transacionado (algo inválido).
+ */
 
 TEST (StartTransaction, Invalid_Transaction) {
 
@@ -180,6 +240,11 @@ TEST (StartTransaction, Invalid_Transaction) {
   EXPECT_EQ(StartTransaction(171, NULL, NULL), Illegal_argument);
 
 }
+
+/*
+  Teste da função UpdateTransaction utilizando-se parâmetros válidos
+  para a atualização de transação.
+ */
 
 TEST (UpdateTransaction, Normal_Transaction) {
 
@@ -199,6 +264,11 @@ TEST (UpdateTransaction, Normal_Transaction) {
 
 }
 
+/*
+  Teste da função UpdateTransaction passando os mesmos valores para os
+  parâmetros de usuário (algo inválido).
+ */
+
 TEST (UpdateTransaction, Same_User) {
 
   EXPECT_EQ(StartTransaction(171, &new_product, &new_transaction2), Success);
@@ -206,12 +276,22 @@ TEST (UpdateTransaction, Same_User) {
 
 }
 
+/*
+  Teste da função UpdateTransaction passando os mesmos valores para os
+  parâmetros de usuário (algo inválido).
+ */
+
 TEST (UpdateTransaction, Invalid_User) {
 
   EXPECT_EQ(StartTransaction(171, &new_product, &new_transaction2), Success);
   EXPECT_EQ(UpdateTransaction(0, &new_transaction2), Illegal_argument);
 
 }
+
+/*
+  Teste da função UpdateTransaction passando os mesmos valores para os
+  parâmetros de usuário (algo inválido).
+ */
 
 TEST (UpdateTransaction, Invalid_Status) {
 
@@ -226,11 +306,18 @@ TEST (UpdateTransaction, Invalid_Status) {
 
 }
 
+/*
+  Teste da função UpdateTransaction passando um ponteiro NULL como endereço da
+  transação (algo inválido).
+ */
+
 TEST (UpdateTransaction, Invalid_Transaction) {
 
   EXPECT_EQ(UpdateTransaction(171, NULL), Illegal_argument);
 
 }
+
+/* Teste da função CancelTransaction para uma transação aberta. */
 
 TEST (CancelTransaction, Open_Transaction) {
 
@@ -249,6 +336,8 @@ TEST (CancelTransaction, Open_Transaction) {
 
 }
 
+/* Teste da função CancelTransaction para uma transação em progresso. */
+
 TEST (CancelTransaction, Transaction_In_Progress) {
 
   EXPECT_EQ(new_transaction.user1, 171);
@@ -264,6 +353,8 @@ TEST (CancelTransaction, Transaction_In_Progress) {
   EXPECT_EQ(new_transaction.status, Canceled);
 
 }
+
+/* Teste da função CancelTransaction para uma transação fechada. */
 
 TEST (CancelTransaction, Closed_Transaction) {
 
@@ -282,6 +373,8 @@ TEST (CancelTransaction, Closed_Transaction) {
 
 }
 
+/* Teste da função CancelTransaction para uma transação cancelada. */
+
 TEST (CancelTransaction, Canceled_Transaction) {
 
   EXPECT_EQ(new_transaction.user1, 171);
@@ -297,6 +390,11 @@ TEST (CancelTransaction, Canceled_Transaction) {
   EXPECT_EQ(new_transaction.status, Canceled);
 
 }
+
+/*
+  Teste da função CancelTransaction para uma transação com estado de erro (um
+  estado inválido).
+ */
 
 TEST (CancelTransaction, Error_Transaction) {
 
@@ -316,11 +414,18 @@ TEST (CancelTransaction, Error_Transaction) {
 
 }
 
+/*
+  Teste da função CancelTransaction passando um ponteiro NULL como endereço da
+  transação (algo inválido).
+ */
+
 TEST (CancelTransaction, Invalid_Transaction) {
 
   EXPECT_EQ(CancelTransaction(NULL), Illegal_argument);
 
 }
+
+/* Teste da função CopyTransaction para uma cópia normal. */
 
 TEST (CopyTransaction, Normal_Copy) {
 
@@ -340,6 +445,11 @@ TEST (CopyTransaction, Normal_Copy) {
 
 }
 
+/*
+  Teste da função CopyTransaction passando ponteiros NULL como endereços de
+  transações (algo inválido).
+ */
+
 TEST (CopyTransaction, Invalid_Copy) {
 
   EXPECT_EQ(CopyTransaction(&new_transaction, NULL), Illegal_argument);
@@ -347,6 +457,8 @@ TEST (CopyTransaction, Invalid_Copy) {
   EXPECT_EQ(CopyTransaction(NULL, NULL), Illegal_argument);
 
 }
+
+/* Teste da função CompareTransactions para transações iguais. */
 
 TEST (CompareTransactions, Equal) {
 
@@ -368,7 +480,7 @@ TEST (CompareTransactions, Equal) {
 }
 
 /*
-  Teste da função CompareTransactions passando um mesmo endereço duas vezes como
+  Teste da função CompareTransactions passando a mesma transação duas vezes como
   argumento.
  */
 
@@ -377,6 +489,11 @@ TEST (CompareTransactions, Same_Argument) {
   EXPECT_EQ(CompareTransactions(&new_transaction, &new_transaction), 0);
 
 }
+
+/*
+  Teste da função CompareTransactions para transações com o primeiro usuário
+  diferente.
+ */
 
 TEST (CompareTransactions, Different_User1) {
 
@@ -399,6 +516,11 @@ TEST (CompareTransactions, Different_User1) {
 
 }
 
+/*
+  Teste da função CompareTransactions para transações com o segundo usuário
+  diferente.
+ */
+
 TEST (CompareTransactions, Different_User2) {
 
   EXPECT_EQ(new_transaction.user1, 171);
@@ -419,6 +541,10 @@ TEST (CompareTransactions, Different_User2) {
   EXPECT_EQ(CompareTransactions(&other, &new_transaction), 1);
 
 }
+
+/*
+  Teste da função CompareTransactions para transações com o estado diferente.
+ */
 
 TEST (CompareTransactions, Different_Status) {
 
@@ -441,6 +567,11 @@ TEST (CompareTransactions, Different_Status) {
 
 }
 
+/*
+  Teste da função CompareTransactions para transações com produtos
+  transacionados diferentes.
+ */
+
 TEST (CompareTransactions, Different_Products) {
 
   EXPECT_EQ(new_transaction.user1, 171);
@@ -462,7 +593,10 @@ TEST (CompareTransactions, Different_Products) {
 
 }
 
-/* Teste da função CompareTransactions passando ponteiros NULL como argumentos. */
+/*
+  Teste da função CompareTransactions passando ponteiros NULL como endereços de
+  transações (algo inválido).
+ */
 
 TEST (CompareTransactions, Null_Pointer) {
 
@@ -471,6 +605,8 @@ TEST (CompareTransactions, Null_Pointer) {
   EXPECT_EQ(CompareTransactions(NULL, NULL), -1);
 
 }
+
+/* Teste da função FinishTransaction para uma transação válida em progresso. */
 
  TEST (FinishTransaction, Normal_Transaction) {
 
@@ -492,6 +628,10 @@ TEST (CompareTransactions, Null_Pointer) {
 
 }
 
+/*
+  Teste da função FinishTransaction passando-se notas inválidas como argumentos.
+ */
+
 TEST (FinishTransaction, Invalid_Grades) {
 
   EXPECT_EQ(StartTransaction(11, &new_product, &new_transaction), Success);
@@ -511,6 +651,8 @@ TEST (FinishTransaction, Invalid_Grades) {
 
 }
 
+/* Teste da função FinishTransaction para uma transação aberta. */
+
 TEST (FinishTransaction, Status_Open) {
 
   EXPECT_EQ(StartTransaction(11, &new_product, &new_transaction), Success);
@@ -524,6 +666,8 @@ TEST (FinishTransaction, Status_Open) {
             Illegal_argument);
 
 }
+
+/* Teste da função FinishTransaction para uma transação cancelada. */
 
 TEST (FinishTransaction, Status_Cancelled) {
 
@@ -540,6 +684,8 @@ TEST (FinishTransaction, Status_Cancelled) {
 
 }
 
+/* Teste da função FinishTransaction para uma transação fechada. */
+
 TEST (FinishTransaction, Status_Closed) {
 
   EXPECT_EQ(StartTransaction(11, &new_product, &new_transaction), Success);
@@ -551,6 +697,11 @@ TEST (FinishTransaction, Status_Closed) {
             Illegal_argument);
 
 }
+
+/*
+  Teste da função FinishTransaction para uma transação em progresso com usuários
+  iguais (algo inválido).
+ */
 
 TEST (FinishTransaction, Invalid_Users) {
 
@@ -568,6 +719,11 @@ TEST (FinishTransaction, Invalid_Users) {
             Illegal_argument);
 
 }
+
+/*
+  Teste da função FinishTransaction para uma transação em progresso com um
+  produto transacionado inválido.
+ */
 
 TEST (FinishTransaction, Invalid_Product) {
 
@@ -587,6 +743,33 @@ TEST (FinishTransaction, Invalid_Product) {
 
 }
 
+/*
+  Teste da função FinishTransaction para uma transação com estado de erro (algo
+  inválido).
+ */
+
+TEST (FinishTransaction, Invalid_Status) {
+
+  EXPECT_EQ(StartTransaction(11, &new_product, &new_transaction), Success);
+  EXPECT_EQ(UpdateTransaction(15, &new_transaction), Success);
+
+  new_transaction.status = Error;
+
+  EXPECT_EQ(new_transaction.user1, 11);
+  EXPECT_EQ(new_transaction.user2, 15);
+  EXPECT_EQ(CompareProducts(&(new_transaction.item), &new_product), 0);
+  EXPECT_EQ(new_transaction.status, Error);
+
+  EXPECT_EQ(FinishTransaction(&new_transaction, 3, 4, review1, review2),
+            Illegal_argument);
+
+}
+
+/*
+  Teste da função FinishTransaction passando ponteiros NULL como endereços de
+  transações (algo inválido).
+ */
+
 TEST (FinishTransaction, Invalid_Transaction) {
 
   EXPECT_EQ(FinishTransaction(NULL, 1, 4, review1, review2), Illegal_argument);
@@ -595,6 +778,62 @@ TEST (FinishTransaction, Invalid_Transaction) {
   EXPECT_EQ(FinishTransaction(&new_transaction, 1, 4, review1, NULL),
                               Illegal_argument);
   EXPECT_EQ(FinishTransaction(NULL, 1, 4, NULL, NULL), Illegal_argument);
+
+}
+
+/* Teste da função ConvertIntToTransactionStatus para o estado Open. */
+
+TEST (ConvertIntToTransactionStatus, Rental) {
+
+  EXPECT_EQ(ConvertIntToTransactionStatus(0, &status), 0);
+  EXPECT_EQ(status, Open);
+
+}
+
+/* Teste da função ConvertIntToTransactionStatus para o estado InProgress. */
+
+TEST (ConvertIntToTransactionStatus, InProgress) {
+
+  EXPECT_EQ(ConvertIntToTransactionStatus(1, &status), 0);
+  EXPECT_EQ(status, InProgress);
+
+}
+
+/* Teste da função ConvertIntToTransactionStatus para o estado Closed. */
+
+TEST (ConvertIntToTransactionStatus, Closed) {
+
+  EXPECT_EQ(ConvertIntToTransactionStatus(2, &status), 0);
+  EXPECT_EQ(status, Closed);
+
+}
+
+/* Teste da função ConvertIntToTransactionStatus para o estado Canceled. */
+
+TEST (ConvertIntToTransactionStatus, Canceled) {
+
+  EXPECT_EQ(ConvertIntToTransactionStatus(3, &status), 0);
+  EXPECT_EQ(status, Canceled);
+
+}
+
+/* Teste da função ConvertIntToTransactionStatus para um estado inválido. */
+
+TEST (ConvertIntToTransactionStatus, Invalid_Status) {
+
+  EXPECT_EQ(ConvertIntToTransactionStatus(56, &status), 0);
+  EXPECT_EQ(status, Error);
+
+}
+
+/*
+  Teste da função ConvertIntToTransactionStatus passando-se um ponteiro NULL
+  como argumento (algo inválido).
+ */
+
+TEST (ConvertIntToTransactionStatus, Invalid_Adress) {
+
+  EXPECT_EQ(ConvertIntToTransactionStatus(0, NULL), -1);
 
 }
 

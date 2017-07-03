@@ -9,7 +9,7 @@ GCOVDIR = ../gcov
 
 LIBS = -lm -lgtest
 
-_DEPS = avaliacao.h error_level.h product.h transaction.h usuarios.h 
+_DEPS = avaliacao.h error_level.h product.h usuarios.h transaction.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
 _OBJ = avaliacao.o grafo.o product.o usuarios.o transaction.o
