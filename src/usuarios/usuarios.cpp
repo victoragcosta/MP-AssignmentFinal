@@ -1,10 +1,11 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <stdarg.h>
-#include "../include/aleatorio.h"
-#include "../include/grafo.h"
-#include "../include/usuarios.h"
+// Módulo de usuários
+
+/**
+ * @file usuarios.c
+ * @brief Implementação do módulo de usuários
+ */
+
+#include "usuarios.h"
 
 /*!
  * @brief Grafo de usuários
@@ -49,20 +50,46 @@ static usuarios_cadastro_argumentos usuarios_args[] = {
 
 
 /*!
- * @brief Função que retorna o identificador máximo de usuário do programa
- * 
- * Serve para mostrar os usuários do programa pois o identificador é 
- * único e ordenado de 1,2,3,...,max
+ * @fn int usuarios_max()
+ * @brief Função que retorna o identificador máximo de usuário do programa. Serve para mostrar os usuários do programa pois o identificador é único e ordenado de 1,2,3,...,max
  *
- * Para mostrar mais dados basta rodar a função usuarios_retornaDados
-*/
+ * @return Retorna o identificador máximo do usuário
+ *
+ * Assertivas de entrada:
+ *  - Existe um grafo de usuários consistente já carregado no módulo
+ *
+ * Assertivas de saída:
+ *  - O grafo de usuários não será afetado com essa leitura
+ *
+ * Assertivas estruturais:
+ *  - Nenhuma
+ * 
+ * Assertivas de contrato:
+ *  - Nenhuma
+ * 
+ * Requisitos:
+ *  - Nenhum
+ *
+ * Hipóteses:
+ *  - Nenhuma
+ *
+ */
 
 int usuarios_max(){
   return usuarios_contador;
 }
 
 /*!
+ * @fn static usuarios_condRet usuarios_verificaRepeticao(const char *argumento, char *dado)
  * @brief Função que verifica se há repetição nos dados
+ * @param argumento Define o tipo de dado a ser verificado no grafo de usuários
+ * @param dado O dado a verificar repetição no grafo de usuários
+ * @return Retorna uma instância usuarios_condRet:
+ *  - USUARIOS_FALHA_GRAFONULL se não houver um grafo de usuários carregado; 
+ *  - USUARIOS_GRAFO_CORROMPIDO se durante o percorrimento for detectado uma contradição na estrutura; 
+ *  - USUARIOS_DADOS_REPETICAO se o dado passado for repetido;
+ *  - USUARIOS_DADOS_OK se não for encontrado nenhum dado desse campo igual no grafo; 
+ *  - USUARIOS_ARGUMENTOINVALIDO se o tipo de argumento passado não for válido
  * 
  * A função busca no grafo de usuários se já há algum usuário com o dado
  * igual ao do argumento passado
@@ -70,11 +97,31 @@ int usuarios_max(){
  * @code
  * usuarios_verificaRepeticao("nome", "João Antônio");
  * @endcode
- * Vai retornar USUARIOS_DADOS_REPETICAO caso já haja um usuário com este nome
- * e USUARIOS_DADOS_OK caso contrário.
  *
  * Observação, a verificação de nome ignora se o caracter é caixa alta ou não
-*/
+ *
+ * Assertivas de entrada:
+ *  - Há um grafo carregado
+ *  - O argumento passado é um desses: "usuario", "email"
+ *
+ * Assertivas de saída:
+ *  - Nenhum dado passado para a função será alterado
+ *  - Nenhum dado global do módulo será alterado
+ *
+ * Assertivas estruturais:
+ *  - Os dados são um strings finalizadas com '\0'
+ * 
+ * Assertivas de contrato:
+ *  - Nenhuma
+ * 
+ * Requisitos:
+ *  - Nenhum
+ *
+ * Hipóteses:
+ *  - Nenhuma
+ * 
+ */
+
 static usuarios_condRet usuarios_verificaRepeticao(const char *argumento, char *dado){
   grafo_no *nodo;
   
@@ -117,14 +164,50 @@ static usuarios_condRet usuarios_verificaRepeticao(const char *argumento, char *
 }
 
 /*!
+ * @fn static int usuarios_condParada_login(tpUsuario *corrente, va_list argumentos)
  * @brief Condição de parada para usuario e senha corretos do login, usado em usuarios_busca
-*/
+ * @param corrente Ponteiro para uma estrutura de tipo de usuário
+ * @param va_list argumentos Lista de argumentos passados na seguinte ordem: string de usuário e string de senha
+ * @return Inteiro não nulo se os usuário e senha de corrente coincidirem com os passados via va_list, inteiro nulo caso contrário
+ *
+ * Assertivas de entrada:
+ *  - corrente deve ser não nulo
+ *  - va_list tem dois argumentos do tipo char *
+ * 
+ * Assertivas de saida:
+ *  - Nenhum dado é alterado
+ *
+ * Assertivas estruturais:
+ *  - Os elementos de tpUsuario usuario e senha são strings finalizadas com '\0'
+ *  - Os argumentos passados via va_list são strings finalizadas com '\0'
+ *
+ * Assertivas de contrato:
+ *  - A função vai retornar verdade quando os dois parâmetros para login de corrente for igual aos parâmetros passados em va_list.
+ *
+ * Requisitos:
+ *  - Biblioteca string.h e stdarg.h
+ *
+ * Hipóteses:
+ *  - Nenhuma
+ *
+ */
+
 static int usuarios_condParada_login(tpUsuario *corrente, va_list argumentos){
   return !strcmp(corrente->usuario, va_arg(argumentos, char *)) && !strcmp(corrente->senha, va_arg(argumentos, char *));
 }
 
 /*!
+ * @fn static usuarios_condRet usuarios_busca(int condParada(tpUsuario *, va_list), tpUsuario **retorno, unsigned int *indice, ...)
  * @brief Função de busca no grafo de usuários dada uma condição de parada condParada
+ * @param condParada uma função que retorne um inteiro e receba como argumentos um ponteiro para tpUsuario e um va_list, deve ser a condição de parada de busca no grafo retornando verdade caso chege-se a um nodo que satisfaz a condição
+ * @param retorno um endereço de um ponteiro para tpUsuario
+ * @param indice um endereço para um inteiro
+ * @param ... os argumentos a serem passados a cada iteração para a função de condição de parada
+ * @return Retorna uma instância usuarios_condRet que assume: 
+ *  - USUARIOS_FALHA_GRAFONULL se o grafo de usuários do módulo for NULL; 
+ *  - USUARIOS_GRAFO_CORROMPIDO se durante o percorrimento do grafo for encontrado uma inconsistência na estrutura; 
+ *  - USUARIOS_SUCESSO caso seja encontrado um nodo que satisfaz a condição passada junto aos argumentos em ...;
+ *  - USUARIOS_FALHA_DADOSINCORRETOS se percorreu todo o grafo e nenhum nodo satisfez a condição.
  * 
  * Recebe uma função de condição de parada, e retorna por referência os dados de usuário e o índice no grafo (identificador)
  * Recebe uma lista de argumentos depois disso exigidos pela função de condição de parada passados
@@ -134,10 +217,31 @@ static int usuarios_condParada_login(tpUsuario *corrente, va_list argumentos){
  * usuarios_busca(usuarios_condParada_login, &retorno, NULL, "joão", "123456");
  * @endcode
  * 
- * Este exemplo encontra no grafo um usuário joão de senha 123456 e retorna por referência a retorno.
- * Retorna por valor a condição de retorno, se for USUARIOS_SUCESSO, significa que a atribuição a retorno foi 
- * feita com sucesso. Se não encontrar retorna USUARIOS_FALHA_DADOSINCORRETOS. É uma função estática do módulo
-*/
+ * Este exemplo encontra no grafo um usuário joão de senha 123456 e retorna por referência a retorno. Retorna por valor a condição de retorno, se for USUARIOS_SUCESSO, significa que a atribuição a retorno foi feita com sucesso. Se não encontrar retorna USUARIOS_FALHA_DADOSINCORRETOS. É uma função estática do módulo
+ *
+ * Assertivas de entrada:
+ *  - O grafo de usuários não é nulo e é consistente
+ *  - Foi passado o número correto de argumentos na elípse dada a condição de parada condParada
+ *
+ * Assertivas de saída:
+ *  - Nenhum nodo do grafo é afetado
+ *  - retorno aponta para o nodo que satisfaz a condição se o retorno da função for USUARIOS_SUCESSO e retorno for não nulo.
+ *  - o valor referenciado por indice contém a posição do nodo no grafo (seu identificador) se o retorno da função for USUARIOS_SUCESSO e indice for não nulo.
+ *
+ * Assertivas estruturais:
+ *  - O grafo do módulo é consistente
+ *
+ * Assertivas de contrato:
+ *  - Nenhuma
+ *
+ * Requisitos:
+ *  - stdarg.h, stdlib.h, string.h, grafo.h
+ * 
+ * Hipóteses:
+ *  - Nenhuma.
+ *
+ */
+
 static usuarios_condRet usuarios_busca(int condParada(tpUsuario *, va_list), tpUsuario **retorno, unsigned int *indice, ...){
   unsigned int i = 0;
   tpUsuario *corrente;
@@ -175,11 +279,35 @@ static usuarios_condRet usuarios_busca(int condParada(tpUsuario *, va_list), tpU
 }
 
 /*!
+ * @fn static void usuarios_lerString(FILE *arquivo, char *dstStr, unsigned int limite)
  * @brief Função leitora de string em um arquivo de dados
+ * @param arquivo O arquivo a ser lido
+ * @param dstStr String já alocada estaticamente que receberá o dado do arquivo
+ * @param limite Um inteiro indicando o limite de caracteres a serem colocados em dstStr sem incluir '\0', portanto dstStr deve ter ao menos limite+1 bytes alocados
+ * @return Não retorna
  * 
  * Lê uma string do arquivo e salva em dstStr previamente alocada,
- * recebe um limite de gravação. É uma função estática
-*/
+ * recebe um limite de gravação. É uma função estática. Lê uma string enquanto o limite não for alcançado, e não for encontrado os caracteres '\t' e '\n'
+ *
+ * Assertivas de entrada:
+ *  - O arquivo já foi aberto com permissões de leitura
+ *  - dstStr foi alocado previamente com pelo menos limite+1 bytes
+ *  - se limite é 0, dstStr tem pelo menos 2 bytes alocados
+ * 
+ * Assertivas de saída:
+ *  - O arquivo não é alterado, mas seu ponteiro de posição é colocado no próximo caractere depois do fim da string, se o próximo caracter for '\t' ou '\n' os pulamos
+ * 
+ * Assertivas de contrato:
+ *  - dstStr será uma string finalizada com '\0' com as informações do arquivo dado o limite a posição inicial no arquivo e os limitadores '\t', '\n' e EOF.
+ *
+ * Requisitos:
+ *  - stdio.h
+ *
+ * Hipóteses:
+ *  - Nenhuma
+ *
+ */
+
 static void usuarios_lerString(FILE *arquivo, char *dstStr, unsigned int limite){
   unsigned int i = 0, espaco = 0;
   char caracter;
@@ -204,8 +332,15 @@ static void usuarios_lerString(FILE *arquivo, char *dstStr, unsigned int limite)
 }
 
 /*!
- * @brief Função carregadora do arquivo 
- * de usuários e suas relações
+ * @fn usuarios_condRet usuarios_carregarArquivo()
+ * @brief Função carregadora do arquivo de usuários e suas relações
+ * @return Uma instância usuarios_condRet que assume: 
+ *  - USUARIOS_SUCESSO se conseguir carregar com sucesso o grafo de usuários a partir do arquivo; 
+ *  - USUARIOS_FALHA_ADICIONAR_GRAFO se falhar em criar um vértice no grafo; 
+ *  - USUARIOS_FALHA_INSERIR_DADOS se falhar em definir os dados tirados do arquivo no vértice que acabou de ser criado; 
+ *  - USUARIOS_DB_CORROMPIDO se ao ler o arquivo de amizades encontrar uma aresta que já existe no grafo; 
+ *  - USUARIOS_FALHA_CRIARAMIZADE se não conseguir criar e definir uma aresta entre dois nós do grafo para representar uma amizade;
+ *  - USUARIOS_FALHA_ALOCAR se não conseguir alocar memória para um nó do grafo.
  *
  * A relação de um usuário com o outro é a relação de amizade, 
  * o grafo é direcionado, assim a relação entre A e B 
@@ -214,9 +349,27 @@ static void usuarios_lerString(FILE *arquivo, char *dstStr, unsigned int limite)
  * Se isso não ocorrer temos a pendencia de uma relação, na qual
  * aguarda-se a confirmação da parte solicitada para criá-la.
  * 
- * Retorna USUARIOS_SUCESSO caso tenha carregado o arquivo corretamente e gerado o grafo de usuário.
- * Deve ser a primeira função a ser carregada para que o módulo funcione.
-*/
+ * Retorna USUARIOS_SUCESSO caso tenha carregado o arquivo corretamente e gerado o grafo de usuário. Deve ser a primeira função a ser carregada para que o módulo funcione.
+ *
+ * Assertivas de entrada:
+ *  - O arquivo indicado por USUARIOS_DB existe e é legível pelo programa, se não existir a função criará um arquivo e fechará com um grafo não nulo mas sem nós.
+ *  - O arquivo indicado por USUARIOS_DB_AMIGOS existe e é legível pelo programa, se não existir mas houverem usuários a função criará um arquivo e fechará com um grafo sem arestas.
+ *
+ * Assertivas de saída:
+ *  - O grafo de usuários é carregado junto as relações entre os nós
+ *  - Haverão arquivos USUARIOS_DB e USUARIOS_DB_AMIGOS
+ *  - Os contadores globais do módulo de usuários usuarios_contador e usuarios_contador_amizades conterão os maiores identificadores de vértices no grafo e arestas no grafo respectivamente.
+ *
+ * Assertivas de contrato:
+ *  - O arquivo deve ter a estrutura indicada por USUARIOS_DB_ESTRUTURA
+ * 
+ * Requisitos:
+ *  - stdio.h, stdlib.h, grafo.h
+ *
+ * Hipóteses:
+ *  - Nenhuma
+ *
+ */
 
 usuarios_condRet usuarios_carregarArquivo(){
   FILE *db_usuarios = fopen(USUARIOS_DB, "r");
@@ -245,27 +398,13 @@ usuarios_condRet usuarios_carregarArquivo(){
   while(!feof(db_usuarios)){
     /* Dados do usuário corrente */
     tpUsuario *corrente = (tpUsuario *)malloc(sizeof(tpUsuario));
+    if(corrente == NULL) {
+      fclose(db_usuarios);
+      return USUARIOS_FALHA_ALOCAR;
+    }
     
     /* Lemos do arquivo */
     fscanf(db_usuarios, "%u%*[^\t]\t", &(corrente->identificador));
-    if(corrente->identificador == 0) break;
-    
-    
-    /*fscanf(db_usuarios, "%4u %20[^\t] %40[^\t]\t%30[^\t]\t%20[^\t]\t%40[^\t]\t%4d%*c%4d%*c%4d%*c%9lf%*c%4u%*c%4u\n", 
-      &(corrente->identificador),
-      corrente->usuario,
-      corrente->nome,
-      corrente->email,
-      corrente->senha,
-      corrente->endereco,
-      (int *)&(corrente->formaPagamento),
-      (int *)&(corrente->tipo),
-      (int *)&(corrente->estado),
-      &(corrente->avaliacao),
-      &(corrente->n_avaliacao),
-      &(corrente->n_reclamacoes)
-    );*/
-    
     if(corrente->identificador == 0) break;
     
     usuarios_lerString(db_usuarios, corrente->usuario, USUARIOS_LIMITE_USUARIO);
@@ -282,21 +421,6 @@ usuarios_condRet usuarios_carregarArquivo(){
       &(corrente->n_avaliacao),
       &(corrente->n_reclamacoes)
     );
-    
-    /*printf("%u|%s|%s|%s|%s|%s|%d|%d|%d|%lf|%u|%u\n", 
-      corrente->identificador,
-      corrente->usuario,
-      corrente->nome,
-      corrente->email,
-      corrente->senha,
-      corrente->endereco,
-      (int)corrente->formaPagamento,
-      (int)corrente->tipo,
-      (int)corrente->estado,
-      corrente->avaliacao,
-      corrente->n_avaliacao,
-      corrente->n_reclamacoes
-    );*/
     
     /* Adicionamos ao grafo */
     if(adiciona_vertice(usuarios_grafo, i) != SUCESSO) {
@@ -362,22 +486,59 @@ usuarios_condRet usuarios_carregarArquivo(){
 }
 
 /*!
+ * @fn usuarios_condRet usuarios_cadastro(int n, ...)
  * @brief Função de cadastro de usuários
+ * @param n=8 como parâmetro (necessário para uso da elipse)
+ * @param (...) Deverá conter 8 pares de argumentos seguindo essa ordem: const char *tipo, dado com dado podendo assumir os tipos char *, usuarios_forma_de_pagamento, usuarios_tipo_usuario
+ * @return Retorna uma instância usuarios_condRet que assume: 
+ *  - USUARIOS_FALHA_GRAFONULL se o grafo de usuários for NULL; 
+ *  - USUARIOS_FALHA_ARGUMENTOSINVALIDOS se n não for 8; 
+ *  - USUARIOS_FALHA_CARACTERESILEGAIS se houver algum caracter inválido nos argumentos passados como '\\t' e '\\n'; 
+ *  - USUARIOS_FALHA_EMAIL_INVALIDO se o email não for válido; 
+ *  - USUARIOS_FALHA_SENHAS_INVALIDAS se as senhas não coincidem; 
+ *  - USUARIOS_USUARIOEXISTE se houver repetição de dados; 
+ *  - USUARIOS_FALHA_ADICIONAR_GRAFO se não conseguir criar um vértice no grafo; 
+ *  - USUARIOS_FALHA_INSERIR_DADOS se não conseguir atribuir valores ao vértice no grafo; 
+ *  - USUARIOS_SUCESSO se tiver criado um vértice com sucesso no grafo e atualizado o arquivo de dados com ele
  * 
- * Recebe como parâmetros nome, endereço, email, senha repetida duas vezes, forma de 
- * pagamento, tipo de usuário da seguinte maneira:
+ * Recebe como parâmetros nome, endereço, email, senha repetida duas vezes, forma de pagamento, tipo de usuário da seguinte maneira:
  * 
  * @code 
  * usuarios_cadastro(8, "usuario", "jose123", "nome", "José Antônio", "email", "joao@antonio.com", "endereco", "Rua Foo Casa Bar", "senha", "123456", "senha_confirmacao", "123456", "formaPagamento", BOLETO, "tipo", CONSUMIDOR);
  * @endcode
  *
- * Assertiva de entrada: o arquivo USUARIOS_DB já existe,
- * isto é a função usuarios_carregarArquivo já foi executada. E devem ser passados o número correto de argumentos
-*/
+ * Assertivas de entrada: 
+ *  - o arquivo USUARIOS_DB já existe, isto é a função usuarios_carregarArquivo já foi executada. 
+ *  - Deve ser passado o número correto de argumentos
+ *  - Todos os argumentos devem ser passados: usuario, nome, email, endereco, senha, senha_confirmacao, formaPagamento e tipo.
+ *
+ * Assertivas de saída:
+ *  - O arquivo de dados de usuário é atualizado com o novo usuário
+ *  - O grafo passa a ter o novo vértice para o usuário
+ *  - Nenhum outro vértice ou aresta do grafo é afetado
+ *  - O usuário é ATIVO imediatamente depois do cadastro
+ *  - O usuário tem um identificador maior que todos os outros no grafo
+ *  - A variável global do módulo usuarios_contador é acrescida de 1
+ *
+ * Assertivas estruturais:
+ *  - O grafo é consistente e não nulo
+ *  - Todas as strings passadas na elipse são terminadas com '\0'
+ *
+ * Assertivas de contrato:
+ *  - A função cria um nó para o usuário no cadastro se atender aos requisitos de validação no cadastro e houver memória para o arquivo de dados e na RAM
+ *
+ * Requisitos:
+ *  - stdarg.h, stdio.h, stdlib.h, grafo.h
+ * 
+ * Hipóteses:
+ *  - Nenhuma.
+ *
+ */
 
 usuarios_condRet usuarios_cadastro(int n, ...){
   FILE *db_usuarios;
   
+  /* Verificamos se o grafo de usuários foi iniciado */
   if(usuarios_grafo == NULL) return USUARIOS_FALHA_GRAFONULL;
   
   /* Retorna USUARIOS_FALHA_ARGUMENTOSINVALIDOS se n for diferente de 8 */
@@ -419,8 +580,6 @@ usuarios_condRet usuarios_cadastro(int n, ...){
   
   va_end(argumentos);
   
-  /* Verificamos se o grafo de usuários foi iniciado */
-  if(usuarios_grafo == NULL) return USUARIOS_FALHA_GRAFONULL;
   
   /* Procuramos por caracteres ilegais, '\n' e '\t' pois são separadores */
   for(j=0;j<usuarios_cadastro_argumentos_n;j++)
@@ -487,22 +646,70 @@ usuarios_condRet usuarios_cadastro(int n, ...){
 }
 
 /*!
+ * @fn int usuarios_sessaoAberta()
  * @brief Função que verifica se há uma sessão aberta
+ * @return Retorna 0 se não tiver e 1 se tiver
  * 
- * Retorna verdade caso haja uma sessão, retorna mentira caso contrário
-*/
+ * Assertivas de entrada:
+ *  - Nenhuma.
+ * 
+ * Assertivas de saída:
+ *  - O retorno será 1 ou 0
+ *
+ * Assertivas estruturais:
+ *  - Nenhuma
+ *
+ * Assertivas de contrato:
+ *  - A função garante que usuarios_sessao é não nulo, indicativo suficiente de que haja sessão ou não. Mas se usuarios_sessao não for consistente com o grafo, esta função não detectará
+ *
+ * Requisitos:
+ *  - Nenhum
+ * 
+ * Hipóteses:
+ *  - usuarios_sessao é consistente com o grafo
+ *
+ */
+
 int usuarios_sessaoAberta(){
   if(usuarios_sessao == NULL) return 0;
   return 1;
 }
 
 /*!
+ * @fn usuarios_condRet usuarios_login(char *usuario, char *senha)
  * @brief Buscamos a conta correspondente ao login e senha passados
+ * @param usuario string finalizada com '\0' indicando o usuário a ser buscado no grafo
+ * @param senha string finalizada com '\0' indicando a senha a ser buscada no grafo
+ * @return Instância usuarios_condRet que assume: 
+ *  - USUARIOS_FALHA_SESSAOABERTA se já houver uma sessão aberta; 
+ *  - USUARIOS_GRAFO_CORROMPIDO se não encontrar o usuário; 
+ *  - USUARIOS_FALHA_INATIVO se o usuário for INATIVO; 
+ *  - USUARIOS_SUCESSO se encontrar e iniciar a sessão com sucesso.
  * 
- * Recebe as strings usuário e senha
-*/
-usuarios_condRet usuarios_login(char* usuario, char* senha) {
+ * Recebe as strings usuário e senha, se ambos coincidirem para um nó, esse nó passa ser o nó da sessão
+ *
+ * Assertivas de entrada:
+ *  - O grafo foi carregado e é consistente
+ * 
+ * Assertivas de saída:
+ *  - O grafo não será alterado
+ *  - Haverá sessão se e só se os dados coincidirem
+ *
+ * Assertivas estruturais:
+ *  - Usuario e senha terminam com '\0' e não excedem o limite de cada um definido em usuarios.h
+ *
+ * Assertivas de contrato:
+ *  - Nenhuma.
+ *
+ * Requisitos:
+ *  - grafo.h
+ *
+ * Hipóteses:
+ *  - Nenhuma
+ *
+ */
 
+usuarios_condRet usuarios_login(char *usuario, char *senha){
   tpUsuario *corrente;
   usuarios_condRet busca;
   unsigned int posicao;
@@ -522,10 +729,31 @@ usuarios_condRet usuarios_login(char* usuario, char* senha) {
 }
 
 /*!
+ * @fn usuarios_condRet usuarios_logout()
  * @brief Função de logout
+ * @retorno Sempre retorna USUARIOS_SUCESSO
  * 
  * Finaliza a sessão aberta
-*/
+ *
+ * Assertivas de entrada:
+ *  - Nenhuma
+ * 
+ * Assertivas de saída:
+ *  - o global do módulo usuarios_sessao é NULL
+ *
+ * Assertivas de contrato:
+ *  - Nenhuma
+ *
+ * Assertivas estruturais:
+ *  - Nenhuma
+ * 
+ * Requisitos:
+ *  - Nenhum
+ * 
+ * Hipóteses:
+ *  - Nenhuma
+ *
+ */
 
 usuarios_condRet usuarios_logout(){
   usuarios_sessao = NULL;
@@ -533,25 +761,38 @@ usuarios_condRet usuarios_logout(){
 }
 
 /*!
+ * @fn usuarios_relacao usuarios_verificarAmizade(unsigned int identificador)
  * @brief Função verifica um usuário é amigo do usuário na sessão
- * 
- * Assertiva de entrada, há uma sessão aberta
- * 
- * Recebe o identificador do usuário a ser verificada a relação de amizade com 
- * o usuário da sessão
+ * @param identificador Um inteiro positivo que represete o id de um usuário no grafo.
+ * @return Retorna usuarios_relacao, podendo ser ERRO, AMIGOS, NENHUMA, ACONFIRMAR ou AGUARDANDOCONFIRMACAO. 
+ *  - ERRO, caso algum erro ocorra, como a assertiva de entrada não ser respeitada; AMIGOS, se forem amigos; 
+ *  - NENHUMA, se não existir relação direta entre eles; 
+ *  - ACONFIRMAR, se o usuário pesquisado não tiver confirmado a amizade; 
+ *  - AGUARDANDOCONFIRMACAO, se o usuário da sessão estiver por aceitar a amizade ou não.
  *
- * Retorna usuarios_sessao, podendo ser ERRO, AMIGOS, NENHUMA, ACONFIRMAR ou AGUARDANDOCONFIRMACAO
+ * Recebe o identificador do usuário a ser verificada a relação de amizade com o usuário da sessão
  * 
- * ERRO, caso algum erro ocorra, como a assertiva de entrada não ser respeitada
+ * Assertivas de entrada:
+ *  - Há uma sessão aberta
+ *  - o identificador refere-se a um nó no grafo
  * 
- * AMIGOS, se forem amigos
+ * Assertivas de saída:
+ *  - O grafo não é alterado
+ *
+ * Assertivas estruturais:
+ *  - Nenhuma
+ *
+ * Assertivas de contrato:
+ *  - Nenhuma
  * 
- * NENHUMA, se não existir relação entre eles
+ * Requisitos:
+ *  - grafo.h
+ *
+ * Hipóteses:
+ *  - O usuário é ATIVO
  * 
- * ACONFIRMAR, se o usuário pesquisado não tiver confirmado a amizade
- * 
- * AGUARDANDOCONFIRMACAO, se o usuário da sessão estiver por aceitar a amizade ou não
-*/
+ */
+
 usuarios_relacao usuarios_verificarAmizade(unsigned int identificador){
   grafo_arco *A, *B;
   
@@ -573,14 +814,48 @@ usuarios_relacao usuarios_verificarAmizade(unsigned int identificador){
   
 }
 
+
 /*!
- * @brief Função que cria parte de uma relação de amizade na sesão iniciada para algum
- * outro cliente
+ * @fn usuarios_condRet usuarios_criarAmizade(unsigned int identificador)
+ * @brief Função que cria parte de uma relação de amizade na sesão iniciada para algum outro cliente
+ * @param identificador Um inteiro positivo que represete o id de um usuário no grafo.
+ * @return Retorna uma instância usuarios_condRet que assume:
+ * - USUARIOS_FALHA_GRAFONULL se o grafo de usuários for NULL
+ * - USUARIOS_FALHA_SESSAONULA se não houver sessão
+ * - USUARIOS_AMIZADEINVALIDA se o identificador passado for o mesmo da sessão
+ * - USUARIOS_GRAFO_CORROMPIDO se o grafo estiver inconsistente
+ * - USUARIOS_AMIZADEJASOLICITADA se a aresta na direção SESSÃO -> identificador já existir
+ * - USUARIOS_FALHA_CRIARAMIZADE se não conseguir criar uma aresta ou não conseguir definir um valor para ela
+ * - USUARIOS_FALHAUSUARIONAOEXISTE se o usuário passado inexiste
+ * - USUARIOS_SUCESSO se gravou no arquivo e salvou no grafo uma aresta que vai da SESSAO para identificador representando um lado da relação.
  *
  * Deve receber o identificador do amigo pretendido
  * 
- * Retorna USUARIOS_SUCESSO se não houver falhas
-*/
+ * Assertivas de entrada:
+ *  - O identificador representa um nó do grafo
+ *  - O identificador não é igual ao identificador da sessão
+ *  - Há uma sessão aberta
+ *  - O programa tem permissão de a+ sobre o arquivo de amizades definido em USUARIOS_DB_AMIGOS
+ *
+ * Assertivas de saída:
+ *  - Haverá uma aresta entre o nó da sessão e o nó identificado pelo identificador
+ *  - Nenhum dado de usuário é alterado
+ *  - O arquivo de amizades USUARIOS_DB_AMIGOS terá a relação entre os nós
+ * 
+ * Assertivas estruturais:
+ *  - O grafo é consistente
+ *
+ * Assertivas de contrato:
+ *  - Nenhuma
+ *
+ * Requisitos:
+ *  - grafo.h
+ *
+ * Hipóteses:
+ *  - identificador se refere a um usuário ATIVO
+ *
+ */
+
 usuarios_condRet usuarios_criarAmizade(unsigned int identificador){
   FILE *db_amigos;
   grafo_no *nodo;
@@ -628,10 +903,44 @@ usuarios_condRet usuarios_criarAmizade(unsigned int identificador){
 }
 
 /*!
+ * @fn usuarios_condRet usuarios_removerAmizade(unsigned int identificador_A, unsigned int identificador_B)
  * @brief Função que remove uma relação de amizade
- * 
+ * @param identificador_A id de um nó no grafo, se for 0 do nó da sessão
+ * @param identificador_B id de um outro nó no grafo
+ * @return Retorna uma instância usuarios_condRet que assume:
+ *  - USUARIOS_FALHA_GRAFONULL se o grafo for NULL;
+ *  - USUARIOS_FALHA_SESSAONULA se passou 0 em identificador_A e não há sessão aberta;
+ *  - USUARIOS_FALHA_DADOSINCORRETOS se não consegue carregar o usuário da sessão;
+ *  - USUARIOS_FALHA_LERDB se falha ao ler com permissão de atualização USUARIOS_DB_AMIGOS ("r+")
+ *  - USUARIOS_FALHA_REMOVER_AMIZADE se não conseguir remover as arestas no grafo
+ *  - USUARIOS_SUCESSO se tiver atualizado o arquivo de amizades e deletado as arestas do grafo
+ *
  * Recebe os identificadores dos usuários A e B, se A for 0 assume que é da sessão
-*/
+ *
+ * Assertivas de entrada:
+ *  - os identificadores passados são nós diferentes no grafo
+ *  - o grafo foi carregado
+ *  - se identificador_A é 0, há sessão aberta
+ *  - o arquivo USUARIOS_DB_AMIGOS existe e o programa pode usá-lo com permissão "r+"
+ * 
+ * Assertivas de saída:
+ *  - Não haverá arcos indo na direção de A até B nem de B até A
+ *  - No arquivo USUARIOS_DB_AMIGOS os registros referentes aos arcos serão sobrescritos com 0.
+ *
+ * Assertivas estruturais:
+ *  - O grafo é consistente
+ *
+ * Assertivas de contrato:
+ *  - Nenhuma
+ *
+ * Requisitos:
+ *  - grafo.h, stdio.h
+ *
+ * Hipóteses:
+ *  - Nenhuma
+ *
+ */
+
 usuarios_condRet usuarios_removerAmizade(unsigned int identificador_A, unsigned int identificador_B){
   int valorAresta;
   FILE *db_amigos;
@@ -681,27 +990,59 @@ usuarios_condRet usuarios_removerAmizade(unsigned int identificador_A, unsigned 
 }
 
 /*!
+ * @fn usuarios_condRet usuarios_retornaDados(unsigned int identificador, const char *nomeDado, void *retorno)
  * @brief Retorna os dados do usuário do identificador passado
+ * @param identificador Identificador do nó a buscar o dado, se for 0 usa-se o nó da sessão
+ * @param nomeDado o dado a ser buscado. Valores válidos: "identificador", "usuario", "nome", "senha", "email", "endereco", 
+ * "formaPagamento", "tipo", "estado", "avaliacao", "n_avaliacao", "n_reclamacoes"
+ * @param retorno Retorno por referência do dado pretendido, deve ser feito casting para void *
+ * @return Instância usuarios_condRet que assume:
+ *  - USUARIOS_FALHA_GRAFONULL se o grafo for NULL;
+ *  - USUARIOS_GRAFO_CORROMPIDO se o nó relativo ao id for NULL;
+ *  - USUARIOS_SUCESSO se conseguir passar por referência o dado pretendido ou se o argumento passado for inválido;
  *
  * Se identificador for zero, retornamos os dados da sessão
  * 
  * Retorna o dado por referência, recebe uma string com o dado a ser buscado
  * 
  * @code
+ * char string_nome[USUARIOS_LIMITE_NOME];
  * usuarios_retornaDados(0, "nome", (void *)string_nome);
  * @endcode
  * 
- * Retorna o nome do usuário da sessão e salva em string_nome
+ * @code
+ * usuarios_estado_de_usuario estado;
+ * usuarios_retornaDados(0, "estado", (void *)&estado);
+ * @endcode
  * 
- * Argumentos válidos: "identificador", "usuario", "nome", "senha", "email", "endereco", 
- * "formaPagamento", "tipo", "estado", "avaliacao", "n_avaliacao", "n_reclamacoes"
-*/
+ * Assertivas de entrada:
+ *  - O grafo é consistente e não nulo
+ *  - O identificador refere-se a um nó do grafo ou, se for 0, há uma sessão aberta
+ *  - nomeDado é uma string válida
+ *  - retorno é um ponteiro para void 
+ *  - Se retorno for um ponteiro para string, essa string já está alocada como limite associado a ela corretamente.
+ * 
+ * Assertivas de saída:
+ *  - O grafo não é alterado
+ *  - Se o retorno for string, essa string será uma cópia dos dados no grafo, não um ponteiro para eles
+ *
+ * Assertivas estruturais:
+ *  - nomeDado termina com '\0'
+ *
+ * Assertivas de contrato:
+ *  - Nenhuma.
+ *
+ * Requisitos:
+ *  - stdlib.h, string.h
+ *
+ * Hipóteses:
+ *  - Nenhuma
+ */
+ 
 usuarios_condRet usuarios_retornaDados(unsigned int identificador, const char *nomeDado, void *retorno) {
   unsigned int i = 0;
   tpUsuario *dados;
     
-  printf("teste: %d\n", identificador);
-
   if(usuarios_grafo == NULL) return USUARIOS_FALHA_GRAFONULL;
   
   /* Pegamos o nodo com o identificador passado */
@@ -740,9 +1081,16 @@ usuarios_condRet usuarios_retornaDados(unsigned int identificador, const char *n
 }
 
 /*!
+ * @fn usuarios_condRet usuarios_atualizarDados(unsigned int identificador, const char *nomeDado, ...)
  * @brief Atualiza dados do usuário de identificador passado
- *
- * Se identificador for zero, altera os dados da sessão
+ * @param identificador Id do usuário no grafo a alterar um dado, se for 0 assume-se da sessão
+ * @param nomeDado o dado a ser alterado, pode ser: "identificador", "usuario", "nome", "senha", "email", "endereco", "formaPagamento", "tipo", "estado", "avaliacao", "n_avaliacao", "n_reclamacoes".
+ * @param (...) Um argumento de tipo char *, usuarios_forma_de_pagamento, usuarios_tipo_usuario, usuarios_estado_de_usuario, double ou unsigned int
+ * @return Uma instância do tipo usuarios_condRet que assume:
+ *  - USUARIOS_FALHA_GRAFONULL se o grafo for NULL;
+ *  - USUARIOS_GRAFO_CORROMPIDO se o nodo associado ao id for NULL;
+ *  - USUARIOS_FALHA_LERDB se não consegue abrir o banco de dados de usuários USUARIOS_DB como "r+";
+ *  - USUARIOS_SUCESSO se atualizar no grafo e no arquivo a alteração pretendida ou se o nomeDado não for válido;
  *  
  * @code
  * usuarios_atualizarDados(0, "nome", "João Ninguém");
@@ -754,9 +1102,31 @@ usuarios_condRet usuarios_retornaDados(unsigned int identificador, const char *n
  * usuarios_atualizarDados(0, "estado", INATIVO_ABUSO);
  * @endcode
  * 
- * Argumentos válidos: "identificador", "usuario", "nome", "senha", "email", "endereco", 
- * "formaPagamento", "tipo", "estado", "avaliacao", "n_avaliacao", "n_reclamacoes"
-*/
+ * Assertivas de entrada:
+ *  - O grafo é consistente e não nulo
+ *  - Se identificador é 0, há sessão
+ *  - É passado exatamente 1 argumento na elípse (...)
+ *  - nomeDado é válido
+ *  - Há permissões para abrir o arquivo USUARIOS_DB como "r+"
+ *
+ * Assertivas de saída:
+ *  - O dado pretendido é atualizado no grafo e no arquivo respeitando os limites do campo
+ *  - Nenhum outro dado é alterado
+ * 
+ *  Assertivas estruturais:
+ *  - String passadas na elipse terminam com '\0' e respeitam o limite dos campos
+ * 
+ * Assertivas de contrato:
+ *  - Os dados no grafo e no arquivo a serem alterados serão alterados usando os dados passados pelos parâmetros
+ *
+ * Requisitos:
+ *  - grafo.h, string.h, stdlib.h, stdio.h 
+ *
+ * Hipóteses:
+ *  - Nenhuma
+ * 
+ */
+ 
 usuarios_condRet usuarios_atualizarDados(unsigned int identificador, const char *nomeDado, ...){
   unsigned int i;
   tpUsuario *corrente;
@@ -842,10 +1212,33 @@ usuarios_condRet usuarios_atualizarDados(unsigned int identificador, const char 
 }
 
 /*!
+ * @fn usuarios_condRet usuarios_limpar()
  * @brief Apaga o grafo de usuários da memória e faz logout na sessão aberta
+ * @return Retorna uma instância do tipo usuarios_condRet que assume:
+ *  - USUARIOS_FALHA_FECHARSESSAO se não conseguir fazer logout na sessão se houver sessão aberta;
+ *  - USUARIOS_FALHA_LIMPAR se não conseguir destruir o grafo da memória.
+ *  - Retorna USUARIOS_SUCESSO se não ocorrerem erros.
+ *
+ * Assertivas de entrada:
+ *  - Nenhuma
+ *
+ * Assertivas de saída:
+ *  - Não haverá mais grafo nem sessão
+ *
+ * Assertivas estruturais:
+ *  - O grafo é consistente
  * 
- * Retorna USUARIOS_SUCESSO se não ocorrerem erros.
-*/
+ * Assertivas de contrato:
+ *  - Nenhuma
+ * 
+ * Requisitos:
+ *  - grafo.h
+ *
+ * Hipóteses:
+ *  - Nenhuma
+ * 
+ */
+ 
 usuarios_condRet usuarios_limpar(){
   /* Fechamos qualquer sessão aberta */
   if(usuarios_logout() != USUARIOS_SUCESSO) return USUARIOS_FALHA_FECHARSESSAO;
@@ -856,11 +1249,10 @@ usuarios_condRet usuarios_limpar(){
 }
 
 /*!
- * @brief Função que retorna uma lista de identificadores dos amigos
- * do usuário passado pretendido, se o identificador for 0, retorna da sessão
- *
- * Retorna por referência um array de unsigned int
- * positivo (usuarios_uintarray). O array deve ser alocado estaticamente:
+ * @fn usuarios_condRet usuarios_listarAmigos(unsigned int identificador, usuarios_uintarray *retorno)
+ * @brief Função que retorna uma lista de identificadores dos amigos do usuário passado pretendido, se o identificador for 0, usa a sessão
+ * @param identificador Id do usuário a buscar amigos, se for 0 usa a sessão
+ * @param retorno Lista de amigos a ser passada por referência e alocada na função. A cabeça do array deve ser alocada estaticamente:
  * 
  * @code
  * usuarios_uintarray array;
@@ -868,7 +1260,36 @@ usuarios_condRet usuarios_limpar(){
  * @endcode
  * 
  * Vai compor o array com os identificadores dos amigos.
-*/
+ *
+ * Deve-se liberar o array quando não mais usado usando usuarios_freeUint.
+ *
+ * @return A função retorna uma instância que assume:
+ *  - USUARIOS_FALHA_ACESSORESTRITO se o usuário do identificador for NULL;
+ *  - USUARIOS_SUCESSO se gerar o array com sucesso.
+ *
+ * Assertivas de entrada:
+ *  - identificador é um nó do grafo
+ *  - o grafo já foi carregado e é consistente
+ *  - a cabeça array já foi alocada estaticamente
+ *
+ * Assertivas de saída:
+ *  - O array conterá o número de amigos e os identificadores dos amigos do usuário passado no parâmetro
+ *  - O grafo não é afetado
+ * 
+ * Assertivas estruturais:
+ *  - o retorno é o endereço da cabeça de um usuarios_uintarray já alocado anteriormente
+ *
+ * Assertivas de contrato:
+ *  - Nenhuma
+ *
+ * Requisitos:
+ *  - grafo.h, stdlib.h
+ *
+ * Hipóteses:
+ *  - Nenhuma
+ * 
+ */
+
 usuarios_condRet usuarios_listarAmigos(unsigned int identificador, usuarios_uintarray *retorno) {
   tpUsuario *usuario;
   grafo_lista_no *listaVizinhos, *tmp;
@@ -902,19 +1323,47 @@ usuarios_condRet usuarios_listarAmigos(unsigned int identificador, usuarios_uint
 }
 
 /*!
- * @brief Função que retorna uma lista de identificadores de usuários que solicitaram amizade
- * ao usuário da sessão
- *
- * Retorna por referência um array de unsigned int
- * positivo (usuarios_uintarray). O array deve ser alocado estaticamente:
+ * @fn usuarios_condRet usuarios_listarAmigosPendentes(unsigned int identificador, usuarios_uintarray *retorno)
+ * @brief Função que retorna uma lista de identificadores dos amigos pendentes do usuário passado pretendido, se o identificador for 0, usa a sessão
+ * @param identificador Id do usuário a buscar amigos pendentes, se for 0 usa a sessão
+ * @param retorno Lista de amigos pendentes a ser passada por referência e alocada na função. A cabeça do array deve ser alocada estaticamente:
  * 
  * @code
  * usuarios_uintarray array;
  * usuarios_listarAmigosPendentes(0, &array);
  * @endcode
  * 
- * Vai compor o array com os identificadores dos amigos.
-*/
+ * Vai compor o array com os identificadores dos amigos pendentes.
+ *
+ * Deve-se liberar o array quando não mais usado usando usuarios_freeUint.
+ *
+ * @return A função retorna uma instância que assume:
+ *  - USUARIOS_FALHA_ACESSORESTRITO se o usuário do identificador for NULL;
+ *  - USUARIOS_SUCESSO se gerar o array com sucesso.
+ *
+ * Assertivas de entrada:
+ *  - identificador é um nó do grafo
+ *  - o grafo já foi carregado e é consistente
+ *  - a cabeça array já foi alocada estaticamente
+ *
+ * Assertivas de saída:
+ *  - O array conterá o número de amigos pendentes e os identificadores dos amigos pendentes do usuário passado no parâmetro
+ *  - O grafo não é afetado
+ * 
+ * Assertivas estruturais:
+ *  - o retorno é o endereço da cabeça de um usuarios_uintarray já alocado anteriormente
+ *
+ * Assertivas de contrato:
+ *  - Nenhuma
+ *
+ * Requisitos:
+ *  - grafo.h, stdlib.h
+ *
+ * Hipóteses:
+ *  - Nenhuma
+ * 
+ */
+
 usuarios_condRet usuarios_listarAmigosPendentes(unsigned int identificador, usuarios_uintarray *retorno) {
   tpUsuario *corrente;
   unsigned int i;
@@ -952,9 +1401,47 @@ usuarios_condRet usuarios_listarAmigosPendentes(unsigned int identificador, usua
 }
 
 /*!
+ * @fn usuarios_condRet usuarios_listarAmigosdeAmigos(unsigned int identificador, usuarios_uintarray *retorno)
  * @brief Função que lista os amigos de amigos (excluíndo amigos)
+ * @param identificador Id do usuário a buscar amigos de amigos, se for 0 usa a sessão
+ * @param retorno Lista de amigos pendentes a ser passada por referência e alocada na função. A cabeça do array deve ser alocada estaticamente:
+ * 
+ * @code
+ * usuarios_uintarray array;
+ * usuarios_listarAmigosdeAmigos(0, &array);
+ * @endcode
+ * 
+ * Vai compor o array com os identificadores dos amigos de amigos.
  *
-*/
+ * Deve-se liberar o array quando não mais usado usando usuarios_freeUint.
+ *
+ * @return A função retorna uma instância que assume:
+ *  - USUARIOS_FALHA_ACESSORESTRITO se o usuário do identificador for NULL;
+ *  - USUARIOS_SUCESSO se gerar o array com sucesso.
+ *
+ * Assertivas de entrada:
+ *  - identificador é um nó do grafo
+ *  - o grafo já foi carregado e é consistente
+ *  - a cabeça array já foi alocada estaticamente
+ *
+ * Assertivas de saída:
+ *  - O array conterá o número de amigos de amigos e os identificadores dos amigos de amigos do usuário passado no parâmetro
+ *  - O grafo não é afetado
+ * 
+ * Assertivas estruturais:
+ *  - o retorno é o endereço da cabeça de um usuarios_uintarray já alocado anteriormente
+ *
+ * Assertivas de contrato:
+ *  - Nenhuma
+ *
+ * Requisitos:
+ *  - grafo.h, stdlib.h
+ *
+ * Hipóteses:
+ *  - Nenhuma
+ * 
+ */
+
 usuarios_condRet usuarios_listarAmigosdeAmigos(unsigned int identificador, usuarios_uintarray *retorno){
   usuarios_uintarray amigos, amigosdeamigos;
   unsigned int i,j,k;
@@ -995,10 +1482,34 @@ usuarios_condRet usuarios_listarAmigosdeAmigos(unsigned int identificador, usuar
 }
 
 /*!
- * @brief Função que desaloca memória de usuarios_uintarray
+ * @fn usuarios_condRet usuarios_freeUint(usuarios_uintarray *vetor)
+ * @brief Função que desaloca memória de um usuarios_uintarray
+ * @param vetor A cabeça do vetor usuarios_uintarray a ser desalocado
+ * @return Retorna uma instância usuarios_condRet que assume:
+ *  - USUARIOS_SUCESSO
  * 
  * Recebe o endereço de usuarios_uintarray
-*/
+ *
+ * Assertivas de entrada:
+ *  - vetor não é NULL
+ *
+ * Assertivas de saída:
+ *  - vetor->array será NULL e vetor->length será 0;
+ *  - os dados em vetor->array serão perdidos e a memória liberada;
+ *
+ * Assertivas estruturais:
+ *  - Nenhuma
+ * 
+ * Assertivas de contrato:
+ *  - Nenhuma
+ *
+ * Requisitos:
+ *  - stdlib.h
+ *
+ * Hipóteses:
+ *  - Nenhuma
+ */
+
 usuarios_condRet usuarios_freeUint(usuarios_uintarray *vetor){
   if(vetor->array != NULL) free(vetor->array);
   vetor->array = NULL;
