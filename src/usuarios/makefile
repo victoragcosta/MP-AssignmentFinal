@@ -17,7 +17,7 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 _TEST = teste_usuarios.o
 TEST = $(patsubst %,$(TDIR)/%,$(_TEST))
 
-$(ODIR)/grafo.o: $(GRAFOSDIR)/grafo.c $(DEPS)
+$(ODIR)/grafo.o: $(GRAFOSDIR)/grafo.cpp $(DEPS)
 	cppcheck --enable=warning $<
 	$(CC) -c -o $@ $< $(CFLAGS)
 
