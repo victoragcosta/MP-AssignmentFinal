@@ -16,16 +16,12 @@
 #include "product.h"
 #include "valid_index.h"
 
-<<<<<<< HEAD
-#define PRODUCT_DB "../db/products.txt"
-=======
 /**
  * @def PRODUCT_DB
  * @brief Caminho ao banco de dados dos produtos.
  */
-
 #define PRODUCT_DB "../../db/products.txt"
->>>>>>> master
+
 
 /**
  * @typedef productList

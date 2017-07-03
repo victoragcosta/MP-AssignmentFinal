@@ -11,14 +11,14 @@ _DEPS = valid_index.h
 DEPS = $(patsubst %,$(IDIR)/%,$(_DEPS))
 
 make:
-	$(CC) -c valid_index.c $(CFLAGS) $(LIBS)
+	$(CC) -c valid_index.cpp $(CFLAGS) $(LIBS)
 	mv valid_index.o $(ODIR)
 
 .PHONY: my_gcov
 
 mv_gcov:
 	cp $(DEPS) $(GCOVDIR)
-	cp *.c $(GCOVDIR)
+	cp *.cpp $(GCOVDIR)
 	mv *.gcda $(GCOVDIR)
 	mv *.gcno $(GCOVDIR)
 	mv $(ODIR)/*.gcda $(GCOVDIR)
@@ -27,4 +27,4 @@ mv_gcov:
 .PHONY: clean
 
 clean:
-	rm $(ODIR)/valid_index.o
+	rm $(ODIR)/valid_index.o *.gcno *.gcda

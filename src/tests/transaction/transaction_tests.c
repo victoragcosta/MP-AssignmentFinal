@@ -689,7 +689,7 @@ TEST (FinishTransaction, Status_Cancelled) {
 TEST (FinishTransaction, Status_Closed) {
 
   EXPECT_EQ(StartTransaction(11, &new_product, &new_transaction), Success);
-  EXPECT_EQ(UpdateTransaction(15, &new_transaction), Success);
+  EXPECT_EQ(UpdateTransaction(13, &new_transaction), Success);
   EXPECT_EQ(FinishTransaction(&new_transaction, 3, 4, review1, review2),
             Success);
 

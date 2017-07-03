@@ -16,19 +16,15 @@
 #include "error_level.h"
 #include "product.h"
 #include "transaction.h"
-#include "usuarios.h"
 #include "valid_index.h"
 
-<<<<<<< HEAD
-#define TRANSACTION_DB "../db/transactions.txt"
-=======
+
 /**
  * @def TRANSACTION_DB
  * @brief Caminho ao banco de dados das transações.
  */
 
 #define TRANSACTION_DB "../../db/transactions.txt"
->>>>>>> master
 
 /**
  * @enum relationship

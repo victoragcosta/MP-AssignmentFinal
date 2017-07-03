@@ -18,24 +18,24 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 _TEST = product_search_tests.o
 TEST = $(patsubst %,$(TDIR)/%,$(_TEST))
 
-$(ODIR)/%.o: %.c $(DEPS)
+$(ODIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
-$(TDIR)/%.o: %.c $(DEPS)
+$(TDIR)/%.o: %.cpp $(DEPS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 search_tests: $(OBJ) $(TEST)
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
 
 verify_tests:
-	cppcheck ./product_search.c ./search_tests --enable=all
+	cppcheck ./product_search.cpp ./search_tests --enable=all
 	valgrind --leak-check=full ./search_tests
 
 .PHONY: my_gcov
 
 mv_gcov:
 	cp $(DEPS) $(GCOVDIR)
-	cp *.c $(GCOVDIR)
+	cp *.cpp $(GCOVDIR)
 	mv $(TDIR)/*.gcda $(GCOVDIR)
 	mv $(TDIR)/*.gcno $(GCOVDIR)
 	mv $(ODIR)/*.gcda $(GCOVDIR)
@@ -44,4 +44,5 @@ mv_gcov:
 .PHONY: clean
 
 clean:
-	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~
+	rm -f $(ODIR)/*.o *~ core $(INCDIR)/*~ $(TDIR)/*.gcda $(TDIR)/*.gcno $(TDIR)/*.o $(ODIR)/*.o
+	rm search_tests

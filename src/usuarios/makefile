@@ -17,10 +17,6 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 _TEST = teste_usuarios.o
 TEST = $(patsubst %,$(TDIR)/%,$(_TEST))
 
-$(ODIR)/grafo.o: $(GRAFOSDIR)/grafo.cpp $(DEPS)
-	cppcheck --enable=warning $<
-	$(CC) -c -o $@ $< $(CFLAGS)
-
 $(ODIR)/%.o: %.cpp $(DEPS)
 	cppcheck --enable=warning $<
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -28,7 +24,6 @@ $(ODIR)/%.o: %.cpp $(DEPS)
 $(TDIR)/%.o: %.cpp $(DEPS)
 	cppcheck --enable=warning $<
 	$(CC) -c -o $@ $< 
-
 
 testes_usuarios: $(OBJ) $(TEST) $(ODIR)/grafo.o
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)

@@ -17,14 +17,6 @@ OBJ = $(patsubst %,$(ODIR)/%,$(_OBJ))
 _TEST = teste_avaliacao.o
 TEST = $(patsubst %,$(TDIR)/%,$(_TEST))
 
-$(ODIR)/grafo.o: $(GRAFOSDIR)/grafo.cpp $(DEPS)
-	cppcheck --enable=warning $<
-	$(CC) -c -o $@ $< $(CFLAGS)
-
-$(ODIR)/usuarios.o: ../usuarios/usuarios.cpp $(DEPS)
-	cppcheck --enable=warning $<
-	$(CC) -c -o $@ $< $(CFLAGS)
-
 $(ODIR)/%.o: %.cpp $(DEPS)
 	cppcheck --enable=warning $<
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -32,7 +24,6 @@ $(ODIR)/%.o: %.cpp $(DEPS)
 $(TDIR)/%.o: %.cpp $(DEPS)
 	cppcheck --enable=warning $<
 	$(CC) -c -o $@ $<
-
 
 testes_avaliacao: $(OBJ) $(TEST) $(ODIR)/grafo.o
 	$(CC) -o $@ $^ $(CFLAGS) $(LIBS)
@@ -48,3 +39,4 @@ gcov:
 
 clean:
 	rm -f $(ODIR)/*.gcda $(ODIR)/*.gcno $(GCOVDIR)/* $(TDIR)/*.gcda $(TDIR)/*.gcno $(TDIR)/*.o $(ODIR)/*.o *.o testes_usuarios core $(INCDIR)/*~
+	rm testes_avaliacao
