@@ -11,7 +11,7 @@
  * ID AVALIADOR | ID AVALIADO | NOTA | COMENTÁRIO
 */
 
-#define AVALIACAO_DB "../../db/avaliacao.txt"
+#define AVALIACAO_DB "../db/avaliacao.txt"
 #define AVALIACAO_DB_ESTRUTURA "%-4u\t%-4u\t%-4u\t%-200s\n"
 #define AVALIACAO_LIMITE_INT 4
 #define AVALIACAO_LIMITE_COMENTARIO 200
