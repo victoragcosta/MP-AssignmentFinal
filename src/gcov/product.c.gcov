@@ -2,7 +2,7 @@
         -:    0:Graph:product.gcno
         -:    0:Data:product.gcda
         -:    0:Runs:2
-        -:    0:Programs:1
+        -:    0:Programs:2
         -:    0:Source is newer than graph
         -:    1:// Módulo de produtos.
         -:    2:
@@ -49,81 +49,81 @@
         -:   43: *
         -:   44: * Hipóteses:
         -:   45: *  Nenhuma.
-        -:   46: *
-        -:   47: */
-        -:   48:
-        8:   49:errorLevel CopyProduct(product *copy, product *original) {
-        -:   50:
-        8:   51:  if(copy == NULL || original == NULL)
-        4:   52:    return Illegal_argument;
-        -:   53:
-        4:   54:  strcpy(copy->name, original->name);
-        4:   55:  copy->type = original->type;
-        4:   56:  copy->price = original->price;
-        4:   57:  copy->popularity = original->popularity;
-        -:   58:
-        4:   59:  return Success;
-        -:   60:
-        -:   61:}
-        -:   62:
-        -:   63:/**
-        -:   64: * @fn errorLevel CreateProduct(char name[75], productType type, double price,
-        -:   65: * int popularity, product *new_product)
-        -:   66: * @brief Função que cria um produto.
-        -:   67: * @param name Nome do produto a ser criado.
-        -:   68: * @param type Tipo do produto a ser criado.
-        -:   69: * @param price Preço do produto a ser criado.
-        -:   70: * @param popularity Popularidade do produto a ser criado.
-        -:   71: * @param new_product Endereço da estrutura de dados onde o produto será
-        -:   72: * criado. Argumento passado por referência.
-        -:   73: * @return A função retorna uma instância do tipo errorLevel: Success caso o
-        -:   74: * produto seja criado com sucesso; Illegal_argument caso os parâmetros
-        -:   75: * passados para a criação do produto sejam inválidos ou caso um dos produtos
-        -:   76: * passados seja um ponteiro nulo.
-        -:   77: *
-        -:   78: * Atualiza os dados de uma estrutura de dados do tipo product a partir de uma
-        -:   79: * string, uma estrutura de dados do tipo productType, um double e um int. Os
-        -:   80: * dados em new_product são sobrescritos com os dados fornecidos como parâmetros
-        -:   81: * da função.
-        -:   82: *
-        -:   83: * Assertivas de entrada:
-        -:   84: *  -O parâmetro new_product deve ser diferente de NULL.
-        -:   85: *  -O parâmetro new_product deve apontar para uma estrutura de dados do tipo
-        -:   86: * product.
-        -:   87: *
-        -:   88: * Assertivas de saída:
-        -:   89: *  -Os membros do produto no endereço new_product serão aqueles passados como
-        -:   90: * parâmetros para a função.
-        -:   91: *
-        -:   92: * Assertivas estruturais:
-        -:   93: *  -Uma estrutura de dados product possui como membros um vetor de chars para
-        -:   94: * seu nome, uma estrutura de dados do tipo productType para seu tipo, um double
-        -:   95: * para seu preço e um int para sua popularidade.
-        -:   96: *
-        -:   97: * Assertivas de contrato:
-        -:   98: *  -As informações contidas no endereço new_product serão sobrescritas pelas
-        -:   99: * informações passadas como parâmetros da função.
-        -:  100: *
-        -:  101: * Requisitos:
-        -:  102: *  -Uma estrutura de dados do tipo product alocada estaticamente.
-        -:  103: *
-        -:  104: * Hipóteses:
-        -:  105: *  Nenhuma.
-        -:  106: *
-        -:  107: */
-        -:  108:
-       34:  109:errorLevel CreateProduct(char name[75], productType type, double price,
-        -:  110:int popularity, product *new_product) {
-        -:  111:
-       34:  112:  if(new_product == NULL || !ValidPrice(price) || !ValidPopularity(popularity))
-       10:  113:    return Illegal_argument;
+        -:   46: */
+        -:   47:
+       31:   48:errorLevel CopyProduct(product *copy, product *original) {
+        -:   49:
+       31:   50:  if(copy == NULL || original == NULL)
+        3:   51:    return Illegal_argument;
+        -:   52:
+       28:   53:  strcpy(copy->name, original->name);
+       28:   54:  copy->type = original->type;
+       28:   55:  copy->price = original->price;
+       28:   56:  copy->popularity = original->popularity;
+        -:   57:
+       28:   58:  return Success;
+        -:   59:
+        -:   60:}
+        -:   61:
+        -:   62:/**
+        -:   63: * @fn errorLevel CreateProduct(char name[75], productType type, double price,
+        -:   64: * int popularity, product *new_product)
+        -:   65: * @brief Função que cria um produto.
+        -:   66: * @param name Nome do produto a ser criado.
+        -:   67: * @param type Tipo do produto a ser criado.
+        -:   68: * @param price Preço do produto a ser criado.
+        -:   69: * @param popularity Popularidade do produto a ser criado.
+        -:   70: * @param new_product Endereço da estrutura de dados onde o produto será
+        -:   71: * criado. Argumento passado por referência.
+        -:   72: * @return A função retorna uma instância do tipo errorLevel: Success caso o
+        -:   73: * produto seja criado com sucesso; Illegal_argument caso os parâmetros
+        -:   74: * passados para a criação do produto sejam inválidos ou caso um dos produtos
+        -:   75: * passados seja um ponteiro nulo.
+        -:   76: *
+        -:   77: * Atualiza os dados de uma estrutura de dados do tipo product a partir de uma
+        -:   78: * string, uma estrutura de dados do tipo productType, um double e um int. Os
+        -:   79: * dados em new_product são sobrescritos com os dados fornecidos como parâmetros
+        -:   80: * da função.
+        -:   81: *
+        -:   82: * Assertivas de entrada:
+        -:   83: *  -O parâmetro new_product deve ser diferente de NULL.
+        -:   84: *  -O parâmetro new_product deve apontar para uma estrutura de dados do tipo
+        -:   85: * product.
+        -:   86: *
+        -:   87: * Assertivas de saída:
+        -:   88: *  -Os membros do produto no endereço new_product serão aqueles passados como
+        -:   89: * parâmetros para a função.
+        -:   90: *
+        -:   91: * Assertivas estruturais:
+        -:   92: *  -Uma estrutura de dados product possui como membros um vetor de chars para
+        -:   93: * seu nome, uma estrutura de dados do tipo productType para seu tipo, um double
+        -:   94: * para seu preço e um int para sua popularidade.
+        -:   95: *
+        -:   96: * Assertivas de contrato:
+        -:   97: *  -As informações contidas no endereço new_product serão sobrescritas pelas
+        -:   98: * informações passadas como parâmetros da função.
+        -:   99: *
+        -:  100: * Requisitos:
+        -:  101: *  -Uma estrutura de dados do tipo product alocada estaticamente.
+        -:  102: *
+        -:  103: * Hipóteses:
+        -:  104: *  Nenhuma.
+        -:  105: *
+        -:  106: */
+        -:  107:
+       21:  108:errorLevel CreateProduct(char name[75], productType type, double price,
+        -:  109:int popularity, product *new_product) {
+        -:  110:
+       41:  111:  if(new_product == NULL || !ValidPrice(price) || !ValidPopularity(popularity)
+       37:  112:     || type == All || !ValidName(name))
+        7:  113:    return Illegal_argument;
         -:  114:
-       24:  115:  strcpy(new_product->name, name);
-       24:  116:  new_product->type = type;
-       24:  117:  new_product->price = price;
-       24:  118:  new_product->popularity = popularity;
+       14:  115:  strcpy(new_product->name, name);
+       14:  116:  new_product->type = type;
+       14:  117:  new_product->price = price;
+       14:  118:  new_product->popularity = popularity;
         -:  119:
-       24:  120:  return Success;
+       14:  120:  return Success;
         -:  121:
         -:  122:}
         -:  123:
@@ -162,162 +162,286 @@
         -:  156: *
         -:  157: * Hipóteses:
         -:  158: *  Nenhuma.
-        -:  159: */
-        -:  160:
-       28:  161:int CompareProducts(product *first, product *second) {
-        -:  162:
-       28:  163:  if(first == NULL || second == NULL)
-        6:  164:    return -1;
-        -:  165:
-        -:  166:  /*
-        -:  167:    Verifica-se individualmente se cada um dos campos dos 2 produtos são iguais.
-        -:  168:   */
-        -:  169:
-       22:  170:  else if(!strcmp(first->name, second->name)
-       18:  171:     && first->type == second->type
-       14:  172:     && first->price == second->price
-       10:  173:     && first->popularity == second->popularity)
-        6:  174:    return 0;
-        -:  175:
-        -:  176:  else
-       16:  177:    return 1;
-        -:  178:
-        -:  179:}
-        -:  180:
-        -:  181:/**
-        -:  182: * @fn ValidPrice(double price)
-        -:  183: * @brief Função que verifica se um preço é válido.
-        -:  184: * @param price Preço testado.
-        -:  185: * @return A função retorna um inteiro: 1 se o preço é válido; 0 se o preço é
-        -:  186: * inválido.
-        -:  187: *
-        -:  188: * Verifica se um preço está contido no intervalo de preços válidos definido
-        -:  189: * previamente.
+        -:  159: *
+        -:  160: */
+        -:  161:
+       57:  162:int CompareProducts(product *first, product *second) {
+        -:  163:
+       57:  164:  if(first == NULL || second == NULL)
+        3:  165:    return -1;
+        -:  166:
+        -:  167:  /*
+        -:  168:    Verifica-se individualmente se cada um dos campos dos 2 produtos são iguais.
+        -:  169:   */
+        -:  170:
+       54:  171:  else if(!strcmp(first->name, second->name)
+       50:  172:     && first->type == second->type
+       48:  173:     && first->price == second->price
+       46:  174:     && first->popularity == second->popularity)
+       44:  175:    return 0;
+        -:  176:
+        -:  177:  else
+       10:  178:    return 1;
+        -:  179:
+        -:  180:}
+        -:  181:
+        -:  182:/**
+        -:  183: * @fn int ConvertIntToProductType(int number, productType *type)
+        -:  184: * @brief Função que converte um inteiro para um tipo de produto.
+        -:  185: * @param number Número convertido.
+        -:  186: * @param type Endereço de variável do tipo productType que recebe o resultado
+        -:  187: * da conversão.
+        -:  188: * @return A função retorna um inteiro: 0 se a conversão foi bem sucedida; -1 se
+        -:  189: * a função recebeu um ponteiro NULL como argumento.
         -:  190: *
-        -:  191: * Assertivas de entrada:
-        -:  192: *  Nenhuma.
-        -:  193: *
-        -:  194: * Assertivas de saída:
-        -:  195: *  Nenhuma.
-        -:  196: *
-        -:  197: * Assertivas estruturais:
-        -:  198: *  Nenhuma.
+        -:  191: * Realiza a conversão de um número inteiro para seu respectivo tipo de produto
+        -:  192: * contido na enumeração productType e atribui esse resultado
+        -:  193: * para a estrutura de dados productType no endereço type. Caso o número não
+        -:  194: * represente um productType válido, será atribuído o productType "All".
+        -:  195: *
+        -:  196: * Assertivas de entrada:
+        -:  197: *  -type != NULL.
+        -:  198: *  -type aponta para uma estrutura de dados do tipo productType.
         -:  199: *
-        -:  200: * Assertivas de contrato:
-        -:  201: *  -A função retornará um inteiro representando se o preço passado como
-        -:  202: * parâmetro pode ser usado como preço de produto ou não.
+        -:  200: * Assertivas de saída:
+        -:  201: *  -O tipo de produto contido em type será equivalente ao tipo de produto
+        -:  202: * representado por number.
         -:  203: *
-        -:  204: * Requisitos:
-        -:  205: *  Nenhum.
-        -:  206: *
-        -:  207: * Hipóteses:
-        -:  208: *  Nenhuma.
-        -:  209: *
-        -:  210: */
-        -:  211:
-       38:  212:int ValidPrice(double price) {
-        -:  213:
-        -:  214:  /* Um produto não pode ter seu preço negativo ou maior que 1.000.000,00. */
-        -:  215:
-       38:  216:  if(price > 0 && price <= 1000000)
-       32:  217:    return 1;
-        -:  218:
-        -:  219:  else
-        6:  220:    return 0;
-        -:  221:
-        -:  222:}
-        -:  223:
-        -:  224:/**
-        -:  225: * @fn ValidPopularity(int popularity)
-        -:  226: * @brief Função que verifica se uma popularidade é válida.
-        -:  227: * @param popularity Popularidade testada.
-        -:  228: * @return A função retorna um inteiro: 1 se a popularidade é válida e 0 se a
-        -:  229: * popularidade é inválida.
-        -:  230: *
-        -:  231: * Verifica se uma popularidade está contido no intervalo de popularidades
-        -:  232: * válidas definido previamente.
-        -:  233: *
-        -:  234: * Assertivas de entrada:
-        -:  235: *  Nenhuma.
-        -:  236: *
-        -:  237: * Assertivas de saída:
-        -:  238: *  Nenhuma.
-        -:  239: *
-        -:  240: * Assertivas estruturais:
-        -:  241: *  Nenhuma.
-        -:  242: *
-        -:  243: * Assertivas de contrato:
-        -:  244: *  -A função retornará um inteiro representando se a popularidade passada como
-        -:  245: * parâmetro pode ser usada como popularidade de produto ou não.
-        -:  246: *
-        -:  247: * Requisitos:
-        -:  248: *  Nenhum.
-        -:  249: *
-        -:  250: * Hipóteses:
-        -:  251: *  Nenhuma.
-        -:  252: *
-        -:  253: */
+        -:  204: * Assertivas estruturais:
+        -:  205: *  -Um estrutura de dados do tipo productType equivale a "Rental", "Sale",
+        -:  206: * "Service" ou "All".
+        -:  207: *
+        -:  208: * Assertivas de contrato:
+        -:  209: *  -A função sobrescreverá o tipo de produto contido no endereço type com o
+        -:  210: * tipo de produto obtido na conversão do inteiro number para um tipo de
+        -:  211: * produto.
+        -:  212: *
+        -:  213: * Requisitos:
+        -:  214: *  -Uma estrutura de dados do tipo productType alocada estaticamente.
+        -:  215: *
+        -:  216: * Hipóteses:
+        -:  217: *  Nenhuma.
+        -:  218: *
+        -:  219: */
+        -:  220:
+        5:  221:int ConvertIntToProductType(int number, productType *type) {
+        -:  222:
+        5:  223:  if(type == NULL)
+        1:  224:    return -1;
+        -:  225:
+        4:  226:  switch (number) {
+        -:  227:
+        1:  228:    case 0:
+        1:  229:      *type = Rental;
+        1:  230:      break;
+        -:  231:
+        1:  232:    case 1:
+        1:  233:      *type = Sale;
+        1:  234:      break;
+        -:  235:
+        1:  236:    case 2:
+        1:  237:      *type = Service;
+        1:  238:      break;
+        -:  239:
+        -:  240:    /*
+        -:  241:      Utiliza-se o tipo "All" caso não seja possível identificar o tipo do
+        -:  242:      produto. Note que, pelo fato de um produto não poder ser instaciado com o
+        -:  243:      tipo "All", qualquer número inválido utilizado para geração de tipo fará
+        -:  244:      com que não seja possível a geração de um produto, neutralizando erros de
+        -:  245:      gravação/carregamento de produtos e de inputs de usuários.
+        -:  246:     */
+        -:  247:
+        1:  248:    default:
+        1:  249:      *type = All;
+        -:  250:
+        -:  251:  }
+        -:  252:
+        4:  253:  return 0;
         -:  254:
-       32:  255:int ValidPopularity(int popularity) {
+        -:  255:}
         -:  256:
-        -:  257:  /* Um produto não pode ter sua popularidade negativa ou maior que 100. */
-        -:  258:
-       32:  259:  if(popularity >= 0 && popularity <= 100)
-       26:  260:    return 1;
-        -:  261:
-        -:  262:  else
-        6:  263:    return 0;
-        -:  264:
-        -:  265:}
-        -:  266:
-        -:  267:/**
-        -:  268: * @fn ValidProduct(product *item)
-        -:  269: * @brief Função que verifica se um produto é válido.
-        -:  270: * @param item Endereço do produto que será testado. Argumento passado por
-        -:  271: * referência.
-        -:  272: * @return A função retorna um inteiro: 1 se o produto é válido; 0 se o produto
-        -:  273: * é inválido.
+        -:  257:/**
+        -:  258: * @fn int ValidName(char name[75])
+        -:  259: * @brief Função que verifica se um nome é válido.
+        -:  260: * @param name Nome testado.
+        -:  261: * @return A função retorna um inteiro: 1 se o nome é válido e 0 se o nome é
+        -:  262: * inválido.
+        -:  263: *
+        -:  264: * Verifica se um nome não contém o caractere reservado '|'.
+        -:  265: *
+        -:  266: * Assertivas de entrada:
+        -:  267: *  Nenhuma.
+        -:  268: *
+        -:  269: * Assertivas de saída:
+        -:  270: *  Nenhuma.
+        -:  271: *
+        -:  272: * Assertivas estruturais:
+        -:  273: *  Nenhuma.
         -:  274: *
-        -:  275: * Verifica se um produto contém os parâmetros preço e popularidade válidos
-        -:  276: * conforme intervalos definidos previamente. Faz-se isso passando-se o preço
-        -:  277: * e a popularidade do produto para as funções ValidPrice e ValidPopularity,
-        -:  278: * respectivamente.
-        -:  279: *
-        -:  280: * Assertivas de entrada:
-        -:  281: *  -O parâmetro item deve ser diferente de NULL.
-        -:  282: *  -O parâmetro item deve apontar para uma estrutura de dados do tipo
-        -:  283: * product.
+        -:  275: * Assertivas de contrato:
+        -:  276: *  -A função retornará um inteiro representando se o nome passado como
+        -:  277: * parâmetro pode ser usado como nome de produto ou não.
+        -:  278: *
+        -:  279: * Requisitos:
+        -:  280: *  Nenhum.
+        -:  281: *
+        -:  282: * Hipóteses:
+        -:  283: *  Nenhuma.
         -:  284: *
-        -:  285: * Assertivas de saída:
-        -:  286: *  -Os parâmetros do produto no endereço item permanecerão inalterados.
-        -:  287: *
-        -:  288: * Assertivas estruturais:
-        -:  289: *  -Uma estrutura de dados product possui como membros um vetor de chars para
-        -:  290: * seu nome, uma estrutura de dados do tipo productType para seu tipo, um double
-        -:  291: * para seu preço e um int para sua popularidade.
-        -:  292: *
-        -:  293: * Assertivas de contrato:
-        -:  294: *  -A função retornará um inteiro representando se a produto cujo endereço foi
-        -:  295: * passado como parâmetro contém os membros preço e popularidade válidos ou não
-        -:  296: * ou se o parâmetro fornecido é inválido.
-        -:  297: *
-        -:  298: * Requisitos:
-        -:  299: *  -Uma estrutura de dados do tipo product alocada estaticamente.
-        -:  300: *
-        -:  301: * Hipóteses:
-        -:  302: *  Nenhuma.
-        -:  303: *
-        -:  304: */
-        -:  305:
-        8:  306:int ValidProduct(product *item) {
-        -:  307:
-        8:  308:  if(item == NULL)
-        2:  309:    return -1;
-        -:  310:
-        6:  311:  else if(ValidPrice(item->price) && ValidPopularity(item->popularity))
-        2:  312:    return 1;
-        -:  313:
-        -:  314:  else
-        4:  315:    return 0;
-        -:  316:
-        -:  317:}
+        -:  285: */
+        -:  286:
+       53:  287:int ValidName(char name[75]) {
+        -:  288:
+        -:  289:  /*
+        -:  290:    O nome de um produto não pode conter o caractere '|', pois este é utilizado
+        -:  291:    como separador entre os campos de um produto na gravação dos produtos no
+        -:  292:    banco de dados.
+        -:  293:   */
+        -:  294:
+       53:  295:  if(strchr(name, '|') == NULL)
+       51:  296:    return 1;
+        -:  297:
+        -:  298:  else
+        2:  299:    return 0;
+        -:  300:
+        -:  301:}
+        -:  302:
+        -:  303:/**
+        -:  304: * @fn int ValidPrice(double price)
+        -:  305: * @brief Função que verifica se um preço é válido.
+        -:  306: * @param price Preço testado.
+        -:  307: * @return A função retorna um inteiro: 1 se o preço é válido; 0 se o preço é
+        -:  308: * inválido.
+        -:  309: *
+        -:  310: * Verifica se um preço está contido no intervalo de preços válidos definido
+        -:  311: * previamente.
+        -:  312: *
+        -:  313: * Assertivas de entrada:
+        -:  314: *  Nenhuma.
+        -:  315: *
+        -:  316: * Assertivas de saída:
+        -:  317: *  Nenhuma.
+        -:  318: *
+        -:  319: * Assertivas estruturais:
+        -:  320: *  Nenhuma.
+        -:  321: *
+        -:  322: * Assertivas de contrato:
+        -:  323: *  -A função retornará um inteiro representando se o preço passado como
+        -:  324: * parâmetro pode ser usado como preço de produto ou não.
+        -:  325: *
+        -:  326: * Requisitos:
+        -:  327: *  Nenhum.
+        -:  328: *
+        -:  329: * Hipóteses:
+        -:  330: *  Nenhuma.
+        -:  331: *
+        -:  332: */
+        -:  333:
+       63:  334:int ValidPrice(double price) {
+        -:  335:
+        -:  336:  /* Um produto não pode ter seu preço negativo ou maior que 1.000.000,00. */
+        -:  337:
+       63:  338:  if(price > 0 && price <= 1000000)
+       57:  339:    return 1;
+        -:  340:
+        -:  341:  else
+        6:  342:    return 0;
+        -:  343:
+        -:  344:}
+        -:  345:
+        -:  346:/**
+        -:  347: * @fn int ValidPopularity(int popularity)
+        -:  348: * @brief Função que verifica se uma popularidade é válida.
+        -:  349: * @param popularity Popularidade testada.
+        -:  350: * @return A função retorna um inteiro: 1 se a popularidade é válida e 0 se a
+        -:  351: * popularidade é inválida.
+        -:  352: *
+        -:  353: * Verifica se uma popularidade está contido no intervalo de popularidades
+        -:  354: * válidas definido previamente.
+        -:  355: *
+        -:  356: * Assertivas de entrada:
+        -:  357: *  Nenhuma.
+        -:  358: *
+        -:  359: * Assertivas de saída:
+        -:  360: *  Nenhuma.
+        -:  361: *
+        -:  362: * Assertivas estruturais:
+        -:  363: *  Nenhuma.
+        -:  364: *
+        -:  365: * Assertivas de contrato:
+        -:  366: *  -A função retornará um inteiro representando se a popularidade passada como
+        -:  367: * parâmetro pode ser usada como popularidade de produto ou não.
+        -:  368: *
+        -:  369: * Requisitos:
+        -:  370: *  Nenhum.
+        -:  371: *
+        -:  372: * Hipóteses:
+        -:  373: *  Nenhuma.
+        -:  374: *
+        -:  375: */
+        -:  376:
+       57:  377:int ValidPopularity(int popularity) {
+        -:  378:
+        -:  379:  /* Um produto não pode ter sua popularidade negativa ou maior que 100. */
+        -:  380:
+       57:  381:  if(popularity >= 0 && popularity <= 100)
+       54:  382:    return 1;
+        -:  383:
+        -:  384:  else
+        3:  385:    return 0;
+        -:  386:
+        -:  387:}
+        -:  388:
+        -:  389:/**
+        -:  390: * @fn int ValidProduct(product *item)
+        -:  391: * @brief Função que verifica se um produto é válido.
+        -:  392: * @param item Endereço do produto que será testado. Argumento passado por
+        -:  393: * referência.
+        -:  394: * @return A função retorna um inteiro: 1 se o produto é válido; 0 se o produto
+        -:  395: * é inválido.
+        -:  396: *
+        -:  397: * Verifica se um produto contém os parâmetros nome, preço, tipo e popularidade
+        -:  398: * válidos conforme métricas definidas previamente. Faz-se isso passando-se o
+        -:  399: * nome, o preço e a popularidade do produto para as funções ValidName,
+        -:  400: * ValidPrice e ValidPopularity, respectivamente, e verificando-se se o tipo do
+        -:  401: * produto é diferente de "All".
+        -:  402: *
+        -:  403: * Assertivas de entrada:
+        -:  404: *  -O parâmetro item deve ser diferente de NULL.
+        -:  405: *  -O parâmetro item deve apontar para uma estrutura de dados do tipo
+        -:  406: * product.
+        -:  407: *
+        -:  408: * Assertivas de saída:
+        -:  409: *  -Os parâmetros do produto no endereço item permanecerão inalterados.
+        -:  410: *
+        -:  411: * Assertivas estruturais:
+        -:  412: *  -Uma estrutura de dados product possui como membros um vetor de chars para
+        -:  413: * seu nome, uma estrutura de dados do tipo productType para seu tipo, um double
+        -:  414: * para seu preço e um int para sua popularidade.
+        -:  415: *
+        -:  416: * Assertivas de contrato:
+        -:  417: *  -A função retornará um inteiro representando se o produto cujo endereço foi
+        -:  418: * passado como parâmetro contém os membros válidos ou não ou se o parâmetro
+        -:  419: * fornecido à função ValidProduct é inválido.
+        -:  420: *
+        -:  421: * Requisitos:
+        -:  422: *  -Uma estrutura de dados do tipo product alocada estaticamente.
+        -:  423: *
+        -:  424: * Hipóteses:
+        -:  425: *  Nenhuma.
+        -:  426: *
+        -:  427: */
+        -:  428:
+       44:  429:int ValidProduct(product *item) {
+        -:  430:
+       44:  431:  if(item == NULL)
+        1:  432:    return -1;
+        -:  433:
+      125:  434:  else if(ValidPrice(item->price) && ValidPopularity(item->popularity)
+       81:  435:          && item->type != All && ValidName(item->name))
+       37:  436:    return 1;
+        -:  437:
+        -:  438:  else
+        6:  439:    return 0;
+        -:  440:
+        -:  441:}

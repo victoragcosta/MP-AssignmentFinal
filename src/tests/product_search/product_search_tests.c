@@ -2,7 +2,7 @@
 
 /**
 
-  @file
+  @file product_search_tests.c
   @brief Arquivo que testa as funções relativas ao módulo de busca de produtos
   do aplicativo
 
@@ -14,7 +14,7 @@
 
 char name[75];
 productList list, list2, query_results;
-product novoProduto, copia, outro;
+product novo_produto, copia, outro;
 productSpecification generic, specific;
 
 /* Inicialização das variáveis utilizadas nos testes.*/
@@ -40,9 +40,9 @@ TEST (AddProduct, First) {
   ASSERT_EQ(list.size, 0);
 
   strcpy(name, "Arroz");
-  CreateProduct(name, Sale, 5, 100, &novoProduto);
+  CreateProduct(name, Sale, 5, 100, &novo_produto);
 
-  AddProduct(&novoProduto, &list);
+  AddProduct(&novo_produto, &list);
 
   ASSERT_EQ(list.size, 1);
   EXPECT_EQ(strcmp(list.items[0].name, "Arroz"), 0);
@@ -62,10 +62,10 @@ TEST (AddProduct, Second) {
   ASSERT_EQ(list.size, 1);
 
   strcpy(name, "Aulas de C++");
-  CreateProduct(name, Service, 400, 95, &novoProduto);
-  CopyProduct(&copia, &novoProduto);
+  CreateProduct(name, Service, 400, 95, &novo_produto);
+  CopyProduct(&copia, &novo_produto);
 
-  AddProduct(&novoProduto, &list);
+  AddProduct(&novo_produto, &list);
 
   ASSERT_EQ(list.size, 2);
   EXPECT_EQ(strcmp(list.items[0].name, "Arroz"), 0);
@@ -79,6 +79,11 @@ TEST (AddProduct, Second) {
 
 }
 
+/*
+  Teste da função AddProduct para tentar adicionar um produto repetido à uma
+  lista de produtos (algo inválido).
+ */
+
 TEST (AddProduct, Repeated_Product) {
 
   ASSERT_EQ(list.size, 2);
@@ -90,23 +95,44 @@ TEST (AddProduct, Repeated_Product) {
 }
 
 /*
+  Teste da função AddProduct para tentar adicionar um produto com nome inválido
+  à uma lista de produtos.
+ */
+
+TEST (AddProduct, Invalid_Name) {
+
+  CleanProductList(&list);
+
+  ASSERT_EQ(list.size, 0);
+
+  strcpy(novo_produto.name, "Coisas|Coisas");
+  novo_produto.price = 400;
+  novo_produto.popularity = 60;
+  novo_produto.type = Rental;
+
+  EXPECT_EQ(AddProduct(&novo_produto, &list), Illegal_argument);
+
+  ASSERT_EQ(list.size, 0);
+
+}
+
+/*
   Primeiro teste da função AddProduct para tentar adicionar um produto com preço
   ilegal à uma lista de produtos.
  */
 
-TEST (AddProduct, Illegal_Price_01) {
+TEST (AddProduct, Invalid_Price_01) {
 
-  list.size = 0;
-  free(list.items);
+  CleanProductList(&list);
 
   ASSERT_EQ(list.size, 0);
 
-  strcpy(novoProduto.name, "Iate de ouro");
-  novoProduto.price = 400000000;
-  novoProduto.popularity = 60;
-  novoProduto.type = Rental;
+  strcpy(novo_produto.name, "Iate de ouro");
+  novo_produto.price = 400000000;
+  novo_produto.popularity = 60;
+  novo_produto.type = Rental;
 
-  EXPECT_EQ(AddProduct(&novoProduto, &list), Illegal_argument);
+  EXPECT_EQ(AddProduct(&novo_produto, &list), Illegal_argument);
 
   ASSERT_EQ(list.size, 0);
 
@@ -117,16 +143,16 @@ TEST (AddProduct, Illegal_Price_01) {
   ilegal à uma lista de produtos.
  */
 
-TEST (AddProduct, Illegal_Price_02) {
+TEST (AddProduct, Invalid_Price_02) {
 
   ASSERT_EQ(list.size, 0);
 
-  strcpy(novoProduto.name, "Sick dog");
-  novoProduto.price = -5;
-  novoProduto.popularity = 0;
-  novoProduto.type = Sale;
+  strcpy(novo_produto.name, "Sick dog");
+  novo_produto.price = -5;
+  novo_produto.popularity = 0;
+  novo_produto.type = Sale;
 
-  EXPECT_EQ(AddProduct(&novoProduto, &list), Illegal_argument);
+  EXPECT_EQ(AddProduct(&novo_produto, &list), Illegal_argument);
 
   ASSERT_EQ(list.size, 0);
 
@@ -137,16 +163,16 @@ TEST (AddProduct, Illegal_Price_02) {
   popularidade ilegal à uma lista de produtos.
  */
 
-TEST (AddProduct, Illegal_Popularity_01) {
+TEST (AddProduct, Invalid_Popularity_01) {
 
   ASSERT_EQ(list.size, 0);
 
-  strcpy(novoProduto.name, "Vitrola anos 70");
-  novoProduto.price = 125;
-  novoProduto.popularity = 120;
-  novoProduto.type = Rental;
+  strcpy(novo_produto.name, "Vitrola anos 70");
+  novo_produto.price = 125;
+  novo_produto.popularity = 120;
+  novo_produto.type = Rental;
 
-  EXPECT_EQ(AddProduct(&novoProduto, &list), Illegal_argument);
+  EXPECT_EQ(AddProduct(&novo_produto, &list), Illegal_argument);
 
   ASSERT_EQ(list.size, 0);
 
@@ -157,16 +183,16 @@ TEST (AddProduct, Illegal_Popularity_01) {
   popularidade ilegal à uma lista de produtos.
  */
 
-TEST (AddProduct, Illegal_Popularity_02) {
+TEST (AddProduct, Invalid_Popularity_02) {
 
   ASSERT_EQ(list.size, 0);
 
-  strcpy(novoProduto.name, "Brócolis com chucrute");
-  novoProduto.price = 125;
-  novoProduto.popularity = -5;
-  novoProduto.type = Sale;
+  strcpy(novo_produto.name, "Brócolis com chucrute");
+  novo_produto.price = 125;
+  novo_produto.popularity = -5;
+  novo_produto.type = Sale;
 
-  EXPECT_EQ(AddProduct(&novoProduto, &list), Illegal_argument);
+  EXPECT_EQ(AddProduct(&novo_produto, &list), Illegal_argument);
 
   ASSERT_EQ(list.size, 0);
 
@@ -177,22 +203,24 @@ TEST (AddProduct, Illegal_Popularity_02) {
   uma lista de produtos.
  */
 
-TEST (AddProduct, Illegal_Type) {
+TEST (AddProduct, Invalid_Type) {
 
   ASSERT_EQ(list.size, 0);
 
-  strcpy(novoProduto.name, "Buffet all-incluse");
-  novoProduto.price = 80;
-  novoProduto.popularity = 20;
-  novoProduto.type = All;
+  strcpy(novo_produto.name, "Buffet all-incluse");
+  novo_produto.price = 80;
+  novo_produto.popularity = 20;
+  novo_produto.type = All;
 
-  EXPECT_EQ(AddProduct(&novoProduto, &list), Illegal_argument);
+  EXPECT_EQ(AddProduct(&novo_produto, &list), Illegal_argument);
 
   ASSERT_EQ(list.size, 0);
 
 }
 
-/* Teste da função AddProduct passando-se como argumento um ponteiro nulo. */
+/*
+  Teste da função CleanProductList passando-se como argumento um ponteiro nulo.
+ */
 
 TEST (CleanProductList, Invalid_List) {
 
@@ -200,7 +228,9 @@ TEST (CleanProductList, Invalid_List) {
 
 }
 
-/* Teste da função AddProduct passando-se como argumento uma lista vazia. */
+/*
+  Teste da função CleanProductList passando-se como argumento uma lista vazia.
+ */
 
 TEST (CleanProductList, New_List) {
 
@@ -221,12 +251,12 @@ TEST (CleanProductList, Used_List) {
   ASSERT_EQ((list2.items == NULL), true);
 
   strcpy(name, "Arroz integral");
-  CreateProduct(name, Sale, 7, 70, &novoProduto);
-  AddProduct(&novoProduto, &list2);
+  CreateProduct(name, Sale, 7, 70, &novo_produto);
+  AddProduct(&novo_produto, &list2);
 
   strcpy(name, "Arroz branco");
-  CreateProduct(name, Sale, 5, 85, &novoProduto);
-  AddProduct(&novoProduto, &list2);
+  CreateProduct(name, Sale, 5, 85, &novo_produto);
+  AddProduct(&novo_produto, &list2);
 
   ASSERT_EQ(list2.size, 2);
   ASSERT_EQ((list2.items == NULL), false);
@@ -270,8 +300,8 @@ TEST (CreateSpecification, Invalid_Specification) {
 TEST (ProductSearch, Product_Not_Found) {
 
   strcpy(name, "Arroz");
-  CreateProduct(name, Sale, 5, 100, &novoProduto);
-  AddProduct(&novoProduto, &list);
+  CreateProduct(name, Sale, 5, 100, &novo_produto);
+  AddProduct(&novo_produto, &list);
 
   ASSERT_EQ(list.size, 1);
 
@@ -303,12 +333,12 @@ TEST (ProductSearch, Multiple_results) {
   ASSERT_EQ(list.size, 1);
 
   strcpy(name, "Carro");
-  CreateProduct(name, Sale, 120000, 80, &novoProduto);
-  AddProduct(&novoProduto, &list);
+  CreateProduct(name, Sale, 120000, 80, &novo_produto);
+  AddProduct(&novo_produto, &list);
 
   strcpy(name, "Carro");
-  CreateProduct(name, Rental, 2000, 85, &novoProduto);
-  AddProduct(&novoProduto, &list);
+  CreateProduct(name, Rental, 2000, 85, &novo_produto);
+  AddProduct(&novo_produto, &list);
 
   ASSERT_EQ(list.size, 3);
 
@@ -345,14 +375,14 @@ TEST (ProductSearch, Price_Restriction_01) {
 
   strcpy(name, "Arroz");
 
-  CreateProduct(name, Sale, 10, 90, &novoProduto);
-  AddProduct(&novoProduto, &list);
+  CreateProduct(name, Sale, 10, 90, &novo_produto);
+  AddProduct(&novo_produto, &list);
 
-  CreateProduct(name, Sale, 20, 95, &novoProduto);
-  AddProduct(&novoProduto, &list);
+  CreateProduct(name, Sale, 20, 95, &novo_produto);
+  AddProduct(&novo_produto, &list);
 
-  CreateProduct(name, Sale, 100, 82, &novoProduto);
-  AddProduct(&novoProduto, &list);
+  CreateProduct(name, Sale, 100, 82, &novo_produto);
+  AddProduct(&novo_produto, &list);
 
   ASSERT_EQ(list.size, 6);
 
@@ -414,8 +444,8 @@ TEST (ProductSearch, Partial_Name) {
 
   strcpy(name, "Camisa azul");
 
-  CreateProduct(name, Sale, 35, 97, &novoProduto);
-  AddProduct(&novoProduto, &list);
+  CreateProduct(name, Sale, 35, 97, &novo_produto);
+  AddProduct(&novo_produto, &list);
 
   ASSERT_EQ(list.size, 7);
 
@@ -460,8 +490,8 @@ TEST (SelectProduct, Valid_Select) {
   EXPECT_EQ(CompareProducts(&(query_results.items[0]), &(list.items[1])), 0);
   EXPECT_EQ(CompareProducts(&(query_results.items[1]), &(list.items[2])), 0);
 
-  ASSERT_EQ(SelectProduct(1, &query_results, &novoProduto), Success);
-  EXPECT_EQ(CompareProducts(&novoProduto, &(query_results.items[1])), 0);
+  ASSERT_EQ(SelectProduct(1, &query_results, &novo_produto), Success);
+  EXPECT_EQ(CompareProducts(&novo_produto, &(query_results.items[1])), 0);
 
 }
 
@@ -473,13 +503,11 @@ TEST (SelectProduct, Invalid_Select) {
   EXPECT_EQ(CompareProducts(&(query_results.items[0]), &(list.items[1])), 0);
   EXPECT_EQ(CompareProducts(&(query_results.items[1]), &(list.items[2])), 0);
 
-  ASSERT_EQ(SelectProduct(2, &query_results, &novoProduto), Illegal_argument);
+  ASSERT_EQ(SelectProduct(2, &query_results, &novo_produto), Illegal_argument);
 
 }
 
-/*
-  Teste da função SelectProduct para ponteiros nulos passados como argumentos.
- */
+/* Teste da função SelectProduct passando-se ponteiros NULL como argumentos. */
 
 TEST (SelectProduct, Invalid_Adresses) {
 
@@ -487,7 +515,7 @@ TEST (SelectProduct, Invalid_Adresses) {
   EXPECT_EQ(CompareProducts(&(query_results.items[0]), &(list.items[1])), 0);
   EXPECT_EQ(CompareProducts(&(query_results.items[1]), &(list.items[2])), 0);
 
-  ASSERT_EQ(SelectProduct(0, NULL, &novoProduto), Illegal_argument);
+  ASSERT_EQ(SelectProduct(0, NULL, &novo_produto), Illegal_argument);
   ASSERT_EQ(SelectProduct(0, &query_results, NULL), Illegal_argument);
   ASSERT_EQ(SelectProduct(0, NULL, NULL), Illegal_argument);
 
@@ -527,6 +555,79 @@ TEST (DeleteProduct, Empty_List) {
   ASSERT_EQ(query_results.size, 0);
 
   ASSERT_EQ(DeleteProduct(0, &query_results), Illegal_argument);
+
+}
+
+/* Teste da função SaveProductList para uma lista válida. */
+
+TEST (SaveProductList, Valid_List) {
+
+  ASSERT_EQ(list.size, 7);
+
+  EXPECT_EQ(SaveProductList(&list), Success);
+
+}
+
+/*
+  Teste da função SaveProductList passando um ponteiro NULL como endereço de
+  lista de produtos (algo inválido).
+ */
+
+TEST (SaveProductList, Invalid_List) {
+
+  EXPECT_EQ(SaveProductList(NULL), Illegal_argument);
+
+}
+
+/* Teste da função LoadProductList para uma lista vazia. */
+
+TEST (LoadProductList, Clean_List) {
+
+  CleanProductList(&list2);
+
+  ASSERT_EQ(list2.size, 0);
+
+  EXPECT_EQ(LoadProductList(&list2), Success);
+
+  EXPECT_EQ(list2.size, 7);
+
+}
+
+/* Teste da função LoadProductList para uma lista com items. */
+
+TEST (LoadProductList, List_With_Items) {
+
+  CleanProductList(&list2);
+
+  ASSERT_EQ(list2.size, 0);
+
+  strcpy(name, "Arroz");
+
+  CreateProduct(name, Sale, 10, 90, &novo_produto);
+  AddProduct(&novo_produto, &list2);
+
+  CreateProduct(name, Sale, 20, 95, &novo_produto);
+  AddProduct(&novo_produto, &list2);
+
+  CreateProduct(name, Sale, 100, 82, &novo_produto);
+  AddProduct(&novo_produto, &list2);
+
+  ASSERT_EQ(list2.size, 3);
+
+  EXPECT_EQ(LoadProductList(&list2), Success);
+
+  EXPECT_EQ(list2.size, 7);
+
+}
+
+/*
+  Teste da função LoadProductList passando um ponteiro NULL como endereço de
+  lista de produtos (algo inválido).
+ */
+
+TEST (LoadProductList, Invalid_List) {
+
+  EXPECT_EQ(LoadProductList(NULL), Illegal_argument);
 
 }
 

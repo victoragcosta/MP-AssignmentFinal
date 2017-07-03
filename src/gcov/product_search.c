@@ -65,7 +65,7 @@ errorLevel AddProduct(product *new_product, productList *list) {
 
   int i, empty_slot;
 
-  if(new_product == NULL || list == NULL || !ValidProduct(new_product))
+  if(new_product == NULL || list == NULL || (ValidProduct(new_product) != 1))
       return Illegal_argument;
 
   /*
@@ -311,12 +311,12 @@ errorLevel DeleteProduct (int index, productList *list) {
     for (i = index; i < list->size - 1; ++i)
       CopyProduct(&(list->items[i]), &(list->items[i + 1]));
 
-      /*
-        Por fim, basta realocar a lista para que ela tenha um espaço a menos.
-        Como o produto da última posição terá sido copiado para a penúltima
-        posição, o produto que será "perdido" com o realocamento do vetor será
-        aquele que deveria ser removido.
-       */
+    /*
+      Por fim, basta realocar a lista para que ela tenha um espaço a menos.
+      Como o produto da última posição terá sido copiado para a penúltima
+      posição, o produto que será "perdido" com o realocamento do vetor será
+      aquele que deveria ser removido.
+     */
 
     list->items = (product*) realloc(list->items, (list->size - 1)
                                      * sizeof(product));
@@ -329,6 +329,86 @@ errorLevel DeleteProduct (int index, productList *list) {
    */
 
   (list->size) -= 1;
+
+  return Success;
+
+}
+
+errorLevel LoadProductList(productList *list) {
+
+  FILE *fp;
+  product item;
+  char name[75];
+  productType type;
+  double price;
+  int popularity, auxiliary;
+
+  if(list == NULL)
+    return Illegal_argument;
+
+  /*
+    Caso não seja possível abrir o banco de dados para produtos, a função falha.
+   */
+
+  fp = fopen(PRODUCT_DB, "r");
+
+  if(fp == NULL)
+    return Failure;
+
+  /* Limpa-se a lista para eliminar qualquer produto residual. */
+
+  CleanProductList(list);
+
+  /*
+    Enquanto o arquivo não chegar ao fim, os dados de um produto são carregados
+    em váriaveis intermediárias que serão utilizadas para criar um produto. Note
+    que a enumeração productType de cada produto foi gravada como um int, então
+    devemos convertê-la para o tipo productType.
+   */
+
+  while(fscanf(fp, "%[^|]|%d|%lf|%d\n", name, &auxiliary, &price, &popularity)
+        != EOF) {
+
+    if(ConvertIntToProductType(auxiliary, &type) == 0)
+      if(CreateProduct(name, type, price, popularity, &item) == Success)
+        AddProduct(&item, list);
+
+  }
+
+  fclose(fp);
+
+  return Success;
+
+}
+
+errorLevel SaveProductList(productList *list) {
+
+  FILE *fp;
+  int i;
+
+  if(list == NULL)
+    return Illegal_argument;
+
+  /*
+    Caso não seja possível abrir o banco de dados para produtos, a função falha.
+   */
+
+  fp = fopen(PRODUCT_DB, "w");
+
+  if(fp == NULL)
+    return Failure;
+
+  /*
+    Grava-se os dados dos produtos separando-se os campos de um mesmo
+    produto pelo caractere reservado '|' e separando-se produtos diferentes pelo
+    caractere '\n'. Note que a enumeração productType é gravada como um int.
+   */
+
+  for (i = 0; i < list->size; i++)
+    fprintf(fp, "%s|%d|%lf|%d\n", list->items[i].name, list->items[i].type,
+            list->items[i].price, list->items[i].popularity);
+
+  fclose(fp);
 
   return Success;
 
@@ -415,8 +495,8 @@ errorLevel SearchProduct(char query[75], productList *list,
     return Illegal_argument;
 
   /*
-    Deve-se limpar a lista de resultados da busca para evitar qualquer falso
-    positivo.
+    Deve-se limpar a lista de resultados da busca para evitar qualquer produto
+    residual.
    */
 
   CleanProductList(matches);
@@ -431,7 +511,7 @@ errorLevel SearchProduct(char query[75], productList *list,
   for (i = 0; i < (list->size); ++i) {
 
     if((strstr(list->items[i].name, query) != NULL)
-      && MatchesSpecification(&(list->items[i]), specifics)) {
+      && (MatchesSpecification(&(list->items[i]), specifics) == 1)) {
 
       AddProduct(&(list->items[i]), matches);
 
@@ -569,54 +649,6 @@ int MatchesSpecification(product *item, productSpecification *specification) {
           && item->price <= specification->maximum_price)
           && (item->popularity >= specification->minimum_popularity
           && item->popularity <= specification->maximum_popularity))
-    return 1;
-
-  else
-    return 0;
-
-}
-
-/**
- * @fn ValidIndex (int index, int list_size)
- * @brief Função que verifica se um índice para um vetor é válido.
- * @param index Índice testado.
- * @param list_size Tamanho do vetor no qual o índice é testado.
- * @return A função retorna um inteiro: 1 se o índice é válido; 0 se o índice é
- * inválido.
- *
- * Verifica se um índice passado como parâmetro para função pode ser utilizado
- * como índice válido para acessar um vetor cujo tamanho é fornecido como
- * parâmetro.
- *
- * Assertivas de entrada:
- *  Nenhuma.
- *
- * Assertivas de saída:
- *  Nenhuma.
- *
- * Assertivas estruturais:
- *  Nenhuma.
- *
- * Assertivas de contrato:
- *  -A função retornará um inteiro representando se o índice fornecido pode ser
- * utilizado para acessar um dos membros do vetor cujo tamanho é fornecido.
- *
- * Requisitos:
- *  Nenhum.
- *
- * Hipóteses:
- *  Nenhuma.
- *
- */
-
-int ValidIndex (int index, int list_size) {
-
-  /*
-    Um índice deve ser positivo e menor que o tamanho da lista, pois, do
-    contrário, ele acessaria uma área da memória fora do vetor da lista.
-   */
-
-  if(index >= 0 && index < list_size)
     return 1;
 
   else

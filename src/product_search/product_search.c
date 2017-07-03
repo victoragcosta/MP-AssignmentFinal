@@ -16,8 +16,8 @@
  * referência.
  * @return A função retorna uma instância do tipo errorLevel: Success caso o
  * produto seja adicionado à lista com sucesso; Failure caso o produto já
- * exista na lista; Illegal_argument, caso os parâmetros de produto passados
- * sejam inválidos ou a função receba um ponteiro nulo como parâmetro.
+ * exista na lista; Illegal_argument, caso o produto passado como argumento seja
+ * inválido ou a função receba um ponteiro nulo como argumento.
  *
  * Adiciona um produto ao vetor do tipo product contido no tipo de dados
  * productList alocando/realocando o vetor de produtos de list para conter uma
@@ -38,7 +38,7 @@
  *
  * Assertivas de saída:
  *  -O produto referenciado por new_product permanecerá inalterado e estará
- * contido no vetor de produtos referenciada por list.
+ * contido no vetor de produtos referenciado por list.
  *
  * Assertivas estruturais:
  *  -Uma estrutura de dados product possui como membros um vetor de chars para
@@ -65,7 +65,7 @@ errorLevel AddProduct(product *new_product, productList *list) {
 
   int i, empty_slot;
 
-  if(new_product == NULL || list == NULL || !ValidProduct(new_product))
+  if(new_product == NULL || list == NULL || (ValidProduct(new_product) != 1))
       return Illegal_argument;
 
   /*
@@ -113,8 +113,8 @@ errorLevel AddProduct(product *new_product, productList *list) {
  * lista seja limpa com sucesso.
  *
  * Limpa uma estrutura de dados do tipo productList, desalocando seu vetor de
- * estruturas de dados do tipo products e colocando o seu inteiro de tamanho
- * como sendo igual a zero. Recomenda-se chama-la no início da execução de um
+ * estruturas de dados do tipo product e colocando o seu inteiro de tamanho
+ * como sendo igual a zero. Recomenda-se chamá-la no início da execução de um
  * programa para preparar a lista para uso e antes do término da execução do
  * programa passando-se como argumento todas as listas de produtos usadas.
  *
@@ -179,10 +179,10 @@ errorLevel CleanProductList (productList *list) {
  * será criada. Argumento passado por referência.
  * @return A função retorna uma instância do tipo errorLevel: Success caso a
  * especificação seja criada com sucesso; Illegal_argument caso a função receba
- * um ponteiro nulo como parâmetro.
+ * um ponteiro nulo como argumento.
  *
- * Copia os parâmetros fornecidos na função para o endereço da estrutura de
- * dados do tipo productSpecification fornecida como parâmetro.
+ * Copia os argumentos fornecidos à função para o endereço da estrutura de
+ * dados do tipo productSpecification fornecida como argumento.
  *
  * Assertivas de entrada:
  *  -O parâmetro new_specification deve ser diferente de NULL.
@@ -191,7 +191,7 @@ errorLevel CleanProductList (productList *list) {
  *
  * Assertivas de saída:
  *  -Os membros da especificação no endereço new_specification serão aqueles
- * passados como parâmetros para a função.
+ * passados como argumentos para a função.
  *
  * Assertivas estruturais:
  *  -Uma estrutura de dados productSpecification possui uma estrutura de dados
@@ -203,7 +203,7 @@ errorLevel CleanProductList (productList *list) {
  *
  * Assertivas de contrato:
  *  -As informações contidas no endereço new_specification serão sobrescritas
- * com aquelas fornecidas como parâmetros da função.
+ * com aquelas fornecidas como argumentos da função.
  *
  * Requisitos:
  *  -Uma estrutura de dados do tipo productSpecification alocada estaticamente.
@@ -242,7 +242,8 @@ errorLevel CreateSpecification(
  * por referência.
  * @return A função retorna uma instância do tipo errorLevel: Success caso o
  * produto seja removido da lista com sucesso; Illegal_argument, caso o índice
- * passado como argumento seja inválido.
+ * passado como argumento seja inválido ou o endereço da lista passado seja um
+ * ponteiro NULL.
  *
  * Remove o produto contido no índice index da estrutura de dados do tipo
  * productList referenciada por list. Caso esse seja o único produto da lista,
@@ -311,12 +312,12 @@ errorLevel DeleteProduct (int index, productList *list) {
     for (i = index; i < list->size - 1; ++i)
       CopyProduct(&(list->items[i]), &(list->items[i + 1]));
 
-      /*
-        Por fim, basta realocar a lista para que ela tenha um espaço a menos.
-        Como o produto da última posição terá sido copiado para a penúltima
-        posição, o produto que será "perdido" com o realocamento do vetor será
-        aquele que deveria ser removido.
-       */
+    /*
+      Por fim, basta realocar a lista para que ela tenha um espaço a menos.
+      Como o produto da última posição terá sido copiado para a penúltima
+      posição, o produto que será "perdido" com o realocamento do vetor será
+      aquele que deveria ser removido.
+     */
 
     list->items = (product*) realloc(list->items, (list->size - 1)
                                      * sizeof(product));
@@ -335,6 +336,190 @@ errorLevel DeleteProduct (int index, productList *list) {
 }
 
 /**
+ * @fn errorLevel LoadProductList(productList *list)
+ * @brief Função que carrega a lista de produtos do banco de dados de produtos.
+ * @param list Endereço da lista que receberá os produtos. Argumento passado por
+ * referência.
+ * @return A função retorna uma instância do tipo errorLevel: Success caso os
+ * produtos sejam carregados com sucesso; Failure caso não seja possível acessar
+ * o banco de dados dos produtos; Illegal_argument, caso a função receba um
+ * ponteiro nulo como argumento.
+ *
+ * Abre o banco de dados que guarda os produtos do aplicativo (products.txt) e
+ * carrega seus produtos para a lista de produtos cujo endereço foi fornecido
+ * como argumento da função. Os elementos anteriores que a lista tinha serão
+ * sobrescritos. Elementos que gerem erros de leitura, que possuam membros com
+ * valores inválidos ou que sejam repetidos não serão carregados. Mudanças
+ * feitas no banco de dados de produtos devem ser salvas por meio da função
+ * SaveProductList.
+ *
+ * Importante: Aloca dinamicamente o vetor que contém os produtos em list (uma
+ * estrutura de dados do tipo productList). Tal memória deve ser liberada no
+ * término do programa chamando-se a função CleanProductList(list) ou por meio
+ * da função free(list.items).
+ *
+ * Assertivas de entrada:
+ *  -O parâmetro list deve ser diferente de NULL.
+ *  -O parâmetro list deve apontar para uma estrutura de dados do tipo
+ * productList.
+ *  -Existe um banco de dados de produtos contido no endereço PRODUCT_DB.
+ *  -Os produtos neste banco de dados terão seus campos separados pelo caractere
+ * reservado '|'.
+ *  -Produtos diferentes no banco de dados serão separados pelo caractere '\n'.
+ *
+ * Assertivas de saída:
+ *  -Os produtos válidos contidos no banco de dados de produtos estarão em list.
+ *
+ * Assertivas estruturais:
+ *  -Uma estrutura de dados product possui como membros um vetor de chars para
+ * seu nome, uma estrutura de dados do tipo productType para seu tipo, um double
+ * para seu preço e um int para sua popularidade.
+ *  -Uma estrutura de dados productList possui um int para representar quantos
+ * produtos possui e um vetor de produtos que armazena os produtos em si.
+ *
+ * Assertivas de contrato:
+ *  -Os produtos válidos contidos no banco de dados de produtos sobrescreverão
+ * os produtos contidos em list.
+ *
+ * Requisitos:
+ *  -Um banco de dados de produtos (arquivo .txt).
+ *  -Uma estrutura de dados do tipo productList alocada estaticamente.
+ *
+ * Hipóteses:
+ *  -Os produtos neste banco de dados terão seus campos separados pelo caractere
+ * reservado '|'.
+ *  -Produtos diferentes no banco de dados serão separados pelo caractere '\n'.
+ *
+ */
+
+errorLevel LoadProductList(productList *list) {
+
+  FILE *fp;
+  product item;
+  char name[75];
+  productType type;
+  double price;
+  int popularity, auxiliary;
+
+  if(list == NULL)
+    return Illegal_argument;
+
+  /*
+    Caso não seja possível abrir o banco de dados para produtos, a função falha.
+   */
+
+  fp = fopen(PRODUCT_DB, "r");
+
+  if(fp == NULL)
+    return Failure;
+
+  /* Limpa-se a lista para eliminar qualquer produto residual. */
+
+  CleanProductList(list);
+
+  /*
+    Enquanto o arquivo não chegar ao fim, os dados de um produto são carregados
+    em váriaveis intermediárias que serão utilizadas para criar um produto. Note
+    que a enumeração productType de cada produto foi gravada como um int, então
+    devemos convertê-la para o tipo productType.
+   */
+
+  while(fscanf(fp, "%[^|]|%d|%lf|%d\n", name, &auxiliary, &price, &popularity)
+        != EOF) {
+
+    if(ConvertIntToProductType(auxiliary, &type) == 0)
+      if(CreateProduct(name, type, price, popularity, &item) == Success)
+        AddProduct(&item, list);
+
+  }
+
+  fclose(fp);
+
+  return Success;
+
+}
+
+/**
+ * @fn errorLevel SaveProductList(productList *list)
+ * @brief Função que salva uma lista de produtos no banco de dados de produtos.
+ * @param list Endereço da lista cujos produtos serão salvos. Argumento passado
+ * por referência.
+ * @return A função retorna uma instância do tipo errorLevel: Success caso os
+ * produtos sejam salvos com sucesso; Failure caso não seja possível acessar
+ * o banco de dados dos produtos; Illegal_argument, caso a função receba um
+ * ponteiro nulo como argumento.
+ *
+ * Abre o banco de dados que guarda os produtos do aplicativo (products.txt) e
+ * salva nele os produtos de uma lista de produtos cujo endereço foi fornecido
+ * como argumento da função, sobrescrevendo os produtos contidos nele
+ * anteriormente. Caso o banco de dados de produtos não exista no endereço
+ * PRODUCT_DB, ele será criado.
+ *
+ * Assertivas de entrada:
+ *  -O parâmetro list deve ser diferente de NULL.
+ *  -O parâmetro list deve apontar para uma estrutura de dados do tipo
+ * productList.
+ *
+ * Assertivas de saída:
+ *  -Os produtos de list estarão gravados no banco de dados de produtos.
+ *  -Os produtos gravados no banco de dados terão seus campos separados pelo
+ * caractere reservado '|'.
+ *  -Os diferentes produtos gravados no banco de dados serão separados pelo
+ * caractere '\n'.
+ *
+ * Assertivas estruturais:
+ *  -Uma estrutura de dados product possui como membros um vetor de chars para
+ * seu nome, uma estrutura de dados do tipo productType para seu tipo, um double
+ * para seu preço e um int para sua popularidade.
+ *  -Uma estrutura de dados productList possui um int para representar quantos
+ * produtos possui e um vetor de produtos que armazena os produtos em si.
+ *
+ * Assertivas de contrato:
+ *  -Os produtos contidos em list serão gravados no banco de dados de produtos
+ * sobrescrevendo os produtos anteriores, caso existam.
+ *
+ * Requisitos:
+ *  -Uma estrutura de dados do tipo productList alocada estaticamente.
+ *
+ * Hipóteses:
+ *  Nenhuma.
+ *
+ */
+
+errorLevel SaveProductList(productList *list) {
+
+  FILE *fp;
+  int i;
+
+  if(list == NULL)
+    return Illegal_argument;
+
+  /*
+    Caso não seja possível abrir o banco de dados para produtos, a função falha.
+   */
+
+  fp = fopen(PRODUCT_DB, "w");
+
+  if(fp == NULL)
+    return Failure;
+
+  /*
+    Grava-se os dados dos produtos separando-se os campos de um mesmo
+    produto pelo caractere reservado '|' e separando-se produtos diferentes pelo
+    caractere '\n'. Note que a enumeração productType é gravada como um int.
+   */
+
+  for (i = 0; i < list->size; i++)
+    fprintf(fp, "%s|%d|%lf|%d\n", list->items[i].name, list->items[i].type,
+            list->items[i].price, list->items[i].popularity);
+
+  fclose(fp);
+
+  return Success;
+
+}
+
+/**
  * @fn errorLevel SearchProduct(char query[75], productList *list,
  * productSpecification *specifics, productList *matches)
  * @brief Função que realiza a busca por um produto.
@@ -347,14 +532,14 @@ errorLevel DeleteProduct (int index, productList *list) {
  * armazenados. Argumento passado por referência.
  * @return A função retorna uma instância do tipo errorLevel: Success caso a
  * busca retorne algum resultado; Failure caso a busca não retorne resultados;
- * Illegal_argument caso a função receba um ponteiro nulo como parâmetro.
+ * Illegal_argument caso a função receba um ponteiro nulo como um dos seus
+ * argumentos.
  *
- * Busca por produtos no vetor de produtos de uma lista de produtos cujo nome
- * contenha o trecho buscado passado como parâmetro da função e cujas
- * especificações se adequem à especificação de produtos passada como parâmetro
- * da função. Copia qualquer produto que se adeque ao cenário anterior à uma
- * segunda lista de produtos passada como parâmetro da função para guardar os
- * resultados da busca.
+ * Busca em uma lista de produtos por produtos cujo nome contenha o trecho
+ * buscado passado como argumento da função e cujas especificações se adequem à
+ * especificação de produtos passada como argumento da função. Copia qualquer
+ * produto que se adeque ao cenário anterior à uma segunda lista de produtos,
+ * passada como argumento da função, para guardar os resultados da busca.
  *
  * Importante: Limpa os dados contidos na estrutura de dados referenciada por
  * matches. Aloca/Realoca dinamicamente o vetor que contém os produtos em
@@ -376,6 +561,7 @@ errorLevel DeleteProduct (int index, productList *list) {
  * especificação referenciada por specifics e que estavam no vetor de produtos
  * de list estarão no vetor de produtos de matches.
  *  -A estrutura de dados list permanecerá inalterada.
+ *  -A estrutura de dados specification permanecerá inalterada.
  *  -Os dados da estrutra de dados matches serão sobrescritos pelos resultados
  * da busca.
  *
@@ -415,8 +601,8 @@ errorLevel SearchProduct(char query[75], productList *list,
     return Illegal_argument;
 
   /*
-    Deve-se limpar a lista de resultados da busca para evitar qualquer falso
-    positivo.
+    Deve-se limpar a lista de resultados da busca para evitar qualquer produto
+    residual.
    */
 
   CleanProductList(matches);
@@ -431,7 +617,7 @@ errorLevel SearchProduct(char query[75], productList *list,
   for (i = 0; i < (list->size); ++i) {
 
     if((strstr(list->items[i].name, query) != NULL)
-      && MatchesSpecification(&(list->items[i]), specifics)) {
+      && (MatchesSpecification(&(list->items[i]), specifics) == 1)) {
 
       AddProduct(&(list->items[i]), matches);
 
@@ -458,8 +644,8 @@ errorLevel SearchProduct(char query[75], productList *list,
  * produto desejado. Argumento passado por referência.
  * @return A função retorna uma instância do tipo errorLevel: Success caso o
  * produto seja selecionado com sucesso; Illegal_argument, caso o índice
- * passado como argumento seja inválido ou seja fornecido um ponteiro nulo como
- * parâmetro.
+ * passado como argumento seja inválido ou seja fornecido um ponteiro NULL como
+ * endereço da lista.
  *
  * Seleciona o produto de índice index no vetor de produtos de list para copiar
  * suas informações para o produto referenciado por selection.
@@ -474,7 +660,7 @@ errorLevel SearchProduct(char query[75], productList *list,
  *
  * Assertivas de saída:
  *  -O produto referenciado por selection terá suas informações sobrescritas por
- * aquelas do produto contido no índice index do vetor de produtos referenciada
+ * aquelas do produto contido no índice index do vetor de produtos referenciado
  * por list.
  *  -A estrutura de dados list permanecerá inalterada.
  *
@@ -511,7 +697,8 @@ errorLevel SelectProduct(int index, productList *list, product *selection) {
 }
 
 /**
- * @fn MatchesSpecification(product *item, productSpecification *specification)
+ * @fn int MatchesSpecification(product *item, productSpecification
+ * *specification)
  * @brief Função que verifica se um produto se adequa a uma especificação.
  * @param item Endereço do produto a ser testado. Argumento passado por
  * referência.
@@ -521,7 +708,7 @@ errorLevel SelectProduct(int index, productList *list, product *selection) {
  * especificação; 0 se o produto não se adequa à especificação.
  *
  * Verifica se os membros type, price e popularity de um produto fornecido como
- * parâmetro da função se adequam à especificação fornecida como parâmetro da
+ * argumento da função se adequam à especificação fornecida como argumento da
  * função.
  *
  * Assertivas de entrada:
@@ -546,9 +733,9 @@ errorLevel SelectProduct(int index, productList *list, product *selection) {
  * representar a popularidade máxima dos produtos desejados.
  *
  * Assertivas de contrato:
- *  -A função retornará um inteiro representando se os parâmetros utilizados são
- * válidos e se o produto passado como parâmetro se adequa à especificação
- * passada como parâmetro.
+ *  -A função retornará um inteiro representando se os argumentos utilizados são
+ * válidos e se o produto passado como argumento se adequa à especificação
+ * passada como argumento.
  *
  * Requisitos:
  *  -Uma estrutura de dados do tipo product alocada estaticamente.
@@ -569,54 +756,6 @@ int MatchesSpecification(product *item, productSpecification *specification) {
           && item->price <= specification->maximum_price)
           && (item->popularity >= specification->minimum_popularity
           && item->popularity <= specification->maximum_popularity))
-    return 1;
-
-  else
-    return 0;
-
-}
-
-/**
- * @fn ValidIndex (int index, int list_size)
- * @brief Função que verifica se um índice para um vetor é válido.
- * @param index Índice testado.
- * @param list_size Tamanho do vetor no qual o índice é testado.
- * @return A função retorna um inteiro: 1 se o índice é válido; 0 se o índice é
- * inválido.
- *
- * Verifica se um índice passado como parâmetro para função pode ser utilizado
- * como índice válido para acessar um vetor cujo tamanho é fornecido como
- * parâmetro.
- *
- * Assertivas de entrada:
- *  Nenhuma.
- *
- * Assertivas de saída:
- *  Nenhuma.
- *
- * Assertivas estruturais:
- *  Nenhuma.
- *
- * Assertivas de contrato:
- *  -A função retornará um inteiro representando se o índice fornecido pode ser
- * utilizado para acessar um dos membros do vetor cujo tamanho é fornecido.
- *
- * Requisitos:
- *  Nenhum.
- *
- * Hipóteses:
- *  Nenhuma.
- *
- */
-
-int ValidIndex (int index, int list_size) {
-
-  /*
-    Um índice deve ser positivo e menor que o tamanho da lista, pois, do
-    contrário, ele acessaria uma área da memória fora do vetor da lista.
-   */
-
-  if(index >= 0 && index < list_size)
     return 1;
 
   else
