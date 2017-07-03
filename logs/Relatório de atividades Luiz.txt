@@ -1,14 +1,17 @@
-07/06: LINF 16h10~17h55
-08/06: EM CASA 18h10~18h45 e 19h10~20h50
-09/06: EM CASA 16h13~17h24
-10/06: EM CASA 11h49~13h52
-14/06: EM CASA 09h30~12h00
-14/06: LINF 16h00~17h46
-15/06: EM CASA 12h10 13h55
-17/06: EM CASA 13h00~17h25
-17/06: EM CASA 18h00~20h00
-19/06: EM CASA 9h30~10h30
-21/06: EM CASA 11h00~11h45
-22/06: EM CASA 22h00~23h15
-23/06: LINF 10h20~11h55
-23/06: EM CASA 16h00~17h50 e 19h10~20h50
+07/06 | 16h10~17h55 | Redigir casos de teste, Codificar módulo | Início da implementação das funções de usuário
+08/06 | 18h10~18h45 e 19h10~20h50 | Codificar módulo | Módulo de usuários
+09/06 | 16h13~17h24 | Revisar código do módulo | Módulo de usuários
+10/06 | 11h49~13h52 | Redigir casos de teste, Codificar módulo | Módulo de amizades
+14/06 | 09h30~12h00 | Codificar módulo | Atualização de banco de dados
+14/06 | 16h00~17h46 | Codificar módulo | Listagem de amigos
+15/06 | 12h10 13h55 | Codificar módulo | Implementação da função de listagem de amigos, listagem de usuários do programa
+17/06 | 13h00~17h25 | Revisar código do módulo | Refatoração do módulo de usuários
+17/06 | 18h00~20h00 | Revisar código do módulo | Refatoração do módulo de usuários
+19/06 | 09h30~10h30 | Revisar código do módulo | Remoção de funções inúteis, melhoria dos testes
+21/06 | 11h00~11h45 | Redigir casos de teste, Codificar módulo | Função que retorna amigos pendentes e seus testes
+22/06 | 22h00~23h15 | Redigir casos de teste, Revisar código do módulo | Módulo de grafos e usuários
+23/06 | 10h20~11h55 | Revisar código do módulo | Correção de leaks de memória
+23/06 | 16h00~17h50 e 19h10~20h50 | Redigir casos de teste | Criação de mais testes
+02/07 | 11h00~13h50 | Comentar o código e fazer diagramas | Código do módulo de usuários e de avaliações. Diagramas de casos e uso e atividades
+02/07 | 15h30~17h05 | Comentar o código e fazer diagramas | Diagramas de classes
+02/07 | 1900h~23h00 | Comentar o código e fazer diagramas | Diagramas de sequência

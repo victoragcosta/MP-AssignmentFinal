@@ -1,3 +1,4 @@
+
 /*!
  * @brief Header das estruturas de usuário
 */
@@ -11,13 +12,14 @@
  * ID AVALIADOR | ID AVALIADO | NOTA | COMENTÁRIO
 */
 
-#define AVALIACAO_DB "../db/avaliacao.txt"
+#define AVALIACAO_DB "../../db/avaliacao.txt"
 #define AVALIACAO_DB_ESTRUTURA "%-4u\t%-4u\t%-4u\t%-200s\n"
 #define AVALIACAO_LIMITE_INT 4
 #define AVALIACAO_LIMITE_COMENTARIO 200
 
 /*!
- * @brief Condições de retorno para as funções do módulo
+ * @enum avaliacao_condRet
+ * @brief Condições de retorno para as funções do módulo, significados definidos nas funções que os retornam
 */
 
 typedef enum {
@@ -31,31 +33,43 @@ typedef enum {
   AVALIACAO_FALHA_ABRIRDB,
   AVALIACAO_VALORINVALIDO,
   AVALIACAO_FALHA_DEFINIR,
-  AVALIACAO_FALHA_AVALIAR
+  AVALIACAO_FALHA_AVALIAR,
+  AVALIACAO_NAO_ENCONTRADO
 } avaliacao_condRet;
 
 /*!
+ * @enum avaliacao_tipo
  * Enumeração de tipos de usuário no que tange avaliação
 */
 typedef enum {
-  AVALIADOR,
-  AVALIADO
+  AVALIADOR, /**< Busca por avaliações em que o usuário é o avaliador */
+  AVALIADO /**< Busca por avaliações em que o usuário é o avaliado */
 } avaliacao_tipo;
 
 /*!
+ * @typedef avaliacao
  * @brief Estrutura de dados de uma avaliação
 */
 
 typedef struct avaliacao {
-  unsigned int identificador;
-  unsigned int avaliador;
-  unsigned int avaliado;
-  unsigned int nota;
-  char comentario[AVALIACAO_LIMITE_COMENTARIO];
+  unsigned int identificador; /**< Id da avaliação */
+  unsigned int avaliador; /**< Id do avaliador no grafo de usuários */
+  unsigned int avaliado; /**< Id do avaliado no grafo de usuários */
+  unsigned int nota; /**< Nota atribuída pelo avaliador ao avaliado */
+  char comentario[AVALIACAO_LIMITE_COMENTARIO];  /**< Comentário feito pelo avaliador ao avaliado */
 } avaliacao;
 
 /*!
- * @brief Lista de avaliações
+  * @typedef reclamacao DEPRECATED
+*/
+typedef struct reclamacao {
+  unsigned int reclamador;
+  unsigned int reclamado;
+  char comentario[AVALIACAO_LIMITE_COMENTARIO];
+} reclamacao;
+
+/*!
+ * @brief Lista de avaliações DEPRECATED
 */
 typedef struct avaliacao_vetor {
   unsigned int length;
@@ -65,14 +79,16 @@ typedef struct avaliacao_vetor {
 /*!
  * @brief Protótipos das funções
 */
+
 avaliacao_condRet avaliacao_fazerAvaliacao(avaliacao *);
 avaliacao *avaliacao_iniciar();
 avaliacao_condRet avaliacao_definir(avaliacao *, const char *, ...);
 avaliacao_condRet avaliacao_limpar(avaliacao **);
 avaliacao_condRet avaliacao_listar(unsigned int);
-avaliacao_condRet avaliacao_atualizarContador();
 avaliacao_condRet avaliacao_pegarContador();
 avaliacao_condRet avaliacao_obterAvaliacao(unsigned int, unsigned int, avaliacao_tipo, avaliacao *);
 avaliacao_condRet avaliacao_avaliar(unsigned int, unsigned int, unsigned int, char *);
 
 #endif
+
+
