@@ -432,6 +432,7 @@ errorLevel LoadTransactionList(transactionList *list) {
     respectivamente.
    */
 
+
   while(fscanf(fp, "%u|%u|%[^|]|%d|%lf|%d|%d\n", &user1, &user2, name,
         &auxiliary1, &price, &popularity, &auxiliary2) != EOF) {
 

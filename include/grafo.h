@@ -1,3 +1,6 @@
+#ifndef GRAFO_H_
+#define GRAFO_H_
+
 #define grafo_nome_tamanho 20
 #define COR_NORMAL	"\x1B[0m"
 #define COR_VERMELHO	"\x1B[31m"
@@ -102,3 +105,5 @@ grafo_cte muda_valor_vertice(grafo *, int, void *);
 int retorna_valor_aresta(grafo *, int, int);
 grafo_cte muda_valor_aresta(grafo *, int, int, int);
 grafo_cte grafo_lista_no_limpar(grafo_lista_no **);
+
+#endif

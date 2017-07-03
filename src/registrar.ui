@@ -13,13 +13,13 @@
   <property name="windowTitle">
    <string>Form</string>
   </property>
-  <widget class="QWidget" name="">
+  <widget class="QWidget" name="layoutWidget">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
      <width>641</width>
-     <height>481</height>
+     <height>558</height>
     </rect>
    </property>
    <layout class="QVBoxLayout" name="verticalLayout">
@@ -131,7 +131,7 @@
           <item>
            <widget class="QLineEdit" name="senha_edit">
             <property name="inputMethodHints">
-             <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
+             <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText</set>
             </property>
             <property name="echoMode">
              <enum>QLineEdit::Password</enum>
@@ -148,7 +148,7 @@
           <item>
            <widget class="QLineEdit" name="senha_confirmacao_edit">
             <property name="inputMethodHints">
-             <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText|Qt::ImhSensitiveData</set>
+             <set>Qt::ImhHiddenText|Qt::ImhNoAutoUppercase|Qt::ImhNoPredictiveText</set>
             </property>
             <property name="echoMode">
              <enum>QLineEdit::Password</enum>

@@ -392,6 +392,8 @@ errorLevel DeleteProduct (int index, productList *list) {
  *
  */
 
+
+#include <stdio.h>
 errorLevel LoadProductList(productList *list) {
 
   FILE *fp;
@@ -424,9 +426,9 @@ errorLevel LoadProductList(productList *list) {
     devemos convertê-la para o tipo productType.
    */
 
-  while(fscanf(fp, "%[^|]|%d|%lf|%d\n", name, &auxiliary, &price, &popularity)
-        != EOF) {
+  while(fscanf(fp, "%[^|]|%d|%lf|%d\n", name, &auxiliary, &price, &popularity) != EOF) {
 
+      printf("testando a testa");
     if(ConvertIntToProductType(auxiliary, &type) == 0)
       if(CreateProduct(name, type, price, popularity, &item) == Success)
         AddProduct(&item, list);

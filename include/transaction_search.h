@@ -19,16 +19,12 @@
 #include "usuarios.h"
 #include "valid_index.h"
 
-<<<<<<< HEAD
-#define TRANSACTION_DB "../db/transactions.txt"
-=======
 /**
  * @def TRANSACTION_DB
  * @brief Caminho ao banco de dados das transações.
  */
 
-#define TRANSACTION_DB "../../db/transactions.txt"
->>>>>>> master
+#define TRANSACTION_DB "../db/transactions.txt"
 
 /**
  * @enum relationship
