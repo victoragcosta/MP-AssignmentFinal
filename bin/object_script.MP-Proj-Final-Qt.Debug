@@ -7,9 +7,16 @@ INPUT(
 ./debug\product_search.o
 ./debug\product.o
 ./debug\grafo.o
-./debug\avaliacao.o
 ./debug\registrar.o
+./debug\productwidget.o
+./debug\avaliacao.o
+./debug\transaction.o
+./debug\transaction_search.o
+./debug\valid_index.o
+./debug\visualizadorproduto.o
 ./debug\moc_mainwindow.o
 ./debug\moc_login.o
+./debug\moc_productwidget.o
 ./debug\moc_registrar.o
+./debug\moc_visualizadorproduto.o
 );

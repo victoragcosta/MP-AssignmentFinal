@@ -499,6 +499,7 @@ errorLevel SearchProduct(char query[75], productList *list,
   if(matches->size == 0)
     return Failure;
 
+  
   else
     return Success;
 

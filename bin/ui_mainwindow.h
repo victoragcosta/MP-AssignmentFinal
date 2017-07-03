@@ -19,10 +19,10 @@
 #include <QtWidgets/QHeaderView>
 #include <QtWidgets/QLabel>
 #include <QtWidgets/QLineEdit>
-#include <QtWidgets/QListWidget>
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/QMenuBar>
 #include <QtWidgets/QPushButton>
+#include <QtWidgets/QSpacerItem>
 #include <QtWidgets/QSpinBox>
 #include <QtWidgets/QStatusBar>
 #include <QtWidgets/QVBoxLayout>
@@ -35,7 +35,7 @@ class Ui_MainWindow
 public:
     QWidget *centralWidget;
     QWidget *widget;
-    QVBoxLayout *verticalLayout_3;
+    QVBoxLayout *tudo;
     QHBoxLayout *topbar;
     QVBoxLayout *busca_layout;
     QLabel *busca;
@@ -48,8 +48,8 @@ public:
     QLabel *max_preco;
     QDoubleSpinBox *max_preco_spin;
     QVBoxLayout *tipo_layout;
-    QLabel *tipo_combo;
-    QComboBox *tipo;
+    QLabel *tipo;
+    QComboBox *tipo_combo;
     QVBoxLayout *popularidade_min_layout;
     QLabel *popularidade_min;
     QSpinBox *popuaridade_min_spin;
@@ -63,7 +63,8 @@ public:
     QPushButton *registrar;
     QPushButton *logout;
     QLabel *error_message;
-    QListWidget *resultados_busca;
+    QVBoxLayout *resultados;
+    QSpacerItem *verticalSpacer;
     QMenuBar *menuBar;
     QStatusBar *statusBar;
 
@@ -71,7 +72,7 @@ public:
     {
         if (MainWindow->objectName().isEmpty())
             MainWindow->setObjectName(QStringLiteral("MainWindow"));
-        MainWindow->resize(1000, 600);
+        MainWindow->resize(1000, 477);
         QIcon icon;
         icon.addFile(QStringLiteral("img_carrinho.jpg"), QSize(), QIcon::Normal, QIcon::Off);
         MainWindow->setWindowIcon(icon);
@@ -79,12 +80,12 @@ public:
         centralWidget->setObjectName(QStringLiteral("centralWidget"));
         widget = new QWidget(centralWidget);
         widget->setObjectName(QStringLiteral("widget"));
-        widget->setGeometry(QRect(10, 0, 981, 571));
-        verticalLayout_3 = new QVBoxLayout(widget);
-        verticalLayout_3->setSpacing(6);
-        verticalLayout_3->setContentsMargins(11, 11, 11, 11);
-        verticalLayout_3->setObjectName(QStringLiteral("verticalLayout_3"));
-        verticalLayout_3->setContentsMargins(0, 0, 0, 0);
+        widget->setGeometry(QRect(11, 1, 981, 441));
+        tudo = new QVBoxLayout(widget);
+        tudo->setSpacing(6);
+        tudo->setContentsMargins(11, 11, 11, 11);
+        tudo->setObjectName(QStringLiteral("tudo"));
+        tudo->setContentsMargins(0, 0, 0, 0);
         topbar = new QHBoxLayout();
         topbar->setSpacing(6);
         topbar->setObjectName(QStringLiteral("topbar"));
@@ -143,15 +144,15 @@ public:
         tipo_layout = new QVBoxLayout();
         tipo_layout->setSpacing(6);
         tipo_layout->setObjectName(QStringLiteral("tipo_layout"));
-        tipo_combo = new QLabel(widget);
-        tipo_combo->setObjectName(QStringLiteral("tipo_combo"));
-
-        tipo_layout->addWidget(tipo_combo);
-
-        tipo = new QComboBox(widget);
+        tipo = new QLabel(widget);
         tipo->setObjectName(QStringLiteral("tipo"));
 
         tipo_layout->addWidget(tipo);
+
+        tipo_combo = new QComboBox(widget);
+        tipo_combo->setObjectName(QStringLiteral("tipo_combo"));
+
+        tipo_layout->addWidget(tipo_combo);
 
 
         advanced->addLayout(tipo_layout);
@@ -238,12 +239,17 @@ public:
         topbar->addLayout(verticalLayout);
 
 
-        verticalLayout_3->addLayout(topbar);
+        tudo->addLayout(topbar);
 
-        resultados_busca = new QListWidget(widget);
-        resultados_busca->setObjectName(QStringLiteral("resultados_busca"));
+        resultados = new QVBoxLayout();
+        resultados->setSpacing(6);
+        resultados->setObjectName(QStringLiteral("resultados"));
 
-        verticalLayout_3->addWidget(resultados_busca);
+        tudo->addLayout(resultados);
+
+        verticalSpacer = new QSpacerItem(20, 40, QSizePolicy::Minimum, QSizePolicy::Expanding);
+
+        tudo->addItem(verticalSpacer);
 
         MainWindow->setCentralWidget(centralWidget);
         menuBar = new QMenuBar(MainWindow);
@@ -256,6 +262,9 @@ public:
 
         retranslateUi(MainWindow);
 
+        tipo_combo->setCurrentIndex(3);
+
+
         QMetaObject::connectSlotsByName(MainWindow);
     } // setupUi
 
@@ -265,9 +274,9 @@ public:
         busca->setText(QApplication::translate("MainWindow", "Busca:", Q_NULLPTR));
         min_preco->setText(QApplication::translate("MainWindow", "Pre\303\247o Min.:", Q_NULLPTR));
         max_preco->setText(QApplication::translate("MainWindow", "Pre\303\247o Max.:", Q_NULLPTR));
-        tipo_combo->setText(QApplication::translate("MainWindow", "Tipo de Produto", Q_NULLPTR));
-        tipo->clear();
-        tipo->insertItems(0, QStringList()
+        tipo->setText(QApplication::translate("MainWindow", "Tipo de Produto", Q_NULLPTR));
+        tipo_combo->clear();
+        tipo_combo->insertItems(0, QStringList()
          << QApplication::translate("MainWindow", "Aluguel", Q_NULLPTR)
          << QApplication::translate("MainWindow", "Venda", Q_NULLPTR)
          << QApplication::translate("MainWindow", "Servi\303\247o", Q_NULLPTR)

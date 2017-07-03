@@ -3,18 +3,23 @@
 
 #include "login.h"
 #include "registrar.h"
+#include "productwidget.h"
 
 #include "../include/usuarios.h"
 #include "../include/product.h"
 #include "../include/product_search.h"
+#include "../include/error_level.h"
+#include "../include/transaction.h"
+#include "../include/transaction_search.h"
 
-//extern usuarios_login(char *, char *);
+#include <stdio.h>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    this->results = NULL;
 }
 
 MainWindow::~MainWindow()
@@ -89,12 +94,77 @@ void MainWindow::on_busca_edit_returnPressed()
     int max_popularidade = ui->popuaridade_max_spin->value();
 
     productSpecification especificacao;
-    especificacao.minimum_price = min_preco;
-    especificacao.maximum_price = max_preco;
-    especificacao.type = tipo;
-    especificacao.minimum_popularity = min_popularidade;
-    especificacao.maximum_popularity = max_popularidade;
+    errorLevel erro;
+    erro = CreateSpecification((productType)tipo, min_preco, max_preco, min_popularidade, max_popularidade, &especificacao);
+    if(erro != Success){
+        exit(erro);
+    }
 
     productList resultado;
-    //SearchProduct(busca, <preencher>, &especificacao, &resultado);
+    resultado.items = NULL;
+    erro = SearchProduct(busca, this->listaProdutos, &especificacao, &resultado);
+
+    int i;
+    ProductWidget *productWidget;
+    if(erro == Success){
+        this->setErrorMessage("Busca feita com sucesso!");
+        this->cleanResults();
+        for(i = 0; i < resultado.size; i++){
+            productWidget = new ProductWidget(this);
+            productWidget->setName(resultado.items[i].name);
+            productWidget->setPreco(resultado.items[i].price);
+            productWidget->setPop(resultado.items[i].popularity);
+            productWidget->applySet();
+            ui->resultados->addWidget(productWidget);
+            productWidget->show();
+            productWidget->setId(i);
+            this->addResult(productWidget);
+        }
+    } else {
+        this->setErrorMessage("Sem itens com esse nome!");
+        this->cleanResults();
+        for(i = 0; i < this->listaProdutos->size; i++){
+            productWidget = new ProductWidget(this);
+            productWidget->setName(this->listaProdutos->items[i].name);
+            productWidget->setPreco(this->listaProdutos->items[i].price);
+            productWidget->setPop(this->listaProdutos->items[i].popularity);
+            productWidget->applySet();
+            ui->resultados->addWidget(productWidget);
+            productWidget->show();
+            productWidget->setId(i);
+            this->addResult(productWidget);
+        }
+    }
+}
+
+void MainWindow::setProductList(productList *list){
+    this->listaProdutos = list;
+}
+
+void MainWindow::setTransactionList(transactionList *list){
+    this->listaTransactions = list;
+}
+
+void MainWindow::addResult(ProductWidget *novo)
+{
+    novo->setNext(this->results);
+    this->results = novo;
+}
+
+ProductWidget *MainWindow::getResult()
+{
+    if(this->results == NULL)
+        return NULL;
+    ProductWidget *retorno = this->results;
+    this->results = this->results->getNext();
+    return retorno;
+}
+
+void MainWindow::cleanResults()
+{
+    ProductWidget *toDelete;
+    while((toDelete = this->getResult()) != NULL){
+        toDelete->close();
+        delete toDelete;
+    }
 }

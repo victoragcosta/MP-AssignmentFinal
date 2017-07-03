@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1000</width>
-    <height>600</height>
+    <height>477</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,13 +21,13 @@
    <widget class="QWidget" name="">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>0</y>
+      <x>11</x>
+      <y>1</y>
       <width>981</width>
-      <height>571</height>
+      <height>441</height>
      </rect>
     </property>
-    <layout class="QVBoxLayout" name="verticalLayout_3">
+    <layout class="QVBoxLayout" name="tudo">
      <item>
       <layout class="QHBoxLayout" name="topbar">
        <item>
@@ -90,14 +90,17 @@
            <item>
             <layout class="QVBoxLayout" name="tipo_layout">
              <item>
-              <widget class="QLabel" name="tipo_combo">
+              <widget class="QLabel" name="tipo">
                <property name="text">
                 <string>Tipo de Produto</string>
                </property>
               </widget>
              </item>
              <item>
-              <widget class="QComboBox" name="tipo">
+              <widget class="QComboBox" name="tipo_combo">
+               <property name="currentIndex">
+                <number>3</number>
+               </property>
                <item>
                 <property name="text">
                  <string>Aluguel</string>
@@ -223,10 +226,26 @@
       </layout>
      </item>
      <item>
-      <widget class="QListWidget" name="resultados_busca"/>
+      <layout class="QVBoxLayout" name="resultados"/>
+     </item>
+     <item>
+      <spacer name="verticalSpacer">
+       <property name="orientation">
+        <enum>Qt::Vertical</enum>
+       </property>
+       <property name="sizeHint" stdset="0">
+        <size>
+         <width>20</width>
+         <height>40</height>
+        </size>
+       </property>
+      </spacer>
      </item>
     </layout>
    </widget>
+   <zorder>layoutWidget</zorder>
+   <zorder>verticalLayoutWidget</zorder>
+   <zorder>verticalSpacer</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">

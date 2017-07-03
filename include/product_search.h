@@ -16,7 +16,7 @@
 #include "product.h"
 #include "valid_index.h"
 
-#define PRODUCT_DB "../../db/products.txt"
+#define PRODUCT_DB "../db/products.txt"
 
 /**
  * @typedef productList

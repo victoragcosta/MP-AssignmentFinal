@@ -7,9 +7,16 @@ INPUT(
 ./release\product_search.o
 ./release\product.o
 ./release\grafo.o
-./release\avaliacao.o
 ./release\registrar.o
+./release\productwidget.o
+./release\avaliacao.o
+./release\transaction.o
+./release\transaction_search.o
+./release\valid_index.o
+./release\visualizadorproduto.o
 ./release\moc_mainwindow.o
 ./release\moc_login.o
+./release\moc_productwidget.o
 ./release\moc_registrar.o
+./release\moc_visualizadorproduto.o
 );

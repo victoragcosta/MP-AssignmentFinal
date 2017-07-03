@@ -700,6 +700,8 @@ usuarios_condRet usuarios_retornaDados(unsigned int identificador, const char *n
   unsigned int i = 0;
   tpUsuario *dados;
     
+  printf("teste: %d\n", identificador);
+
   if(usuarios_grafo == NULL) return USUARIOS_FALHA_GRAFONULL;
   
   /* Pegamos o nodo com o identificador passado */

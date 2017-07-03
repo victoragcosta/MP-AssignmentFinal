@@ -19,7 +19,7 @@
 #include "usuarios.h"
 #include "valid_index.h"
 
-#define TRANSACTION_DB "../../db/transactions.txt"
+#define TRANSACTION_DB "../db/transactions.txt"
 
 typedef enum {
   Friend,
