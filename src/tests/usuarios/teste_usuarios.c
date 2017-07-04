@@ -16,7 +16,7 @@ TEST(Usuarios, CriarUsuario){
 	EXPECT_EQ(usuarios_carregarArquivo(), USUARIOS_SUCESSO);
 	
 	/* Tentamos gravar no arquivo de dados dois novos usuários */
-	EXPECT_EQ(usuarios_cadastro(8, "usuario", "jose123", "nome", "Jose Antonio", "email", "joao@antonio.com", "endereco", "Rua Foo Casa Bar", "senha", "123456", "senha_confirmacao", "123456", "formaPagamento", BOLETO, "tipo", CONSUMIDOR), USUARIOS_SUCESSO);
+	EXPECT_EQ(usuarios_cadastro(8, "usuario", "jose123", "nome", "Jose Antonio", "email", "joao@antonio.com", "endereco", "Rua Foo Casa Bar", "senha", "123456", "senha_confirmacao", "123456", "formaPagamento", BOLETO, "tipo", ADMINISTRADOR), USUARIOS_SUCESSO);
 	EXPECT_EQ(usuarios_cadastro(8, "usuario", "amandalinda", "nome", "Amanda", "email", "karol@diego.com", "endereco", "Rua Foo 2 Casa Bar", "senha", "123456", "senha_confirmacao", "123456", "formaPagamento", PAYPAL, "tipo", CONSUMIDOR), USUARIOS_SUCESSO);
 
 	/* Gravamos usuários com overflow nos campos */

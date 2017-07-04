@@ -1,4 +1,4 @@
-Data  | Horas trabalhadas | Tipo tarefa 		| Descrição da tarefa realizada.
+	Data  | Horas trabalhadas | Tipo tarefa 		| Descrição da tarefa realizada.
 07/06   00:07:00	    Projetar	  	  	  Estrutura inicial do módulo de produtos.
 07/06   01:38:52	    Codificar módulo	  	  Codificação de funções do módulo de produtos.
 07/06   00:20:07	    Redigir casos de teste	  Testes de funções do módulo de produtos.

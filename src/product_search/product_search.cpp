@@ -428,7 +428,6 @@ errorLevel LoadProductList(productList *list) {
 
   while(fscanf(fp, "%[^|]|%d|%lf|%d\n", name, &auxiliary, &price, &popularity) != EOF) {
 
-      printf("testando a testa");
     if(ConvertIntToProductType(auxiliary, &type) == 0)
       if(CreateProduct(name, type, price, popularity, &item) == Success)
         AddProduct(&item, list);

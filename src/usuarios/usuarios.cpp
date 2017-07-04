@@ -452,6 +452,7 @@ usuarios_condRet usuarios_carregarArquivo(){
     return USUARIOS_SUCESSO;
   }
   
+
   /* Agora carregamos os amigos */
   while(!feof(db_amigos)){
     /* Lemos do arquivo */
@@ -481,7 +482,7 @@ usuarios_condRet usuarios_carregarArquivo(){
   }
   
   fclose(db_amigos);
-  
+
   return USUARIOS_SUCESSO;
 }
 

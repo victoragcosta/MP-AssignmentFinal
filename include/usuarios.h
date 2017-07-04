@@ -39,7 +39,7 @@
 #define USUARIOS_DB "../../db/usuarios.txt"
 #define USUARIOS_DB_ESTRUTURA "%-4u\t%-20s\t%-40s\t%-30s\t%-20s\t%-40s\t%-4d\t%-4d\t%-4d\t%-9lf\t%-4u\t%-4u\n"
 #define USUARIOS_DB_ESTRUTURA_SCAN "%4u%*c%20[^\t]\t%40[^\t]\t%30[^\t]\t%20[^\t]\t%40[^\t]\t%4d%*c%4d%*c%4d%*c%9lf%*c%4u%*c%4u\n"
-#define USUARIOS_DB_AMIGOS "../db/amigos.txt"
+#define USUARIOS_DB_AMIGOS "../../db/amigos.txt"
 #define USUARIOS_DB_AMIGOS_REGISTRO_TAMANHO 15 
 
 /*!
