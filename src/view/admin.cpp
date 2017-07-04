@@ -4,6 +4,7 @@
 #include "transacao.h"
 #include "transaction.h"
 #include "transaction_search.h"
+#include "error_level.h"
 
 Admin::Admin(QWidget *parent) :
     QWidget(parent),
@@ -39,5 +40,26 @@ void Admin::on_listar_transacoes_clicked()
 
 void Admin::on_cria_transacoes_clicked()
 {
-    //CreateTransaction(ui->u1->value(), ui->u1->value(), );
+    transaction transacao;
+    errorLevel erro = CreateTransaction(ui->u1->value(), ui->u2->value(), &(this->listaProdutos->items[this->id]), (transactionStatus)ui->status->currentIndex(), &transacao);
+    if(erro == Success){
+        erro = AddTransaction(&transacao,this->listaTransactions);
+        if(erro == Success){
+            ui->error_message->setText("Sucesso!");
+        } else {
+            ui->error_message->setText(QString("Erro ao criar transação. Código: %1").arg(erro));
+        }
+    } else {
+        ui->error_message->setText(QString("Erro ao criar transação. Código: %1").arg(erro));
+    }
+}
+
+void Admin::setProductList(productList *list)
+{
+    this->listaProdutos = list;
+}
+
+void Admin::setId(int id)
+{
+    this->id = id;
 }

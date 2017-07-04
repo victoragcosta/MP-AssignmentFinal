@@ -27,19 +27,12 @@ void Login::on_submit_clicked()
     char password[50];
     strcpy(password, (char*)qPrintable(ui->password_edit->text()));
 
-    Admin *admin = new Admin;
     usuarios_condRet erro = usuarios_login(username, password);
-    usuarios_tipo_usuario tipo;
     switch (erro) {
     case USUARIOS_SUCESSO:
         this->main->updateLoginStatus();
         this->main->setErrorMessage("");
-        usuarios_retornaDados(0,"tipo", (void*)&tipo);
         this->close();
-        if(tipo == ADMINISTRADOR){
-            admin->setTransactionList(this->main->listaTransactions);
-            admin->show();
-        }
         break;
     default:
         QString error_message = QString("Erro ao fazer login! Código de Erro: %1").arg(erro);

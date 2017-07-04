@@ -3,6 +3,7 @@
 
 #include <QWidget>
 #include "transaction_search.h"
+#include "product_search.h"
 
 namespace Ui {
 class Product;
@@ -24,6 +25,7 @@ public:
     void setId(int id);
     int getId();
     void setTransactionList(transactionList *list);
+    void setProductsList(productList *list);
 
     QString getName();
     double getPreco();
@@ -39,6 +41,7 @@ private:
     int pop;
     ProductWidget *next;
     int id;
+    productList *products;
     transactionList *transactions;
 };
 

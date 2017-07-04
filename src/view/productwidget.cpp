@@ -2,6 +2,8 @@
 #include "ui_productwidget.h"
 #include "visualizadorproduto.h"
 
+#include "admin.h"
+
 ProductWidget::ProductWidget(QWidget *parent) :
     QWidget(parent),
     ui(new Ui::Product)
@@ -59,12 +61,23 @@ int ProductWidget::getId()
 
 void ProductWidget::on_visualizar_clicked()
 {
-    VisualizadorProduto *visu = new VisualizadorProduto;
-    visu->setProduct(this);
-    visu->setTransactionList(this->transactions);
-    visu->show();
-    visu->showTransactions();
+    usuarios_tipo_usuario tipo;
+    usuarios_retornaDados(0,"tipo", (void*)&tipo);
+    if(tipo == ADMINISTRADOR){
+        Admin *admin = new Admin;
+        admin->setId(this->id);
+        admin->setProductList(this->products);
+        admin->setTransactionList(this->transactions);
+        admin->show();
+    } else {
+        VisualizadorProduto *visu = new VisualizadorProduto;
+        visu->setProduct(this);
+        visu->setTransactionList(this->transactions);
+        visu->show();
+        visu->showTransactions();
+    }
 }
+
 
 QString ProductWidget::getName()
 {
@@ -84,4 +97,9 @@ int ProductWidget::getPop()
 
 void ProductWidget::setTransactionList(transactionList *list){
     this->transactions = list;
+}
+
+void ProductWidget::setProductsList(productList *list)
+{
+    this->products = list;
 }

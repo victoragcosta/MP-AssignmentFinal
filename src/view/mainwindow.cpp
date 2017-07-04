@@ -111,6 +111,7 @@ void MainWindow::on_busca_edit_returnPressed()
         this->cleanResults();
         for(i = 0; i < resultado.size; i++){
             productWidget = new ProductWidget(this);
+            productWidget->setProductsList(this->listaProdutos);
             productWidget->setName(resultado.items[i].name);
             productWidget->setPreco(resultado.items[i].price);
             productWidget->setPop(resultado.items[i].popularity);
@@ -126,6 +127,7 @@ void MainWindow::on_busca_edit_returnPressed()
         this->cleanResults();
         for(i = 0; i < this->listaProdutos->size; i++){
             productWidget = new ProductWidget(this);
+            productWidget->setProductsList(this->listaProdutos);
             productWidget->setName(this->listaProdutos->items[i].name);
             productWidget->setPreco(this->listaProdutos->items[i].price);
             productWidget->setPop(this->listaProdutos->items[i].popularity);
