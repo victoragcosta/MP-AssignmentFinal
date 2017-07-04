@@ -1,0 +1,12 @@
+Data |	Horas |	Tipo Tarefa	|	Descrição Tarefa Realizada
+7/6		1:06	Aprendizado		Aprender a utilizar SDL
+14/6	0:48	Aprendizado		Aprender a utilizar SDL
+14/6	1:47	Estruturar		Estruturar o projeto para a interação entre a SDL e os outros módulos
+26/6	2:32	Estruturar		Estruturar o projeto para a interação entre a SDL e os outros módulos
+30/6	0:56	Estruturar		Estruturar o projeto para a interação entre a SDL e os outros módulos
+1/7  	1:09	Criação			Criar a página inicial em SDL
+2/7		2:42	Criação			Criar gerenciamento de usuário para a view em Qt
+2/7		4:04	Criação			Criar Busca de produto para a view em Qt
+2/7		1:30	Criação			Criar Gerenciamento de transações em Qt
+2/7		0:08	Estruturar		Organizar árvore do projeto
+3/7		2:00	Criação			Criar View para Admin
