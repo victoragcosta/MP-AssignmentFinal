@@ -1,4 +1,4 @@
-# MP-Proj-Final
+# MP - Projeto Final
 Implementação do projeto final de Métodos de Programação.
 
 ## Membros
